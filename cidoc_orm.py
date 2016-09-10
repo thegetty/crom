@@ -72,11 +72,10 @@ class DataError(MetadataError):
 
 class CidocFactory(object):
 
-	def __init__(self, baseUrl="", baseDir="", lang="en"):
+	def __init__(self, baseUrl="", baseDir="", lang=""):
 		self.baseUrl = baseUrl
 		self.baseDir = baseDir
-		self.lang = lang
-
+		self.default_lang = lang
 		self.context_uri = ""
 
 		self.debug_level = "warn"
@@ -86,9 +85,7 @@ class CidocFactory(object):
 		self.class_map = {}
 		self.property_map = {}
 
-
-		self.key_order_hash = {}
-
+		self.key_order_hash = {"id": 1, "type": 2, "label": 3, "value": 4}
 
 	def set_debug_stream(self, strm):
 		"""Set debug level."""
@@ -126,24 +123,30 @@ class BaseResource(object):
 	_properties = {}
 	_integer_properties = []
 	_object_properties = []
-	_text_properties = ["label", "has_note"]
+	_lang_properties = ["label", "has_note"]
 	_required_properties = []
 	_warn_properties = []
 	_uri_segment = ""
 
-	def __init__(self, ident="", label="", **kw):
+	def __init__(self, ident="", label="", value="", **kw):
 		"""Initialize BaseObject."""
+
+		# Just add the factory from a global rather than passing it around C style
 		self._factory = factory
 		if ident:
 			if ident.startswith('http'):
 				self.id = ident
 			else:
 				self.id = factory.baseUrl + self.__class__._uri_segment + "/" + ident
-
 		else:
 			self.id = ""
 		self.type = self.__class__._type
-		self.label = label
+		if label:
+			self.label = label
+		# this might raise an exception if value is not allowed on the object
+		# but easier to do it in the main init than on generated subclasses
+		if value:
+			self.value = value
 
 	def __setattr__(self, which, value):
 		"""Attribute setting magic for error checking and resource/literal handling."""
@@ -153,37 +156,39 @@ class BaseResource(object):
 			types = [bytes, str, list, dict] #Py3
 
 		if which == 'context':
-			raise DataError("Must not set directly")
-		elif which[0] != "_" and not self._check_prop(which, value):
-			raise DataError("Setting non-standard field '%s' on resource of type '%s'" % (which, self._type))
+			raise DataError("Must not set the JSON LD context directly")
+		elif which[0] == "_" or not value:
+			object.__setattr__(self, which, value)			
+		else:
+			ok = self._check_prop(which, value)
+			if not ok:
+				raise DataError("Can't set non-standard field '%s' on resource of type '%s'" % (which, self._type))
 
-		if hasattr(self, which) and hasattr(self, 'set_%s' % which):
-			fn = getattr(self, 'set_%s' % which)
-			return fn(value)
-		elif value and which in self._object_properties:
-			self._set_magic_resource(which, value)
-		else:			
-			object.__setattr__(self, which, value)
+			# Allow per class setter functions to do extra magic
+			if hasattr(self, which) and hasattr(self, 'set_%s' % which):
+				fn = getattr(self, 'set_%s' % which)
+				return fn(value)
+			elif which in self._lang_properties:
+				self._set_magic_lang(which, value)
+			elif ok == 2:
+				self._set_magic_resource(which, value)
+			else:			
+				object.__setattr__(self, which, value)				
 
 	def _check_prop(self, which, value):
 		for c in self._classhier:
 			if c._properties.has_key(which):
 				rng = c._properties[which]['range']
 				if rng == str:					
-					return True
+					return 1
 				elif isinstance(value, rng):
-					return True
+					return 2
 				else:
-					return False
-		return False
-			
-	def maybe_warn(self, msg):
-		"""warn that respects debug settings."""
-		msg = "WARNING: " + msg
-		self._factory.maybe_warn(msg)
+					return 0
+		return 0
 
-	def test_object(self, data):
-		"""True if data is an object (resource or URI)."""
+	def _check_reference(self, data):
+		"""True if data is a resource or reference to a resource"""
 		# "http://..."
 		# {"@id": "http://..."}
 		# or list of above
@@ -191,7 +196,7 @@ class BaseResource(object):
 			return data.startswith('http')
 		elif type(data) == dict:
 			return 'id' in data
-		elif isinstance(data, BaseMetadataObject):
+		elif isinstance(data, BaseResource):
 			return True
 		elif type(data) == list:
 			for d in data:
@@ -203,12 +208,41 @@ class BaseResource(object):
 		else:
 			print("expecing a resource, got: %r" % (data))
 			return True
-	
+			
+	def maybe_warn(self, msg):
+		"""warn that respects debug settings."""
+		msg = "WARNING: " + msg
+		self._factory.maybe_warn(msg)
+
 	def _set_magic_lang(self, which, value):
 		"""Magical handling of languages for string properties."""
-		# Should this actually do magic still?
-		object.__setattr__(self, which, value)
+		# Input:  string, and use "" or default_lang
+		#         dict of lang: value
+		# Merge with existing values
 
+		try:
+			current = getattr(self, which)
+		except:
+			current = {}
+		if type(value) in STR_TYPES:
+			# use default language from factory
+			value = {factory.default_lang: value}
+		if type(value) != dict:
+			raise DataError("Should be a dict or a string")
+		for k,v in value.items():
+			if current.has_key(k):
+				cv = current[k]
+				if type(cv) != list:
+					cv = [cv]
+				if type(v) != list:
+					v = [v]
+				for vi in v:	
+					cv.append(vi)
+				current[k] = cv
+			else:
+				current[k] = v
+		object.__setattr__(self, which, current)
+	
 	def _set_magic_resource(self, which, value):
 		"""Set resource property.
 		allow: string/object/dict, and magically generate list thereof
