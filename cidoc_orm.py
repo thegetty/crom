@@ -85,7 +85,7 @@ class CidocFactory(object):
 		self.class_map = {}
 		self.property_map = {}
 
-		self.key_order_hash = {"id": 1, "type": 2, "label": 3, "value": 4}
+		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, "label": 3, "value": 4}
 
 	def set_debug_stream(self, strm):
 		"""Set debug level."""
@@ -114,6 +114,64 @@ class CidocFactory(object):
 		elif self.debug_level == "error_on_warning":
 			# We don't know the type, just raise a MetadataError
 			raise MetadataError(msg)
+
+	def toJSON(self, what):
+		""" Serialize what, making sure of no infinite loops """
+		self.done = {}
+		out = what._toJSON(top=True)
+		self.done = {}
+		return out
+
+	def _buildString(self, js, compact=True):
+		"""Build string from JSON."""
+		if type(js) == dict:
+			if compact:
+				out = json.dumps(js, sort_keys=True, separators=(',',':'))
+			else:
+				out = json.dumps(js, sort_keys=True, indent=2)
+		else:
+			if compact:
+				out = json.dumps(js, separators=(',',':'))
+			else:
+				out = json.dumps(js, indent=2)
+		return out 		
+
+	def toString(self, what, compact=True):
+		"""Return JSON setialization as string."""
+		js = self.toJSON(what)
+		return self._buildString(js, compact)
+
+	def toFile(self, what, compact=True):
+		"""Write to local file.
+
+		Creates directories as necessary
+		"""
+		mdd = self.baseDir
+		if not mdd:
+			raise ConfigurationError("Directory on Factory must be set to write to file")
+
+		js = self.toJSON(what)
+		# Now calculate file path based on URI of top object
+		# ... which is self for those of you following at home
+		myid = js['id']
+		mdb = self._factory.metadata_base
+		if not myid.startswith(mdb):
+			raise ConfigurationError("The id of that object is not the base URI in the Factory")
+		fp = myid[len(mdb):]	
+		bits = fp.split('/')
+		if len(bits) > 1:
+			mydir = os.path.join(mdd, '/'.join(bits[:-1]))		
+			try:
+				os.makedirs(mydir)
+			except OSError:
+				pass
+		fh = open(os.path.join(mdd, fp), 'w')
+		out = self._buildString(js, compact)
+		fh.write(out)
+		fh.close()
+		return out
+
+
 
 factory = CidocFactory("http://data.getty.edu/provenance/")
 
@@ -186,6 +244,15 @@ class BaseResource(object):
 				else:
 					return 0
 		return 0
+
+
+	def _list_all_props(self):
+		props = {}
+		for c in self._classhier:		
+			for k,v in c._properties.items():
+				if not props.has_key(k):
+					props[k] = v['range']
+		return props
 
 	def _check_reference(self, data):
 		"""True if data is a resource or reference to a resource"""
@@ -261,8 +328,15 @@ class BaseResource(object):
 			object.__setattr__(self, which, new)
 
 
-	def toJSON(self, top=False):
+	def _toJSON(self, top=False):
 		"""Serialize as JSON."""
+		# If we're already in the graph, return our URI only
+
+		# This should only be called from the factory!
+
+		if self._factory.done.has_key(self):
+			return self.id
+
 		d = self.__dict__.copy()
 
 		for (k, v) in list(d.items()): #list makes copy in Py3
@@ -283,20 +357,17 @@ class BaseResource(object):
 		if top:
 			d['@context'] = self._factory.context_uri
 
-		# Recurse into structures, maybe minimally
-		for (p,sinfo) in self._properties.items():
-			if p in d:
-				if type(d[p]) == list:
-					newl = []
-					for s in d[p]:
-						minimalOveride = self._should_be_minimal(s)
-						done = self._single_toJSON(s, sinfo, p, minimalOveride)
-						newl.append(done)
-					d[p] = newl
-				else:
-					if sinfo.get('list', False):
-						raise StructuralError("%s['%s'] must be a list, got %r" % (self._type, p, d[p]), self)
-					d[p] = self._single_toJSON(d[p], sinfo, p)
+		self._factory.done[self] = 1
+		# Recurse
+		for k,v in d.items():
+			if isinstance(v, BaseResource):
+				d[k] = v._toJSON()
+			elif type(v) == list:
+				newl = []
+				for ni in v:
+					if isinstance(ni, BaseResource):
+						newl.append(v._toJSON())
+				d[k] = newl
 
 		KOH = self._factory.key_order_hash
 		return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
@@ -304,79 +375,6 @@ class BaseResource(object):
 	def _should_be_minimal(self, what):
 		"""Return False."""
 		return False
-
-	def _single_toJSON(self, instance, sinfo, prop, minimalOveride=False):
-		# duck typing. Bite me. 
-		typ = sinfo.get('subclass', None)
-		minimal = sinfo.get('minimal', False)
-		if minimalOveride:
-			minimal=True
-		if type(instance) in STR_TYPES:
-			# Just a URI
-			return instance
-		elif ( isinstance(instance, BaseResource) and typ == None ) or (typ != None and isinstance(instance, typ)):
-			if minimal:
-				return {'id': instance.id, 'type': instance._type, 'label': instance.label}
-			else:
-				return instance.toJSON(False)
-		elif type(instance) == dict and ( ('type' in instance and instance['type'] == typ._type) or typ == None ):
-			if minimal:
-				return {'id': instance['id'], 'type':instance['type'], 'label': instance['label']}
-			else:
-				return instance
-		elif type(instance) == dict:
-			raise StructuralError("%s['%s'] objects must be of type %s, got %s" % (self._type, prop, typ._type, instance.get('@type', None)), self)
-		else:
-			raise StructuralError("Saw unknown object in %s['%s']: %r" % (self._type, prop, instance), self)
-
-	def _buildString(self, js, compact=True):
-		"""Build string from JSON."""
-		if type(js) == dict:
-			if compact:
-				out = json.dumps(js, sort_keys=True, separators=(',',':'))
-			else:
-				out = json.dumps(js, sort_keys=True, indent=2)
-		else:
-			if compact:
-				out = json.dumps(js, separators=(',',':'))
-			else:
-				out = json.dumps(js, indent=2)
-		return out 		
-
-	def toString(self, compact=True):
-		"""Return JSON setialization as string."""
-		js = self.toJSON(top=True)
-		return self._buildString(js, compact)
-
-	def toFile(self, compact=True):
-		"""Write to local file.
-
-		Creates directories as necessary
-		"""
-		mdd = self._factory.baseDir
-		if not mdd:
-			raise ConfigurationError("Directory on Factory must be set to write to file")
-
-		js = self.toJSON(top=True)
-		# Now calculate file path based on URI of top object
-		# ... which is self for those of you following at home
-		myid = js['id']
-		mdb = self._factory.metadata_base
-		if not myid.startswith(mdb):
-			raise ConfigurationError("The id of that object is not the base URI in the Factory")
-		fp = myid[len(mdb):]	
-		bits = fp.split('/')
-		if len(bits) > 1:
-			mydir = os.path.join(mdd, '/'.join(bits[:-1]))		
-			try:
-				os.makedirs(mydir)
-			except OSError:
-				pass
-		fh = open(os.path.join(mdd, fp), 'w')
-		out = self._buildString(js, compact)
-		fh.write(out)
-		fh.close()
-		return out
 
 # Everything can have an id, a type and a label
 BaseResource._properties = {'id': {"range": str}, 
@@ -464,10 +462,4 @@ TimeSpan._properties['begin_of_the_begin'] = {"rdf": "crm:p82a_begin_of_the_begi
 TimeSpan._properties['begin_of_the_end'] = {"rdf": "crm:p81b_begin_of_the_end", "range":str}
 TimeSpan._properties['end_of_the_begin'] = {"rdf": "crm:p81a_end_of_the_begin", "range":str}
 TimeSpan._properties['end_of_the_end'] = {"rdf": "crm:p82b_end_of_the_end", "range":str}
-
-# And now can create subclasses like normal
-
-class TMSIdentifer(Identifier):
-	pass
-
 
