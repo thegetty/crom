@@ -72,11 +72,11 @@ class DataError(MetadataError):
 
 class CidocFactory(object):
 
-	def __init__(self, base_url="", base_dir="", lang="", full_names=True):
+	def __init__(self, base_url="", base_dir="", lang="", context="", full_names=True):
 		self.base_url = base_url
 		self.base_dir = base_dir
 		self.default_lang = lang
-		self.context_uri = ""
+		self.context_uri = context
 
 		self.debug_level = "warn"
 		self.log_stream = sys.stderr
@@ -87,6 +87,10 @@ class CidocFactory(object):
 
 		self.full_names = True
 		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, "label": 3, "value": 4, "is_identified_by": 10 }
+		self.full_key_order_hash = {"@context": 0, "@id": 1, "rdf:type": 2, "rdfs:label": 3, "rdf:value": 4, 
+			"dc:description": 5,
+			"crm:p1_is_identified_by": 10 }
+
 
 	def set_debug_stream(self, strm):
 		"""Set debug level."""
@@ -338,6 +342,7 @@ class BaseResource(object):
 		for (k, v) in list(d.items()): #list makes copy in Py3
 			if not v or k[0] == "_":
 				del d[k]
+		# In case of local contexts, not at the root
 		if 'context' in d:
 			d['@context'] = d['context']
 			del d['context']
@@ -352,7 +357,6 @@ class BaseResource(object):
 					self.maybe_warn(msg)
 		if top:
 			d['@context'] = self._factory.context_uri
-
 		self._factory.done[self.id] = 1
 		# Recurse
 		for k,v in d.items():
@@ -365,8 +369,27 @@ class BaseResource(object):
 						newl.append(v._toJSON())
 				d[k] = newl
 
-		KOH = self._factory.key_order_hash
+		if self._factory.full_names:
+			nd = {}
+			# @context gets ganked by this renaming
+			# so add it back in first.
+			if top:
+				nd['@context'] = self._factory.context_uri
+
+			for (k,v) in d.items():
+				# look up the rdf predicate in _properties
+				for c in self._classhier:
+					if c._properties.has_key(k):
+						nk = c._properties[k]['rdf']
+						nd[nk] = v
+						break
+			d = nd
+			KOH = self._factory.full_key_order_hash
+		else:
+			# Use existing programmer-friendly names
+			KOH = self._factory.key_order_hash
 		return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
+
 
 	def _should_be_minimal(self, what):
 		"""Return False."""
@@ -439,7 +462,7 @@ def build_classes(fn='crm_vocab.tsv'):
 	vocabData = process_tsv(fn)
 
 	# Everything can have an id, a type and a label
-	BaseResource._properties = {'id': {"range": str}, 
+	BaseResource._properties = {'id': {"rdf": "@id", "range": str}, 
 		'type': {"rdf": "rdf:type", "range": str}, 
 		'label': {"rdf": "rdfs:label", "range": str}}
 

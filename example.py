@@ -11,6 +11,9 @@ class Painting(ManMadeObject):
 class Mosaic(ManMadeObject):
 	_type = "extension:Mosaic"
 
+factory.base_url = "http://data.getty.edu/provenance/"
+factory.default_lang = "en"
+
 catalog = Document("catalog")
 page = Document("catalog-entry")
 catalog.has_component = page
@@ -23,5 +26,6 @@ txn = Acquisition("sale")
 lot.consists_of = txn
 what = Painting('my-painting')
 txn.transferred_title_of = what
+what.label = "My First Painting"
 
 print factory.toString(catalog, compact=False)
