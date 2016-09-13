@@ -72,9 +72,9 @@ class DataError(MetadataError):
 
 class CidocFactory(object):
 
-	def __init__(self, baseUrl="", baseDir="", lang=""):
-		self.baseUrl = baseUrl
-		self.baseDir = baseDir
+	def __init__(self, base_url="", base_dir="", lang="", full_names=True):
+		self.base_url = base_url
+		self.base_dir = base_dir
 		self.default_lang = lang
 		self.context_uri = ""
 
@@ -85,7 +85,8 @@ class CidocFactory(object):
 		self.class_map = {}
 		self.property_map = {}
 
-		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, "label": 3, "value": 4}
+		self.full_names = True
+		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, "label": 3, "value": 4, "is_identified_by": 10 }
 
 	def set_debug_stream(self, strm):
 		"""Set debug level."""
@@ -146,7 +147,7 @@ class CidocFactory(object):
 
 		Creates directories as necessary
 		"""
-		mdd = self.baseDir
+		mdd = self.base_dir
 		if not mdd:
 			raise ConfigurationError("Directory on Factory must be set to write to file")
 
@@ -154,7 +155,7 @@ class CidocFactory(object):
 		# Now calculate file path based on URI of top object
 		# ... which is self for those of you following at home
 		myid = js['id']
-		mdb = self._factory.metadata_base
+		mdb = self._factory.base_url
 		if not myid.startswith(mdb):
 			raise ConfigurationError("The id of that object is not the base URI in the Factory")
 		fp = myid[len(mdb):]	
@@ -170,10 +171,6 @@ class CidocFactory(object):
 		fh.write(out)
 		fh.close()
 		return out
-
-
-
-factory = CidocFactory("http://data.getty.edu/provenance/")
 
 class BaseResource(object):
 	"""Base class for all resources."""
@@ -195,7 +192,7 @@ class BaseResource(object):
 			if ident.startswith('http'):
 				self.id = ident
 			else:
-				self.id = factory.baseUrl + self.__class__._uri_segment + "/" + ident
+				self.id = factory.base_url + self.__class__._uri_segment + "/" + ident
 		else:
 			self.id = ""
 		self.type = self.__class__._type
@@ -375,48 +372,44 @@ class BaseResource(object):
 		"""Return False."""
 		return False
 
-# Everything can have an id, a type and a label
-BaseResource._properties = {'id': {"range": str}, 
-	'type': {"rdf": "rdf:type", "range": str}, 
-	'label': {"rdf": "rdfs:label", "range": str}}
+def process_tsv(fn='crm_vocab.tsv'):
+	fh = codecs.open(fn, 'r', 'utf-8')
+	lines = fh.readlines()
+	fh.close()
+	lines = lines[1:] # strip header line
+	vocabData = {}
 
-fh = codecs.open('crm_vocab.tsv', 'r', 'utf-8')
-lines = fh.readlines()
-fh.close()
-lines = lines[1:] # strip header
-vocabData = {}
+	for l in lines:
+		info= l.split('\t')
+		name = info[0]	
+		if info[1] == "class":
+			data = {"subOf": info[4], "label": info[2], "desc": info[3], "class": None, "props": [], "subs": []}
+			# calculate CamelCase name
+			uc1 = name.find("_")
+			ccname = name[uc1+1:]
+			ccname = ccname.replace('-', '').replace('_', '')
+			data['className'] = ccname
+			vocabData[name] = data
+		else:
+			# property
+			data = {"name": name, "subOf": info[4], "label": info[2], "desc": info[3], "range": info[6]}
+			uc1 = name.find("_")
+			ccname = name[uc1+1:]
+			what = vocabData[info[5]]
+			data['propName'] = ccname
+			what["props"].append(data)
 
-for l in lines:
-	info= l.split('\t')
-	name = info[0]	
-	if info[1] == "class":
-		data = {"subOf": info[4], "label": info[2], "desc": info[3], "class": None, "props": [], "subs": []}
-		# calculate CamelCase name
-		uc1 = name.find("_")
-		ccname = name[uc1+1:]
-		ccname = ccname.replace('-', '').replace('_', '')
-		data['className'] = ccname
-		vocabData[name] = data
-	else:
-		# property
-		data = {"name": name, "subOf": info[4], "label": info[2], "desc": info[3], "range": info[6]}
-		uc1 = name.find("_")
-		ccname = name[uc1+1:]
-		what = vocabData[info[5]]
-		data['propName'] = ccname
-		what["props"].append(data)
+	# invert subclass hierarchy
+	for k, v in vocabData.items():
+		sub = v['subOf']
+		try:
+			vocabData[sub]['subs'].append(k)
+		except:
+			pass
+	return vocabData
 
-# invert subclass hierarchy
-for k, v in vocabData.items():
-	sub = v['subOf']
-	try:
-		vocabData[sub]['subs'].append(k)
-	except:
-		pass
-
-# Build class heirarchy from top
-
-def build_class(crmName, parent):
+# Build class heirarchy recursively
+def build_class(crmName, parent, vocabData):
 	data = vocabData[crmName]
 	name = str(data['className'])
 	sub = data['subOf']
@@ -439,26 +432,38 @@ def build_class(crmName, parent):
 
 	# Build subclasses
 	for s in data['subs']:
-		build_class(s, c)
+		build_class(s, c, vocabData)
 
-build_class('E1_CRM_Entity', BaseResource)
 
-for v in vocabData.values():
-	c = v['class']
-	for p in c._properties.values():
-		try:	
-			p['range'] = vocabData[p['rangeStr']]['class']
-		except:
-			p['range'] = str
-		try:
-			del p['rangeStr']
-		except:
-			pass
+def build_classes(fn='crm_vocab.tsv'):
+	vocabData = process_tsv(fn)
 
-# Add some extras outside of the ontology
-SymbolicObject._properties['value'] = {"rdf": "rdfs:value", "range": str}
-TimeSpan._properties['begin_of_the_begin'] = {"rdf": "crm:p82a_begin_of_the_begin", "range":str}
-TimeSpan._properties['begin_of_the_end'] = {"rdf": "crm:p81b_begin_of_the_end", "range":str}
-TimeSpan._properties['end_of_the_begin'] = {"rdf": "crm:p81a_end_of_the_begin", "range":str}
-TimeSpan._properties['end_of_the_end'] = {"rdf": "crm:p82b_end_of_the_end", "range":str}
+	# Everything can have an id, a type and a label
+	BaseResource._properties = {'id': {"range": str}, 
+		'type': {"rdf": "rdf:type", "range": str}, 
+		'label': {"rdf": "rdfs:label", "range": str}}
 
+	build_class('E1_CRM_Entity', BaseResource, vocabData)
+
+	# And add property definitions now we have class objects
+	for v in vocabData.values():
+		c = v['class']
+		for p in c._properties.values():
+			try:	
+				p['range'] = vocabData[p['rangeStr']]['class']
+			except:
+				p['range'] = str
+			try:
+				del p['rangeStr']
+			except:
+				pass
+
+	# Add some necessary extras outside of the ontology
+	SymbolicObject._properties['value'] = {"rdf": "rdfs:value", "range": str}
+	TimeSpan._properties['begin_of_the_begin'] = {"rdf": "crm:p82a_begin_of_the_begin", "range":str}
+	TimeSpan._properties['begin_of_the_end'] = {"rdf": "crm:p81b_begin_of_the_end", "range":str}
+	TimeSpan._properties['end_of_the_begin'] = {"rdf": "crm:p81a_end_of_the_begin", "range":str}
+	TimeSpan._properties['end_of_the_end'] = {"rdf": "crm:p82b_end_of_the_end", "range":str}
+
+build_classes()
+factory = CidocFactory("http://lod.example.org/museum/")
