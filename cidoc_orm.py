@@ -333,7 +333,7 @@ class BaseResource(object):
 
 		# This should only be called from the factory!
 
-		if self._factory.done.has_key(self):
+		if self._factory.done.has_key(self.id):
 			return self.id
 
 		d = self.__dict__.copy()
@@ -356,7 +356,7 @@ class BaseResource(object):
 		if top:
 			d['@context'] = self._factory.context_uri
 
-		self._factory.done[self] = 1
+		self._factory.done[self.id] = 1
 		# Recurse
 		for k,v in d.items():
 			if isinstance(v, BaseResource):
