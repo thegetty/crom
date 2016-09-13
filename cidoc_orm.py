@@ -245,7 +245,6 @@ class BaseResource(object):
 					return 0
 		return 0
 
-
 	def _list_all_props(self):
 		props = {}
 		for c in self._classhier:		
