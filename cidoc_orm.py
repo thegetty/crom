@@ -72,7 +72,7 @@ class DataError(MetadataError):
 
 class CidocFactory(object):
 
-	def __init__(self, base_url="", base_dir="", lang="", context="", full_names=True):
+	def __init__(self, base_url="", base_dir="", lang="", context="", full_names=False):
 		self.base_url = base_url
 		self.base_dir = base_dir
 		self.default_lang = lang
@@ -399,43 +399,46 @@ def process_tsv(fn='crm_vocab.tsv'):
 	fh = codecs.open(fn, 'r', 'utf-8')
 	lines = fh.readlines()
 	fh.close()
-	lines = lines[1:] # strip header line
 	vocabData = {}
 
 	for l in lines:
+		l = l[:-1] # chomp
 		info= l.split('\t')
 		name = info[0]	
 		if info[1] == "class":
-			data = {"subOf": info[4], "label": info[2], "desc": info[3], "class": None, "props": [], "subs": []}
-			# calculate CamelCase name
-			uc1 = name.find("_")
-			ccname = name[uc1+1:]
-			ccname = ccname.replace('-', '').replace('_', '')
-			data['className'] = ccname
+			data = {"subOf": info[5], "label": info[3], 'className': info[2],
+				"desc": info[4], "class": None, "props": [], "subs": []}
 			vocabData[name] = data
 		else:
 			# property
-			data = {"name": name, "subOf": info[4], "label": info[2], "desc": info[3], "range": info[6]}
-			uc1 = name.find("_")
-			ccname = name[uc1+1:]
-			what = vocabData[info[5]]
-			data['propName'] = ccname
+			data = {"name": name, "subOf": info[5], "label": info[3], "propName": info[2],
+			"desc": info[4], "range": info[7]}
+			what = vocabData[info[6]]
 			what["props"].append(data)
 
 	# invert subclass hierarchy
 	for k, v in vocabData.items():
 		sub = v['subOf']
-		try:
-			vocabData[sub]['subs'].append(k)
-		except:
-			pass
+		# | separated list
+		for s in sub.split('|'):
+			if s:
+				try:
+					vocabData[s]['subs'].append(k)
+				except:
+					pass
 	return vocabData
 
 # Build class heirarchy recursively
 def build_class(crmName, parent, vocabData):
 	data = vocabData[crmName]
 	name = str(data['className'])
-	sub = data['subOf']
+
+	# check to see if we already exist
+	if globals().has_key(name):
+		c = globals()[name]
+		c.__bases__ += (parent,)
+		return
+
 	c = type(name, (parent,), {})
 	globals()[name] = c
 	data['class'] = c
@@ -443,7 +446,6 @@ def build_class(crmName, parent, vocabData):
 	c._description = data['desc']
 	c._uri_segment = name
 	c._properties = {}
-	c._classhier = inspect.getmro(c)[:-1]
 
 	# Set up real properties
 	for p in data['props']:
@@ -464,7 +466,9 @@ def build_classes(fn='crm_vocab.tsv'):
 	# Everything can have an id, a type and a label
 	BaseResource._properties = {'id': {"rdf": "@id", "range": str}, 
 		'type': {"rdf": "rdf:type", "range": str}, 
-		'label': {"rdf": "rdfs:label", "range": str}}
+		'label': {"rdf": "rdfs:label", "range": str},
+		'description': {"rdf": "dc:description", "range": str}
+	}
 
 	build_class('E1_CRM_Entity', BaseResource, vocabData)
 
@@ -480,6 +484,11 @@ def build_classes(fn='crm_vocab.tsv'):
 				del p['rangeStr']
 			except:
 				pass
+
+	# set all of the classhiers
+	for v in vocabData.values():
+		c = v['class']
+		c._classhier = inspect.getmro(c)[:-1]
 
 	# Add some necessary extras outside of the ontology
 	SymbolicObject._properties['value'] = {"rdf": "rdfs:value", "range": str}
