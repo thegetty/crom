@@ -75,6 +75,7 @@ for p in props:
 
 	uc1 = name.find("_")
 	ccname = name[uc1+1:]
+	ccname = ccname.replace("-", "")
 	stuff.append([name, "property", ccname, label, comment, subProp, domn, rang])
 
 outdata = '\n'.join(['\t'.join(x) for x in stuff])
