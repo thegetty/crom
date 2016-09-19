@@ -366,7 +366,7 @@ class BaseResource(object):
 				newl = []
 				for ni in v:
 					if isinstance(ni, BaseResource):
-						newl.append(v._toJSON())
+						newl.append(ni._toJSON())
 				d[k] = newl
 
 		if self._factory.full_names:
