@@ -5354,4 +5354,57 @@ A digital photograph of a manuscript page incorporates the text of the manuscrip
 	<rdfs:subPropertyOf rdf:resource="P82_at_some_time_within"/>	
 </rdf:Property>
 
+<!-- Add in needed extensions -->
+
+<rdfs:Class rdf:about="E96_Purchase">
+	<rdfs:label xml:lang="en">Purchase</rdfs:label>
+	<rdfs:comment></rdfs:comment>
+	<rdfs:subClassOf rdf:resource="E8_Acquisition"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:about="E97_Monetary_Amount">
+	<rdfs:label xml:lang="en">Monetary Amount</rdfs:label>
+	<rdfs:comment></rdfs:comment>
+	<rdfs:subClassOf rdf:resource="E54_Dimension"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:about="E98_Currency">
+	<rdfs:label xml:lang="en">Currency</rdfs:label>
+	<rdfs:comment></rdfs:comment>
+	<rdfs:subClassOf rdf:resource="E55_Type"/>
+</rdfs:Class>
+
+<rdf:Property rdf:about="P179_had_sales_price">
+	<rdfs:label xml:lang="en">had sales price</rdfs:label>
+	<rdfs:comment></rdfs:comment>
+	<rdfs:domain rdf:resource="E96_Purchase"/>
+	<rdfs:range rdf:resouce="E97_Monetary_Amount"/>
+	<rdfs:subPropertyOf rdf:resource=""/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P179i_was_sales_price_of">
+	<rdfs:label xml:lang="en">was sales price of</rdfs:label>
+	<rdfs:comment></rdfs:comment>
+	<rdfs:domain rdf:resource="E97_Monetary_Amount"/>
+	<rdfs:range rdf:resouce="E96_Purchase"/>
+	<rdfs:subPropertyOf rdf:resource=""/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P180_has_currency">
+	<rdfs:label xml:lang="en">has currency</rdfs:label>
+	<rdfs:comment></rdfs:comment>
+	<rdfs:domain rdf:resource="E97_Monetary_Amount"/>
+	<rdfs:range rdf:resouce="E98_Currency"/>
+	<rdfs:subPropertyOf rdf:resource=""/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P180i_was_currency_of">
+	<rdfs:label xml:lang="en">was currency of</rdfs:label>
+	<rdfs:comment></rdfs:comment>
+	<rdfs:domain rdf:resource="E98_Currency"/>
+	<rdfs:range rdf:resouce="E97_Monetary_Amount"/>
+	<rdfs:subPropertyOf rdf:resource=""/>
+</rdf:Property>
+
+
 </rdf:RDF>

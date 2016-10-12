@@ -506,10 +506,6 @@ def build_classes(fn='crm_vocab.tsv'):
 
 	# Add some necessary extras outside of the ontology
 	SymbolicObject._properties['value'] = {"rdf": "rdfs:value", "range": str}
-	TimeSpan._properties['begin_of_the_begin'] = {"rdf": "crm:p82a_begin_of_the_begin", "range":str}
-	TimeSpan._properties['begin_of_the_end'] = {"rdf": "crm:p81b_begin_of_the_end", "range":str}
-	TimeSpan._properties['end_of_the_begin'] = {"rdf": "crm:p81a_end_of_the_begin", "range":str}
-	TimeSpan._properties['end_of_the_end'] = {"rdf": "crm:p82b_end_of_the_end", "range":str}
 
 build_classes()
 factory = CidocFactory("http://lod.example.org/museum/")

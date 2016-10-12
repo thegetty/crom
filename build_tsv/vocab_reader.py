@@ -1,7 +1,7 @@
 from lxml import etree
 import codecs
 
-fh = file('cidoc.xml')
+fh = file('cidoc_inverse.xml')
 data = fh.read()
 fh.close()
 
@@ -69,14 +69,20 @@ for p in props:
 		rang = ""
 	subProp = p.xpath('./rdfs:subPropertyOf/@rdf:resource', namespaces=NS)
 	if subProp:
-		subProp = subProp[0].replace('http://bibframe.org/vocab/', '')
+		subProp = subProp[0]
 	else:
 		subProp = ""
+
+	inverse = p.xpath('./owl:inverseOf/@rdf:resource', namespaces=NS)
+	if inverse:
+		inverse = inverse[0]
+	else:
+		inverse = ""
 
 	uc1 = name.find("_")
 	ccname = name[uc1+1:]
 	ccname = ccname.replace("-", "")
-	stuff.append([name, "property", ccname, label, comment, subProp, domn, rang])
+	stuff.append([name, "property", ccname, label, comment, subProp, domn, rang, inverse])
 
 outdata = '\n'.join(['\t'.join(x) for x in stuff])
 fh = codecs.open('crm_vocab.tsv', 'w', 'utf-8')
