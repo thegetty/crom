@@ -80,6 +80,7 @@ class CidocFactory(object):
 
 		self.debug_level = "warn"
 		self.log_stream = sys.stderr
+		self.materialize_inverses = False
 
 		self.namespaces = {}
 		self.class_map = {}
@@ -138,16 +139,20 @@ class CidocFactory(object):
 
 	def _buildString(self, js, compact=True):
 		"""Build string from JSON."""
-		if type(js) == dict:
-			if compact:
-				out = json.dumps(js, sort_keys=True, separators=(',',':'))
+		try:
+			if type(js) == dict:
+				if compact:
+					out = json.dumps(js, sort_keys=True, separators=(',',':'))
+				else:
+					out = json.dumps(js, sort_keys=True, indent=2)
 			else:
-				out = json.dumps(js, sort_keys=True, indent=2)
-		else:
-			if compact:
-				out = json.dumps(js, separators=(',',':'))
-			else:
-				out = json.dumps(js, indent=2)
+				if compact:
+					out = json.dumps(js, separators=(',',':'))
+				else:
+					out = json.dumps(js, indent=2)
+		except UnicodeDecodeError:
+			print "Can't decode %r" % js
+			out = ""
 		return out 		
 
 	def toString(self, what, compact=True):
@@ -325,7 +330,7 @@ class BaseResource(object):
 				current[k] = v
 		object.__setattr__(self, which, current)
 	
-	def _set_magic_resource(self, which, value):
+	def _set_magic_resource(self, which, value, inversed=False):
 		"""Set resource property.
 		allow: string/object/dict, and magically generate list thereof
 		"""
@@ -341,6 +346,14 @@ class BaseResource(object):
 			new = [current, value]
 			object.__setattr__(self, which, new)
 
+		if not inversed and factory.materialize_inverses:
+			# set the backwards ref
+			for c in self._classhier:		
+				for k,v in c._properties.items():
+					if v.has_key('inverse') and v['inverse'] == which:
+						inverse = k			
+						break
+			value._set_magic_resource(inverse, self, True)
 
 	def _toJSON(self, top=False):
 		"""Serialize as JSON."""
@@ -426,7 +439,7 @@ def process_tsv(fn='crm_vocab.tsv'):
 		else:
 			# property
 			data = {"name": name, "subOf": info[5], "label": info[3], "propName": info[2],
-			"desc": info[4], "range": info[7]}
+			"desc": info[4], "range": info[7], "inverse": info[8]}
 			what = vocabData[info[6]]
 			what["props"].append(data)
 
@@ -466,8 +479,11 @@ def build_class(crmName, parent, vocabData):
 		name = p['name']
 		rng = p['range']
 		ccname = p['propName']
+		invRdf = "crm:%s" % p["inverse"]
 		# can't guarantee classes have been built yet :(
-		c._properties[ccname] = {"rdf": "crm:%s" % name, "rangeStr": rng}
+		c._properties[ccname] = {"rdf": "crm:%s" % name, 
+			"rangeStr": rng,
+			"inverseRdf": invRdf}
 
 	# Build subclasses
 	for s in data['subs']:
@@ -491,7 +507,13 @@ def build_classes(fn='crm_vocab.tsv'):
 		c = v['class']
 		for p in c._properties.values():
 			try:	
-				p['range'] = vocabData[p['rangeStr']]['class']
+				rng = vocabData[p['rangeStr']]['class']
+				# and add inverse prop name from range
+				p['range'] = rng
+				for (ik, iv) in rng._properties.items():
+					if iv['inverseRdf'] == p['rdf']:
+						p['inverse'] = ik
+						break
 			except:
 				p['range'] = str
 			try:
