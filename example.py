@@ -7,6 +7,25 @@ class Painting(ManMadeObject):
 		super(Painting, self).__init__(*args, **kw)
 		self.has_type = Type("http://vocab.getty.edu/aat/300033618")
 
+class LugtNumber(Identifier):
+	def __init__(self, *args, **kw):
+		super(LugtNumber, self).__init__(*args, **kw)
+		# ???
+		self.has_type = Type("http://vocab.getty.edu/aat/300033618")	
+
+class TMSNumber(Identifier):
+	def __init__(self, *args, **kw):
+		super(TMSNumber, self).__init__(*args, **kw)
+		# Repository Number
+		self.has_type = Type("http://vocab.getty.edu/aat/300404621")
+
+class LotNumber(Identifier):
+	def __init__(self, *args, **kw):
+		super(TMSNumber, self).__init__(*args, **kw)
+		# Lot Number
+		self.has_type = Type("http://vocab.getty.edu/aat/300404628")
+
+
 # Or actually subclass in an extension vocab
 class Mosaic(ManMadeObject):
 	_type = "extension:Mosaic"
@@ -26,6 +45,8 @@ txn = Acquisition("sale")
 lot.consists_of = txn
 what = Painting('my-painting')
 txn.transferred_title_of = what
-what.label = "My First Painting"
+what.label = "My First Paint By Numbers"
+what.is_identified_by = TMSNumber("")
+
 
 print factory.toString(catalog, compact=False)
