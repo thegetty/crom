@@ -4,6 +4,39 @@ import os, sys, subprocess
 import codecs
 import inspect
 
+# ### Mappings for duplicate properties ###
+
+# "P45": "made_of",
+# "P46i": "physically_part_of",
+# "P86": "temporally_within",
+# "P86i": "temporally_contains",
+# "P89": "spatially_within",
+# "P89i": "spatially_contains",
+# "P106": "has_fragment",
+# "P106i": "is_fragment_of",
+# "P20i": "was_specific_purpose_of",
+
+# "P7i": "location_of",
+# "P5": "has_subState",
+# "P5i": "is_subState_of",
+# "P42": "assigned_type",
+# "P42i": "type_was_assigned_by",
+# "P37": "assigned_identifier",
+# "P37i": "identifier_was_assigned_by",
+# "P78": "time_is_identified_by",
+# "P78i": "identifies_time",
+# "P87": "place_is_identified_by",
+# "P87i": "identifies_place",
+# "P131": "actor_is_identified_by",
+# "P131i": "identifies_actor",
+# "P149": "concept_is_identified_by",
+# "P149i": "identifies_concept",
+# "P151i": "participated_in_formation",
+# "P165i": "is_included_in",
+# "P132": "volume_overlaps_with",
+# "P135i": "type_was_created_by"
+
+
 try:
     import json
 except:
@@ -527,7 +560,7 @@ def build_classes(fn='crm_vocab.tsv'):
 		c._classhier = inspect.getmro(c)[:-1]
 
 	# Add some necessary extras outside of the ontology
-	SymbolicObject._properties['value'] = {"rdf": "rdfs:value", "range": str}
+	SymbolicObject._properties['value'] = {"rdf": "rdf:value", "range": str}
 
 build_classes()
 factory = CidocFactory("http://lod.example.org/museum/")
