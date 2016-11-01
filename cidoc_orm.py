@@ -119,9 +119,12 @@ class CidocFactory(object):
 		self.class_map = {}
 		self.property_map = {}
 
-		self.full_names = True
-		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, "has_type": 3, "label": 4, "value": 4, "is_identified_by": 10 }
-		self.full_key_order_hash = {"@context": 0, "@id": 1, "rdf:type": 2, "rdfs:label": 4, "rdf:value": 4, 
+		self.full_names = False
+		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, "has_type": 3, 
+			"label": 4, "value": 4, "has_note": 5, "description": 5, "is_identified_by": 10 }
+
+		self.full_key_order_hash = {"@context": 0, "@id": 1, "rdf:type": 2, 
+			"rdfs:label": 4, "rdf:value": 4, 
 			"dc:description": 5,
 			"crm:P1_is_identified_by": 10,
 			"crm:P2_has_type": 3,
@@ -229,7 +232,9 @@ class BaseResource(object):
 	_properties = {}
 	_integer_properties = []
 	_object_properties = []
-	_lang_properties = ["label", "has_note", "description"]
+	_lang_properties = []
+	# Don't bother
+	# _lang_properties = ["label", "has_note", "description"]
 	_required_properties = []
 	_warn_properties = []
 	_uri_segment = ""
@@ -447,6 +452,8 @@ class BaseResource(object):
 			KOH = self._factory.full_key_order_hash
 		else:
 			# Use existing programmer-friendly names
+			if d['type'] == self.__class__._type:
+				d['type'] = self.__class__.__name__
 			KOH = self._factory.key_order_hash
 		return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
 
