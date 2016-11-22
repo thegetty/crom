@@ -813,11 +813,7 @@
     "@id": "crm:P105i_has_right_on", 
     "@type": "@id"
   }, 
-  "has_fragment": {
-    "@id": "crm:P106_is_composed_of", 
-    "@type": "@id"
-  }, 
-  "is_fragment_of": {
+  "is_section_of": {
     "@id": "crm:P106i_forms_part_of", 
     "@type": "@id"
   }, 

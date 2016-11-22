@@ -22,8 +22,8 @@ if True:
 		"P86i": "temporally_contains",
 		"P89": "spatially_within",
 		"P89i": "spatially_contains",
-		"P106": "has_fragment",
-		"P106i": "is_fragment_of",
+		"P106": "has_section",
+		"P106i": "is_section_of",
 
 		"P78": "time_is_identified_by",
 		"P78i": "identifies_time",

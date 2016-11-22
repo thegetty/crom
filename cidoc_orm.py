@@ -1,6 +1,6 @@
 
 from __future__ import unicode_literals
-import os, sys, subprocess
+import os, sys
 import codecs
 import inspect
 
@@ -12,8 +12,8 @@ import inspect
 # "P86i": "temporally_contains",
 # "P89": "spatially_within",
 # "P89i": "spatially_contains",
-# "P106": "has_fragment",
-# "P106i": "is_fragment_of",
+# "P106": "has_section",
+# "P106i": "is_section_of",
 # "P20i": "was_specific_purpose_of",
 
 # "P7i": "location_of",
@@ -36,7 +36,6 @@ import inspect
 # "P132": "volume_overlaps_with",
 # "P135i": "type_was_created_by"
 
-
 try:
     import json
 except:
@@ -56,20 +55,13 @@ except:
         raise Exception("To run with old pythons you must: easy_install ordereddict")
 
 try:
-	subprocess.check_output #should be OK in python2.7 up
-except:
-	#python2.6, see <http://python-future.org/standard_library_imports.html>
-	from future.standard_library import install_aliases
-	install_aliases()
-
-try:
 	STR_TYPES = [str, unicode] #Py2
 except:
 	STR_TYPES = [bytes, str] #Py3
 
 
 class CidocError(Exception):
-	"""Base exception for iiif_prezi."""
+	"""Base exception class"""
 
 	resource = None
 
@@ -78,30 +70,26 @@ class CidocError(Exception):
 		self.args = [msg]
 		self.resource = resource
 
-
 class ConfigurationError(CidocError):
 	"""Raised when an object (likely the factory) isn't configured properly for the current operation."""
 	pass
-
 
 class MetadataError(CidocError):
 	"""Base metadata exception."""
 	pass
 
-
 class StructuralError(MetadataError):
 	"""Raised when there are structural problem with an object/metadata."""
 	pass
-
 
 class RequirementError(MetadataError):
 	"""Raised when metadata requirements not met."""
 	pass
 
-
 class DataError(MetadataError):
 	"""Raised when metadata is not valid/allowed."""
 	pass
+
 
 class CidocFactory(object):
 
@@ -114,6 +102,7 @@ class CidocFactory(object):
 		self.debug_level = "warn"
 		self.log_stream = sys.stderr
 		self.materialize_inverses = False
+		self.filename_extension = ".json"
 
 		self.namespaces = {}
 		self.class_map = {}
@@ -121,7 +110,15 @@ class CidocFactory(object):
 
 		self.full_names = False
 		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, "has_type": 3, 
-			"label": 4, "value": 4, "has_note": 5, "description": 5, "is_identified_by": 10 }
+			"label": 4, "value": 4, "has_note": 5, "description": 5, "is_identified_by": 10,
+
+			"has_timespan": 20,
+			"height": 30, "width": 31,
+			"paid_amount": 50, "paid_from": 51, "paid_to": 52,
+			"transferred_title_of": 50, "transferred_title_from": 51, "transferred_title_to": 52,
+
+			"consists_of": 100, "has_fragment": 100
+			 }
 
 		self.full_key_order_hash = {"@context": 0, "@id": 1, "rdf:type": 2, 
 			"rdfs:label": 4, "rdf:value": 4, 
@@ -131,11 +128,11 @@ class CidocFactory(object):
 			"crm:P3_has_note": 4,
 			"crm:P12i_was_present_at": 40,
 			"schema:genre": 8,
-			"crm:P45_consists_of": 14,
 			"crm:P108i_was_produced_by": 20,
 			"crm:P52_has_current_owner": 21,
 			"crm:P55_has_current_location": 22,
-			"crm:P104_is_subject_to": 30
+			"crm:P104_is_subject_to": 30,
+			"crm:P45_consists_of": 100			
 		}
 
 	def set_debug_stream(self, strm):
@@ -209,7 +206,7 @@ class CidocFactory(object):
 		# Now calculate file path based on URI of top object
 		# ... which is self for those of you following at home
 		myid = js['id']
-		mdb = self._factory.base_url
+		mdb = self.base_url
 		if not myid.startswith(mdb):
 			raise ConfigurationError("The id of that object is not the base URI in the Factory")
 		fp = myid[len(mdb):]	
@@ -220,6 +217,10 @@ class CidocFactory(object):
 				os.makedirs(mydir)
 			except OSError:
 				pass
+
+		if self.filename_extension:
+			fp = fp + self.filename_extension
+
 		fh = open(os.path.join(mdd, fp), 'w')
 		out = self._buildString(js, compact)
 		fh.write(out)
@@ -233,7 +234,7 @@ class BaseResource(object):
 	_integer_properties = []
 	_object_properties = []
 	_lang_properties = []
-	# Don't bother
+	# Don't bother with language maps for single language data
 	# _lang_properties = ["label", "has_note", "description"]
 	_required_properties = []
 	_warn_properties = []
@@ -386,17 +387,19 @@ class BaseResource(object):
 
 		if not inversed and factory.materialize_inverses:
 			# set the backwards ref
-			for c in self._classhier:		
-				for k,v in c._properties.items():
-					if v.has_key('inverse') and v['inverse'] == which:
-						inverse = k			
+			inverse = None
+			for c in self._classhier:
+				if c._properties.has_key(which):
+					v = c._properties[which]
+					if v.has_key('inverse'):
+						inverse = v['inverse']
 						break
-			value._set_magic_resource(inverse, self, True)
+			if inverse:	
+				value._set_magic_resource(inverse, self, True)
 
 	def _toJSON(self, top=False):
 		"""Serialize as JSON."""
 		# If we're already in the graph, return our URI only
-
 		# This should only be called from the factory!
 
 		if self._factory.done.has_key(self.id):
@@ -404,9 +407,6 @@ class BaseResource(object):
 
 		d = self.__dict__.copy()
 
-		for (k, v) in list(d.items()): #list makes copy in Py3
-			if not v or k[0] == "_":
-				del d[k]
 		# In case of local contexts, not at the root
 		if 'context' in d:
 			d['@context'] = d['context']
@@ -423,16 +423,23 @@ class BaseResource(object):
 		if top:
 			d['@context'] = self._factory.context_uri
 		self._factory.done[self.id] = 1
-		# Recurse
-		for k,v in d.items():
-			if isinstance(v, BaseResource):
-				d[k] = v._toJSON()
-			elif type(v) == list:
-				newl = []
-				for ni in v:
-					if isinstance(ni, BaseResource):
-						newl.append(ni._toJSON())
-				d[k] = newl
+
+		# Need to do in order now to get done correctly ordered
+		KOH = self._factory.key_order_hash
+		kvs = sorted(d.items(), key=lambda x: KOH.get(x[0], 1000))
+
+		for (k, v) in kvs:
+			if not v or k[0] == "_":
+				del d[k]
+			else:
+				if isinstance(v, BaseResource):
+					d[k] = v._toJSON()
+				elif type(v) == list:
+					newl = []
+					for ni in v:
+						if isinstance(ni, BaseResource):
+							newl.append(ni._toJSON())
+					d[k] = newl
 
 		if self._factory.full_names:
 			nd = {}
@@ -451,16 +458,21 @@ class BaseResource(object):
 			d = nd
 			KOH = self._factory.full_key_order_hash
 		else:
-			# Use existing programmer-friendly names
-			if d['type'] == self.__class__._type:
+			# Use existing programmer-friendly names for classes too
+			if not d.has_key('type'):
+				# find class up that has a type and use its name
+				for c in self._classhier:
+					if c._type:
+						d['type'] = c.__name__
+						break
+			elif d['type'] == self.__class__._type:
 				d['type'] = self.__class__.__name__
-			KOH = self._factory.key_order_hash
+			else:
+				# ??!!
+				raise ConfigurationError("Class is badly configured for type")
+
 		return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
 
-
-	def _should_be_minimal(self, what):
-		"""Return False."""
-		return False
 
 def process_tsv(fn='crm_vocab.tsv'):
 	fh = codecs.open(fn, 'r', 'utf-8')
@@ -506,6 +518,9 @@ def build_class(crmName, parent, vocabData):
 		c.__bases__ += (parent,)
 		return
 
+	# Globals pollution could be solved by using magic methods
+	# factory.ClassName() to create the first, then mk_prop_name() from it
+
 	c = type(name, (parent,), {})
 	globals()[name] = c
 	data['class'] = c
@@ -524,7 +539,7 @@ def build_class(crmName, parent, vocabData):
 		c._properties[ccname] = {"rdf": "crm:%s" % name, 
 			"rangeStr": rng,
 			"inverseRdf": invRdf}
-
+ 
 	# Build subclasses
 	for s in data['subs']:
 		build_class(s, c, vocabData)
@@ -568,6 +583,7 @@ def build_classes(fn='crm_vocab.tsv'):
 
 	# Add some necessary extras outside of the ontology
 	SymbolicObject._properties['value'] = {"rdf": "rdf:value", "range": str}
+
 
 build_classes()
 factory = CidocFactory("http://lod.example.org/museum/")

@@ -52,8 +52,7 @@ for l in lines:
 				typ = "@id"
 			context[ctname] = {"@id": "crm:%s" % name, "@type": typ} 
 
-
-# Language Map:   label, has_note, description
+# Language Map:   label, has_note, description  ?
 # "@container": "@language"
 
 context['label'] = {"@id": "rdfs:label"}
