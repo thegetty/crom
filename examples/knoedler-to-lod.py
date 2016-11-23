@@ -1,8 +1,8 @@
 
 import json
-import csv
 import codecs
 import re
+import inspect
 
 # for cidoc_orm, see: https://github.com/azaroth42/Python-CIDOC-ORM
 from cidoc_orm import factory, TimeSpan, ManMadeObject, Type, Identifier, \
@@ -33,7 +33,7 @@ ext_classes = {
 }
 
 factory.base_url = "http://data.getty.edu/provenance/"
-factory.default_lang = "en"
+factory.context_uri = "http://data.getty.edu/contexts/crm_context.jsonld"
  
 for (name,v) in ext_classes.items():
 	c = type(name, (v['parent'],), {})
@@ -43,6 +43,17 @@ for (name,v) in ext_classes.items():
 # At the moment it's just an activity, no subtype info
 class TakeInventory(Activity): 
 	pass
+
+class Payment(Activity):
+	_properties = {
+		"paid_amount": {"rdf": "pi:paid_amount", "range": MonetaryAmount},
+		"paid_to": {"rdf": "pi:paid_to", "range": Actor},
+		"paid_from": {"rdf": "pi:paid_from", "range": Actor}
+	}
+	_uri_segment = "Payment"
+	_type = "pi:Payment"
+
+Payment._classhier = inspect.getmro(Payment)[:-1]
 
 # Object Types
 # {'Pastel': 265, 'Photograph': 4, 'Clocks': 1, 'Painting [?]': 8, 'Painting': 37313, 
@@ -62,7 +73,6 @@ aat_type_mapping = {
 	"Watercolor": Painting,
 	"Pastel": Painting
 }
-
 
 #	  # A wooden support
 aat_part_mapping = {
@@ -179,7 +189,7 @@ ManMadeObject._properties['width'] = {"rdf": "schema:width", "range": Dimension}
 knoedler = Group("knoedler")
 knoedler.label = "Knoedler"
 
-# factory.materialize_inverses = True
+factory.materialize_inverses = True
 
 def process_money_value(value):
 	value = value.replace('[', '')
@@ -207,11 +217,8 @@ def process_materials(what, materials):
 	materials = materials.replace('terra cotta', 'terracotta')
 	materials = materials.replace(',', '')
 	materials = materials.replace('-', '')
-
 	materials = materials.replace('procelain', 'porcelain')
-
 	materials = materials.strip()
-
 	matwds = materials.split(' ')
 	mats = []
 	for mw in matwds:
@@ -225,18 +232,15 @@ def process_materials(what, materials):
 
 	return mats
 
-
 divre = re.compile('^([0-9]+) ([0-9]+)/([0-9]+)( |$)')
 unitre = re.compile('^([0-9.]+) (high|height|h|long|length|l)( |$)')
 	
 def process_dimensions(dims):
 	dims = dims.lower()
-
 	# assume default of inches
 	dims = dims.replace('"', '')
 	dims = dims.replace('in.', '')
 	dims = dims.replace('inches', '')
-
 	dims = dims.replace('//', '/')
 	dims = dims.replace('[', '')
 	dims = dims.replace(']', '')
@@ -267,47 +271,12 @@ def process_dimensions(dims):
 				else:
 					# print "----- %s" % d
 					continue
-
 		if not which:
 			which = "w" if p else "h"
 		p += 1
 		dimensions.append([ttl, which])
-
 	return dimensions
 
-# Just read everything into memory
-# No idea what the codec is
-# fh = codecs.open('data/knoedler.csv', 'r', 'windows-1252')
-# Matthew uses: iso-8859-1
-fh = file('data/knoedler.csv')
-rdr = csv.reader(fh)
-recs = [x for x in rdr]
-fh.close()
-
-# To handle:  consign_num, _name _loc
-# attribution
-# knoedler_share_*, joint_owner_*
-# *_2
-
-cols = ['star_id', 'pi_id', 'stock_book_id', 'knoedler_id', 'page_num', 'row_num', 'consign_num',
-	'consign_name', 'consign_loc', 'artist_name', 'artist_brief_name', 'artist_name_auth', 
-	'nationality', 'attribution', 'artist_name_2', 'artist_brief_name_2', 'artist_name_auth_2',
-	'nationality_2', 'attribution_2', 'title', 'description', 'subject', 'genre', 'object_type',
-	'materials', 'dimensions', 'entry_date_year', 'entry_date_month', 'entry_date_day', 
-	'sale_date_year', 'sale_date_month', 'sale_date_day', 'purchase_amount', 'purchase_currency',
-	'purchase_note', 'knoedler_share_amount', 'knoedler_share_currency', 'knoedler_share_note',
-	'price_amount', 'price_currency', 'price_note', 'seller_name', 'seller_loc', 'seller_name_auth',
-	'seller_loc_auth', 'seller_name_2', 'seller_loc_2', 'seller_name_auth_2', 'seller_loc_auth_2',
-	'joint_owner', 'joint_owner_2', 'joint_owner_3', 'joint_owner_4', 'transaction', 'buyer_name',
-	'buyer_loc', 'buyer_name_auth', 'buyer_loc_auth', 'buyer_name_2', 'buyer_name_auth_2', 
-	'provenance', 'notes', 'heading']
-
-def print_rec(rec):
-	print "recId: %s" % rec['pi_id']
-	for f in ['title', 'description', 'artist_name', 'subject', 'genre', 'object_type',\
-	'materials', 'dimensions', 'transaction', 'purchase_amount', 'price_amount', 'provenance']:
-		if rec[f]:		
-			print "%s: %s" % (f, rec[f])
 
 def print_rec_full(rec):
 	its = rec.items()
@@ -319,28 +288,23 @@ def print_rec_full(rec):
 stock_books = {}
 pages = {}
 
-for r in recs:
-	r2 = []
-	for x in r:
-		if x:
-			try:
-				x = x.decode('iso-8859-1')
-				r2.append(x)
-			except:
-				print x
-				r2.append("BROKEN")
-		else:
-			r2.append('')
+fh = file('knoedler_cache.json')
+cache = json.load(fh)
+fh.close()
 
-	rec = dict(zip(cols, r2))
+recs = cache.values()
+recs = sorted(recs, key=lambda x: x['star_id'])[:5000]
+# recs = [cache['72910']]
+
+for rec in recs:
 
 	bookId = rec['stock_book_id']
 	try:
 		book = stock_books[bookId]
-		book.label = "Knoedler Stock Book %s" % bookId
 	except:
 		# create the book
 		book = InformationObject(bookId)
+		book.label = "Knoedler Stock Book %s" % bookId
 		stock_books[bookId] = book
 
 	pageId = "%s/%s" % (bookId, rec['page_num'])
@@ -351,13 +315,13 @@ for r in recs:
 		page = InformationObject(pageId)
 		page.label = "Page %s" % rec['page_num']
 		pages[pageId] = page
-		book.is_composed_of = page
+		book.has_fragment = page
 
 	# create the entry
 	entryId = "%s/%s" % (pageId, rec['row_num'])
 	entry = InformationObject(entryId)
 	entry.label = "Row %s" % rec['row_num']
-	page.is_composed_of = entry
+	page.has_fragment = entry
 
 	# the description and notes fields are related to the entry
 	# not the object
@@ -393,8 +357,8 @@ for r in recs:
 		# E8 can represent end of ownership. There's just no new owner.
 		txn = Acquisition(oid)
 	elif txnType == "Voided":
-		# No activity, just a reference to an object
-		pass
+		# Bad data; voided should be skipped (per Kelly)
+		continue
 	elif txnType == "Returned":
 		# Can't tell what this actually means yet
 		# Could be entering or leaving Knoedler stock!
@@ -410,10 +374,14 @@ for r in recs:
 		continue
 
 	# The inbound activity that always happens
+	# For consistency, always generate a Payment
 	if rec['purchase_amount']:
 		inTxn = Purchase("purch_%s" % oid)
+		pay = Payment("purch_%s" % oid)
+		inTxn.consists_of = pay
+
 		amnt = MonetaryAmount("purch_price_%s" % oid)
-		value = process_money_value(rec['price_amount'])
+		value = process_money_value(rec['purchase_amount'])
 		if value:
 			try:
 				amnt.has_value = float(value)
@@ -424,8 +392,11 @@ for r in recs:
 			curr.label = rec['purchase_currency']
 			amnt.has_currency = curr
 		if rec['purchase_note']:
-			amnt.description = rec['purchase_note']
-		inTxn.had_sales_price = amnt			
+			amnt.description = rec['purchase_note']		
+		pay.paid_amount = amnt
+		pay.paid_from = knoedler
+		inTxn.had_sales_price = amnt
+
 	else:
 		inTxn = Acquisition("purch_%s" % oid)
 
@@ -439,6 +410,8 @@ for r in recs:
 			sellerPlace.label = rec['seller_loc_auth'] if rec['seller_loc_auth'] else rec['seller_loc']
 			seller.has_current_or_former_residence = sellerPlace
 		inTxn.transferred_title_from = seller
+		if rec['purchase_amount']:
+			pay.paid_to = seller
 
 	# CurationPeriod
 	curated = Activity("curated_%s" % oid)
@@ -457,9 +430,8 @@ for r in recs:
 				buyerPlace.label = rec['buyer_loc_auth'] if rec['buyer_loc_auth'] else rec['buyer_loc']
 				buyer.has_current_or_former_residence = buyerPlace
 			txn.transferred_title_to = buyer
+
 		# when
-
-
 		if rec['sale_date_year']:
 			# if year, then all. blank is "00"			
 			yr = rec['sale_date_year']
@@ -493,6 +465,38 @@ for r in recs:
 			if rec['price_note']:
 				amnt.description = rec['price_note']
 			txn.had_sales_price = amnt
+
+			# Check knoedler_share
+			if rec['knoedler_share_amount']:
+
+				value = process_money_value(rec['knoedler_share_amount'])
+				if value:
+					amnt = MonetaryAmount("shared_price_%s" % oid)
+					try:
+						amnt.has_value = float(value)
+					except:
+						amnt.description = value
+					if rec['knoedler_share_currency']:
+						curr = Currency(rec['knoedler_share_currency'])
+						curr.label = rec['knoedler_share_currency']
+						amnt.has_currency = curr
+					if rec['knoedler_share_note']:
+						amnt.description = rec['knoedler_share_note']
+
+				pay = Payment("kshare_%s" % oid)
+				txn.consists_of = pay
+				pay.paid_amount = amnt
+				pay.paid_to = knoedler
+				if rec['buyer_name'] or rec['buyer_name_auth']:
+					pay.paid_from = buyer
+
+			else:
+				pay = Payment("sale_%s" % oid)
+				txn.consists_of = pay
+				pay.paid_amount = amnt
+				pay.paid_to = knoedler
+				if rec['buyer_name'] or rec['buyer_name_auth']:
+					pay.paid_from = buyer
 
 		curated.is_finished_by = txn
 	elif inv:
@@ -536,7 +540,7 @@ for r in recs:
 			else:
 				start = "%s-01-01" % yr
 				end = "%s-12-31" % yr
-			span = TimeSpan("sale_span_%s" % oid)
+			span = TimeSpan("purch_span_%s" % oid)
 			span.begin_of_the_begin = start
 			span.end_of_the_end = end
 			inTxn.has_timespan = span
@@ -563,12 +567,14 @@ for r in recs:
 	idnt = AccessionNumber("knoedler_%s" % oid)
 	idnt.value = rec['knoedler_id']
 	# No way to say it's Knoedler's number?
+	# Could have a Creation of the Identifier performed by Knoedler :(
 
 	if rec['artist_name'] or rec['artist_name_auth']:
 		artist = Person("artist_%s" % oid)
 		artist.label = rec['artist_name_auth'] if rec['artist_name_auth'] else rec['artist_name']
 		if rec['nationality']:
-			artist.nationality = Place(rec['nationality'])
+			artist.nationality = Place("artist_natl_%s" % oid)
+			artist.nationality.label = rec['nationality']
 
 		prodn = Production("production_%s" % oid)
 		prodn.carried_out_by = artist
@@ -578,7 +584,8 @@ for r in recs:
 		artist = Person("artist2_%s" % oid)
 		artist.label = rec['artist_name_auth_2'] if rec['artist_name_auth_2'] else rec['artist_name_2']
 		if rec['nationality_2']:
-			artist.nationality = Place(rec['nationality_2'])
+			artist.nationality = Place('artist_2_natl_%s' % oid)
+			artist.nationality.label = rec['nationality_2']
 		prodn.carried_out_by = artist
 
 
@@ -609,6 +616,7 @@ for r in recs:
 	if rec['materials']:
 		# XXX Finish this
 		process_materials(what, rec['materials'])
+		# what.made_of = material
 
 	if rec['dimensions']:
 		# XXX Finish this too
@@ -617,14 +625,23 @@ for r in recs:
 			dim = Dimension("%s_%s" % (d[0], oid))
 			dim.has_value = d[0]
 			dim.has_unit = inches
-			if d[0] == 'h':
+			if d[1] == 'h':
 				what.height = dim
 			else:
 				what.width = dim				
 
 collection = InformationObject("collection")
 for s in stock_books.values():
-	collection.is_composed_of = s
+	collection.has_fragment = s
 
+
+factory.full_names = True
 outstr = factory.toString(collection, compact=False)
+
+fh = file('knoedler.jsonld', 'w')
+fh.write(outstr)
+fh.close()
+
+# Note that these entries are really one transaction
+# 64699 ... 64732
 
