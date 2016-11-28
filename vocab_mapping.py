@@ -1,9 +1,10 @@
 
+import inspect
 from cidoc_orm import Identifier, Mark, ManMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
-	Activity, Group, Appellation
+	Activity, Group, Appellation, MonetaryAmount 
 
 def register_aat_class(name, parent, id):
 	c = type(name, (parent,), {})
@@ -24,7 +25,7 @@ def register_aat_dimensionType(name, id):
 	dimensionTypes[name] = d
 
 dimensionUnits = {}
-def register_aat_dimentionUnit(name, id):
+def register_aat_dimensionUnit(name, id):
 	d = MeasurementUnit("http://vocab.getty.edu/aat/%s" % id)
 	d.label = name
 	dimensionUnits[name] = d
@@ -138,7 +139,7 @@ dim_unit_mapping = {
 	"cm": "300379098"
 }
 for (k,v) in dim_unit_mapping.items():
-	register_aat_dimentionUnit(k,v)
+	register_aat_dimensionUnit(k,v)
 
 # Monkey patch Type's _toJSON to only emit full data if not just URI+type
 def typeToJSON(self, top=False):
@@ -151,6 +152,21 @@ def typeToJSON(self, top=False):
 			return self.id.replace("http://vocab.getty.edu/aat/", "aat:")
 		return self.id
 Type._toJSON = typeToJSON
+
+
+# New Payment Activity
+
+class Payment(Activity):
+	_properties = {
+		"paid_amount": {"rdf": "pi:paid_amount", "range": MonetaryAmount},
+		"paid_to": {"rdf": "pi:paid_to", "range": Actor},
+		"paid_from": {"rdf": "pi:paid_from", "range": Actor}
+	}
+	_uri_segment = "Payment"
+	_type = "pi:Payment"
+
+Payment._classhier = inspect.getmro(Payment)[:-1]
+
 
 # Add some further properties
 Person._properties['familyName'] = {"rdf": "schema:familyName", "range": str}

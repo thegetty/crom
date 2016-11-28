@@ -25,6 +25,11 @@ context['dc'] = "http://purl.org/dc/elements/1.1/"
 context['dcterms'] = "http://purl.org/dc/terms/"
 context['schema'] = "http://schema.org/"
 context['skos'] = "http://www.w3.org/2004/02/skos/core#"
+context["pi"] = "http://lod.getty.edu/prov/"
+
+context["aat"]  = "http://vocab.getty.edu/aat/",
+context["ulan"] = "http://vocab.getty.edu/ulan/",
+context["tgn"] = "http://vocab.getty.edu/tgn/",
 
 context['id'] = {"@id": "@id", "@type": "@id"}
 context['type'] = {"@id": "@type", "@type": "@id"}
@@ -64,6 +69,21 @@ context['familyName'] = {"@id": "schema:familyName"}
 context['givenName'] = {"@id": "schema:givenName"}
 context['nationality'] = {"@id": "schema:nationality", "@type": "@id"}
 context['culture'] = {"@id": "schema:genre"}
+
+
+context["Payment"] = "pi:Payment",
+context["paid_from"] = {
+      "@id": "pi:paid_from",
+      "@type": "@id"
+    }
+context["paid_to"] = {
+      "@id": "pi:paid_to",
+      "@type": "@id"
+    }
+context["paid_amount"] = {
+      "@id": "pi:paid_amount",
+      "@type": "@id"
+    }
 
 outstr = json.dumps(context, indent=2)
 
