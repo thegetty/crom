@@ -8,8 +8,8 @@ from cidoc_orm import Identifier, Mark, ManMadeObject, Type, \
 
 def register_aat_class(name, parent, id):
 	c = type(name, (parent,), {})
-	c._p2_has_type = "http://vocab.getty.edu/aat/%s" % id
-	c._type = None
+	c._classification = "http://vocab.getty.edu/aat/%s" % id
+	c._type = None # To avoid conflicting with parent class
 	globals()[name] = c	
 
 materialTypes = {}

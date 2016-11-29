@@ -27,9 +27,9 @@ context['schema'] = "http://schema.org/"
 context['skos'] = "http://www.w3.org/2004/02/skos/core#"
 context["pi"] = "http://lod.getty.edu/prov/"
 
-context["aat"]  = "http://vocab.getty.edu/aat/",
-context["ulan"] = "http://vocab.getty.edu/ulan/",
-context["tgn"] = "http://vocab.getty.edu/tgn/",
+context["aat"]  = "http://vocab.getty.edu/aat/"
+context["ulan"] = "http://vocab.getty.edu/ulan/"
+context["tgn"] = "http://vocab.getty.edu/tgn/"
 
 context['id'] = {"@id": "@id", "@type": "@id"}
 context['type'] = {"@id": "@type", "@type": "@id"}
@@ -71,7 +71,7 @@ context['nationality'] = {"@id": "schema:nationality", "@type": "@id"}
 context['culture'] = {"@id": "schema:genre"}
 
 
-context["Payment"] = "pi:Payment",
+context["Payment"] = "pi:Payment"
 context["paid_from"] = {
       "@id": "pi:paid_from",
       "@type": "@id"
@@ -85,7 +85,10 @@ context["paid_amount"] = {
       "@type": "@id"
     }
 
-outstr = json.dumps(context, indent=2)
+ctxt = {"@context": context}
+
+
+outstr = json.dumps(ctxt, indent=2)
 
 fh = file("crm_context.jsonld", 'w')
 fh.write(outstr)

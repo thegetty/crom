@@ -9,45 +9,35 @@ if True:
 	property_overrides = {
 		"P45": "made_of",
 		"P7i": "location_of",
-		"P5": "subState",
-		"P5i": "subState_of",
-		"P20i": "specific_purpose_of",
+		"P5": "has_subState",
+		"P5i": "is_subState_of",
+		"P20i": "was_specific_purpose_of",
 		"P42": "assigned_type",
-		"P42i": "type_assigned_by",
+		"P42i": "type_was_assigned_by",
 		"P37": "assigned_identifier",
-		"P37i": "identifier_assigned_by",
+		"P37i": "identifier_was_assigned_by",
 
-		# P9 - consists_of
-		# P9i - forms_part_of
-		"P46": "part",
-		"P46i": "part_of",
+		"P46i": "physically_part_of",
 		"P86": "temporally_within",
 		"P86i": "temporally_contains",
 		"P89": "spatially_within",
 		"P89i": "spatially_contains",
-		# P106 - composed_of
-		"P106i": "composed_from",
+		"P106": "has_section",
+		"P106i": "is_section_of",
 
-		"P78": "time_identified_by",
+		"P78": "time_is_identified_by",
 		"P78i": "identifies_time",
-		"P87": "place_identified_by",
+		"P87": "place_is_identified_by",
 		"P87i": "identifies_place",
-		"P131": "actor_identified_by",
+		"P131": "actor_is_identified_by",
 		"P131i": "identifies_actor",
-		"P149": "concept_identified_by",
+		"P149": "concept_is_identified_by",
 		"P149i": "identifies_concept",
-		"P35i": "condition_identified_by",
-
-		"P90": "has_value", # to avoid collision with rdf:value,
-		"P2": "classified_as", # to avoid collision with rdf:type
-
-		"P133": "distinct_from",
-		"P164i": "timespan_of_presence",
 
 		"P151i": "participated_in_formation",
-		"P165i": "included_in",
+		"P165i": "is_included_in",
 		"P132": "volume_overlaps_with",
-		"P135i": "type_created_by"
+		"P135i": "type_was_created_by"
 	}
 else:
 	property_overrides = {}
@@ -133,11 +123,6 @@ for p in props:
 	else:
 		ccname = name[uc1+1:]
 		ccname = ccname.replace("-", "")
-		if ccname.startswith("is_"):
-			ccname = ccname[3:]
-		elif ccname.startswith("has_") or ccname.startswith("had_") or ccname.startswith("was_"):
-			ccname = ccname[4:]
-
 	stuff.append([name, "property", ccname, label, comment, subProp, domn, rang, inverse])
 
 outdata = '\n'.join(['\t'.join(x) for x in stuff])
