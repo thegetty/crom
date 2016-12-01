@@ -85,6 +85,11 @@ context["paid_amount"] = {
       "@type": "@id"
     }
 
+context["offering_price"] = {
+      "@id": "pi:had_offering_price",
+      "@type": "@id"	
+}
+
 ctxt = {"@context": context}
 
 

@@ -81,18 +81,23 @@ class CidocFactory(object):
 		self.property_map = {}
 
 		self.full_names = False
-		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, "classified_ass": 3, 
+
+		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, "classified_as": 3, 
 			"label": 4, "value": 4, "note": 5, "description": 5, "identified_by": 10,
 
-			"timespan": 20,
+			"timespan": 20, "begin_of_the_begin": 21, "end_of_the_begin": 22, 
+			"begin_of_the_end": 23, "end_of_the_end": 24,
+
 			"height": 30, "width": 31,
 			"paid_amount": 50, "paid_from": 51, "paid_to": 52,
 			"transferred_title_of": 50, "transferred_title_from": 51, "transferred_title_to": 52,
 
+			"offering_price": 48, "sales_price": 49,
+
 			"consists_of": 100, "composed_of": 101
 			 }
 
-		self.full_key_order_hash = {"@context": 0, "@id": 1, "rdf:type": 2, 
+		self.full_key_order_hash = {"@context": 0, "@id": 1, "rdf:type": 2, "@type": 2,
 			"rdfs:label": 4, "rdf:value": 4, 
 			"dc:description": 5,
 			"crm:P1_is_identified_by": 10,
@@ -212,6 +217,7 @@ class BaseResource(object):
 	_warn_properties = []
 	_uri_segment = ""
 	_type = ""
+	_niceType = ""
 	_classification = ""
 
 	def __init__(self, ident="", label="", value="", **kw):
@@ -394,6 +400,8 @@ class BaseResource(object):
 					self.maybe_warn(msg)
 		if top:
 			d['@context'] = self._factory.context_uri
+
+		# WARNING:  This means that individual factories are NOT thread safe
 		self._factory.done[self.id] = 1
 
 		# Need to do in order now to get done correctly ordered
@@ -422,11 +430,26 @@ class BaseResource(object):
 
 			for (k,v) in d.items():
 				# look up the rdf predicate in _properties
-				for c in self._classhier:
+				for c in reversed(self._classhier):
 					if c._properties.has_key(k):
 						nk = c._properties[k]['rdf']
 						nd[nk] = v
 						break
+
+			# Ensure full version uses basic @type
+			if nd.has_key("rdf:type"):
+				nd['@type'] = nd['rdf:type']
+				del nd['rdf:type']
+
+			# And type gets ganked for overlay classes (Painting)
+			# plus for stupidity classes (DestructionActivity)
+			# so add this back too
+			if not nd.has_key('@type') or not nd['@type']:
+				# find class up that has a type and use its name
+				for c in reversed(self._classhier):
+					if c._type:
+						nd['@type'] = c._type
+
 			d = nd
 			KOH = self._factory.full_key_order_hash
 		else:
@@ -439,6 +462,8 @@ class BaseResource(object):
 						break
 			elif d['type'] == self.__class__._type:
 				d['type'] = self.__class__.__name__
+			elif self.__class__._niceType:
+				d['type'] = self.__class__._niceType
 			else:
 				# ??!!
 				raise ConfigurationError("Class is badly configured for type")

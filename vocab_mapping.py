@@ -4,7 +4,8 @@ from cidoc_orm import Identifier, Mark, ManMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
-	Activity, Group, Appellation, MonetaryAmount 
+	Activity, Group, Appellation, MonetaryAmount, Purchase, \
+	Destruction 
 
 def register_aat_class(name, parent, id):
 	c = type(name, (parent,), {})
@@ -154,8 +155,16 @@ def typeToJSON(self, top=False):
 Type._toJSON = typeToJSON
 
 
-# New Payment Activity
+# Stupid DestuctionActivity as CRM has a Destruction *event*
+class DestructionActivity(Destruction, Activity):
+	_uri_segment = "Activity"
+	_type = ["crm:Destruction", "crm:Activity"]
+	_niceType = ["Destruction", "Activity"]
+DestructionActivity._classhier = inspect.getmro(DestructionActivity)[:-1]
 
+
+# New Payment Activity
+Purchase._properties['offering_price'] = {"rdf":"pi:had_offering_price", "range": MonetaryAmount}
 class Payment(Activity):
 	_properties = {
 		"paid_amount": {"rdf": "pi:paid_amount", "range": MonetaryAmount},
@@ -164,7 +173,6 @@ class Payment(Activity):
 	}
 	_uri_segment = "Payment"
 	_type = "pi:Payment"
-
 Payment._classhier = inspect.getmro(Payment)[:-1]
 
 

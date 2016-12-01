@@ -1308,6 +1308,10 @@
     "paid_amount": {
       "@id": "pi:paid_amount", 
       "@type": "@id"
+    }, 
+    "offering_price": {
+      "@id": "pi:had_offering_price", 
+      "@type": "@id"
     }
   }
 }
