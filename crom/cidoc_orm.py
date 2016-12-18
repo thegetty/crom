@@ -4,8 +4,7 @@ import os, sys
 import codecs
 import inspect
 
-# ### Mappings for duplicate properties ###
-
+### Mappings for duplicate properties ###
 ### See build_tsv/vocab_reader
 
 try:
@@ -84,13 +83,17 @@ class CidocFactory(object):
 
 		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, "classified_as": 3, 
 			"label": 4, "value": 4, "note": 5, "description": 5, "identified_by": 10,
+			"carried_out_by": 18, "used_specific_object": 19,
 
 			"timespan": 20, "begin_of_the_begin": 21, "end_of_the_begin": 22, 
 			"begin_of_the_end": 23, "end_of_the_end": 24,
+			"started_by": 25, "finished_by": 28,
 
 			"height": 30, "width": 31,
 			"paid_amount": 50, "paid_from": 51, "paid_to": 52,
 			"transferred_title_of": 50, "transferred_title_from": 51, "transferred_title_to": 52,
+
+
 
 			"offering_price": 48, "sales_price": 49,
 
@@ -161,7 +164,7 @@ class CidocFactory(object):
 				else:
 					out = json.dumps(js, indent=2)
 		except UnicodeDecodeError:
-			print "Can't decode %r" % js
+			self.maybe_warn("Can't decode %r" % js)
 			out = ""
 		return out 		
 
@@ -273,7 +276,7 @@ class BaseResource(object):
 
 	def _check_prop(self, which, value):
 		for c in self._classhier:
-			if c._properties.has_key(which):
+			if which in c._properties:
 				rng = c._properties[which]['range']
 				if rng == str:					
 					return 1
@@ -287,7 +290,7 @@ class BaseResource(object):
 		props = {}
 		for c in self._classhier:		
 			for k,v in c._properties.items():
-				if not props.has_key(k):
+				if not k in props:
 					props[k] = v['range']
 		return props
 
@@ -304,13 +307,13 @@ class BaseResource(object):
 			return True
 		elif type(data) == list:
 			for d in data:
-				if type(d) in STR_TYPES and not data.startswith('http'):
+				if type(d) in STR_TYPES and not d.startswith('http'):
 					return False
 				elif type(d) == dict and not 'id' in d:
 					return False
 			return True
 		else:
-			print("expecing a resource, got: %r" % (data))
+			self._factory.maybe_warn("expecing a resource, got: %r" % (data))
 			return True
 			
 	def maybe_warn(self, msg):
@@ -334,7 +337,7 @@ class BaseResource(object):
 		if type(value) != dict:
 			raise DataError("Should be a dict or a string")
 		for k,v in value.items():
-			if current.has_key(k):
+			if k in current:
 				cv = current[k]
 				if type(cv) != list:
 					cv = [cv]
@@ -367,9 +370,9 @@ class BaseResource(object):
 			# set the backwards ref
 			inverse = None
 			for c in self._classhier:
-				if c._properties.has_key(which):
+				if which in c._properties:
 					v = c._properties[which]
-					if v.has_key('inverse'):
+					if inverse in v:
 						inverse = v['inverse']
 						break
 			if inverse:	
@@ -380,7 +383,7 @@ class BaseResource(object):
 		# If we're already in the graph, return our URI only
 		# This should only be called from the factory!
 
-		if self._factory.done.has_key(self.id):
+		if self.id in self._factory.done:
 			return self.id
 
 		d = self.__dict__.copy()
@@ -431,20 +434,20 @@ class BaseResource(object):
 			for (k,v) in d.items():
 				# look up the rdf predicate in _properties
 				for c in reversed(self._classhier):
-					if c._properties.has_key(k):
+					if k in c._properties:
 						nk = c._properties[k]['rdf']
 						nd[nk] = v
 						break
 
 			# Ensure full version uses basic @type
-			if nd.has_key("rdf:type"):
+			if "rdf:type" in nd:
 				nd['@type'] = nd['rdf:type']
 				del nd['rdf:type']
 
 			# And type gets ganked for overlay classes (Painting)
 			# plus for stupidity classes (DestructionActivity)
 			# so add this back too
-			if not nd.has_key('@type') or not nd['@type']:
+			if not "@type" in nd or not nd['@type']:
 				# find class up that has a type and use its name
 				for c in reversed(self._classhier):
 					if c._type:
@@ -454,7 +457,7 @@ class BaseResource(object):
 			KOH = self._factory.full_key_order_hash
 		else:
 			# Use existing programmer-friendly names for classes too
-			if not d.has_key('type'):
+			if not type in d:
 				# find class up that has a type and use its name
 				for c in self._classhier:
 					if c._type:
@@ -510,7 +513,7 @@ def build_class(crmName, parent, vocabData):
 	name = str(data['className'])
 
 	# check to see if we already exist
-	if globals().has_key(name):
+	if name in globals():
 		c = globals()[name]
 		c.__bases__ += (parent,)
 		return

@@ -141,6 +141,6 @@ for p in props:
 	stuff.append([name, "property", ccname, label, comment, subProp, domn, rang, inverse])
 
 outdata = '\n'.join(['\t'.join(x) for x in stuff])
-fh = codecs.open('crm_vocab.tsv', 'w', 'utf-8')
+fh = codecs.open('../data/crm_vocab.tsv', 'w', 'utf-8')
 fh.write(outdata)
 fh.close()

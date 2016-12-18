@@ -5,7 +5,7 @@ from cidoc_orm import Identifier, Mark, ManMadeObject, Type, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
 	Activity, Group, Appellation, MonetaryAmount, Purchase, \
-	Destruction 
+	Destruction, AttributeAssignment 
 
 def register_aat_class(name, parent, id):
 	c = type(name, (parent,), {})
@@ -55,6 +55,13 @@ ext_classes = {
 	"Nationality": {"parent": Group, "vocab":"aat", "id":"300379842"},
 
 	"Auction": {"parent": Activity, "vocab": "aat", "id": "300054751"},
+	"Curating": {"parent": Activity, "vocab": "aat", "id": "300054277"},
+	"Inventorying": {"parent": Activity, "vocab": "aat", "id": "300077506"},
+	"Provenance": {"parent": Activity, "vocab": "aat", "id": "300055863"},
+
+	"Attribution": {"parent": AttributeAssignment, "vocab": "aat", "id": "300056109"},
+	"Appraising": {"parent": AttributeAssignment, "vocab": "aat", "id": "300054622"},
+	"Dating": {"parent": AttributeAssignment, "vocab": "aat", "id": "300054714"},
 
 	"SupportPart": {"parent": PhysicalThing, "vocab":"aat", "id":"300014844"},
 	"FramePart": {"parent": PhysicalThing, "vocab":"aat", "id":"300404391"},
