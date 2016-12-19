@@ -90,18 +90,27 @@ class TestProcessTSV(unittest.TestCase):
 class TestBuildClasses(unittest.TestCase):
 
 	def test_build_classes(self):
-		mock_function = create_autospec(crom.build_classes)
-		mock_function()
-		mock_function.assert_called_with()
+		tsv = "ClassName_full\tclass\tClassName_py\tClass Label\tClass Description\t\n"
+		fh = open('tests/temp.tsv', 'w')
+		fh.write(tsv)
+		fh.close()
+		crom.build_classes("tests/temp.tsv", "ClassName_full")
+		from crom.crom import ClassName_py
+		self.assertEqual('Class Description', ClassName_py._description)
+		os.remove('tests/temp.tsv')
 
 class TestBuildClass(unittest.TestCase):
 
 	def test_build_class(self):
-		fn = 'crom/data/crm_vocab.tsv'
-		vocabData = crom.process_tsv(fn)
-		mock_function = create_autospec(crom.build_class)
-		mock_function('E22_Man-Made_Object', crom.PhysicalManMadeThing, vocabData)
-		mock_function.assert_called_with('E22_Man-Made_Object', crom.PhysicalManMadeThing, vocabData)
+		tsv = "ClassName_full\tclass\tClassName_py2\tClass Label\tClass Description\t\n"
+		fh = open('tests/temp.tsv', 'w')
+		fh.write(tsv)
+		fh.close()
+		vocabData = crom.process_tsv('tests/temp.tsv')
+		crom.build_class('ClassName_full', crom.BaseResource, vocabData)
+		from crom.crom import ClassName_py2
+		self.assertEqual('Class Description', ClassName_py2._description)
+		os.remove('tests/temp.tsv')
 		
 class TestBaseResource(unittest.TestCase):
 

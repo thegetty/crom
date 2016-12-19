@@ -543,7 +543,7 @@ def build_class(crmName, parent, vocabData):
 		build_class(s, c, vocabData)
 
 
-def build_classes(fn=None):
+def build_classes(fn=None, top='E1_CRM_Entity'):
 	if not fn:
 		dd = os.path.join(os.path.dirname(__file__), 'data')
 		fn = os.path.join(dd, 'crm_vocab.tsv')
@@ -557,7 +557,7 @@ def build_classes(fn=None):
 		'description': {"rdf": "dc:description", "range": str}
 	}
 
-	build_class('E1_CRM_Entity', BaseResource, vocabData)
+	build_class(top, BaseResource, vocabData)
 
 	# And add property definitions now we have class objects
 	for v in vocabData.values():
@@ -583,9 +583,8 @@ def build_classes(fn=None):
 		c = v['class']
 		c._classhier = inspect.getmro(c)[:-1]
 
-	# Add some necessary extras outside of the ontology
-	SymbolicObject._properties['value'] = {"rdf": "rdf:value", "range": str}
-	Dimension._properties['value'] = {"rdf": "rdf:value", "range": str}
-
 build_classes()
+SymbolicObject._properties['value'] = {"rdf": "rdf:value", "range": str}
+Dimension._properties['value'] = {"rdf": "rdf:value", "range": str}
+
 factory = CidocFactory("http://lod.example.org/museum/")

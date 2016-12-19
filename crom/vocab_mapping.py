@@ -1,6 +1,6 @@
 
 import inspect
-from cidoc_orm import Identifier, Mark, ManMadeObject, Type, \
+from .crom import Identifier, Mark, ManMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
