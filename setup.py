@@ -6,7 +6,7 @@ setup(
     include_package_data = True,
     package_data = {
         'crom': ['data/crm_vocab.tsv']
-    }
+    },
     test_suite="test",
     version = '0.0.3',
     description = 'A library for mapping CIDOC-CRM classes to Python objects',
