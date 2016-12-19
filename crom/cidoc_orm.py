@@ -30,7 +30,6 @@ try:
 except:
 	STR_TYPES = [bytes, str] #Py3
 
-
 class CidocError(Exception):
 	"""Base exception class"""
 

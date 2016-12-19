@@ -1,5 +1,6 @@
 language: python
 python:
+  - '2.6'
   - '2.7'
   - '3.3'
   - '3.4'
@@ -12,6 +13,6 @@ notifications:
     recipients:
       - jgomez@getty.edu
 script:
-  coverage run --source=crmpy setup.py test
+  coverage run --source=crom setup.py test
 after_success:
   coveralls
