@@ -7,7 +7,7 @@ setup(
     package_data = {
         'crom': ['data/crm_vocab.tsv']
     },
-    test_suite="test",
+    test_suite="tests",
     version = '0.0.3',
     description = 'A library for mapping CIDOC-CRM classes to Python objects',
     author = 'Getty Research Institute, Rob Sanderson',

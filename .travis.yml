@@ -13,6 +13,6 @@ notifications:
     recipients:
       - jgomez@getty.edu
 script:
-  coverage run --source=crom setup.py test
+  coverage run --source=crom setup.py tests
 after_success:
   coveralls

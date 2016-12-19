@@ -371,7 +371,7 @@ class BaseResource(object):
 			for c in self._classhier:
 				if which in c._properties:
 					v = c._properties[which]
-					if inverse in v:
+					if 'inverse' in v:
 						inverse = v['inverse']
 						break
 			if inverse:	
@@ -472,8 +472,7 @@ class BaseResource(object):
 
 		return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
 
-
-def process_tsv(fn='crm_vocab.tsv'):
+def process_tsv(fn):
 	fh = codecs.open(fn, 'r', 'utf-8')
 	lines = fh.readlines()
 	fh.close()
@@ -544,7 +543,11 @@ def build_class(crmName, parent, vocabData):
 		build_class(s, c, vocabData)
 
 
-def build_classes(fn='crm_vocab.tsv'):
+def build_classes(fn=None):
+	if not fn:
+		dd = os.path.join(os.path.dirname(__file__), 'data')
+		fn = os.path.join(dd, 'crm_vocab.tsv')
+
 	vocabData = process_tsv(fn)
 
 	# Everything can have an id, a type and a label
