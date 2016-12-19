@@ -11,7 +11,7 @@ install:
 notifications:
   email:
     recipients:
-      - jgomez@getty.edu
+      - azaroth42@gmail.com
 script:
   coverage run --source=crom setup.py test
 after_success:

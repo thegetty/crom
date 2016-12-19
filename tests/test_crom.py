@@ -5,8 +5,6 @@ import shutil
 from collections import OrderedDict
 
 from crom import crom
-from mock import create_autospec
-
 
 class TestFactorySetupDefaults(unittest.TestCase):
 
