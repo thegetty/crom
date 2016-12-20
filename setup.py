@@ -1,4 +1,10 @@
-from setuptools import setup, find_packages
+from setuptools import setup
+import sys
+
+if (sys.version_info[0:2] < (2,7)):
+    install_requires =['ordereddict', 'future']
+else:
+    install_requires = []
 
 setup(
     name = 'crom',
@@ -13,6 +19,7 @@ setup(
     author = 'Getty Research Institute, Rob Sanderson',
     author_email = 'jgomez@getty.edu',
     url = 'https://github.com/gri-is/crom',
+    install_requires=install_requires,
     classifiers = [
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
