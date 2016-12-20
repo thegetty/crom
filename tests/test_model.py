@@ -67,6 +67,17 @@ class TestFactorySerialization(unittest.TestCase):
 		outj = model.factory.toJSON(self.collection)
 		self.assertEqual(expect, outj)
 
+	def test_toJSON_full(self):
+		expect = OrderedDict([(u'@context', 'http://lod.getty.edu/context.json'), (u'@id', u'http://lod.example.org/museum/Person/1'), (u'@type', u'crm:E21_Person')])
+		model.factory.context_uri = 'http://lod.getty.edu/context.json'
+		model.factory.full_names = True
+		p = model.Person("1")
+		outj = model.factory.toJSON(p)
+		self.assertEqual(expect, outj)
+		# reset
+		model.factory.full_names = False
+		model.factory.context_uri = ""
+
 	def test_toString(self):
 		expect = u'{"id":"http://lod.example.org/museum/InformationObject/collection","type":"InformationObject"}'
 		outs = model.factory.toString(self.collection)
