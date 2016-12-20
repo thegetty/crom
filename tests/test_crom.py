@@ -2,7 +2,12 @@ import unittest
 import sys
 import os
 import shutil
-from collections import OrderedDict
+
+try:
+	from collections import OrderedDict
+except:
+	# 2.6
+	from ordereddict import OrderedDict
 
 from crom import crom
 
