@@ -48,18 +48,13 @@ class MetadataError(CidocError):
 	"""Base metadata exception."""
 	pass
 
-class StructuralError(MetadataError):
-	"""Raised when there are structural problem with an object/metadata."""
-	pass
-
 class RequirementError(MetadataError):
-	"""Raised when metadata requirements not met."""
+	"""Raised when schema/profile/metadata requirements not met."""
 	pass
 
 class DataError(MetadataError):
-	"""Raised when metadata is not valid/allowed."""
+	"""Raised when data is not valid/allowed."""
 	pass
-
 
 class CidocFactory(object):
 
@@ -510,19 +505,16 @@ def build_class(crmName, parent, vocabData):
 	name = str(data['className'])
 
 	# check to see if we already exist
+	# nb globals() here is only this module
 	if name in globals():
 		c = globals()[name]
 		c.__bases__ += (parent,)
 		return
 
-	# Globals pollution could be solved by using magic methods
-	# factory.ClassName() to create the first, then mk_prop_name() from it
-
-	c = type(name, (parent,), {})
+	c = type(name, (parent,), {'__doc__': data['desc']})
 	globals()[name] = c
 	data['class'] = c
 	c._type = "crm:%s" % crmName
-	c._description = data['desc']
 	c._uri_segment = name
 	c._properties = {}
 
@@ -549,7 +541,7 @@ def build_classes(fn=None, top='E1_CRM_Entity'):
 
 	vocabData = process_tsv(fn)
 
-	# Everything can have an id, a type and a label
+	# Everything can have an id, a type, a label, a description
 	BaseResource._properties = {'id': {"rdf": "@id", "range": str}, 
 		'type': {"rdf": "rdf:type", "range": str}, 
 		'label': {"rdf": "rdfs:label", "range": str},
@@ -583,7 +575,4 @@ def build_classes(fn=None, top='E1_CRM_Entity'):
 		c._classhier = inspect.getmro(c)[:-1]
 
 build_classes()
-SymbolicObject._properties['value'] = {"rdf": "rdf:value", "range": str}
-Dimension._properties['value'] = {"rdf": "rdf:value", "range": str}
-
 factory = CidocFactory("http://lod.example.org/museum/")
