@@ -13,6 +13,6 @@ notifications:
     recipients:
       - azaroth42@gmail.com
 script:
-  coverage run --source=crom setup.py test
+  coverage run --source=cromulent setup.py test
 after_success:
   coveralls

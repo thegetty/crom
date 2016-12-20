@@ -7,18 +7,18 @@ else:
     install_requires = []
 
 setup(
-    name = 'crom',
-    packages = ['crom'],
+    name = 'cromulent',
+    packages = ['cromulent'],
     include_package_data = True,
     package_data = {
-        'crom': ['data/crm_vocab.tsv']
+        'cromulent': ['data/crm_vocab.tsv']
     },
     test_suite="tests",
-    version = '0.0.3',
+    version = '0.1',
     description = 'A library for mapping CIDOC-CRM classes to Python objects',
     author = 'Getty Research Institute, Rob Sanderson',
     author_email = 'jgomez@getty.edu',
-    url = 'https://github.com/gri-is/crom',
+    url = 'https://github.com/gri-is/cromulent',
     install_requires=install_requires,
     classifiers = [
         "Programming Language :: Python",

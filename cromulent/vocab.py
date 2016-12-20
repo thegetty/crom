@@ -1,6 +1,6 @@
 
 import inspect
-from .crom import Identifier, Mark, ManMadeObject, Type, \
+from .model import Identifier, Mark, ManMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \

@@ -66,19 +66,17 @@ class CidocFactory(object):
 	def __init__(self, base_url="", base_dir="", lang="", context="", full_names=False):
 		self.base_url = base_url
 		self.base_dir = base_dir
-		self.default_lang = lang
-		self.context_uri = context
 
 		self.debug_level = "warn"
 		self.log_stream = sys.stderr
+
 		self.materialize_inverses = False
-		self.filename_extension = ".json"
-
-		self.namespaces = {}
-		self.class_map = {}
-		self.property_map = {}
-
 		self.full_names = False
+		self.validate_properties = True
+		self.default_lang = lang
+
+		self.filename_extension = ".json"
+		self.context_uri = context
 
 		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, "classified_as": 3, 
 			"label": 4, "value": 4, "note": 5, "description": 5, "identified_by": 10,
@@ -91,8 +89,6 @@ class CidocFactory(object):
 			"height": 30, "width": 31,
 			"paid_amount": 50, "paid_from": 51, "paid_to": 52,
 			"transferred_title_of": 50, "transferred_title_from": 51, "transferred_title_to": 52,
-
-
 
 			"offering_price": 48, "sales_price": 49,
 
@@ -258,9 +254,10 @@ class BaseResource(object):
 		elif which[0] == "_" or not value:
 			object.__setattr__(self, which, value)			
 		else:
-			ok = self._check_prop(which, value)
-			if not ok:
-				raise DataError("Can't set non-standard field '%s' on resource of type '%s'" % (which, self._type))
+			if self._factory.validate_properties:
+				ok = self._check_prop(which, value)
+				if not ok:
+					raise DataError("Can't set non-standard field '%s' on resource of type '%s'" % (which, self._type))
 
 			# Allow per class setter functions to do extra magic
 			if hasattr(self, which) and hasattr(self, 'set_%s' % which):
