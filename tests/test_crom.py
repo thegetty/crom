@@ -174,12 +174,23 @@ class TestMagicMethods(unittest.TestCase):
 		artist._set_magic_resource('parent_of', son)
 		self.assertEqual(artist.parent_of, son)
 		artist._set_magic_resource('parent_of', daughter)
-		self.assertIn(son, artist.parent_of)
-		self.assertIn(daughter, artist.parent_of)
+		try:
+			self.assertIn(son, artist.parent_of)
+			self.assertIn(daughter, artist.parent_of)
+		except:
+			# 2.6 doesn't have assertIn
+			self.assertTrue(son in artist.parent_of)
+			self.assertTrue(daughter in artist.parent_of)
+
 		artist._set_magic_resource('parent_of', son2)
-		self.assertIn(son, artist.parent_of)
-		self.assertIn(daughter, artist.parent_of)
-		self.assertIn(son2, artist.parent_of)
+		try:
+			self.assertIn(son, artist.parent_of)
+			self.assertIn(daughter, artist.parent_of)
+			self.assertIn(son2, artist.parent_of)
+		except:
+			self.assertTrue(son in artist.parent_of)
+			self.assertTrue(daughter in artist.parent_of)
+			self.assertTrue(son2 in artist.parent_of)
 
 	def test_set_magic_resource_inverse(self):
 		crom.factory.materialize_inverses = True
