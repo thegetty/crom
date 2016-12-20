@@ -35,3 +35,7 @@ class TestClassBuilder(unittest.TestCase):
 		tu4 = vocab_mapping.dimensionUnits['TestUnit4']
 		self.assertEqual(tu4.id, "http://vocab.getty.edu/aat/4")
 
+	def test_type_patch(self):
+		t = crom.Type("http://vocab.getty.edu/aat/5")
+		nt = t._toJSON()
+		self.assertEqual(nt, "aat:5")
