@@ -258,6 +258,8 @@ class BaseResource(object):
 				ok = self._check_prop(which, value)
 				if not ok:
 					raise DataError("Can't set non-standard field '%s' on resource of type '%s'" % (which, self._type))
+			else:
+				ok = 1
 
 			# Allow per class setter functions to do extra magic
 			if hasattr(self, which) and hasattr(self, 'set_%s' % which):

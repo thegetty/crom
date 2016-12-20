@@ -79,6 +79,8 @@ class TestFactorySerialization(unittest.TestCase):
 		self.assertTrue(os.path.isfile('tests/InformationObject/collection.json'))
 		shutil.rmtree('tests/InformationObject')
 
+
+
 class TestProcessTSV(unittest.TestCase):
 
 	def test_process_tsv(self):
@@ -198,6 +200,22 @@ class TestMagicMethods(unittest.TestCase):
 		son = model.Person('00002', 'John Doe')
 		artist._set_magic_resource('parent_of', son)
 		self.assertEqual(son.parent, artist)
+
+	def test_validation_unknown(self):
+		model.factory.validate_properties = True
+		artist = model.Person('00001', 'Jane Doe')		
+		self.assertRaises(model.DataError, artist.__setattr__, 'unknown_property', 1)
+
+	def test_validation_wrong_type(self):
+		model.factory.validate_properties = True
+		artist = model.Person('00001', 'Jane Doe')	
+		self.assertRaises(model.DataError, artist.__setattr__, 'parent_of', 'Bad Value')
+
+	def test_validation_off(self):
+		model.factory.validate_properties = False
+		artist = model.Person('00001', 'Jane Doe')		
+		artist.unknown_property = 1
+		self.assertEqual(artist.unknown_property, 1)
 
 
 if __name__ == '__main__':
