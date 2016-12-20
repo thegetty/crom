@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/azaroth42/crom.svg?branch=master)](https://travis-ci.org/azaroth42/crom) [![Coverage Status](https://coveralls.io/repos/github/azaroth42/crom/badge.svg?branch=master)](https://coveralls.io/github/azaroth42/crom?branch=master)
+[![Build Status](https://travis-ci.org/gri-is/crom.svg?branch=master)](https://travis-ci.org/gri-is/crom) [![Coverage Status](https://coveralls.io/repos/github/gri-is/crom/badge.svg?branch=master)](https://coveralls.io/github/gri-is/crom?branch=master)
 
 # Cromulent
 
