@@ -1,7 +1,7 @@
 
 import inspect
 from .model import Destruction, Activity, Purchase, MonetaryAmount, Actor, Place, \
-	Type, Dimension, SymbolicObject
+	Type, Dimension, SymbolicObject, Person, ManMadeObject
 
 # Stupid DestuctionActivity as CRM has a Destruction *event*
 class DestructionActivity(Destruction, Activity):
@@ -26,10 +26,8 @@ Payment._classhier = inspect.getmro(Payment)[:-1]
 Person._properties['familyName'] = {"rdf": "schema:familyName", "range": str}
 Person._properties['givenName'] = {"rdf": "schema:givenName", "range": str}
 Person._properties['nationality'] = {"rdf": "schema:nationality", "range": Place}
-
 ManMadeObject._properties['culture'] = {"rdf": "schema:genre", "range": Type}
 ManMadeObject._properties['height'] = {"rdf": "schema:height", "range": Dimension}
 ManMadeObject._properties['width'] = {"rdf": "schema:width", "range": Dimension}
-
 SymbolicObject._properties['value'] = {"rdf": "rdf:value", "range": str}
 Dimension._properties['value'] = {"rdf": "rdf:value", "range": str}

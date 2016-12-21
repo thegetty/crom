@@ -64,14 +64,15 @@ class CidocFactory(object):
 
 		self.debug_level = "warn"
 		self.log_stream = sys.stderr
+		self.done = []
 
 		self.materialize_inverses = False
 		self.full_names = False
 		self.validate_properties = True
 		self.default_lang = lang
-
 		self.filename_extension = ".json"
 		self.context_uri = context
+
 
 		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, "classified_as": 3, 
 			"label": 4, "value": 4, "note": 5, "description": 5, "identified_by": 10,
@@ -450,7 +451,7 @@ class BaseResource(object):
 			KOH = self._factory.full_key_order_hash
 		else:
 			# Use existing programmer-friendly names for classes too
-			if not type in d:
+			if not 'type' in d:
 				# find class up that has a type and use its name
 				for c in self._classhier:
 					if c._type:
