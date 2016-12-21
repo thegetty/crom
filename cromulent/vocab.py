@@ -4,7 +4,13 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
 	Activity, Group, Appellation, MonetaryAmount, Purchase, \
-	Destruction, AttributeAssignment 
+	Destruction, AttributeAssignment, BaseResource 
+
+# Add classified_as initialization hack for all resources
+def post_init(self):
+	if self.__class__._classification:
+		self.classified_as = Type(self._classification)
+BaseResource._post_init = post_init
 
 def register_aat_class(name, parent, id):
 	c = type(name, (parent,), {})
@@ -155,7 +161,9 @@ def typeToJSON(self, top=False):
 	else:
 		# process id for known vocabs
 		if self.id.startswith("http://vocab.getty.edu/aat/"):
-			return self.id.replace("http://vocab.getty.edu/aat/", "aat:")
+			if self._factory.elasticsearch_compatible:
+				return {"id": self.id.replace("http://vocab.getty.edu/aat/", "aat:")}
+			else:
+				return self.id.replace("http://vocab.getty.edu/aat/", "aat:")
 		return self.id
 Type._toJSON = typeToJSON
-

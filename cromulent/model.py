@@ -72,39 +72,13 @@ class CidocFactory(object):
 		self.default_lang = lang
 		self.filename_extension = ".json"
 		self.context_uri = context
+		self.elasticsearch_compatible = False
 
-
-		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, "classified_as": 3, 
-			"label": 4, "value": 4, "note": 5, "description": 5, "identified_by": 10,
-			"carried_out_by": 18, "used_specific_object": 19,
-
-			"timespan": 20, "begin_of_the_begin": 21, "end_of_the_begin": 22, 
-			"begin_of_the_end": 23, "end_of_the_end": 24,
-			"started_by": 25, "finished_by": 28,
-
-			"height": 30, "width": 31,
-			"paid_amount": 50, "paid_from": 51, "paid_to": 52,
-			"transferred_title_of": 50, "transferred_title_from": 51, "transferred_title_to": 52,
-
-			"offering_price": 48, "sales_price": 49,
-
-			"consists_of": 100, "composed_of": 101
-			 }
-
+		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, 
+			"label": 5, "value": 6, "description": 7}
 		self.full_key_order_hash = {"@context": 0, "@id": 1, "rdf:type": 2, "@type": 2,
-			"rdfs:label": 4, "rdf:value": 4, 
-			"dc:description": 5,
-			"crm:P1_is_identified_by": 10,
-			"crm:P2_has_type": 3,
-			"crm:P3_has_note": 4,
-			"crm:P12i_was_present_at": 40,
-			"schema:genre": 8,
-			"crm:P108i_was_produced_by": 20,
-			"crm:P52_has_current_owner": 21,
-			"crm:P55_has_current_location": 22,
-			"crm:P104_is_subject_to": 30,
-			"crm:P45_consists_of": 100			
-		}
+			"rdfs:label": 5, "rdf:value": 6,  "dc:description": 7}
+		self.key_order_default = 10000
 
 	def set_debug_stream(self, strm):
 		"""Set debug level."""
@@ -205,8 +179,6 @@ class BaseResource(object):
 	_integer_properties = []
 	_object_properties = []
 	_lang_properties = []
-	# Don't bother with language maps for single language data
-	# _lang_properties = ["label", "has_note", "description"]
 	_required_properties = []
 	_warn_properties = []
 	_uri_segment = ""
@@ -234,9 +206,11 @@ class BaseResource(object):
 		if value:
 			self.value = value
 
-		# Magic setup for p2_has_type 
-		if self.__class__._classification:
-			self.classified_as = Type(self._classification)
+		self._post_init()
+
+	def _post_init(self):
+		# Expect this to be overridden / replaced
+		pass
 
 	def __setattr__(self, which, value):
 		"""Attribute setting magic for error checking and resource/literal handling."""
@@ -378,7 +352,10 @@ class BaseResource(object):
 		# This should only be called from the factory!
 
 		if self.id in self._factory.done:
-			return self.id
+			if self._factory.elasticsearch_compatible:
+				return {'id': self.id}
+			else:
+				return self.id
 
 		d = self.__dict__.copy()
 
@@ -403,7 +380,8 @@ class BaseResource(object):
 
 		# Need to do in order now to get done correctly ordered
 		KOH = self._factory.key_order_hash
-		kvs = sorted(d.items(), key=lambda x: KOH.get(x[0], 1000))
+		kodflt = self._factory.key_order_default
+		kvs = sorted(d.items(), key=lambda x: KOH.get(x[0], kodflt))
 
 		for (k, v) in kvs:
 			if not v or k[0] == "_":
@@ -487,6 +465,11 @@ def process_tsv(fn):
 			"desc": info[4], "range": info[7], "inverse": info[8]}
 			what = vocabData[info[6]]
 			what["props"].append(data)
+			# Add to KOH here, as object doesn't need to know it
+			koh = int(info[9])
+			if koh != factory.key_order_default:
+				factory.key_order_hash[data['propName']] = koh
+				factory.full_key_order_hash[data['name']] = koh
 
 	# invert subclass hierarchy
 	for k, v in vocabData.items():
@@ -575,5 +558,6 @@ def build_classes(fn=None, top='E1_CRM_Entity'):
 		c = v['class']
 		c._classhier = inspect.getmro(c)[:-1]
 
-build_classes()
+# Build the factory first, so properties can be added to key_order
 factory = CidocFactory("http://lod.example.org/museum/")
+build_classes()
