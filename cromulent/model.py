@@ -64,7 +64,7 @@ class CidocFactory(object):
 
 		self.debug_level = "warn"
 		self.log_stream = sys.stderr
-		self.done = []
+		self.done = {}
 
 		self.materialize_inverses = False
 		self.full_names = False
@@ -246,14 +246,14 @@ class BaseResource(object):
 			types = [bytes, str, list, dict] #Py3
 
 		if which == 'context':
-			raise DataError("Must not set the JSON LD context directly")
+			raise DataError("Must not set the JSON LD context directly", self)
 		elif which[0] == "_" or not value:
 			object.__setattr__(self, which, value)			
 		else:
 			if self._factory.validate_properties:
 				ok = self._check_prop(which, value)
 				if not ok:
-					raise DataError("Can't set non-standard field '%s' on resource of type '%s'" % (which, self._type))
+					raise DataError("Can't set non-standard field '%s' on resource of type '%s'" % (which, self._type), self)
 			else:
 				ok = 1
 
@@ -329,7 +329,7 @@ class BaseResource(object):
 			# use default language from factory
 			value = {factory.default_lang: value}
 		if type(value) != dict:
-			raise DataError("Should be a dict or a string")
+			raise DataError("Should be a dict or a string when setting %s" % which, self)
 		for k,v in value.items():
 			if k in current:
 				cv = current[k]
