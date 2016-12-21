@@ -1,11 +1,16 @@
 
-import inspect
 from .model import Identifier, Mark, ManMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
 	Activity, Group, Appellation, MonetaryAmount, Purchase, \
-	Destruction, AttributeAssignment 
+	Destruction, AttributeAssignment, BaseResource 
+
+# Add classified_as initialization hack for all resources
+def post_init(self):
+	if self.__class__._classification:
+		self.classified_as = Type(self._classification)
+BaseResource._post_init = post_init
 
 def register_aat_class(name, parent, id):
 	c = type(name, (parent,), {})
@@ -98,7 +103,6 @@ ext_classes = {
 for (name,v) in ext_classes.items():
 	register_aat_class(name, v['parent'], v['id'])
 
-
 aat_material_mapping = {
 	"panel": "300014657",  # Is really a support
 	"watercolor": "300015045",
@@ -157,46 +161,9 @@ def typeToJSON(self, top=False):
 	else:
 		# process id for known vocabs
 		if self.id.startswith("http://vocab.getty.edu/aat/"):
-			return self.id.replace("http://vocab.getty.edu/aat/", "aat:")
+			if self._factory.elasticsearch_compatible:
+				return {"id": self.id.replace("http://vocab.getty.edu/aat/", "aat:")}
+			else:
+				return self.id.replace("http://vocab.getty.edu/aat/", "aat:")
 		return self.id
 Type._toJSON = typeToJSON
-
-
-# Stupid DestuctionActivity as CRM has a Destruction *event*
-class DestructionActivity(Destruction, Activity):
-	_uri_segment = "Activity"
-	_type = ["crm:Destruction", "crm:Activity"]
-	_niceType = ["Destruction", "Activity"]
-DestructionActivity._classhier = inspect.getmro(DestructionActivity)[:-1]
-
-
-# New Payment Activity
-Purchase._properties['offering_price'] = {"rdf":"pi:had_offering_price", "range": MonetaryAmount}
-class Payment(Activity):
-	_properties = {
-		"paid_amount": {"rdf": "pi:paid_amount", "range": MonetaryAmount},
-		"paid_to": {"rdf": "pi:paid_to", "range": Actor},
-		"paid_from": {"rdf": "pi:paid_from", "range": Actor}
-	}
-	_uri_segment = "Payment"
-	_type = "pi:Payment"
-Payment._classhier = inspect.getmro(Payment)[:-1]
-
-
-# Add some further properties
-Person._properties['familyName'] = {"rdf": "schema:familyName", "range": str}
-Person._properties['givenName'] = {"rdf": "schema:givenName", "range": str}
-Person._properties['nationality'] = {"rdf": "schema:nationality", "range": Place}
-Person._properties['exactMatch'] = {"rdf": "skos:exactMatch", "range": Type}
-Person._properties['closeMatch'] = {"rdf": "skos:closeMatch", "range": Type}
-
-Place._properties['exactMatch'] = {"rdf": "skos:exactMatch", "range": Place}
-Place._properties['closeMatch'] = {"rdf": "skos:closeMatch", "range": Place}
-
-ManMadeObject._properties['culture'] = {"rdf": "schema:genre", "range": Type}
-ManMadeObject._properties['height'] = {"rdf": "schema:height", "range": Dimension}
-ManMadeObject._properties['width'] = {"rdf": "schema:width", "range": Dimension}
-Material._properties['value'] = {"rdf": "rdf:value", "range": str}
-
-endOfMonths = {'01': 31, '02': 28, '03':31, '04':30, '05':31, '06':30,\
-	'07':31, '08':31, '09':30, '10':31, '11':30, '12':31}

@@ -112,7 +112,7 @@ class TestBuildClasses(unittest.TestCase):
 		fh.close()
 		model.build_classes("tests/temp.tsv", "ClassName_full")
 		from cromulent.model import ClassName_py
-		self.assertEqual('Class Description', ClassName_py._description)
+		self.assertEqual('Class Description', ClassName_py.__doc__)
 		os.remove('tests/temp.tsv')
 
 class TestBuildClass(unittest.TestCase):
@@ -125,7 +125,7 @@ class TestBuildClass(unittest.TestCase):
 		vocabData = model.process_tsv('tests/temp.tsv')
 		model.build_class('ClassName_full', model.BaseResource, vocabData)
 		from cromulent.model import ClassName_py2
-		self.assertEqual('Class Description', ClassName_py2._description)
+		self.assertEqual('Class Description', ClassName_py2.__doc__)
 		os.remove('tests/temp.tsv')
 		
 class TestBaseResource(unittest.TestCase):

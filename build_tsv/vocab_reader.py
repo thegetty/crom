@@ -5,6 +5,36 @@ fh = file('cidoc_inverse.xml')
 data = fh.read()
 fh.close()
 
+default_key_order = 10000
+
+# Order imposed by the library
+# @context = 0, id = 1, rdf:type = 2
+# rdfs:label = 5, rdf:value = 6, dc:description = 7
+
+key_order_hash = {
+	"classified_as": 3,  
+	"identified_by": 10,
+
+	"carried_out_by": 18, 
+	"used_specific_object": 19,
+	"timespan": 20, 
+	"begin_of_the_begin": 21, 
+	"end_of_the_begin": 22, 
+	"begin_of_the_end": 23, 
+	"end_of_the_end": 24,
+	"started_by": 25, 
+	"finished_by": 28,
+
+	"transferred_title_of": 50, 
+	"transferred_title_from": 51, 
+	"transferred_title_to": 52,
+	"sales_price": 49,
+	"consists_of": 100, 
+	"composed_of": 101
+ }
+
+
+
 if True:
 	property_overrides = {
 		"P45": "made_of",
@@ -138,9 +168,10 @@ for p in props:
 		elif ccname.startswith("has_") or ccname.startswith("had_") or ccname.startswith("was_"):
 			ccname = ccname[4:]
 
-	stuff.append([name, "property", ccname, label, comment, subProp, domn, rang, inverse])
+	koi = str(key_order_hash.get(ccname, default_key_order))
+	stuff.append([name, "property", ccname, label, comment, subProp, domn, rang, inverse, koi])
 
 outdata = '\n'.join(['\t'.join(x) for x in stuff])
-fh = codecs.open('../data/crm_vocab.tsv', 'w', 'utf-8')
+fh = codecs.open('../cromulent/data/crm_vocab.tsv', 'w', 'utf-8')
 fh.write(outdata)
 fh.close()
