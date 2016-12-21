@@ -8,7 +8,7 @@ except:
 	from ordereddict import OrderedDict
 
 from cromulent import extra
-from cromulent.model import factory, Person
+from cromulent.model import factory, Person, DataError, Dimension
 
 
 class TestExtraClasses(unittest.TestCase):
@@ -27,3 +27,18 @@ class TestExtraClasses(unittest.TestCase):
 		p.paid_to = who
 		pjs = factory.toJSON(p)
 		self.assertEqual(pjs, expect)
+
+	def test_add_schema(self):
+		who = Person("1")
+		self.assertRaises(DataError, who.__setattr__, 'familyName', "Doe")
+		extra.add_schema_properties()
+		who.familyName = "Doe"
+		self.assertEqual(who.familyName, "Doe")
+
+	def test_add_value(self):
+		what = Dimension("1")
+		self.assertRaises(DataError, what.__setattr__, 'value', 6)
+		extra.add_rdf_value()
+		what.value = 6
+		self.assertEqual(what.value, 6)
+
