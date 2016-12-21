@@ -9,7 +9,6 @@ else:
 setup(
     name = 'cromulent',
     packages = ['cromulent'],
-    include_package_data = True,
     package_data = {
         'cromulent': ['data/crm_vocab.tsv']
     },
