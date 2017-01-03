@@ -1,4 +1,7 @@
 
+# This assumes the default CIDOC-CRM, even though the model code 
+# can generate classes for any ontology
+
 import inspect
 from .model import Destruction, Activity, Purchase, MonetaryAmount, Actor, Place, \
 	Type, Dimension, SymbolicObject, Person, ManMadeObject
@@ -31,6 +34,7 @@ def add_schema_properties():
 	ManMadeObject._properties['height'] = {"rdf": "schema:height", "range": Dimension}
 	ManMadeObject._properties['width'] = {"rdf": "schema:width", "range": Dimension}
 
+# Require explicit addition of rdf:value 
 def add_rdf_value():
 	SymbolicObject._properties['value'] = {"rdf": "rdf:value", "range": str}
 	Dimension._properties['value'] = {"rdf": "rdf:value", "range": str}

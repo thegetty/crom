@@ -30,7 +30,7 @@ try:
 except:
 	STR_TYPES = [bytes, str] #Py3
 
-class CidocError(Exception):
+class CromulentError(Exception):
 	"""Base exception class"""
 
 	resource = None
@@ -40,11 +40,11 @@ class CidocError(Exception):
 		self.args = [msg]
 		self.resource = resource
 
-class ConfigurationError(CidocError):
+class ConfigurationError(CromulentError):
 	"""Raised when an object (likely the factory) isn't configured properly for the current operation."""
 	pass
 
-class MetadataError(CidocError):
+class MetadataError(CromulentError):
 	"""Base metadata exception."""
 	pass
 
@@ -56,7 +56,7 @@ class DataError(MetadataError):
 	"""Raised when data is not valid/allowed."""
 	pass
 
-class CidocFactory(object):
+class CromulentFactory(object):
 
 	def __init__(self, base_url="", base_dir="", lang="", context="", full_names=False):
 		self.base_url = base_url
@@ -518,10 +518,12 @@ def build_class(crmName, parent, vocabData):
 		build_class(s, c, vocabData)
 
 
-def build_classes(fn=None, top='E1_CRM_Entity'):
+def build_classes(fn=None, top=None):
+	# Default to building our core dataset
 	if not fn:
 		dd = os.path.join(os.path.dirname(__file__), 'data')
 		fn = os.path.join(dd, 'crm_vocab.tsv')
+		top = 'E1_CRM_Entity'
 
 	vocabData = process_tsv(fn)
 
@@ -559,5 +561,5 @@ def build_classes(fn=None, top='E1_CRM_Entity'):
 		c._classhier = inspect.getmro(c)[:-1]
 
 # Build the factory first, so properties can be added to key_order
-factory = CidocFactory("http://lod.example.org/museum/")
+factory = CromulentFactory("http://lod.example.org/museum/")
 build_classes()

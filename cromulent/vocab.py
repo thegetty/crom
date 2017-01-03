@@ -1,4 +1,7 @@
 
+# This assumes the default CIDOC-CRM, even though the model code 
+# can generate classes for any ontology
+
 from .model import Identifier, Mark, ManMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, \
@@ -63,6 +66,7 @@ ext_classes = {
 	"Curating": {"parent": Activity, "vocab": "aat", "id": "300054277"},
 	"Inventorying": {"parent": Activity, "vocab": "aat", "id": "300077506"},
 	"Provenance": {"parent": Activity, "vocab": "aat", "id": "300055863"},
+	"Exhibition": {"parent": Activity, "vocab": "aat", "id": "300054766"},
 
 	"Attribution": {"parent": AttributeAssignment, "vocab": "aat", "id": "300056109"},
 	"Appraising": {"parent": AttributeAssignment, "vocab": "aat", "id": "300054622"},
