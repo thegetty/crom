@@ -127,6 +127,37 @@ class TestBuildClass(unittest.TestCase):
 		from cromulent.model import ClassName_py2
 		self.assertEqual('Class Description', ClassName_py2.__doc__)
 		os.remove('tests/temp.tsv')
+
+class TestAutoIdentifiers(unittest.TestCase):
+
+	def test_int(self):
+		model.factory.auto_id_type = "int"
+		p = model.Person()
+		p2 = model.Activity()
+		self.assertEqual(int(p.id[-1]), int(p2.id[-1])-1)
+
+	def test_int_per_type(self):
+		model.factory.auto_id_type = "int-per-type"
+		p = model.Person()
+		p2 = model.Person()
+		self.assertEqual(int(p.id[-1]), int(p2.id[-1])-1)
+		p3 = model.Activity()
+		self.assertEqual(int(p.id[-1]), int(p3.id[-1]))		
+
+	def test_int_per_segment(self):
+		model.factory.auto_id_type = "int-per-segment"
+		model.Activity._uri_segment = model.Person._uri_segment
+		p = model.Person()
+		p2 = model.Activity()
+		self.assertEqual(int(p.id[-1]), int(p2.id[-1])-1)		
+		p3 = model.TimeSpan()
+		self.assertEqual(int(p.id[-1]), int(p3.id[-1]))		
+			
+	def test_uuid(self):
+		model.factory.auto_id_type = "uuid"
+		p = model.Person()
+		self.assertTrue(p.id.startswith('urn:uuid:'))		
+
 		
 class TestBaseResource(unittest.TestCase):
 
