@@ -4,6 +4,8 @@ import os, sys
 import codecs
 import inspect
 
+import uuid
+
 ### Mappings for duplicate properties ###
 ### See build_tsv/vocab_reader
 
@@ -30,7 +32,7 @@ try:
 except:
 	STR_TYPES = [bytes, str] #Py3
 
-class CidocError(Exception):
+class CromulentError(Exception):
 	"""Base exception class"""
 
 	resource = None
@@ -40,11 +42,11 @@ class CidocError(Exception):
 		self.args = [msg]
 		self.resource = resource
 
-class ConfigurationError(CidocError):
+class ConfigurationError(CromulentError):
 	"""Raised when an object (likely the factory) isn't configured properly for the current operation."""
 	pass
 
-class MetadataError(CidocError):
+class MetadataError(CromulentError):
 	"""Base metadata exception."""
 	pass
 
@@ -56,7 +58,7 @@ class DataError(MetadataError):
 	"""Raised when data is not valid/allowed."""
 	pass
 
-class CidocFactory(object):
+class CromulentFactory(object):
 
 	def __init__(self, base_url="", base_dir="", lang="", context="", full_names=False):
 		self.base_url = base_url
@@ -69,6 +71,9 @@ class CidocFactory(object):
 		self.materialize_inverses = False
 		self.full_names = False
 		self.validate_properties = True
+		self.auto_assign_id = True
+
+		self.auto_id_type = "int-per-segment" #  "int", "int-per-type", "int-per-segment", "uuid"
 		self.default_lang = lang
 		self.filename_extension = ".json"
 		self.context_uri = context
@@ -79,6 +84,10 @@ class CidocFactory(object):
 		self.full_key_order_hash = {"@context": 0, "@id": 1, "rdf:type": 2, "@type": 2,
 			"rdfs:label": 5, "rdf:value": 6,  "dc:description": 7}
 		self.key_order_default = 10000
+
+		self._auto_id_types = {}
+		self._auto_id_segments = {}
+		self._auto_id_int = -1
 
 	def set_debug_stream(self, strm):
 		"""Set debug level."""
@@ -107,6 +116,29 @@ class CidocFactory(object):
 		elif self.debug_level == "error_on_warning":
 			# We don't know the type, just raise a MetadataError
 			raise MetadataError(msg)
+
+	def generate_id(self, what):
+		if self.auto_id_type == "int":
+			# increment and return
+			self._auto_id_int += 1
+			slug = self._auto_id_int
+		elif self.auto_id_type == "int-per-segment":
+			curr = self._auto_id_segments.get(what._uri_segment, -1)
+			curr += 1
+			self._auto_id_segments[what._uri_segment] = curr
+			slug = self._auto_id_segments[what._uri_segment]
+		elif self.auto_id_type == "int-per-type":
+			t = type(what).__name__
+			curr = self._auto_id_types.get(t, -1)
+			curr += 1
+			self._auto_id_types[t] = curr
+			slug = self._auto_id_types[t]
+		elif self.auto_id_type == "uuid":
+			return uuid.uuid4().get_urn()
+		else:
+			raise ConfigurationError("Unknown auto-id type")
+
+		return self.base_url + what.__class__._uri_segment + "/" + str(slug)		
 
 	def toJSON(self, what):
 		""" Serialize what, making sure of no infinite loops """
@@ -196,6 +228,8 @@ class BaseResource(object):
 				self.id = ident
 			else:
 				self.id = factory.base_url + self.__class__._uri_segment + "/" + ident
+		elif factory.auto_assign_id:
+			self.id = factory.generate_id(self)
 		else:
 			self.id = ""
 		self.type = self.__class__._type
@@ -518,10 +552,12 @@ def build_class(crmName, parent, vocabData):
 		build_class(s, c, vocabData)
 
 
-def build_classes(fn=None, top='E1_CRM_Entity'):
+def build_classes(fn=None, top=None):
+	# Default to building our core dataset
 	if not fn:
 		dd = os.path.join(os.path.dirname(__file__), 'data')
 		fn = os.path.join(dd, 'crm_vocab.tsv')
+		top = 'E1_CRM_Entity'
 
 	vocabData = process_tsv(fn)
 
@@ -559,5 +595,5 @@ def build_classes(fn=None, top='E1_CRM_Entity'):
 		c._classhier = inspect.getmro(c)[:-1]
 
 # Build the factory first, so properties can be added to key_order
-factory = CidocFactory("http://lod.example.org/museum/")
+factory = CromulentFactory("http://lod.example.org/museum/")
 build_classes()

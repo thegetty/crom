@@ -1,7 +1,10 @@
 
+# This assumes the default CIDOC-CRM, even though the model code 
+# can generate classes for any ontology
+
 import inspect
 from .model import Destruction, Activity, Purchase, MonetaryAmount, Actor, Place, \
-	Type, Dimension, SymbolicObject, Person, ManMadeObject
+	Type, Dimension, SymbolicObject, Person, ManMadeObject, PhysicalObject
 
 # DestuctionActivity class as CRM has a Destruction Event and recommends multi-classing
 class DestructionActivity(Destruction, Activity):
@@ -22,6 +25,10 @@ class Payment(Activity):
 	_type = "pi:Payment"
 Payment._classhier = inspect.getmro(Payment)[:-1]
 
+# Allow sets of objects to have a starting price (for Auction Lots)
+PhysicalObject._properties['starting_price'] = {"rdf": "pi:starting_price", "range": MonetaryAmount}
+PhysicalObject._properties['estimated_price'] = {"rdf": "pi:estimated_price", "range": MonetaryAmount}
+
 # Require explict addition of the schema.org shortcut properties
 def add_schema_properties():
 	Person._properties['familyName'] = {"rdf": "schema:familyName", "range": str}
@@ -31,6 +38,7 @@ def add_schema_properties():
 	ManMadeObject._properties['height'] = {"rdf": "schema:height", "range": Dimension}
 	ManMadeObject._properties['width'] = {"rdf": "schema:width", "range": Dimension}
 
+# Require explicit addition of rdf:value 
 def add_rdf_value():
 	SymbolicObject._properties['value'] = {"rdf": "rdf:value", "range": str}
 	Dimension._properties['value'] = {"rdf": "rdf:value", "range": str}

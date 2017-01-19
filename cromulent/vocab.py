@@ -1,10 +1,13 @@
 
+# This assumes the default CIDOC-CRM, even though the model code 
+# can generate classes for any ontology
+
 from .model import Identifier, Mark, ManMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
 	Activity, Group, Appellation, MonetaryAmount, Purchase, \
-	Destruction, AttributeAssignment, BaseResource 
+	Destruction, AttributeAssignment, BaseResource, PhysicalObject 
 
 # Add classified_as initialization hack for all resources
 def post_init(self):
@@ -39,39 +42,52 @@ def register_aat_dimensionUnit(name, id):
 # Meta meta
 ext_classes = {
 	"LocalNumber": {"parent": Identifier, "vocab": "aat", "id": "300404621"},	
-	"AccessionNumber": {"parent": Identifier, "vocab": "aat", "id": "300312355"},	
+	"AccessionNumber": {"parent": Identifier, "vocab": "aat", "id": "300312355"},
+	"LotNumber": {"parent": Identifier, "vocab": "aat", "id": "300404628"},
+
 	"Inscription": {"parent": Mark, "vocab": "aat", "id": "300028702"},
 	"Signature": {"parent": Mark, "vocab": "aat", "id": "300028705"},
 
-	"MaterialStatement": {"parent": LinguisticObject, "vocab": "aat", "id": "300264237"},
+	"MaterialStatement": {"parent": LinguisticObject, "vocab": "aat", "id": "300010358"},
 	"DimensionStatement": {"parent": LinguisticObject, "vocab": "aat", "id": ""},
 	"CreditStatement": {"parent": LinguisticObject, "vocab":"aat", "id": "300026687"},
-	"CatalogueRaisonne": {"parent": InformationObject, "vocab":"aat", "id":"300026061"},
 	"EditionStatement": {"parent": LinguisticObject, "vocab":"aat", "id":"300121294"},
 	"BiographyStatement": {"parent": LinguisticObject, "vocab":"aat", "id":"300080102"},
+
+	"CatalogueRaisonne": {"parent": InformationObject, "vocab":"aat", "id":"300026061"},
+	"AuctionCatalog": {"parent": InformationObject, "vocab":"aat", "id":"300026068"},
+	"SalesCatalog": {"parent": InformationObject, "vocab":"aat", "id": "300026074"},
+	"ExhibitionCatalog": {"parent": InformationObject, "vocab":"aat", "id": "300026096"},
+	"AccountBook": {"parent": InformationObject, "vocab":"aat", "id": "300027483"},
 
 	"Latitude": {"parent": SpatialCoordinates, "vocab":"aat", "id": "300387565"},
 	"Longitude": {"parent": SpatialCoordinates, "vocab":"aat", "id": "300387567"},
 
 	"Gallery": {"parent": Place, "vocab":"aat", "id": "300240057"},
+	"AuctionHouse": {"parent": Place, "vocab": "aat", "id": "300005234"},
 
-	"Museum": {"parent": Group, "vocab": "aat", "id": "300312281"},
+	"MuseumOrg": {"parent": Group, "vocab": "aat", "id": "300312281"},
 	"Department": {"parent": Group, "vocab":"aat", "id": "300263534"},
 	"Nationality": {"parent": Group, "vocab":"aat", "id":"300379842"},
 
+	"Auctioneer": {"parent": Person, "vocab":"aat", "id":"300025208"},
+
 	"Auction": {"parent": Activity, "vocab": "aat", "id": "300054751"},
+	"Bidding": {"parent": Activity, "vocab": "aat", "id": "300054602"}, # individual bid
 	"Curating": {"parent": Activity, "vocab": "aat", "id": "300054277"},
 	"Inventorying": {"parent": Activity, "vocab": "aat", "id": "300077506"},
 	"Provenance": {"parent": Activity, "vocab": "aat", "id": "300055863"},
+	"Exhibition": {"parent": Activity, "vocab": "aat", "id": "300054766"},
 
 	"Attribution": {"parent": AttributeAssignment, "vocab": "aat", "id": "300056109"},
 	"Appraising": {"parent": AttributeAssignment, "vocab": "aat", "id": "300054622"},
 	"Dating": {"parent": AttributeAssignment, "vocab": "aat", "id": "300054714"},
 
-	"SupportPart": {"parent": PhysicalThing, "vocab":"aat", "id":"300014844"},
-	"FramePart": {"parent": PhysicalThing, "vocab":"aat", "id":"300404391"},
-	"MountPart": {"parent": PhysicalThing, "vocab":"aat", "id":"300131087"},
-	"PanelPart": {"parent": PhysicalThing, "vocab":"aat", "id":"300014657"},
+	"SupportPart": {"parent": PhysicalObject, "vocab":"aat", "id":"300014844"},
+	"FramePart": {"parent": PhysicalObject, "vocab":"aat", "id":"300404391"},
+	"MountPart": {"parent": PhysicalObject, "vocab":"aat", "id":"300131087"},
+	"PanelPart": {"parent": PhysicalObject, "vocab":"aat", "id":"300014657"},
+	"AuctionLotSet": {"parent": PhysicalObject, "vocab": "aat", "id": "300411307"},
 
 	"SortName": {"parent": Appellation, "vocab":"aat", "id":"300404672"},
 	"DisplayName": {"parent": Appellation, "vocab":"aat", "id":"300404670"},
