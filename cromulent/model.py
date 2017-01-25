@@ -78,6 +78,7 @@ class CromulentFactory(object):
 		self.filename_extension = ".json"
 		self.context_uri = context
 		self.elasticsearch_compatible = False
+		self.serialize_all_resources = False
 
 		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, 
 			"label": 5, "value": 6, "description": 7}
@@ -178,6 +179,9 @@ class CromulentFactory(object):
 		mdd = self.base_dir
 		if not mdd:
 			raise ConfigurationError("Directory on Factory must be set to write to file")
+
+		# TODO:  if self.serialize_all_resources:
+		# then create separate files for every object, not just top level
 
 		js = self.toJSON(what)
 		# Now calculate file path based on URI of top object

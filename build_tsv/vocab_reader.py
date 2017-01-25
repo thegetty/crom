@@ -12,11 +12,11 @@ default_key_order = 10000
 # rdfs:label = 5, rdf:value = 6, dc:description = 7
 
 key_order_hash = {
+	# Identity block
 	"classified_as": 3,  
 	"identified_by": 10,
 
-	"carried_out_by": 18, 
-	"used_specific_object": 19,
+	# Time block
 	"timespan": 20, 
 	"begin_of_the_begin": 21, 
 	"end_of_the_begin": 22, 
@@ -25,15 +25,32 @@ key_order_hash = {
 	"started_by": 25, 
 	"finished_by": 28,
 
+	# Activity Participants
+	"took_place_at": 30,
+	"carried_out_by": 31, 
+	"used_specific_object": 32,
+	"produced": 33,
+	"destroyed": 33,
+
+	# Currency
+	"sales_price": 49,
+	"estimated_price": 48,
+	"starting_price": 47,
+	# Transfers
 	"transferred_title_of": 50, 
 	"transferred_title_from": 51, 
 	"transferred_title_to": 52,
-	"sales_price": 49,
+	"transferred_custody_of": 53,
+	"transferred_custody_from": 54,
+	"transferred_custody_to": 55,
+
 	"consists_of": 100, 
-	"composed_of": 101
+	"composed_of": 101,
+	"part": 102,
+	"temporally_contains": 103,
+	"spatially_contains": 104
+
  }
-
-
 
 if True:
 	property_overrides = {
@@ -46,6 +63,11 @@ if True:
 		"P42i": "type_assigned_by",
 		"P37": "assigned_identifier",
 		"P37i": "identifier_assigned_by",
+
+		# Make custory/ownership consistent
+		"P28": "transferred_custody_from",
+		"P29": "transferred_custory_to",
+		"P29i":"acquired_custody_through",
 
 		# P9 - consists_of
 		# P9i - forms_part_of
