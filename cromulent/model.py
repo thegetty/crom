@@ -135,7 +135,7 @@ class CromulentFactory(object):
 			self._auto_id_types[t] = curr
 			slug = self._auto_id_types[t]
 		elif self.auto_id_type == "uuid":
-			return uuid.uuid4().get_urn()
+			return "urn:uuid:%s" % uuid.uuid4()
 		else:
 			raise ConfigurationError("Unknown auto-id type")
 
