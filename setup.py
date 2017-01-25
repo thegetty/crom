@@ -13,7 +13,7 @@ setup(
         'cromulent': ['data/crm_vocab.tsv']
     },
     test_suite="tests",
-    version = '0.1.1',
+    version = '0.1.2',
     description = 'A library for mapping CIDOC-CRM classes to Python objects',
     author = 'Getty Research Institute, Rob Sanderson',
     author_email = 'jgomez@getty.edu, rsanderson@getty.edu',

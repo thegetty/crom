@@ -185,8 +185,8 @@ class TestBaseResource(unittest.TestCase):
 	def test_list_all_props(self):
 		props = self.artist._list_all_props()
 		(lbl, cl) = sorted(props.items())[0]
-		self.assertEqual('acquired_title_through', lbl)
-		self.assertEqual(model.Acquisition, cl)
+		self.assertEqual('acquired_custody_through', lbl)
+		self.assertEqual(model.TransferOfCustody, cl)
 
 	def test_check_reference(self):
 		self.assertTrue(self.artist._check_reference('http'))
