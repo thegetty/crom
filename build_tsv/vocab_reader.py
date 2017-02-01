@@ -66,7 +66,7 @@ if True:
 
 		# Make custory/ownership consistent
 		"P28": "transferred_custody_from",
-		"P29": "transferred_custory_to",
+		"P29": "transferred_custody_to",
 		"P29i":"acquired_custody_through",
 
 		# P9 - consists_of
