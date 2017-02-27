@@ -1,4 +1,3 @@
-# make_jsonld_context
 
 import codecs
 import json
@@ -12,7 +11,7 @@ except:
         raise Exception("To run with old pythons you must: easy_install ordereddict")
 
 
-fn='build_tsv/crm_vocab.tsv'
+fn = '../cromulent/data/crm_vocab.tsv'
 fh = codecs.open(fn, 'r', 'utf-8')
 lines = fh.readlines()
 fh.close()
@@ -25,8 +24,8 @@ context['dc'] = "http://purl.org/dc/elements/1.1/"
 context['dcterms'] = "http://purl.org/dc/terms/"
 context['schema'] = "http://schema.org/"
 context['skos'] = "http://www.w3.org/2004/02/skos/core#"
-context["pi"] = "http://lod.getty.edu/prov/"
 
+context["pi"] = "http://linked.art/ns/prov/"
 context["aat"]  = "http://vocab.getty.edu/aat/"
 context["ulan"] = "http://vocab.getty.edu/ulan/"
 context["tgn"] = "http://vocab.getty.edu/tgn/"
@@ -63,6 +62,7 @@ for l in lines:
 context['label'] = {"@id": "rdfs:label"}
 context['value'] = {"@id": "rdf:value"}
 context['description'] = {"@id": "dc:description"}
+
 context['height'] = {"@id": "schema:height", "@type": "@id"}
 context['width'] = {"@id": "schema:width", "@type": "@id"}
 context['familyName'] = {"@id": "schema:familyName"}
@@ -70,7 +70,7 @@ context['givenName'] = {"@id": "schema:givenName"}
 context['nationality'] = {"@id": "schema:nationality", "@type": "@id"}
 context['culture'] = {"@id": "schema:genre"}
 
-
+# Add in Provenance extension 
 context["Payment"] = "pi:Payment"
 context["paid_from"] = {
       "@id": "pi:paid_from",
@@ -85,18 +85,10 @@ context["paid_amount"] = {
       "@type": "@id"
     }
 
-context["offering_price"] = {
-      "@id": "pi:had_offering_price",
-      "@type": "@id"	
-}
-
 ctxt = {"@context": context}
-
 
 outstr = json.dumps(ctxt, indent=2)
 
-fh = file("crm_context.jsonld", 'w')
+fh = file("context.jsonld", 'w')
 fh.write(outstr)
 fh.close()
-
-

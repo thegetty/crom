@@ -1,9 +1,6 @@
 from lxml import etree
 import codecs
-
-fh = file('cidoc_inverse.xml')
-data = fh.read()
-fh.close()
+import json
 
 default_key_order = 10000
 
@@ -11,98 +8,15 @@ default_key_order = 10000
 # @context = 0, id = 1, rdf:type = 2
 # rdfs:label = 5, rdf:value = 6, dc:description = 7
 
-key_order_hash = {
-	# Identity block
-	"classified_as": 3,  
-	"identified_by": 10,
+fh = file('../cromulent/data/key_order.json')
+data = fh.read()
+fh.close()
+key_order_hash = json.loads(data)
 
-	# Time block
-	"timespan": 20, 
-	"begin_of_the_begin": 21, 
-	"end_of_the_begin": 22, 
-	"begin_of_the_end": 23, 
-	"end_of_the_end": 24,
-	"started_by": 25, 
-	"finished_by": 28,
-
-	# Activity Participants
-	"took_place_at": 30,
-	"carried_out_by": 31, 
-	"used_specific_object": 32,
-	"produced": 33,
-	"destroyed": 33,
-
-	# Currency
-	"sales_price": 49,
-	"estimated_price": 48,
-	"starting_price": 47,
-	# Transfers
-	"transferred_title_of": 50, 
-	"transferred_title_from": 51, 
-	"transferred_title_to": 52,
-	"transferred_custody_of": 53,
-	"transferred_custody_from": 54,
-	"transferred_custody_to": 55,
-
-	"consists_of": 100, 
-	"composed_of": 101,
-	"part": 102,
-	"temporally_contains": 103,
-	"spatially_contains": 104
-
- }
-
-if True:
-	property_overrides = {
-		"P45": "made_of",
-		"P7i": "location_of",
-		"P5": "subState",
-		"P5i": "subState_of",
-		"P20i": "specific_purpose_of",
-		"P42": "assigned_type",
-		"P42i": "type_assigned_by",
-		"P37": "assigned_identifier",
-		"P37i": "identifier_assigned_by",
-
-		# Make custory/ownership consistent
-		"P28": "transferred_custody_from",
-		"P29": "transferred_custody_to",
-		"P29i":"acquired_custody_through",
-
-		# P9 - consists_of
-		# P9i - forms_part_of
-		"P46": "part",
-		"P46i": "part_of",
-		"P86": "temporally_within",
-		"P86i": "temporally_contains",
-		"P89": "spatially_within",
-		"P89i": "spatially_contains",
-		# P106 - composed_of
-		"P106i": "composed_from",
-
-		"P78": "time_identified_by",
-		"P78i": "identifies_time",
-		"P87": "place_identified_by",
-		"P87i": "identifies_place",
-		"P131": "actor_identified_by",
-		"P131i": "identifies_actor",
-		"P149": "concept_identified_by",
-		"P149i": "identifies_concept",
-		"P35i": "condition_identified_by",
-
-		"P90": "has_value", # to avoid collision with rdf:value,
-		"P2": "classified_as", # to avoid collision with rdf:type
-
-		"P133": "distinct_from",
-		"P164i": "timespan_of_presence",
-
-		"P151i": "participated_in_formation",
-		"P165i": "included_in",
-		"P132": "volume_overlaps_with",
-		"P135i": "type_created_by"
-	}
-else:
-	property_overrides = {}
+fh = file('../cromulent/data/overrides.json')
+data = fh.read()
+fh.close()
+property_overrides = json.loads(data)
 
 NS = {'rdf':"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 	'xsd':"http://www.w3.org/2001/XMLSchema#",
@@ -113,6 +27,9 @@ NS = {'rdf':"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 	'xml': "http://www.w3.org/XML/1998/namespace"
 }
 
+fh = file('cidoc_inverse.xml')
+data = fh.read()
+fh.close()
 dom = etree.XML(data)
 stuff = []
 

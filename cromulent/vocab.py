@@ -8,7 +8,7 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
 	Activity, Group, Appellation, MonetaryAmount, Purchase, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
-	Acquisition, TransferOfCustody 
+	Acquisition, TransferOfCustody, Title 
 
 # Add classified_as initialization hack for all resources
 def post_init(self):
@@ -45,6 +45,8 @@ ext_classes = {
 	"LocalNumber": {"parent": Identifier, "vocab": "aat", "id": "300404621"},	
 	"AccessionNumber": {"parent": Identifier, "vocab": "aat", "id": "300312355"},
 	"LotNumber": {"parent": Identifier, "vocab": "aat", "id": "300404628"},
+
+	"PrimaryTitle": {"parent": Title, "vocab": "aat", "id": "300404670"},
 
 	"Inscription": {"parent": Mark, "vocab": "aat", "id": "300028702"},
 	"Signature": {"parent": Mark, "vocab": "aat", "id": "300028705"},

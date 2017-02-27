@@ -1,0 +1,37 @@
+{
+	"classified_as": 3,  
+	"identified_by": 10,
+
+	"timespan": 20, 
+	"begin_of_the_begin": 21, 
+	"end_of_the_begin": 22, 
+	"begin_of_the_end": 23, 
+	"end_of_the_end": 24,
+	"started_by": 25, 
+	"continued": 26,
+	"finished_by": 28,
+	"continued_by": 29,	
+
+	"took_place_at": 30,
+	"carried_out_by": 31, 
+	"used_specific_object": 32,
+	"produced": 33,
+	"destroyed": 33,
+
+	"sales_price": 49,
+	"estimated_price": 48,
+	"starting_price": 47,
+
+	"transferred_title_of": 50, 
+	"transferred_title_from": 51, 
+	"transferred_title_to": 52,
+	"transferred_custody_of": 53,
+	"transferred_custody_from": 54,
+	"transferred_custody_to": 55,
+
+	"consists_of": 100, 
+	"composed_of": 101,
+	"part": 102,
+	"temporally_contains": 103,
+	"spatially_contains": 104
+ }
