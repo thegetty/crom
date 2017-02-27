@@ -56,6 +56,7 @@ ext_classes = {
 	"CreditStatement": {"parent": LinguisticObject, "vocab":"aat", "id": "300026687"},
 	"EditionStatement": {"parent": LinguisticObject, "vocab":"aat", "id":"300121294"},
 	"BiographyStatement": {"parent": LinguisticObject, "vocab":"aat", "id":"300080102"},
+	"Description": {"parent": LinguisticObject, "vocab": "aat", "id":"300080091"},
 
 	"CatalogueRaisonne": {"parent": InformationObject, "vocab":"aat", "id":"300026061"},
 	"AuctionCatalog": {"parent": InformationObject, "vocab":"aat", "id":"300026068"},
