@@ -67,6 +67,12 @@ ext_classes = {
 	"Latitude": {"parent": SpatialCoordinates, "vocab":"aat", "id": "300387565"},
 	"Longitude": {"parent": SpatialCoordinates, "vocab":"aat", "id": "300387567"},
 
+	"Height": {"parent": Dimension, "vocab":"aat", "id":"300055644"},
+	"Width": {"parent": Dimension, "vocab":"aat", "id":"300055647"},
+	"Depth": {"parent": Dimension, "vocab":"aat", "id":"300072633"},
+	"Diameter": {"parent": Dimension, "vocab":"aat", "id":"300055624"},
+	"Weight": {"parent": Dimension, "vocab":"aat", "id":"300056240"},
+
 	"Gallery": {"parent": Place, "vocab":"aat", "id": "300240057"},
 	"AuctionHouse": {"parent": Place, "vocab": "aat", "id": "300005234"},
 
@@ -159,13 +165,6 @@ aat_culture_mapping = {
 	"dutch": "300020929"
 }
 
-dim_type_mapping = {
-	"height": "300055644",
-	"width": "300055647",
-	"depth": "300072633",
-	"diameter": "300055624",
-	"weight": "300056240"
-}
 
 dim_unit_mapping = {
 	"inches": "300379100",	

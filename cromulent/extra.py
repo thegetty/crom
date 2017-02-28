@@ -25,20 +25,20 @@ class Payment(Activity):
 	_type = "pi:Payment"
 Payment._classhier = inspect.getmro(Payment)[:-1]
 
-# Allow sets of objects to have a starting price (for Auction Lots)
-PhysicalObject._properties['starting_price'] = {"rdf": "pi:starting_price", "range": MonetaryAmount}
-PhysicalObject._properties['estimated_price'] = {"rdf": "pi:estimated_price", "range": MonetaryAmount}
-
 # Require explict addition of the schema.org shortcut properties
 def add_schema_properties():
 	Person._properties['familyName'] = {"rdf": "schema:familyName", "range": str}
 	Person._properties['givenName'] = {"rdf": "schema:givenName", "range": str}
 	Person._properties['nationality'] = {"rdf": "schema:nationality", "range": Place}
-	ManMadeObject._properties['culture'] = {"rdf": "schema:genre", "range": Type}
+	ManMadeObject._properties['genre'] = {"rdf": "schema:genre", "range": Type}
 	ManMadeObject._properties['height'] = {"rdf": "schema:height", "range": Dimension}
 	ManMadeObject._properties['width'] = {"rdf": "schema:width", "range": Dimension}
+	ManMadeObject._properties['subject'] = {"rdf": "dct:subject", "range": Type}
 
 # Require explicit addition of rdf:value 
 def add_rdf_value():
 	SymbolicObject._properties['value'] = {"rdf": "rdf:value", "range": str}
 	Dimension._properties['value'] = {"rdf": "rdf:value", "range": str}
+
+
+
