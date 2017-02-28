@@ -22,12 +22,6 @@ class TestClassBuilder(unittest.TestCase):
 		tm2 = vocab.materialTypes['TestMaterial2']
 		self.assertEqual(tm2.id, "http://vocab.getty.edu/aat/2")
 
-	def test_dimension(self):
-		vocab.register_aat_dimensionType("TestDimension3", "3")
-		self.assertTrue('TestDimension3' in vocab.dimensionTypes)
-		td3 = vocab.dimensionTypes['TestDimension3']
-		self.assertEqual(td3.id, "http://vocab.getty.edu/aat/3")
-
 	def test_unit(self):
 		vocab.register_aat_dimensionUnit("TestUnit4", "4")
 		self.assertTrue('TestUnit4' in vocab.dimensionUnits)
