@@ -28,12 +28,6 @@ def register_aat_material(name, id):
 	m.label = name
 	materialTypes[name] = m	
 
-dimensionTypes = {}
-def register_aat_dimensionType(name, id):
-	d = Type("http://vocab.getty.edu/aat/%s" % id)
-	d.label = name
-	dimensionTypes[name] = d
-
 dimensionUnits = {}
 def register_aat_dimensionUnit(name, id):
 	d = MeasurementUnit("http://vocab.getty.edu/aat/%s" % id)
@@ -164,7 +158,6 @@ aat_culture_mapping = {
 	"german": "300111192",
 	"dutch": "300020929"
 }
-
 
 dim_unit_mapping = {
 	"inches": "300379100",	
