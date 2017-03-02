@@ -4,7 +4,7 @@
 
 import inspect
 from .model import Destruction, Activity, Purchase, MonetaryAmount, Actor, Place, \
-	Type, Dimension, SymbolicObject, Person, ManMadeObject, PhysicalObject
+	Type, Dimension, SymbolicObject, Person, ManMadeObject, PhysicalObject, CRMEntity
 
 # DestuctionActivity class as CRM has a Destruction Event and recommends multi-classing
 class DestructionActivity(Destruction, Activity):
@@ -34,11 +34,11 @@ def add_schema_properties():
 	ManMadeObject._properties['height'] = {"rdf": "schema:height", "range": Dimension}
 	ManMadeObject._properties['width'] = {"rdf": "schema:width", "range": Dimension}
 	ManMadeObject._properties['subject'] = {"rdf": "dct:subject", "range": Type}
+	CRMEntity._properties['homepage'] = {"rdf": "foaf:homepage", "range": InformationObject}
+	CRMEntity._properties['webpage'] = {"rdf": "foaf:page", "range": InformationObject}
 
 # Require explicit addition of rdf:value 
 def add_rdf_value():
 	SymbolicObject._properties['value'] = {"rdf": "rdf:value", "range": str}
 	Dimension._properties['value'] = {"rdf": "rdf:value", "range": str}
-
-
 
