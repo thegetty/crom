@@ -58,6 +58,7 @@ ext_classes = {
 	"SalesCatalog": {"parent": InformationObject, "vocab":"aat", "id": "300026074"},
 	"ExhibitionCatalog": {"parent": InformationObject, "vocab":"aat", "id": "300026096"},
 	"AccountBook": {"parent": InformationObject, "vocab":"aat", "id": "300027483"},
+	"WebPage": {"parent": InformationObject, "vocab":"aat", "id":"300264578"},
 
 	"Latitude": {"parent": SpatialCoordinates, "vocab":"aat", "id": "300387565"},
 	"Longitude": {"parent": SpatialCoordinates, "vocab":"aat", "id": "300387567"},

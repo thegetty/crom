@@ -4,7 +4,8 @@
 
 import inspect
 from .model import Destruction, Activity, Purchase, MonetaryAmount, Actor, Place, \
-	Type, Dimension, SymbolicObject, Person, ManMadeObject, PhysicalObject, CRMEntity
+	Type, Dimension, SymbolicObject, Person, ManMadeObject, PhysicalObject, CRMEntity, \
+	InformationObject
 
 # DestuctionActivity class as CRM has a Destruction Event and recommends multi-classing
 class DestructionActivity(Destruction, Activity):
