@@ -21,6 +21,8 @@
 		"P89i": "spatially_contains",
 		"P106i": "composed_from",
 
+		"P32": "technique",
+
 		"P78": "time_identified_by",
 		"P78i": "identifies_time",
 		"P87": "place_identified_by",

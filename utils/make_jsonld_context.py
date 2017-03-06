@@ -24,6 +24,7 @@ context['dc'] = "http://purl.org/dc/elements/1.1/"
 context['dcterms'] = "http://purl.org/dc/terms/"
 context['schema'] = "http://schema.org/"
 context['skos'] = "http://www.w3.org/2004/02/skos/core#"
+context['foaf'] = 'http://xmlns.com/foaf/0.1/'
 
 context["pi"] = "http://linked.art/ns/prov/"
 context["aat"]  = "http://vocab.getty.edu/aat/"
@@ -31,7 +32,7 @@ context["ulan"] = "http://vocab.getty.edu/ulan/"
 context["tgn"] = "http://vocab.getty.edu/tgn/"
 
 context['id'] = {"@id": "@id", "@type": "@id"}
-context['type'] = {"@id": "@type", "@type": "@id"}
+context['type'] = {"@id": "@type", "@type": "@vocab"}
 
 for l in lines:
 	l = l[:-1] # chomp
@@ -65,10 +66,14 @@ context['description'] = {"@id": "dc:description"}
 
 context['height'] = {"@id": "schema:height", "@type": "@id"}
 context['width'] = {"@id": "schema:width", "@type": "@id"}
-context['familyName'] = {"@id": "schema:familyName"}
-context['givenName'] = {"@id": "schema:givenName"}
+context['family_name'] = {"@id": "schema:familyName"}
+context['given_name'] = {"@id": "schema:givenName"}
 context['nationality'] = {"@id": "schema:nationality", "@type": "@id"}
-context['culture'] = {"@id": "schema:genre"}
+context['genre'] = {"@id": "schema:genre"}
+context['conforms_to'] = {'@id': "dcterms:conformsTo", "@type": "@id"}
+context['format'] = {"@id": "dc:format"}
+context['homepage'] = {"@id": "foaf:homepage", "@type": "@id"}
+context['webpage'] = {"@id": "foaf:page", "@type": "@id"}
 
 # Add in Provenance extension 
 context["Payment"] = "pi:Payment"

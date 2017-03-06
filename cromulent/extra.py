@@ -5,7 +5,7 @@
 import inspect
 from .model import Destruction, Activity, Purchase, MonetaryAmount, Actor, Place, \
 	Type, Dimension, SymbolicObject, Person, ManMadeObject, PhysicalObject, CRMEntity, \
-	InformationObject
+	InformationObject, ManMadeThing, ExternalResource
 
 # DestuctionActivity class as CRM has a Destruction Event and recommends multi-classing
 class DestructionActivity(Destruction, Activity):
@@ -28,8 +28,8 @@ Payment._classhier = inspect.getmro(Payment)[:-1]
 
 # Require explict addition of the schema.org shortcut properties
 def add_schema_properties():
-	Person._properties['familyName'] = {"rdf": "schema:familyName", "range": str}
-	Person._properties['givenName'] = {"rdf": "schema:givenName", "range": str}
+	Person._properties['family_name'] = {"rdf": "schema:familyName", "range": str}
+	Person._properties['given_name'] = {"rdf": "schema:givenName", "range": str}
 	Person._properties['nationality'] = {"rdf": "schema:nationality", "range": Place}
 	ManMadeObject._properties['genre'] = {"rdf": "schema:genre", "range": Type}
 	ManMadeObject._properties['height'] = {"rdf": "schema:height", "range": Dimension}
@@ -37,6 +37,8 @@ def add_schema_properties():
 	ManMadeObject._properties['subject'] = {"rdf": "dct:subject", "range": Type}
 	CRMEntity._properties['homepage'] = {"rdf": "foaf:homepage", "range": InformationObject}
 	CRMEntity._properties['webpage'] = {"rdf": "foaf:page", "range": InformationObject}
+	ManMadeThing._properties['conforms_to'] = {"rdf": "dcterms:conformsTo", "range": ExternalResource}
+	InformationObject._properties['format'] = {"rdf": "dc:format", "range": str}
 
 # Require explicit addition of rdf:value 
 def add_rdf_value():

@@ -208,24 +208,15 @@ class CromulentFactory(object):
 		fh.close()
 		return out
 
-class BaseResource(object):
-	"""Base class for all resources."""
-
-	_properties = {}
-	_integer_properties = []
-	_object_properties = []
-	_lang_properties = []
-	_required_properties = []
-	_warn_properties = []
+class ExternalResource(object):
+	"""Base class for all resoruces, including external references"""
+	
+	_factory = None
 	_uri_segment = ""
-	_type = ""
-	_niceType = ""
-	_classification = ""
+	id = ""
+	_properties = {}
 
-	def __init__(self, ident="", label="", value="", **kw):
-		"""Initialize BaseObject."""
-
-		# Just add the factory from a global rather than passing it around C style
+	def __init__(self, ident=""):
 		self._factory = factory
 		if ident:
 			if ident.startswith('http'):
@@ -236,6 +227,30 @@ class BaseResource(object):
 			self.id = factory.generate_id(self)
 		else:
 			self.id = ""
+
+	def _toJSON(self, top=False):
+		if self._factory.elasticsearch_compatible:
+			return {'id': self.id}
+		else:
+			return self.id
+
+class BaseResource(ExternalResource):
+	"""Base class for all resources with classes"""
+
+	_integer_properties = []
+	_object_properties = []
+	_lang_properties = []
+	_required_properties = []
+	_warn_properties = []
+	_type = ""
+	_niceType = ""
+	_classification = ""
+
+	def __init__(self, ident="", label="", value="", **kw):
+		"""Initialize BaseObject."""
+		super(BaseResource, self).__init__(ident)
+
+		# Set info other than identifier
 		self.type = self.__class__._type
 		if label:
 			self.label = label
@@ -243,7 +258,7 @@ class BaseResource(object):
 		# but easier to do it in the main init than on generated subclasses
 		if value:
 			self.value = value
-
+		# Custom post initialization function for autoconstructed classes
 		self._post_init()
 
 	def _post_init(self):
@@ -425,12 +440,12 @@ class BaseResource(object):
 			if not v or k[0] == "_":
 				del d[k]
 			else:
-				if isinstance(v, BaseResource):
+				if isinstance(v, ExternalResource):
 					d[k] = v._toJSON()
 				elif type(v) == list:
 					newl = []
 					for ni in v:
-						if isinstance(ni, BaseResource):
+						if isinstance(ni, ExternalResource):
 							newl.append(ni._toJSON())
 					d[k] = newl
 

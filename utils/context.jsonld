@@ -7,6 +7,7 @@
     "dcterms": "http://purl.org/dc/terms/", 
     "schema": "http://schema.org/", 
     "skos": "http://www.w3.org/2004/02/skos/core#", 
+    "foaf": "http://xmlns.com/foaf/0.1/", 
     "pi": "http://linked.art/ns/prov/", 
     "aat": "http://vocab.getty.edu/aat/", 
     "ulan": "http://vocab.getty.edu/ulan/", 
@@ -17,7 +18,7 @@
     }, 
     "type": {
       "@id": "@type", 
-      "@type": "@id"
+      "@type": "@vocab"
     }, 
     "CRMEntity": "crm:E1_CRM_Entity", 
     "TemporalEntity": "crm:E2_Temporal_Entity", 
@@ -334,7 +335,7 @@
       "@id": "crm:P31i_was_modified_by", 
       "@type": "@id"
     }, 
-    "used_general_technique": {
+    "technique": {
       "@id": "crm:P32_used_general_technique", 
       "@type": "@id"
     }, 
@@ -1283,18 +1284,33 @@
       "@id": "schema:width", 
       "@type": "@id"
     }, 
-    "familyName": {
+    "family_name": {
       "@id": "schema:familyName"
     }, 
-    "givenName": {
+    "given_name": {
       "@id": "schema:givenName"
     }, 
     "nationality": {
       "@id": "schema:nationality", 
       "@type": "@id"
     }, 
-    "culture": {
+    "genre": {
       "@id": "schema:genre"
+    }, 
+    "conforms_to": {
+      "@id": "dcterms:conformsTo", 
+      "@type": "@id"
+    }, 
+    "format": {
+      "@id": "dc:format"
+    }, 
+    "homepage": {
+      "@id": "foaf:homepage", 
+      "@type": "@id"
+    }, 
+    "webpage": {
+      "@id": "foaf:page", 
+      "@type": "@id"
     }, 
     "Payment": "pi:Payment", 
     "paid_from": {

@@ -30,10 +30,10 @@ class TestExtraClasses(unittest.TestCase):
 
 	def test_add_schema(self):
 		who = Person("1")
-		self.assertRaises(DataError, who.__setattr__, 'familyName', "Doe")
+		self.assertRaises(DataError, who.__setattr__, 'family_name', "Doe")
 		extra.add_schema_properties()
-		who.familyName = "Doe"
-		self.assertEqual(who.familyName, "Doe")
+		who.family_name = "Doe"
+		self.assertEqual(who.family_name, "Doe")
 
 	def test_add_value(self):
 		what = Dimension("1")
