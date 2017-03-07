@@ -60,26 +60,36 @@ class TestFactorySerialization(unittest.TestCase):
 
 	def setUp(self):
 		self.collection = model.InformationObject('collection')
+		self.collection.label = "Test Object"
 
 	def test_toJSON(self):
 		expect = OrderedDict([('id', u'http://lod.example.org/museum/InformationObject/collection'), 
-			('type', 'InformationObject')])
+			('type', 'InformationObject'), ('label', 'Test Object')])
 		outj = model.factory.toJSON(self.collection)
 		self.assertEqual(expect, outj)
 
 	def test_toJSON_full(self):
-		expect = OrderedDict([(u'@context', 'http://lod.getty.edu/context.json'), (u'@id', u'http://lod.example.org/museum/Person/1'), (u'@type', u'crm:E21_Person')])
+		expect = OrderedDict([(u'@context', 'http://lod.getty.edu/context.json'), 
+			(u'@id', u'http://lod.example.org/museum/Person/1'), (u'@type', u'crm:E21_Person'),
+			('rdfs:label', 'Test Person')])
 		model.factory.context_uri = 'http://lod.getty.edu/context.json'
 		model.factory.full_names = True
 		p = model.Person("1")
+		p.label = "Test Person"
 		outj = model.factory.toJSON(p)
 		self.assertEqual(expect, outj)
 		# reset
 		model.factory.full_names = False
 		model.factory.context_uri = ""
 
+	def test_only_type(self):	
+		what = model.InformationObject('collection')		
+		expect = '"http://lod.example.org/museum/InformationObject/collection"'
+		outs = model.factory.toString(what)
+		self.assertEqual(expect, outs)
+
 	def test_toString(self):
-		expect = u'{"id":"http://lod.example.org/museum/InformationObject/collection","type":"InformationObject"}'
+		expect = u'{"id":"http://lod.example.org/museum/InformationObject/collection","type":"InformationObject","label":"Test Object"}'
 		outs = model.factory.toString(self.collection)
 		self.assertEqual(expect, outs)
 
@@ -89,7 +99,6 @@ class TestFactorySerialization(unittest.TestCase):
 		model.factory.toFile(self.collection)
 		self.assertTrue(os.path.isfile('tests/InformationObject/collection.json'))
 		shutil.rmtree('tests/InformationObject')
-
 
 
 class TestProcessTSV(unittest.TestCase):
