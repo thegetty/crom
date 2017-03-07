@@ -404,13 +404,14 @@ class BaseResource(ExternalResource):
 		# If we're already in the graph, return our URI only
 		# This should only be called from the factory!
 
-		if self.id in self._factory.done:
+		d = self.__dict__.copy()
+		del d['_factory']
+
+		if self.id in self._factory.done or set(d.keys()) == set(['id', 'type']):
 			if self._factory.elasticsearch_compatible:
 				return {'id': self.id}
 			else:
 				return self.id
-
-		d = self.__dict__.copy()
 
 		# In case of local contexts, not at the root
 		if 'context' in d:

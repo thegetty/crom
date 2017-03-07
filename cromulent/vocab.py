@@ -98,7 +98,7 @@ ext_classes = {
 	"AuctionLotSet": {"parent": PhysicalObject, "vocab": "aat", "id": "300411307"},
 
 	"SortName": {"parent": Appellation, "vocab":"aat", "id":"300404672"},
-	"DisplayName": {"parent": Appellation, "vocab":"aat", "id":"300404670"},
+	"PrimaryName": {"parent": Appellation, "vocab":"aat", "id":"300404670"},
 	"GivenName": {"parent": Appellation, "vocab":"aat", "id":"300404651"},
 	"FamilyName": {"parent": Appellation, "vocab":"aat", "id":"300404652"},
 	"MiddleName": {"parent": Appellation, "vocab":"aat", "id":"300404654"},
