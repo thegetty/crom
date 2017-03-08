@@ -41,7 +41,6 @@ ext_classes = {
 	"LotNumber": {"parent": Identifier, "vocab": "aat", "id": "300404628"},
 
 	"PrimaryTitle": {"parent": Title, "vocab": "aat", "id": "300404670"},
-
 	"Inscription": {"parent": Mark, "vocab": "aat", "id": "300028702"},
 	"Signature": {"parent": Mark, "vocab": "aat", "id": "300028705"},
 
@@ -60,30 +59,31 @@ ext_classes = {
 	"AccountBook": {"parent": InformationObject, "vocab":"aat", "id": "300027483"},
 	"WebPage": {"parent": InformationObject, "vocab":"aat", "id":"300264578"},
 
-	"Latitude": {"parent": SpatialCoordinates, "vocab":"aat", "id": "300387565"},
-	"Longitude": {"parent": SpatialCoordinates, "vocab":"aat", "id": "300387567"},
+	"Latitude":  {"parent": SpatialCoordinates, "vocab":"aat", "id":"300387565"},
+	"Longitude": {"parent": SpatialCoordinates, "vocab":"aat", "id":"300387567"},
 
-	"Height": {"parent": Dimension, "vocab":"aat", "id":"300055644"},
-	"Width": {"parent": Dimension, "vocab":"aat", "id":"300055647"},
-	"Depth": {"parent": Dimension, "vocab":"aat", "id":"300072633"},
-	"Diameter": {"parent": Dimension, "vocab":"aat", "id":"300055624"},
-	"Weight": {"parent": Dimension, "vocab":"aat", "id":"300056240"},
+	"Height":     {"parent": Dimension, "vocab":"aat", "id":"300055644"},
+	"Width":      {"parent": Dimension, "vocab":"aat", "id":"300055647"},
+	"Depth":      {"parent": Dimension, "vocab":"aat", "id":"300072633"},
+	"Diameter":   {"parent": Dimension, "vocab":"aat", "id":"300055624"},
+	"Weight":     {"parent": Dimension, "vocab":"aat", "id":"300056240"},
 
-	"Gallery": {"parent": Place, "vocab":"aat", "id": "300240057"},
-	"AuctionHouse": {"parent": Place, "vocab": "aat", "id": "300005234"},
+	"Gallery":      {"parent": Place, "vocab":"aat", "id":"300240057"},
+	"AuctionHouse": {"parent": Place, "vocab":"aat", "id":"300005234"},
 
-	"MuseumOrg": {"parent": Group, "vocab": "aat", "id": "300312281"},
-	"Department": {"parent": Group, "vocab":"aat", "id": "300263534"},
+	"MuseumOrg":   {"parent": Group, "vocab":"aat", "id":"300312281"},
+	"Department":  {"parent": Group, "vocab":"aat", "id":"300263534"},
 	"Nationality": {"parent": Group, "vocab":"aat", "id":"300379842"},
+	"Gender":      {"parent": Group, "vocab":"aat", "id":"300055147"},
 
-	"Auctioneer": {"parent": Person, "vocab":"aat", "id":"300025208"},
+	"Auctioneer":  {"parent": Person, "vocab":"aat", "id":"300025208"},
 
-	"Auction": {"parent": Activity, "vocab": "aat", "id": "300054751"},
-	"Bidding": {"parent": Activity, "vocab": "aat", "id": "300054602"}, # individual bid
-	"Curating": {"parent": Activity, "vocab": "aat", "id": "300054277"},
-	"Inventorying": {"parent": Activity, "vocab": "aat", "id": "300077506"},
-	"Provenance": {"parent": Activity, "vocab": "aat", "id": "300055863"},
-	"Exhibition": {"parent": Activity, "vocab": "aat", "id": "300054766"},
+	"Auction":     {"parent": Activity, "vocab":"aat", "id":"300054751"},
+	"Bidding":     {"parent": Activity, "vocab":"aat", "id":"300054602"}, # individual bid
+	"Curating":    {"parent": Activity, "vocab":"aat", "id":"300054277"},
+	"Inventorying": {"parent": Activity, "vocab":"aat", "id":"300077506"},
+	"Provenance":  {"parent": Activity, "vocab":"aat", "id":"300055863"},
+	"Exhibition":  {"parent": Activity, "vocab":"aat", "id":"300054766"},
 
 	"Theft": {"parent": TransferOfCustody, "vocab":"aat", "id": "300055292"},
 

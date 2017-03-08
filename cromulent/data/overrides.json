@@ -20,6 +20,8 @@
 		"P89": "spatially_within",
 		"P89i": "spatially_contains",
 		"P106i": "composed_from",
+		"P107": "member",
+		"P107i": "member_of",
 
 		"P32": "technique",
 
