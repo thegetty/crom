@@ -215,6 +215,8 @@ class ExternalResource(object):
 	_uri_segment = ""
 	id = ""
 	_properties = {}
+	_type = ""
+	_niceType = ""
 
 	def __init__(self, ident=""):
 		self._factory = factory
@@ -242,9 +244,8 @@ class BaseResource(ExternalResource):
 	_lang_properties = []
 	_required_properties = []
 	_warn_properties = []
-	_type = ""
-	_niceType = ""
 	_classification = ""
+	_classhier = []
 
 	def __init__(self, ident="", label="", value="", **kw):
 		"""Initialize BaseObject."""
@@ -499,6 +500,14 @@ class BaseResource(ExternalResource):
 
 		return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
 
+# Ensure everything can have id, type, label and description
+BaseResource._properties = {'id': {"rdf": "@id", "range": str}, 
+	'type': {"rdf": "rdf:type", "range": str}, 
+	'label': {"rdf": "rdfs:label", "range": str},
+	'description': {"rdf": "dc:description", "range": str}
+}
+BaseResource._classhier = (BaseResource, ExternalResource)
+
 def process_tsv(fn):
 	fh = codecs.open(fn, 'r', 'utf-8')
 	lines = fh.readlines()
@@ -582,12 +591,6 @@ def build_classes(fn=None, top=None):
 	vocabData = process_tsv(fn)
 
 	# Everything can have an id, a type, a label, a description
-	BaseResource._properties = {'id': {"rdf": "@id", "range": str}, 
-		'type': {"rdf": "rdf:type", "range": str}, 
-		'label': {"rdf": "rdfs:label", "range": str},
-		'description': {"rdf": "dc:description", "range": str}
-	}
-
 	build_class(top, BaseResource, vocabData)
 
 	# And add property definitions now we have class objects

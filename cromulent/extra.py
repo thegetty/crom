@@ -5,7 +5,7 @@
 import inspect
 from .model import Destruction, Activity, Purchase, MonetaryAmount, Actor, Place, \
 	Type, Dimension, SymbolicObject, Person, ManMadeObject, PhysicalObject, CRMEntity, \
-	InformationObject, ManMadeThing, ExternalResource
+	InformationObject, ManMadeThing, BaseResource
 
 # DestuctionActivity class as CRM has a Destruction Event and recommends multi-classing
 class DestructionActivity(Destruction, Activity):
@@ -35,9 +35,10 @@ def add_schema_properties():
 	ManMadeObject._properties['height'] = {"rdf": "schema:height", "range": Dimension}
 	ManMadeObject._properties['width'] = {"rdf": "schema:width", "range": Dimension}
 	ManMadeObject._properties['subject'] = {"rdf": "dct:subject", "range": Type}
-	CRMEntity._properties['homepage'] = {"rdf": "foaf:homepage", "range": InformationObject}
-	CRMEntity._properties['webpage'] = {"rdf": "foaf:page", "range": InformationObject}
-	ManMadeThing._properties['conforms_to'] = {"rdf": "dcterms:conformsTo", "range": ExternalResource}
+	BaseResource._properties['homepage'] = {"rdf": "foaf:homepage", "range": InformationObject}
+	BaseResource._properties['webpage'] = {"rdf": "foaf:page", "range": InformationObject}
+	BaseResource._properties['exact_match'] = {"rdf": "skos:exactMatch", "range": BaseResource}
+	ManMadeThing._properties['conforms_to'] = {"rdf": "dcterms:conformsTo", "range": BaseResource}
 	InformationObject._properties['format'] = {"rdf": "dc:format", "range": str}
 
 # Require explicit addition of rdf:value 
