@@ -13,6 +13,7 @@
 		"P29":  "transferred_custody_to",
 		"P29i": "acquired_custody_through",
 		"P14i": "carried_out",
+		"P140": "assigned_to",
 
 		"P46":  "part",
 		"P46i": "part_of",

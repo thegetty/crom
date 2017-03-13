@@ -71,6 +71,7 @@ ext_classes = {
 	"Gallery":      {"parent": Place, "vocab":"aat", "id":"300240057"},
 	"AuctionHouse": {"parent": Place, "vocab":"aat", "id":"300005234"},
 	"MuseumPlace":  {"parent": Place, "vocab":"aat", "id":"300005768"},
+	"ExhibitionPlace": {"parent": Place, "vocab":"aat", "id":"300005748"},
 
 	"MuseumOrg":   {"parent": Group, "vocab":"aat", "id":"300312281"},
 	"Department":  {"parent": Group, "vocab":"aat", "id":"300263534"},
@@ -89,9 +90,10 @@ ext_classes = {
 
 	"Theft": {"parent": TransferOfCustody, "vocab":"aat", "id": "300055292"},
 
-	"Attribution": {"parent": AttributeAssignment, "vocab": "aat", "id": "300056109"},
-	"Appraising": {"parent": AttributeAssignment, "vocab": "aat", "id": "300054622"},
-	"Dating": {"parent": AttributeAssignment, "vocab": "aat", "id": "300054714"},
+	"Attribution": {"parent": AttributeAssignment, "vocab":"aat", "id": "300056109"},
+	"Appraising": {"parent": AttributeAssignment, "vocab":"aat", "id": "300054622"},
+	"Dating": {"parent": AttributeAssignment, "vocab":"aat", "id":"300054714"},
+	"Naming": {"parent": AttributeAssignment, "vocab":"aat", "id":"300XXXXXX"},
 
 	"SupportPart": {"parent": PhysicalObject, "vocab":"aat", "id":"300014844"},
 	"FramePart": {"parent": PhysicalObject, "vocab":"aat", "id":"300404391"},
