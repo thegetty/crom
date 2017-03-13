@@ -93,7 +93,7 @@ ext_classes = {
 	"Attribution": {"parent": AttributeAssignment, "vocab":"aat", "id": "300056109"},
 	"Appraising": {"parent": AttributeAssignment, "vocab":"aat", "id": "300054622"},
 	"Dating": {"parent": AttributeAssignment, "vocab":"aat", "id":"300054714"},
-	"Naming": {"parent": AttributeAssignment, "vocab":"aat", "id":"300XXXXXX"},
+	"Naming": {"parent": AttributeAssignment, "vocab":"aat", "id":"300411672"},
 
 	"SupportPart": {"parent": PhysicalObject, "vocab":"aat", "id":"300014844"},
 	"FramePart": {"parent": PhysicalObject, "vocab":"aat", "id":"300404391"},
