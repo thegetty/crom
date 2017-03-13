@@ -465,8 +465,8 @@ class BaseResource(ExternalResource):
 					newl = []
 					for ni in v:
 						if isinstance(ni, ExternalResource):
-							if self._factory.done[v.id] == self.id:
-								del self._factory.done[v.id]
+							if self._factory.done[ni.id] == self.id:
+								del self._factory.done[ni.id]
 							newl.append(ni._toJSON())
 						else:
 							# A number or string
