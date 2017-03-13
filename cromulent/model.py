@@ -430,25 +430,47 @@ class BaseResource(ExternalResource):
 		if top:
 			d['@context'] = self._factory.context_uri
 
-		# WARNING:  This means that individual factories are NOT thread safe
-		self._factory.done[self.id] = 1
-
 		# Need to do in order now to get done correctly ordered
 		KOH = self._factory.key_order_hash
 		kodflt = self._factory.key_order_default
 		kvs = sorted(d.items(), key=lambda x: KOH.get(x[0], kodflt))
+
+
+		# WARNING:  This means that individual factories are NOT thread safe
+		self._factory.done[self.id] = 1
+		tbd = []
 
 		for (k, v) in kvs:
 			if not v or k[0] == "_":
 				del d[k]
 			else:
 				if isinstance(v, ExternalResource):
+					tbd.append(v.id)
+				elif type(v) == list:
+					for ni in v:
+						if isinstance(ni, ExternalResource):
+							tbd.append(ni.id)
+
+		for t in tbd:
+			if not t in self._factory.done:
+				self._factory.done[t] = self.id
+			
+		for (k,v) in kvs:
+			if v and k[0] != "_":
+				if isinstance(v, ExternalResource):
+					if self._factory.done[v.id] == self.id:
+						del self._factory.done[v.id]
 					d[k] = v._toJSON()
 				elif type(v) == list:
 					newl = []
 					for ni in v:
 						if isinstance(ni, ExternalResource):
+							if self._factory.done[v.id] == self.id:
+								del self._factory.done[v.id]
 							newl.append(ni._toJSON())
+						else:
+							# A number or string
+							newl.append(ni)
 					d[k] = newl
 
 		if self._factory.full_names:
@@ -490,10 +512,10 @@ class BaseResource(ExternalResource):
 					if c._type:
 						d['type'] = c.__name__
 						break
-			elif d['type'] == self.__class__._type:
-				d['type'] = self.__class__.__name__
 			elif self.__class__._niceType:
 				d['type'] = self.__class__._niceType
+			elif d['type'] == self.__class__._type:
+				d['type'] = self.__class__.__name__
 			else:
 				# ??!!
 				raise ConfigurationError("Class is badly configured for type")
