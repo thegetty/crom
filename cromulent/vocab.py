@@ -70,6 +70,7 @@ ext_classes = {
 
 	"Gallery":      {"parent": Place, "vocab":"aat", "id":"300240057"},
 	"AuctionHouse": {"parent": Place, "vocab":"aat", "id":"300005234"},
+	"MuseumPlace":  {"parent": Place, "vocab":"aat", "id":"300005768"},
 
 	"MuseumOrg":   {"parent": Group, "vocab":"aat", "id":"300312281"},
 	"Department":  {"parent": Group, "vocab":"aat", "id":"300263534"},
@@ -84,6 +85,7 @@ ext_classes = {
 	"Inventorying": {"parent": Activity, "vocab":"aat", "id":"300077506"},
 	"Provenance":  {"parent": Activity, "vocab":"aat", "id":"300055863"},
 	"Exhibition":  {"parent": Activity, "vocab":"aat", "id":"300054766"},
+	"MultiExhibition": {"parent": Activity, "vocab":"aat", "id":"300054773"},
 
 	"Theft": {"parent": TransferOfCustody, "vocab":"aat", "id": "300055292"},
 
