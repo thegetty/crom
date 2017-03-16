@@ -100,6 +100,32 @@ class TestFactorySerialization(unittest.TestCase):
 		self.assertTrue(os.path.isfile('tests/InformationObject/collection.json'))
 		shutil.rmtree('tests/InformationObject')
 
+	def test_breadth(self):
+		x = model.TransferOfCustody()
+		e = model.Activity()
+		fr = model.Group()
+		to = model.Group()
+		w = model.ManMadeObject()
+		fr.label = "From"
+		to.label = "To"
+		x.transferred_custody_of = w
+		x.transferred_custody_from = fr
+		x.transferred_custody_to = to
+		e.used_specific_object = w
+		e.carried_out_by = to
+		w.current_owner = fr
+		x.specific_purpose = e
+		js = model.factory.toJSON(x)
+		# Okay ... if we're breadth first, then custody_from is a resource
+		self.assertTrue(isinstance(js['transferred_custody_from'], OrderedDict))
+
+	def test_string_list(self):
+		x = model.Activity()
+		x.label = ["Label 1", "Label 2"]
+		js = model.factory.toJSON(x)
+		self.assertTrue(js['label'] == x.label)
+
+
 
 class TestProcessTSV(unittest.TestCase):
 
