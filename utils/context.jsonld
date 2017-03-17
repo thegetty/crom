@@ -343,7 +343,7 @@
       "@id": "crm:P32i_was_technique_of", 
       "@type": "@id"
     }, 
-    "used_specific_technique": {
+    "specific_technique": {
       "@id": "crm:P33_used_specific_technique", 
       "@type": "@id"
     }, 

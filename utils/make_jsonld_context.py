@@ -31,8 +31,9 @@ context["aat"]  = "http://vocab.getty.edu/aat/"
 context["ulan"] = "http://vocab.getty.edu/ulan/"
 context["tgn"] = "http://vocab.getty.edu/tgn/"
 
-context['id'] = {"@id": "@id", "@type": "@id"}
-context['type'] = {"@id": "@type", "@type": "@vocab"}
+## These are only aliases. The processing is defined by the spec.
+context['id'] = "@id"
+context['type'] = "@type"
 
 for l in lines:
 	l = l[:-1] # chomp
