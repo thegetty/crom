@@ -76,6 +76,7 @@ context['format'] = {"@id": "dc:format"}
 context['homepage'] = {"@id": "foaf:homepage", "@type": "@id"}
 context['webpage'] = {"@id": "foaf:page", "@type": "@id"}
 context['exact_match'] = {"@id": "skos:exactMatch", "@type": "@id"}
+context['related'] = {"@id": "dcterms:relation", "@type": "@id"}
 
 # Add in Provenance extension 
 context["Payment"] = "pi:Payment"
