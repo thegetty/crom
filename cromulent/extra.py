@@ -40,6 +40,7 @@ def add_schema_properties():
 	BaseResource._properties['exact_match'] = {"rdf": "skos:exactMatch", "range": BaseResource}
 	ManMadeThing._properties['conforms_to'] = {"rdf": "dcterms:conformsTo", "range": BaseResource}
 	InformationObject._properties['format'] = {"rdf": "dc:format", "range": str}
+	BaseResource._properties['related'] = {"rdf": "dcterms:relation", "range": BaseResource}
 
 # Require explicit addition of rdf:value 
 def add_rdf_value():

@@ -12,14 +12,8 @@
     "aat": "http://vocab.getty.edu/aat/", 
     "ulan": "http://vocab.getty.edu/ulan/", 
     "tgn": "http://vocab.getty.edu/tgn/", 
-    "id": {
-      "@id": "@id", 
-      "@type": "@id"
-    }, 
-    "type": {
-      "@id": "@type", 
-      "@type": "@vocab"
-    }, 
+    "id": "@id", 
+    "type": "@type", 
     "CRMEntity": "crm:E1_CRM_Entity", 
     "TemporalEntity": "crm:E2_Temporal_Entity", 
     "ConditionState": "crm:E3_Condition_State", 
@@ -1314,6 +1308,10 @@
     }, 
     "exact_match": {
       "@id": "skos:exactMatch", 
+      "@type": "@id"
+    }, 
+    "related": {
+      "@id": "dcterms:relation", 
       "@type": "@id"
     }, 
     "Payment": "pi:Payment", 
