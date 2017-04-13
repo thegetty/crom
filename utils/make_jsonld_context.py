@@ -56,7 +56,10 @@ for l in lines:
 					typ = rng
 			else:
 				typ = "@id"
-			context[ctname] = {"@id": "crm:%s" % name, "@type": typ} 
+			if typ == "rdfs:Literal":
+				context[ctname] = {"@id": "crm:%s" % name}
+			else:
+				context[ctname] = {"@id": "crm:%s" % name, "@type": typ} 
 
 # Language Map:   label, has_note, description  ?
 # "@container": "@language"

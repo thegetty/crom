@@ -58,6 +58,7 @@ ext_classes = {
 	"ExhibitionCatalog": {"parent": InformationObject, "vocab":"aat", "id": "300026096"},
 	"AccountBook": {"parent": InformationObject, "vocab":"aat", "id": "300027483"},
 	"WebPage": {"parent": InformationObject, "vocab":"aat", "id":"300264578"},
+	"Register": {"parent": InformationObject, "vocab":"aat", "id":"300027168"},
 
 	"Latitude":  {"parent": SpatialCoordinates, "vocab":"aat", "id":"300387565"},
 	"Longitude": {"parent": SpatialCoordinates, "vocab":"aat", "id":"300387567"},
@@ -87,6 +88,7 @@ ext_classes = {
 	"Provenance":  {"parent": Activity, "vocab":"aat", "id":"300055863"},
 	"Exhibition":  {"parent": Activity, "vocab":"aat", "id":"300054766"},
 	"MultiExhibition": {"parent": Activity, "vocab":"aat", "id":"300054773"},
+	"Active":      {"parent": Activity, "vocab":"aat", "id":"300393177"},
 
 	"Theft": {"parent": TransferOfCustody, "vocab":"aat", "id": "300055292"},
 
@@ -99,7 +101,8 @@ ext_classes = {
 	"FramePart": {"parent": PhysicalObject, "vocab":"aat", "id":"300404391"},
 	"MountPart": {"parent": PhysicalObject, "vocab":"aat", "id":"300131087"},
 	"PanelPart": {"parent": PhysicalObject, "vocab":"aat", "id":"300014657"},
-	"AuctionLotSet": {"parent": PhysicalObject, "vocab": "aat", "id": "300411307"},
+	"AuctionLotSet": {"parent": PhysicalObject, "vocab":"aat", "id":"300411307"},
+	"CollectionSet": {"parent": PhysicalObject, "vocab":"aat", "id":"300025976"},
 
 	"SortName": {"parent": Appellation, "vocab":"aat", "id":"300404672"},
 	"PrimaryName": {"parent": Appellation, "vocab":"aat", "id":"300404670"},
@@ -125,7 +128,20 @@ ext_classes = {
 	"Embroidery": {"parent": ManMadeObject, "vocab": "aat", "id": "300264024"},
 	"PhotographPrint": {"parent": ManMadeObject, "vocab": "aat", "id": "300127104"},
 	"PhotographAlbum": {"parent": ManMadeObject, "vocab": "aat", "id": "300026695"},
-	"PhotographBook": {"parent": ManMadeObject, "vocab": "aat", "id": "300265728"}
+	"PhotographBook": {"parent": ManMadeObject, "vocab": "aat", "id": "300265728"},
+
+	"Architecture": {"parent": ManMadeObject, "vocab": "aat", "id":"300263552"},
+	"Armor": {"parent": ManMadeObject, "vocab": "aat", "id":"300036745"},
+	"Book": {"parent": ManMadeObject, "vocab": "aat", "id":"300028051"},
+	"DecArts": {"parent": ManMadeObject, "vocab": "aat", "id":"300054168"},
+	"Implement" {"parent": ManMadeObject, "vocab": "aat", "id":"300024841"},
+	"Jewelry": {"parent": ManMadeObject, "vocab": "aat", "id":"300209286"},
+	"Manuscript": {"parent": ManMadeObject, "vocab": "aat", "id":"300265483"},
+	"SiteInstallation": {"parent": ManMadeObject, "vocab": "aat", "id":"300047896"},
+	"Text": {"parent": ManMadeObject, "vocab": "aat", "id":"300263751"},
+	"Print"  {"parent": ManMadeObject, "vocab": "aat", "id":"300041273"},
+	"TimeBasedMedia": {"parent": ManMadeObject, "vocab": "aat", "id":"300185191"}
+
 }
  
 for (name,v) in ext_classes.items():
