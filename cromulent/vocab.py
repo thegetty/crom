@@ -134,12 +134,12 @@ ext_classes = {
 	"Armor": {"parent": ManMadeObject, "vocab": "aat", "id":"300036745"},
 	"Book": {"parent": ManMadeObject, "vocab": "aat", "id":"300028051"},
 	"DecArts": {"parent": ManMadeObject, "vocab": "aat", "id":"300054168"},
-	"Implement" {"parent": ManMadeObject, "vocab": "aat", "id":"300024841"},
+	"Implement": {"parent": ManMadeObject, "vocab": "aat", "id":"300024841"},
 	"Jewelry": {"parent": ManMadeObject, "vocab": "aat", "id":"300209286"},
 	"Manuscript": {"parent": ManMadeObject, "vocab": "aat", "id":"300265483"},
 	"SiteInstallation": {"parent": ManMadeObject, "vocab": "aat", "id":"300047896"},
 	"Text": {"parent": ManMadeObject, "vocab": "aat", "id":"300263751"},
-	"Print"  {"parent": ManMadeObject, "vocab": "aat", "id":"300041273"},
+	"Print":  {"parent": ManMadeObject, "vocab": "aat", "id":"300041273"},
 	"TimeBasedMedia": {"parent": ManMadeObject, "vocab": "aat", "id":"300185191"}
 
 }
