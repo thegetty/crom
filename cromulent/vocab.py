@@ -50,6 +50,7 @@ ext_classes = {
 	"RightsStatement": {"parent": LinguisticObject, "vocab":"aat", "id": "300055547"},
 	"EditionStatement": {"parent": LinguisticObject, "vocab":"aat", "id":"300121294"},
 	"BiographyStatement": {"parent": LinguisticObject, "vocab":"aat", "id":"300080102"},
+	"ProvenanceStatement": {"parent": LinguisticObject, "vocab":"aat", "id":"300055863"},
 	"Description": {"parent": LinguisticObject, "vocab": "aat", "id":"300080091"},
 
 	"CatalogueRaisonne": {"parent": InformationObject, "vocab":"aat", "id":"300026061"},
@@ -129,6 +130,8 @@ ext_classes = {
 	"PhotographPrint": {"parent": ManMadeObject, "vocab": "aat", "id": "300127104"},
 	"PhotographAlbum": {"parent": ManMadeObject, "vocab": "aat", "id": "300026695"},
 	"PhotographBook": {"parent": ManMadeObject, "vocab": "aat", "id": "300265728"},
+	"PhotographColor": {"parent": ManMadeObject, "vocab": "aat", "id": "300128347"},
+	"PhotographBW": {"parent": ManMadeObject, "vocab": "aat", "id": "300128359"},
 
 	"Architecture": {"parent": ManMadeObject, "vocab": "aat", "id":"300263552"},
 	"Armor": {"parent": ManMadeObject, "vocab": "aat", "id":"300036745"},

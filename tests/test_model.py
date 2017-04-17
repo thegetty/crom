@@ -95,9 +95,14 @@ class TestFactorySerialization(unittest.TestCase):
 
 	def test_toFile(self):
 		self.assertRaises(model.ConfigurationError, model.factory.toFile, self.collection)
+		# Test auto filename determination
 		model.factory.base_dir = 'tests'
 		model.factory.toFile(self.collection)
 		self.assertTrue(os.path.isfile('tests/InformationObject/collection.json'))
+		# Test explicit filename setting
+		model.factory.toFile(self.collection, filename='tests/fishbat.bar')
+		self.assertTrue(os.path.isfile('tests/fishbat.bar'))
+		# Tidy up
 		shutil.rmtree('tests/InformationObject')
 
 	def test_breadth(self):

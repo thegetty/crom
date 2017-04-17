@@ -171,38 +171,37 @@ class CromulentFactory(object):
 		js = self.toJSON(what)
 		return self._buildString(js, compact)
 
-	def toFile(self, what, compact=True):
+	def toFile(self, what, compact=True, filename=""):
 		"""Write to local file.
 
 		Creates directories as necessary
 		"""
-		mdd = self.base_dir
-		if not mdd:
-			raise ConfigurationError("Directory on Factory must be set to write to file")
-
 		# TODO:  if self.serialize_all_resources:
 		# then create separate files for every object, not just top level
 
 		js = self.toJSON(what)
-		# Now calculate file path based on URI of top object
-		# ... which is self for those of you following at home
-		myid = js['id']
-		mdb = self.base_url
-		if not myid.startswith(mdb):
-			raise ConfigurationError("The id of that object is not the base URI in the Factory")
-		fp = myid[len(mdb):]	
-		bits = fp.split('/')
-		if len(bits) > 1:
-			mydir = os.path.join(mdd, '/'.join(bits[:-1]))		
-			try:
-				os.makedirs(mydir)
-			except OSError:
-				pass
 
-		if self.filename_extension:
-			fp = fp + self.filename_extension
+		if not filename:
+			myid = js['id']
+			mdb = self.base_url
+			if not myid.startswith(mdb):
+				raise ConfigurationError("The id of that object is not the base URI in the Factory")
+			mdd = self.base_dir
+			if not mdd:
+				raise ConfigurationError("Directory on Factory must be set to write to file")
+			fp = myid[len(mdb):]	
+			bits = fp.split('/')
+			if len(bits) > 1:
+				mydir = os.path.join(mdd, '/'.join(bits[:-1]))		
+				try:
+					os.makedirs(mydir)
+				except OSError:
+					pass
+			if self.filename_extension:
+				fp = fp + self.filename_extension
+			filename = os.path.join(mdd, fp)
 
-		fh = open(os.path.join(mdd, fp), 'w')
+		fh = open(filename, 'w')
 		out = self._buildString(js, compact)
 		fh.write(out)
 		fh.close()
