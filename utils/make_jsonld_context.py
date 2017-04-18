@@ -25,6 +25,7 @@ context['dcterms'] = "http://purl.org/dc/terms/"
 context['schema'] = "http://schema.org/"
 context['skos'] = "http://www.w3.org/2004/02/skos/core#"
 context['foaf'] = 'http://xmlns.com/foaf/0.1/'
+context['xsd'] = "http://www.w3.org/2001/XMLSchema#"
 
 context["pi"] = "http://linked.art/ns/prov/"
 context["aat"]  = "http://vocab.getty.edu/aat/"
