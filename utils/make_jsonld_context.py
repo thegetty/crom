@@ -56,7 +56,7 @@ for l in lines:
 					typ = rng
 			else:
 				typ = "@id"
-			if typ == "rdfs:Literal":
+			if typ in ["rdfs:Literal", "xsd:dateTime"]:
 				context[ctname] = {"@id": "crm:%s" % name}
 			else:
 				context[ctname] = {"@id": "crm:%s" % name, "@type": typ} 
@@ -80,6 +80,8 @@ context['homepage'] = {"@id": "foaf:homepage", "@type": "@id"}
 context['webpage'] = {"@id": "foaf:page", "@type": "@id"}
 context['exact_match'] = {"@id": "skos:exactMatch", "@type": "@id"}
 context['related'] = {"@id": "dcterms:relation", "@type": "@id"}
+context['subject'] = {"@id": "dcterms:subject", "@type": "@id"}
+
 
 # Add in Provenance extension 
 context["Payment"] = "pi:Payment"
