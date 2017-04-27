@@ -83,14 +83,14 @@ class CromulentFactory(object):
 				# Use LinkedArt CRM context
 				dd = os.path.join(os.path.dirname(__file__), 'data')
 				fn = os.path.join(dd, 'context.jsonld')
-				fh = file(fn)
+				fh = open(fn)
 				data = fh.read()
 				fh.close()
 			elif context_file:
 				# Check if file exists and load it
 				# otherwise error
 				if os.path.exists(context_file):
-					fh = file(context_file)
+					fh = open(context_file)
 					data = fh.read()
 					fh.close()
 				else:
@@ -646,6 +646,7 @@ def build_classes(fn=None, top=None):
 		top = 'E1_CRM_Entity'
 
 	vocabData = process_tsv(fn)
+
 
 	# Everything can have an id, a type, a label, a description
 	build_class(top, BaseResource, vocabData)
