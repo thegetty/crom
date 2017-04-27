@@ -18,12 +18,14 @@ BaseResource._post_init = post_init
 
 def register_aat_class(name, parent, id):
 	c = type(name, (parent,), {})
-	c._classification = "http://vocab.getty.edu/aat/%s" % id
+	# Decision 2017-04 to always use prefixed version for id and references
+	c._classification = "aat:%s" % id
 	c._type = None # To avoid conflicting with parent class
 	globals()[name] = c	
 
 materialTypes = {}
 def register_aat_material(name, id):
+	# This will auto-prefix in `id`
 	m = Material("http://vocab.getty.edu/aat/%s" % id)
 	m.label = name
 	materialTypes[name] = m	
@@ -195,14 +197,10 @@ for (k,v) in dim_unit_mapping.items():
 # Monkey patch Type's _toJSON to only emit full data if not just URI+type
 def typeToJSON(self, top=False):
 	props = self.__dict__.keys()
-	if len(props) > 3:
+	if len(props) > 4:
 		return super(Type, self)._toJSON()
+	elif self._factory.elasticsearch_compatible:
+		return {"id": self.id}
 	else:
-		# process id for known vocabs
-		if self.id.startswith("http://vocab.getty.edu/aat/"):
-			if self._factory.elasticsearch_compatible:
-				return {"id": self.id.replace("http://vocab.getty.edu/aat/", "aat:")}
-			else:
-				return self.id.replace("http://vocab.getty.edu/aat/", "aat:")
 		return self.id
 Type._toJSON = typeToJSON

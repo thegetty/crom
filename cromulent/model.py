@@ -77,6 +77,9 @@ class CromulentFactory(object):
 		self.default_lang = lang
 		self.filename_extension = ".json"
 		self.context_uri = context
+
+		self.prefixes = {}
+		self.prefixes_rev = {}
 		# Maybe load it up for prefixes
 		if load_context:
 			if context == "http://linked.art/ns/context/1/full.jsonld":
@@ -97,12 +100,17 @@ class CromulentFactory(object):
 					raise ConfigurationError("Provided context_file does not exist")
 			elif context.startswith('http'):
 				self.maybe_warn("Loading remote context. "
-					"Please create a local copy and use the context_file parameter")
+					"Please create a local copy and use the context_file parameter")				
 			else:
-
 				raise ConfigurationError("No context provided, and load_context not False")
 
-			# by now should have json in data
+			ctxt = json.loads(data)
+
+			# Filter data looking for prefixes
+			for (k,v) in ctxt['@context'].items():
+				if type(v) in STR_TYPES and v[-1] in ['/', '#']:
+					self.prefixes[k] = v
+					self.prefixes_rev[v] = k
 
 		self.elasticsearch_compatible = False
 		self.serialize_all_resources = False
@@ -240,6 +248,7 @@ class ExternalResource(object):
 	_factory = None
 	_uri_segment = ""
 	id = ""
+	_full_id = ""
 	_properties = {}
 	_type = ""
 	_niceType = ""
@@ -248,9 +257,29 @@ class ExternalResource(object):
 		self._factory = factory
 		if ident:
 			if ident.startswith('http') or ident.startswith('urn:uuid'):
+				# Try to find prefixable term
+				hashed = ident.rsplit('#', 1)
+				if len(hashed) == 1:
+					(pref, rest) = ident.rsplit('/', 1)
+					pref += "/"
+				else:
+					(pref, rest) = hashed
+					pref += "#"
+
+				if pref in self._factory.prefixes_rev:
+					ident = "%s:%s" % (self._factory.prefixes_rev[pref], rest)
+					self._full_id = ident
+
 				self.id = ident
 			else:
-				self.id = factory.base_url + self.__class__._uri_segment + "/" + ident
+				# Allow for prefixed term
+				curied = ident.split(':', 1)
+				if len(curied) == 2 and curied[0] in self._factory.prefixes:
+					self.id = ident
+					self._full_id = self._factory.prefixes[curied[0]] + curied[1]	
+				else:
+					self.id = factory.base_url + self.__class__._uri_segment + "/" + ident
+
 		elif factory.auto_assign_id:
 			self.id = factory.generate_id(self)
 		else:
