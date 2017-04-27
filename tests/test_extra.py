@@ -18,6 +18,7 @@ class TestExtraClasses(unittest.TestCase):
 			('type', ['Destruction', 'Activity']), ('label', "Test Destruction")])
 		da = extra.DestructionActivity("1")
 		da.label = "Test Destruction"
+		factory.context_uri = ""
 		dajs = factory.toJSON(da)
 		self.assertEqual(dajs, expect)
 

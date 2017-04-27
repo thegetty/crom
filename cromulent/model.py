@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 import os, sys
 import codecs
 import inspect
-
 import uuid
 
 ### Mappings for duplicate properties ###
@@ -60,7 +59,8 @@ class DataError(MetadataError):
 
 class CromulentFactory(object):
 
-	def __init__(self, base_url="", base_dir="", lang="", context="", full_names=False):
+	def __init__(self, base_url="", base_dir="", lang="", full_names=False, 
+		context="", context_file="", load_context=True):
 		self.base_url = base_url
 		self.base_dir = base_dir
 
@@ -77,6 +77,33 @@ class CromulentFactory(object):
 		self.default_lang = lang
 		self.filename_extension = ".json"
 		self.context_uri = context
+		# Maybe load it up for prefixes
+		if load_context:
+			if context == "http://linked.art/ns/context/1/full.jsonld":
+				# Use LinkedArt CRM context
+				dd = os.path.join(os.path.dirname(__file__), 'data')
+				fn = os.path.join(dd, 'context.jsonld')
+				fh = file(fn)
+				data = fh.read()
+				fh.close()
+			elif context_file:
+				# Check if file exists and load it
+				# otherwise error
+				if os.path.exists(context_file):
+					fh = file(context_file)
+					data = fh.read()
+					fh.close()
+				else:
+					raise ConfigurationError("Provided context_file does not exist")
+			elif context.startswith('http'):
+				self.maybe_warn("Loading remote context. "
+					"Please create a local copy and use the context_file parameter")
+			else:
+
+				raise ConfigurationError("No context provided, and load_context not False")
+
+			# by now should have json in data
+
 		self.elasticsearch_compatible = False
 		self.serialize_all_resources = False
 
@@ -208,7 +235,7 @@ class CromulentFactory(object):
 		return out
 
 class ExternalResource(object):
-	"""Base class for all resoruces, including external references"""
+	"""Base class for all resources, including external references"""
 	
 	_factory = None
 	_uri_segment = ""
@@ -220,7 +247,7 @@ class ExternalResource(object):
 	def __init__(self, ident=""):
 		self._factory = factory
 		if ident:
-			if ident.startswith('http'):
+			if ident.startswith('http') or ident.startswith('urn:uuid'):
 				self.id = ident
 			else:
 				self.id = factory.base_url + self.__class__._uri_segment + "/" + ident
@@ -354,7 +381,7 @@ class BaseResource(ExternalResource):
 			current = {}
 		if type(value) in STR_TYPES:
 			# use default language from factory
-			value = {factory.default_lang: value}
+			value = {self._factory.default_lang: value}
 		if type(value) != dict:
 			raise DataError("Should be a dict or a string when setting %s" % which, self)
 		for k,v in value.items():
@@ -387,7 +414,7 @@ class BaseResource(ExternalResource):
 			new = [current, value]
 			object.__setattr__(self, which, new)
 
-		if not inversed and factory.materialize_inverses:
+		if not inversed and self._factory.materialize_inverses:
 			# set the backwards ref
 			inverse = None
 			for c in self._classhier:
@@ -426,7 +453,8 @@ class BaseResource(ExternalResource):
 				if e not in d:
 					msg = "Resource type '%s' should have '%s' set" % (self._type, e)
 					self.maybe_warn(msg)
-		if top:
+		# Add back context at the top, if set
+		if top and self._factory.context_uri: 
 			d['@context'] = self._factory.context_uri
 
 		# Need to do in order now to get done correctly ordered
@@ -529,11 +557,16 @@ BaseResource._properties = {'id': {"rdf": "@id", "range": str},
 }
 BaseResource._classhier = (BaseResource, ExternalResource)
 
+KEY_ORDER_HASH = {}
+KEY_ORDER_DEFAULT = 10000
+
 def process_tsv(fn):
 	fh = codecs.open(fn, 'r', 'utf-8')
 	lines = fh.readlines()
 	fh.close()
-	vocabData = {}
+	vocabData = {"rdf:Resource": 
+		{"props": [], "label": "Resource", "className": "Resource", 
+		"subs":[], "desc": "", "class": BaseResource}}
 
 	for l in lines:
 		l = l[:-1] # chomp
@@ -547,24 +580,28 @@ def process_tsv(fn):
 			# property
 			data = {"name": name, "subOf": info[5], "label": info[3], "propName": info[2],
 			"desc": info[4], "range": info[7], "inverse": info[8]}
-			what = vocabData[info[6]]
+			try:
+				what = vocabData[info[6]]
+			except:
+				what = vocabData["rdf:Resource"]
 			what["props"].append(data)
-			# Add to KOH here, as object doesn't need to know it
+
 			koh = int(info[9])
-			if koh != factory.key_order_default:
-				factory.key_order_hash[data['propName']] = koh
-				factory.full_key_order_hash[data['name']] = koh
+			if koh != KEY_ORDER_DEFAULT:
+				KEY_ORDER_HASH[data['propName']] = koh
+				KEY_ORDER_HASH[data['name']] = koh
 
 	# invert subclass hierarchy
 	for k, v in vocabData.items():
-		sub = v['subOf']
-		# | separated list
-		for s in sub.split('|'):
-			if s:
-				try:
-					vocabData[s]['subs'].append(k)
-				except:
-					pass
+		if k != "rdf:Resource":		
+			sub = v['subOf']
+			# | separated list
+			for s in sub.split('|'):
+				if s:
+					try:
+						vocabData[s]['subs'].append(k)
+					except:
+						pass
 	return vocabData
 
 # Build class heirarchy recursively
@@ -600,7 +637,6 @@ def build_class(crmName, parent, vocabData):
 	# Build subclasses
 	for s in data['subs']:
 		build_class(s, c, vocabData)
-
 
 def build_classes(fn=None, top=None):
 	# Default to building our core dataset
@@ -638,6 +674,10 @@ def build_classes(fn=None, top=None):
 		c = v['class']
 		c._classhier = inspect.getmro(c)[:-1]
 
+
+# XXX This should be invoked rather than inline so the module can be loaded
+# and a different context used. But for now ...
+
 # Build the factory first, so properties can be added to key_order
-factory = CromulentFactory("http://lod.example.org/museum/")
+factory = CromulentFactory("http://lod.example.org/museum/", context="http://linked.art/ns/context/1/full.jsonld")
 build_classes()

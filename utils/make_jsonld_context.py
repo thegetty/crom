@@ -103,6 +103,6 @@ ctxt = {"@context": context}
 
 outstr = json.dumps(ctxt, indent=2)
 
-fh = file("context.jsonld", 'w')
+fh = file("../cromulent/data/context.jsonld", 'w')
 fh.write(outstr)
 fh.close()
