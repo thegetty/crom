@@ -198,7 +198,6 @@ class TestAutoIdentifiers(unittest.TestCase):
 		self.assertTrue(p.id.startswith('urn:uuid:'))		
 
 	def test_prefixes(self):
-		print "CONTEXT: %s\n\n" % model.factory.context_uri
 		p = model.Person("ulan:1")
 		self.assertEqual(p.id, "ulan:1")
 		self.assertEqual(p._full_id, "http://vocab.getty.edu/ulan/1")
