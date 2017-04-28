@@ -77,40 +77,14 @@ class CromulentFactory(object):
 		self.default_lang = lang
 		self.filename_extension = ".json"
 		self.context_uri = context
+		self.context_json = {}
 
 		self.prefixes = {}
 		self.prefixes_rev = {}
 		# Maybe load it up for prefixes
 		if load_context:
-			if context == "http://linked.art/ns/context/1/full.jsonld":
-				# Use LinkedArt CRM context
-				dd = os.path.join(os.path.dirname(__file__), 'data')
-				fn = os.path.join(dd, 'context.jsonld')
-				fh = open(fn)
-				data = fh.read()
-				fh.close()
-			elif context_file:
-				# Check if file exists and load it
-				# otherwise error
-				if os.path.exists(context_file):
-					fh = open(context_file)
-					data = fh.read()
-					fh.close()
-				else:
-					raise ConfigurationError("Provided context_file does not exist")
-			elif context.startswith('http'):
-				self.maybe_warn("Loading remote context. "
-					"Please create a local copy and use the context_file parameter")				
-			else:
-				raise ConfigurationError("No context provided, and load_context not False")
-
-			ctxt = json.loads(data)
-
-			# Filter data looking for prefixes
-			for (k,v) in ctxt['@context'].items():
-				if type(v) in STR_TYPES and v[-1] in ['/', '#']:
-					self.prefixes[k] = v
-					self.prefixes_rev[v] = k
+			self.load_context(context, context_file)
+			self.load_prefixes_from_context()
 
 		self.elasticsearch_compatible = False
 		self.serialize_all_resources = False
@@ -124,6 +98,38 @@ class CromulentFactory(object):
 		self._auto_id_types = {}
 		self._auto_id_segments = {}
 		self._auto_id_int = -1
+
+	def load_context(self, context="", context_file=""):
+		if context == "http://linked.art/ns/context/1/full.jsonld":
+			# Use LinkedArt CRM context
+			dd = os.path.join(os.path.dirname(__file__), 'data')
+			fn = os.path.join(dd, 'context.jsonld')
+			fh = open(fn)
+			data = fh.read()
+			fh.close()
+		elif context_file:
+			# Check if file exists and load it
+			# otherwise error
+			if os.path.exists(context_file):
+				fh = open(context_file)
+				data = fh.read()
+				fh.close()
+			else:
+				raise ConfigurationError("Provided context_file does not exist")
+		elif context.startswith('http'):
+			self.maybe_warn("Loading remote context. "
+				"Please create a local copy and use the context_file parameter")				
+			# XXX figure out how best to do this in 2.x and 3.x
+		else:
+			raise ConfigurationError("No context provided, and load_context not False")
+		self.context_json = json.loads(data)
+
+	def load_prefixes_from_context(self):
+		# Filter context looking for prefixes
+		for (k,v) in self.context_json['@context'].items():
+			if type(v) in STR_TYPES and v[-1] in ['/', '#']:
+				self.prefixes[k] = v
+				self.prefixes_rev[v] = k
 
 	def set_debug_stream(self, strm):
 		"""Set debug level."""
@@ -267,8 +273,8 @@ class ExternalResource(object):
 					pref += "#"
 
 				if pref in self._factory.prefixes_rev:
-					ident = "%s:%s" % (self._factory.prefixes_rev[pref], rest)
 					self._full_id = ident
+					ident = "%s:%s" % (self._factory.prefixes_rev[pref], rest)
 
 				self.id = ident
 			else:

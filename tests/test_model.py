@@ -131,7 +131,6 @@ class TestFactorySerialization(unittest.TestCase):
 		self.assertTrue(js['label'] == x.label)
 
 
-
 class TestProcessTSV(unittest.TestCase):
 
 	def test_process_tsv(self):
@@ -197,6 +196,25 @@ class TestAutoIdentifiers(unittest.TestCase):
 		model.factory.auto_id_type = "uuid"
 		p = model.Person()
 		self.assertTrue(p.id.startswith('urn:uuid:'))		
+
+	def test_prefixes(self):
+		print "CONTEXT: %s\n\n" % model.factory.context_uri
+		p = model.Person("ulan:1")
+		self.assertEqual(p.id, "ulan:1")
+		self.assertEqual(p._full_id, "http://vocab.getty.edu/ulan/1")
+
+		p2 = model.Person('http://vocab.getty.edu/ulan/2')
+		self.assertEqual(p2.id, 'ulan:2')
+		self.assertEqual(p2._full_id, 'http://vocab.getty.edu/ulan/2')
+
+		model.factory.prefixes = {'fish':'http://example.org/ns/'}
+		p3 = model.Person('fish:3')
+		self.assertEqual(p3.id, 'fish:3')
+		self.assertEqual(p3._full_id, 'http://example.org/ns/3')
+
+		model.factory.prefixes = {}
+		p4 = model.Person('fish:4')
+		self.assertTrue(p4.id.startswith(model.factory.base_url))
 
 		
 class TestBaseResource(unittest.TestCase):
