@@ -4,24 +4,41 @@
 
 A Python library to make creation of CIDOC CRM easier by mapping classes/predicates to python objects/properties, thereby making the CRM "CRoMulent", a Simpsons neologism for "acceptable" or "fine".  
 
-## Status
+## Status: Alpha
 
-Alpha. Active development and compatibility breaking changes to be expected as we use it in anger in various projects at The Getty, and beyond. 
+The core vocabulary loading functionality is reasonably stable. The vocabulary section is expanding as we find new, useful terms to include and will likely change to instead be loaded separately from configurations.
+
+The code is actively being developed and compability breaking changes are thus to be expected as we use it in various projects across The J Paul Getty Trust, and beyond.
 
 ## How to Use It
 
 ### Basic Usage
 
+Import the classes from the model module. As the classes are dynamically generated, they're not in the code but will be there once the `build_classes` function has been called.
+
+
+
 ```python
-from cromulent.model import Person
+from cromulent.model import factory, Person
 p = Person("Mother")
 p2 = Person("Son")
 p3 = Person("Daughter")
 p.parent_of = p2
 p.parent_of = p3
+print factory.toString(p, compact=False)
 ```
 
-Some tricks to know:
+### Vocabulary
+
+```python
+from cromulent.model import factory
+from cromulent.vocab import Height
+h = Height()
+h.value = 6
+print factory.toString(h, compact=False)
+```
+
+### Tricks and Gotchas
 
 * Assigning to the same property repeatedly does NOT overwrite the value, instead it appends. To overwrite a value, instead set it to a false value first.
 
@@ -39,6 +56,9 @@ There are several settings for how the module works, which are managed by a `fac
 * `filename_extension` The extension to use on files written via toFile(), defaults to ".json"
 * `full_names` Should the serialization use the full CRM names for classes and properties instead of the more readable ones defined in the mapping, defaults to False
 * `validate_properties` Should the model be validated at run time when setting properties, defaults to True  (this allows you to save processing time once you're certain your code does the right thing)
+* `prefixes` A dictionary of prefix to URI for URIs to compress down to `prefix:slug` format
+* `prefixes_rev` The reverse of the prefixes dictionary
+* `context_json` The parsed JSON object of the context from which the prefixes are derived
 
 Note that factories are NOT thread safe during serialization. A property on the factory is used to maintain which objects have been serialized already, to avoid infinite recursion in a cyclic graph. Create a new factory object per thread if necessary.
 
@@ -49,5 +69,5 @@ At import time, the library parses the vocabulary data file (data/crm_vocab.tsv)
 
 ## Hacking 
 
-You can change the mapping by tweaking `build_tsv/vocab_reader.py` and rerunning it to build a new TSV input file.
+You can change the mapping by tweaking `utils/vocab_reader.py` and rerunning it to build a new TSV input file.  See also the experimental code for loading completely different ontologies.
 
