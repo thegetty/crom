@@ -31,7 +31,7 @@ def add_schema_properties():
 	Person._properties['family_name'] = {"rdf": "schema:familyName", "range": str}
 	Person._properties['given_name'] = {"rdf": "schema:givenName", "range": str}
 	Person._properties['nationality'] = {"rdf": "schema:nationality", "range": Place}
-	ManMadeObject._properties['genre'] = {"rdf": "schema:genre", "range": Type}
+	ManMadeObject._properties['style'] = {"rdf": "schema:genre", "range": Type}
 	ManMadeObject._properties['height'] = {"rdf": "schema:height", "range": Dimension}
 	ManMadeObject._properties['width'] = {"rdf": "schema:width", "range": Dimension}
 	ManMadeObject._properties['subject'] = {"rdf": "dct:subject", "range": Type}
