@@ -57,6 +57,10 @@ class DataError(MetadataError):
 	"""Raised when data is not valid/allowed."""
 	pass
 
+class ProfileError(MetadataError):
+	"""Raised when a class or property not in the configured profile is used"""
+	pass
+
 class CromulentFactory(object):
 
 	def __init__(self, base_url="", base_dir="", lang="", full_names=False, 
@@ -71,6 +75,8 @@ class CromulentFactory(object):
 		self.materialize_inverses = False
 		self.full_names = False
 		self.validate_properties = True
+		self.validate_profile = True
+		self.validate_range = True
 		self.auto_assign_id = True
 
 		self.auto_id_type = "int-per-segment" #  "int", "int-per-type", "int-per-segment", "uuid"
@@ -312,6 +318,12 @@ class BaseResource(ExternalResource):
 		"""Initialize BaseObject."""
 		super(BaseResource, self).__init__(ident)
 
+		if self._factory.validate_profile and hasattr(self, '_okayToUse'): 
+			if not self._okayToUse:
+				raise ProfileError("Class '%s' is configured to not be used" % self.__class__._type)
+			elif self._okayToUse == 2:
+				self.maybe_warn("Class '%s' is configured to warn on use" % self.__class__._type)
+
 		# Set info other than identifier
 		self.type = self.__class__._type
 		if label:
@@ -339,11 +351,10 @@ class BaseResource(ExternalResource):
 		elif which[0] == "_" or not value:
 			object.__setattr__(self, which, value)			
 		else:
-			if self._factory.validate_properties:
+			if self._factory.validate_properties or self._factory.validate_profile or self._factory_validate_range:
 				ok = self._check_prop(which, value)
-				if not ok:
-					raise DataError("Can't set non-standard field '%s' on resource of type '%s'" % (which, self._type), self)
 			else:
+				# XXX: How does this work with _set_magic_resource below???
 				ok = 1
 
 			# Allow per class setter functions to do extra magic
@@ -358,16 +369,35 @@ class BaseResource(ExternalResource):
 				object.__setattr__(self, which, value)				
 
 	def _check_prop(self, which, value):
+		val_props = self._factory.validate_properties
+		val_profile = self._factory.validate_profile
+		val_range = self._factory.validate_range
 		for c in self._classhier:
 			if which in c._properties:
-				rng = c._properties[which]['range']
-				if rng == str:					
-					return 1
-				elif isinstance(value, rng):
-					return 2
-				else:
-					return 0
-		return 0
+				if val_profile:
+					okay = c._properties[which]['okayToUse']					
+					rdf = c._properties[which]['rdf']
+					if not okay:
+						raise ProfileError("Property '%s' / '%s' is configured to not be used" % (which, rdf), self)
+					elif okay == 2:
+						self.maybe_warn("Property '%s' / '%s' is configured to warn on use" % (which, rdf))
+
+				if val_range:
+					rng = c._properties[which]['range']
+					if rng == str:					
+						return 1
+					elif isinstance(value, rng):
+						return 2
+					else:
+						raise DataError("Can't set '%s' on resource of type '%s' to '%r'" % (which, self._type, value), self)
+				# Found it, but not validating range and either okay or not validating profile
+				return 1
+		if val_props:
+			raise DataError("Can't set unknown field '%s' on resource of type '%s'" % (which, self._type), self)
+		else:
+			# Not validating ANYTHING
+			return 1
+
 
 	def _list_all_props(self):
 		props = {}
@@ -585,10 +615,10 @@ class BaseResource(ExternalResource):
 		return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
 
 # Ensure everything can have id, type, label and description
-BaseResource._properties = {'id': {"rdf": "@id", "range": str}, 
-	'type': {"rdf": "rdf:type", "range": str}, 
-	'label': {"rdf": "rdfs:label", "range": str},
-	'description': {"rdf": "dc:description", "range": str}
+BaseResource._properties = {'id': {"rdf": "@id", "range": str, "okayToUse": 1}, 
+	'type': {"rdf": "rdf:type", "range": str, "okayToUse": 1}, 
+	'label': {"rdf": "rdfs:label", "range": str, "okayToUse": 1},
+	'description': {"rdf": "dc:description", "range": str, "okayToUse": 1}
 }
 BaseResource._classhier = (BaseResource, ExternalResource)
 
@@ -601,20 +631,24 @@ def process_tsv(fn):
 	fh.close()
 	vocabData = {"rdf:Resource": 
 		{"props": [], "label": "Resource", "className": "Resource", 
-		"subs":[], "desc": "", "class": BaseResource}}
+		"subs":[], "desc": "", "class": BaseResource, "okay": 1}}
 
 	for l in lines:
 		l = l[:-1] # chomp
 		info= l.split('\t')
 		name = info[0]	
 		if info[1] == "class":
-			data = {"subOf": info[5], "label": info[3], 'className': info[2],
-				"desc": info[4], "class": None, "props": [], "subs": []}
-			vocabData[name] = data
+			try:
+				data = {"subOf": info[5], "label": info[3], 'className': info[2],
+					"desc": info[4], "class": None, "props": [], "subs": [], "okay": info[6]}
+				vocabData[name] = data
+			except:
+				print info
+				raise
 		else:
 			# property
 			data = {"name": name, "subOf": info[5], "label": info[3], "propName": info[2],
-			"desc": info[4], "range": info[7], "inverse": info[8]}
+			"desc": info[4], "range": info[7], "inverse": info[8], "okay": info[10]}
 			try:
 				what = vocabData[info[6]]
 			except:
@@ -657,6 +691,7 @@ def build_class(crmName, parent, vocabData):
 	c._type = "crm:%s" % crmName
 	c._uri_segment = name
 	c._properties = {}
+	c._okayToUse = int(data['okay'])
 
 	# Set up real properties
 	for p in data['props']:
@@ -664,10 +699,19 @@ def build_class(crmName, parent, vocabData):
 		rng = p['range']
 		ccname = p['propName']
 		invRdf = "crm:%s" % p["inverse"]
+		try:
+			okay = p['okay']
+			if not okay:
+				okay = '1'
+			okay = int(okay)
+		except:
+			print p
+			raise
 		# can't guarantee classes have been built yet :(
 		c._properties[ccname] = {"rdf": "crm:%s" % name, 
 			"rangeStr": rng,
-			"inverseRdf": invRdf}
+			"inverseRdf": invRdf,
+			"okayToUse": okay}
  
 	# Build subclasses
 	for s in data['subs']:
@@ -681,7 +725,6 @@ def build_classes(fn=None, top=None):
 		top = 'E1_CRM_Entity'
 
 	vocabData = process_tsv(fn)
-
 
 	# Everything can have an id, a type, a label, a description
 	build_class(top, BaseResource, vocabData)

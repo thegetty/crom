@@ -16,6 +16,7 @@ class TestExtraClasses(unittest.TestCase):
 	def test_destruction(self):
 		expect = OrderedDict([('id', u'http://lod.example.org/museum/Activity/1'), 
 			('type', ['Destruction', 'Activity']), ('label', "Test Destruction")])
+		extra.DestructionActivity._okayToUse = 1
 		da = extra.DestructionActivity("1")
 		da.label = "Test Destruction"
 		factory.context_uri = ""
