@@ -42,9 +42,10 @@ ext_classes = {
 	"AccessionNumber": {"parent": Identifier, "vocab": "aat", "id": "300312355"},
 	"LotNumber": {"parent": Identifier, "vocab": "aat", "id": "300404628"},
 
-	"PrimaryTitle": {"parent": Title, "vocab": "aat", "id": "300404670"},
-	"Inscription": {"parent": Mark, "vocab": "aat", "id": "300028702"},
-	"Signature": {"parent": Mark, "vocab": "aat", "id": "300028705"},
+	"PrimaryAppellation": {"parent": Appellation, "vocab": "aat", "id": "300404670"},
+
+	"Inscription": {"parent": LinguisticObject, "vocab": "aat", "id": "300028702"},
+	"Signature": {"parent": LinguisticObject, "vocab": "aat", "id": "300028705"},
 
 	"MaterialStatement": {"parent": LinguisticObject, "vocab": "aat", "id": "300010358"},
 	"DimensionStatement": {"parent": LinguisticObject, "vocab": "aat", "id": "300266036"},

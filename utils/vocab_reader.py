@@ -13,10 +13,19 @@ data = fh.read()
 fh.close()
 key_order_hash = json.loads(data)
 
+# Allow configuration of overrides for the mapping of ontology to python/json
 fh = file('../cromulent/data/overrides.json')
 data = fh.read()
 fh.close()
 property_overrides = json.loads(data)
+
+# Allow subsetting of CRM into in-use / not-in-use to enable the library
+# to warn on instantiation of not-in-use properties or classes
+fh = file('crm-profile.json')
+data = fh.read()
+fh.close()
+profile_flags = json.loads(data)
+
 
 NS = {'rdf':"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 	'xsd':"http://www.w3.org/2001/XMLSchema#",
@@ -57,7 +66,8 @@ for c in classes:
 	ccname = ccname.replace("_or_", "_Or_").replace("_of_", "_Of_")
 	ccname = ccname.replace('-', '').replace('_', '')
 
-	stuff.append([name, "class", ccname, label, comment, subCls])
+	useflag = str(profile_flags.get(name, 0))
+	stuff.append([name, "class", ccname, label, comment, subCls, useflag])
 
 props = dom.xpath("//rdf:Property",namespaces=NS)
 for p in props:
@@ -108,7 +118,8 @@ for p in props:
 			ccname = ccname[4:]
 
 	koi = str(key_order_hash.get(ccname, default_key_order))
-	stuff.append([name, "property", ccname, label, comment, subProp, domn, rang, inverse, koi])
+	useflag = str(profile_flags.get(name, 0))
+	stuff.append([name, "property", ccname, label, comment, subProp, domn, rang, inverse, koi, useflag])
 
 outdata = '\n'.join(['\t'.join(x) for x in stuff])
 fh = codecs.open('../cromulent/data/crm_vocab.tsv', 'w', 'utf-8')
