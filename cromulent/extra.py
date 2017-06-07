@@ -3,17 +3,26 @@
 # can generate classes for any ontology
 
 import inspect
-from .model import Destruction, Activity, Purchase, MonetaryAmount, Actor, Place, \
+from .model import Destruction, EndOfExistence, Activity, Purchase, MonetaryAmount, Actor, Place, \
 	Type, Dimension, SymbolicObject, Person, ManMadeObject, PhysicalObject, CRMEntity, \
 	InformationObject, ManMadeThing, BaseResource
 
 # DestuctionActivity class as CRM has a Destruction Event and recommends multi-classing
 # WARNING:  instantiating this class in the default profile will raise an error
+
 class DestructionActivity(Destruction, Activity):
 	_uri_segment = "Activity"
 	_type = ["crm:Destruction", "crm:Activity"]
 	_niceType = ["Destruction", "Activity"]
 DestructionActivity._classhier = inspect.getmro(DestructionActivity)[:-1]
+
+# And hence we make an EndOfExistence+Activity class
+# for all activities that end existences
+class EoEActivity(EndOfExistence, Activity):
+	_uri_segment = "Activity"
+	_type = ["crm:End_of_Existence", "crm:Activity"]
+	_niceType = ["EndOfExistence", "Activity"]	
+EoEActivity._classhier = inspect.getmro(EoEActivity)[:-1]
 
 # New Payment Activity
 Purchase._properties['offering_price'] = {"rdf":"pi:had_offering_price", "range": MonetaryAmount, "okayToUse": 1}

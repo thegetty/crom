@@ -353,11 +353,12 @@ class BaseResource(ExternalResource):
 		else:
 			if self._factory.validate_properties or self._factory.validate_profile or self._factory_validate_range:
 				ok = self._check_prop(which, value)
+			elif isinstance(value, ExternalResource):
+				ok = 2
 			else:
-				# XXX: How does this work with _set_magic_resource below???
 				ok = 1
 
-			# Allow per class setter functions to do extra magic
+			# Allow per class/prop setter functions to do extra magic
 			if hasattr(self, which) and hasattr(self, 'set_%s' % which):
 				fn = getattr(self, 'set_%s' % which)
 				return fn(value)
