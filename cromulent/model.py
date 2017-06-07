@@ -639,13 +639,9 @@ def process_tsv(fn):
 		info= l.split('\t')
 		name = info[0]	
 		if info[1] == "class":
-			try:
-				data = {"subOf": info[5], "label": info[3], 'className': info[2],
-					"desc": info[4], "class": None, "props": [], "subs": [], "okay": info[6]}
-				vocabData[name] = data
-			except:
-				print info
-				raise
+			data = {"subOf": info[5], "label": info[3], 'className': info[2],
+				"desc": info[4], "class": None, "props": [], "subs": [], "okay": info[6]}
+			vocabData[name] = data
 		else:
 			# property
 			data = {"name": name, "subOf": info[5], "label": info[3], "propName": info[2],
@@ -700,14 +696,11 @@ def build_class(crmName, parent, vocabData):
 		rng = p['range']
 		ccname = p['propName']
 		invRdf = "crm:%s" % p["inverse"]
-		try:
-			okay = p['okay']
-			if not okay:
-				okay = '1'
-			okay = int(okay)
-		except:
-			print p
-			raise
+		okay = p['okay']
+		if not okay:
+			okay = '1'
+		okay = int(okay)
+
 		# can't guarantee classes have been built yet :(
 		c._properties[ccname] = {"rdf": "crm:%s" % name, 
 			"rangeStr": rng,
