@@ -333,9 +333,9 @@ class BaseResource(ExternalResource):
 		if value:
 			self.value = value
 		# Custom post initialization function for autoconstructed classes
-		self._post_init()
+		self._post_init(**kw)
 
-	def _post_init(self):
+	def _post_init(self, **kw):
 		# Expect this to be overridden / replaced
 		pass
 

@@ -11,7 +11,7 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	Acquisition, TransferOfCustody, Title 
 
 # Add classified_as initialization hack for all resources
-def post_init(self):
+def post_init(self, **kw):
 	if self.__class__._classification:
 		self.classified_as = Type(self._classification)
 BaseResource._post_init = post_init
@@ -205,3 +205,22 @@ def typeToJSON(self, top=False):
 	else:
 		return self.id
 Type._toJSON = typeToJSON
+
+
+def add_art_setter():
+	# Linked.Art profile requires aat:300133025 on all artworks
+	# Art can be a ManMadeObject or an InformationObject
+	# set it by adding art=1 to the constructor
+
+	def art_post_init(self, **kw):
+		if "art" in kw:
+			self.classified_as = Type("aat:300133025")
+		super(ManMadeObject, self)._post_init(**kw)
+	ManMadeObject._post_init = art_post_init
+
+	def art2_post_init(self, **kw):
+		if "art" in kw:
+			self.classified_as = Type("aat:300133025")
+		super(InformationObject, self)._post_init(**kw)
+	InformationObject._post_init = art2_post_init
+	

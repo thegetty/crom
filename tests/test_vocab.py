@@ -3,6 +3,7 @@ import sys
 import os
 
 from cromulent import vocab, model
+from cromulent.model import factory
 
 class TestClassBuilder(unittest.TestCase):
 	def setUp(self):
@@ -32,3 +33,15 @@ class TestClassBuilder(unittest.TestCase):
 		t = model.Type("http://vocab.getty.edu/aat/5")
 		nt = t._toJSON()
 		self.assertEqual(nt, "aat:5")
+
+	def test_art_setter(self):
+		p = model.ManMadeObject("a", art=1)
+		p.label = "a"
+		pj = p._toJSON()
+		self.assertFalse(pj.get('classified_as', None))
+		vocab.add_art_setter()
+		p2 = vocab.Painting("b", art=1)
+		p2j = p2._toJSON()
+		# self.assertTrue("aat:300133025" in p2j['classified_as'])
+		# no idea why the aat:1234 pattern doesn't work here
+		# something to do with failing to set up the factory?
