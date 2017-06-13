@@ -48,6 +48,7 @@ def add_schema_properties():
 	BaseResource._properties['homepage'] = {"rdf": "foaf:homepage", "range": InformationObject, "okayToUse": 1}
 	BaseResource._properties['webpage'] = {"rdf": "foaf:page", "range": InformationObject, "okayToUse": 1}
 	BaseResource._properties['exact_match'] = {"rdf": "skos:exactMatch", "range": BaseResource, "okayToUse": 1}
+	BaseResource._properties['close_match'] = {"rdf": "skos:closeMatch", "range": BaseResource, "okayToUse": 1}	
 	ManMadeThing._properties['conforms_to'] = {"rdf": "dcterms:conformsTo", "range": BaseResource, "okayToUse": 1}
 	InformationObject._properties['format'] = {"rdf": "dc:format", "range": str, "okayToUse": 1}
 	BaseResource._properties['related'] = {"rdf": "dcterms:relation", "range": BaseResource, "okayToUse": 1}
@@ -56,21 +57,3 @@ def add_schema_properties():
 def add_rdf_value():
 	SymbolicObject._properties['value'] = {"rdf": "rdf:value", "range": str, "okayToUse": 1}
 	Dimension._properties['value'] = {"rdf": "rdf:value", "range": str, "okayToUse": 1}
-
-def add_art_setter():
-	# Linked.Art profile requires aat:300133025 on all artworks
-	# Art can be a ManMadeObject or an InformationObject
-	# set it by adding art=1 to the constructor
-
-	def art_post_init(self, **kw):
-		if "art" in kw:
-			self.classified_as = Type("aat:300133025")
-		super(ManMadeObject, self)._post_init(**kw)
-	ManMadeObject._post_init = art_post_init
-
-	def art2_post_init(self, **kw):
-		if "art" in kw:
-			self.classified_as = Type("aat:300133025")
-		super(InformationObject, self)._post_init(**kw)
-	InformationObject._post_init = art2_post_init
-	
