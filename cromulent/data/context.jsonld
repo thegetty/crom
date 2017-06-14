@@ -177,7 +177,7 @@
       "@id": "crm:P11i_participated_in", 
       "@type": "@id"
     }, 
-    "occurred_in_the_presence_of": {
+    "involved": {
       "@id": "crm:P12_occurred_in_the_presence_of", 
       "@type": "@id"
     }, 

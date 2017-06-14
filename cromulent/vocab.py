@@ -46,7 +46,6 @@ ext_classes = {
 
 	"Inscription": {"parent": LinguisticObject, "vocab": "aat", "id": "300028702"},
 	"Signature": {"parent": LinguisticObject, "vocab": "aat", "id": "300028705"},
-
 	"MaterialStatement": {"parent": LinguisticObject, "vocab": "aat", "id": "300010358"},
 	"DimensionStatement": {"parent": LinguisticObject, "vocab": "aat", "id": "300266036"},
 	"CreditStatement": {"parent": LinguisticObject, "vocab":"aat", "id": "300026687"},

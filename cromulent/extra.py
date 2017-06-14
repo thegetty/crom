@@ -12,7 +12,7 @@ from .model import Destruction, EndOfExistence, Activity, Purchase, MonetaryAmou
 
 class DestructionActivity(Destruction, Activity):
 	_uri_segment = "Activity"
-	_type = ["crm:Destruction", "crm:Activity"]
+	_type = ["crm:E6_Destruction", "crm:E7_Activity"]
 	_niceType = ["Destruction", "Activity"]
 DestructionActivity._classhier = inspect.getmro(DestructionActivity)[:-1]
 
@@ -20,7 +20,7 @@ DestructionActivity._classhier = inspect.getmro(DestructionActivity)[:-1]
 # for all activities that end existences
 class EoEActivity(EndOfExistence, Activity):
 	_uri_segment = "Activity"
-	_type = ["crm:End_of_Existence", "crm:Activity"]
+	_type = ["crm:64_End_of_Existence", "crm:E7_Activity"]
 	_niceType = ["EndOfExistence", "Activity"]	
 EoEActivity._classhier = inspect.getmro(EoEActivity)[:-1]
 

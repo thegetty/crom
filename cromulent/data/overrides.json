@@ -27,6 +27,7 @@
 
 		"P32":  "technique",
 		"P33": "specific_technique",
+		"P12": "involved",
 
 		"P78":  "time_identified_by",
 		"P78i": "identifies_time",
