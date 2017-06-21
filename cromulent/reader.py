@@ -103,7 +103,7 @@ class Reader(object):
 					if subvalue in self.uri_object_map:
 						setattr(what, prop, self.uri_object_map[subvalue])
 					elif rng in [model.Type, BaseResource]:
-						# Always a X
+						# Always a X, often no more info
 						setattr(what, prop, rng(ident=subvalue))
 					else:
 						self.forward_refs.append([what, prop, subvalue])
