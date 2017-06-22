@@ -3466,7 +3466,6 @@ Since Time-Spans may not have precisely known temporal extents, the CRM supports
 </rdfs:comment>
 	<rdfs:domain rdf:resource="E52_Time-Span"/>
 	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
-    <owl:inverseOf xmlns:owl="http://www.w3.org/2002/07/owl#" rdf:resource="P81a_end_of_the_begin"/>
 </rdf:Property>
 
 <rdf:Property rdf:about="P82_at_some_time_within">
@@ -3483,7 +3482,6 @@ Since Time-Spans may not have precisely known temporal extents, the CRM supports
 </rdfs:comment>
 	<rdfs:domain rdf:resource="E52_Time-Span"/>
 	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
-    <owl:inverseOf xmlns:owl="http://www.w3.org/2002/07/owl#" rdf:resource="P82a_begin_of_the_begin"/>
 </rdf:Property>
 
 <rdf:Property rdf:about="P83_had_at_least_duration">
