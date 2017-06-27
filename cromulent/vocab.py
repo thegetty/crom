@@ -8,7 +8,7 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
 	Activity, Group, Appellation, MonetaryAmount, Purchase, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
-	Acquisition, TransferOfCustody, Title 
+	Acquisition, TransferOfCustody, ManMadeFeature
 
 # Add classified_as initialization hack for all resources
 def post_init(self, **kw):
@@ -150,7 +150,13 @@ ext_classes = {
 	"SiteInstallation": {"parent": ManMadeObject, "vocab": "aat", "id":"300047896"},
 	"Text": {"parent": ManMadeObject, "vocab": "aat", "id":"300263751"},
 	"Print":  {"parent": ManMadeObject, "vocab": "aat", "id":"300041273"},
-	"TimeBasedMedia": {"parent": ManMadeObject, "vocab": "aat", "id":"300185191"}
+	"TimeBasedMedia": {"parent": ManMadeObject, "vocab": "aat", "id":"300185191"},
+
+	"FrontFeature": {"parent": ManMadeFeature, "vocab": "aat", "id":"300190703"},
+	"BackFeature": {"parent": ManMadeFeature, "vocab": "aat", "id":"300190692"},
+	"TopFeature": {"parent": ManMadeFeature, "vocab": "aat", "id":"300190710"},
+	"BottomFeature": {"parent": ManMadeFeature, "vocab": "aat", "id":"300190695"},
+	"SideFeature": {"parent": ManMadeFeature, "vocab": "aat", "id":"300190706"}
 
 }
  
