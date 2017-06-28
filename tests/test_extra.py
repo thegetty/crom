@@ -34,10 +34,10 @@ class TestExtraClasses(unittest.TestCase):
 
 	def test_add_schema(self):
 		who = Person("1")
-		self.assertRaises(DataError, who.__setattr__, 'family_name', "Doe")
+		self.assertRaises(DataError, who.__setattr__, 'exact_match', who)
 		extra.add_schema_properties()
-		who.family_name = "Doe"
-		self.assertEqual(who.family_name, "Doe")
+		who.exact_match = who
+		self.assertEqual(who.exact_match, [who])
 
 	def test_add_value(self):
 		what = Dimension("1")
@@ -45,4 +45,3 @@ class TestExtraClasses(unittest.TestCase):
 		extra.add_rdf_value()
 		what.value = 6
 		self.assertEqual(what.value, 6)
-

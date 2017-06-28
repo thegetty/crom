@@ -505,7 +505,7 @@
       "@id": "crm:P55i_currently_holds", 
       "@type": "@id"
     }, 
-    "bears_feature": {
+    "bears": {
       "@id": "crm:P56_bears_feature", 
       "@type": "@id"
     }, 

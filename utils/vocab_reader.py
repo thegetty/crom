@@ -118,8 +118,11 @@ for p in props:
 			ccname = ccname[4:]
 
 	koi = str(key_order_hash.get(ccname, default_key_order))
-	useflag = str(profile_flags.get(name, 0))
-	stuff.append([name, "property", ccname, label, comment, subProp, domn, rang, inverse, koi, useflag])
+
+	# either 0, or [1/2, 0/1] for okay/warn, single/multiple
+	useflags = profile_flags.get(name, [0,0]) or [0,0]
+	stuff.append([name, "property", ccname, label, comment, subProp, domn, rang, inverse, koi, 
+		str(useflags[0]), str(useflags[1])])
 
 outdata = '\n'.join(['\t'.join(x) for x in stuff])
 fh = codecs.open('../cromulent/data/crm_vocab.tsv', 'w', 'utf-8')
