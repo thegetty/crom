@@ -27,7 +27,7 @@ class TestFactorySetup(unittest.TestCase):
 		model.factory.base_url = 'http://data.getty.edu/provenance/'
 		model.factory.base_dir = 'tests/provenance_base_dir'
 		model.factory.default_lang = 'en'
-		model.factory.context_uri = 'http://www.cidoc-crm.org/cidoc-crm/'
+		#model.factory.context_uri = 'http://www.cidoc-crm.org/cidoc-crm/'
 
 	def tearDown(self):
 		model.factory.base_url = 'http://lod.example.org/museum/'
@@ -43,8 +43,8 @@ class TestFactorySetup(unittest.TestCase):
 	def test_default_lang(self):
 		self.assertEqual(model.factory.default_lang, 'en')
 
-	def test_context_uri(self):
-		self.assertEqual(model.factory.context_uri, 'http://www.cidoc-crm.org/cidoc-crm/')
+	#def test_context_uri(self):
+	#	self.assertEqual(model.factory.context_uri, 'http://www.cidoc-crm.org/cidoc-crm/')
 
 	def test_set_debug_stream(self):
 		strm = open('err_output', 'w')
@@ -63,7 +63,10 @@ class TestFactorySerialization(unittest.TestCase):
 		self.collection.label = "Test Object"
 
 	def test_toJSON(self):
-		expect = OrderedDict([('id', u'http://lod.example.org/museum/InformationObject/collection'), 
+		model.factory.context_uri = 'http://lod.getty.edu/context.json'
+		expect = OrderedDict([
+			('@context', model.factory.context_uri),
+			('id', u'http://lod.example.org/museum/InformationObject/collection'), 
 			('type', 'InformationObject'), ('label', 'Test Object')])
 		outj = model.factory.toJSON(self.collection)
 		self.assertEqual(expect, outj)
