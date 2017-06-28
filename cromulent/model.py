@@ -123,10 +123,6 @@ class CromulentFactory(object):
 				fh.close()
 			else:
 				raise ConfigurationError("Provided context_file does not exist")
-		elif context.startswith('http'):
-			self.maybe_warn("Loading remote context. "
-				"Please create a local copy and use the context_file parameter")				
-			# XXX figure out how best to do this in 2.x and 3.x
 		else:
 			raise ConfigurationError("No context provided, and load_context not False")
 		self.context_json = json.loads(data)

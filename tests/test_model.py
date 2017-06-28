@@ -56,6 +56,13 @@ class TestFactorySetup(unittest.TestCase):
 		self.assertEqual(model.factory.debug_level, 'error_on_warning')
 		self.assertRaises(model.ConfigurationError, model.factory.set_debug, 'xxx')
 
+	def test_load_context(self):
+		self.assertRaises(model.ConfigurationError, model.factory.load_context, 
+			context_file="does_not_exist.txt")
+		model.factory.load_context(context_file="tests/test_context.json")
+		self.assertEqual(model.factory.context_json, {"id":"@id"})
+
+
 class TestFactorySerialization(unittest.TestCase):
 
 	def setUp(self):
@@ -224,9 +231,7 @@ class TestBaseResource(unittest.TestCase):
 	def setUp(self):
 		self.artist = model.Person('00001', 'Jane Doe')
 		self.son = model.Person('00002', 'John Doe')
-		# NOTE these fields will fail by default as not in the base profile
 		model.Person._properties['parent_of']['okayToUse'] = 1
-		#model.Person._properties['born']['okayToUse'] = 1
 
 	def test_init(self):
 		self.assertEqual(self.artist.id, 'http://lod.example.org/museum/Person/00001')
@@ -240,10 +245,6 @@ class TestBaseResource(unittest.TestCase):
 		self.assertEqual(desc, 1)
 		parent = self.artist._check_prop('parent_of', self.son)
 		self.assertEqual(parent, 2)
-		#birth = self.artist._check_prop('born', 1977)
-		#self.assertEqual(birth, 0)
-		#no_key = self.artist._check_prop('knew', 'Jen Smith')
-		#self.assertEqual(no_key, 0)
 
 	def test_list_all_props(self):
 		props = self.artist._list_all_props()
@@ -260,6 +261,16 @@ class TestBaseResource(unittest.TestCase):
 		self.assertTrue(self.artist._check_reference(['http']))
 		self.assertFalse(self.artist._check_reference(['xxx', 'yyy']))
 		self.assertTrue(self.artist._check_reference(model.Person))
+
+	def test_multiplicity(self):
+		model.factory.process_multiplicity = 1
+		who = model.Actor()
+		mmo = model.ManMadeObject()
+		who.current_owner_of = mmo
+		mmo.current_owner = who
+		self.assertEqual(mmo.current_owner, who)
+		self.assertEqual(who.current_owner_of, [mmo])		
+
 
 class TestMagicMethods(unittest.TestCase):
 
