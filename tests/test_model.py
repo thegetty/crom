@@ -71,10 +71,13 @@ class TestFactorySerialization(unittest.TestCase):
 		self.collection = model.InformationObject('collection')
 		self.collection.label = "Test Object"
 
-
 	def test_broken_unicode(self):
 		model.factory.debug_level = "error_on_warning"
-		badjs = {"label": "\xFF\xFE\x02"}
+		try:
+			badval = b"\xFF\xFE\x02"
+		except:
+			badval = "\xFF\xFE\x02"
+		badjs = {"label": badval}
 		self.assertRaises(model.MetadataError, model.factory._buildString,
 			js=badjs)
 
