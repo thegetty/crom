@@ -17,6 +17,8 @@ class Reader(object):
 				data = json.loads(data)
 			except:
 				raise DataError("Data is not valid JSON")
+		if not data:
+			raise DataError("No Data provided")
 		self.uri_object_map = {}
 		self.forward_refs = []
 		try:
