@@ -206,8 +206,8 @@ class CromulentFactory(object):
 				else:
 					out = json.dumps(js, indent=2)
 		except UnicodeDecodeError:
-			self.maybe_warn("Can't decode %r" % js)
 			out = ""
+			self.maybe_warn("Can't decode %r" % js)
 		return out 		
 
 	def toString(self, what, compact=True):

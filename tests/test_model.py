@@ -64,7 +64,6 @@ class TestFactorySetup(unittest.TestCase):
 		self.assertEqual(model.factory.context_json, {"id":"@id"})
 		self.assertRaises(model.ConfigurationError, model.factory.load_context)
 
-
 class TestFactorySerialization(unittest.TestCase):
 
 	def setUp(self):
@@ -152,6 +151,15 @@ class TestFactorySerialization(unittest.TestCase):
 		js = model.factory.toJSON(x)
 		self.assertTrue(js['label'] == x.label)
 
+	def test_external(self):
+		x = model.ExternalResource(ident="1")
+		model.factory.elasticsearch_compatible = 1
+		js = x._toJSON()
+		self.assertTrue(type(js) == dict)
+		model.factory.elasticsearch_compatible = 0
+		js = x._toJSON()
+		# testing unicode in 2, str in 3 :(
+		self.assertTrue(type(js) != dict)		
 
 class TestProcessTSV(unittest.TestCase):
 
