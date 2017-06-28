@@ -205,7 +205,7 @@ class CromulentFactory(object):
 					out = json.dumps(js, separators=(',',':'))
 				else:
 					out = json.dumps(js, indent=2)
-		except UnicodeDecodeError:
+		except:
 			out = ""
 			self.maybe_warn("Can't decode %r" % js)
 		return out 		
