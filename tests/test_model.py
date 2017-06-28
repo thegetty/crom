@@ -55,12 +55,14 @@ class TestFactorySetup(unittest.TestCase):
 		model.factory.set_debug('error_on_warning')
 		self.assertEqual(model.factory.debug_level, 'error_on_warning')
 		self.assertRaises(model.ConfigurationError, model.factory.set_debug, 'xxx')
+		self.assertRaises(model.MetadataError, model.factory.maybe_warn, "test")
 
 	def test_load_context(self):
 		self.assertRaises(model.ConfigurationError, model.factory.load_context, 
 			context_file="does_not_exist.txt")
 		model.factory.load_context(context_file="tests/test_context.json")
 		self.assertEqual(model.factory.context_json, {"id":"@id"})
+		self.assertRaises(model.ConfigurationError, model.factory.load_context)
 
 
 class TestFactorySerialization(unittest.TestCase):
@@ -68,6 +70,13 @@ class TestFactorySerialization(unittest.TestCase):
 	def setUp(self):
 		self.collection = model.InformationObject('collection')
 		self.collection.label = "Test Object"
+
+
+	def test_broken_unicode(self):
+		model.factory.debug_level = "error_on_warning"
+		badjs = {"label": "\xFF\xFE\x02"}
+		self.assertRaises(model.MetadataError, model.factory._buildString,
+			js=badjs)
 
 	def test_toJSON(self):
 		model.factory.context_uri = 'http://lod.getty.edu/context.json'
@@ -178,6 +187,11 @@ class TestBuildClass(unittest.TestCase):
 		os.remove('tests/temp.tsv')
 
 class TestAutoIdentifiers(unittest.TestCase):
+
+	def test_bad_autoid(self):
+		model.factory.auto_id_type = "broken"
+		self.assertRaises(model.ConfigurationError, model.factory.generate_id,
+			"irrelevant")
 
 	def test_int(self):
 		model.factory.auto_id_type = "int"
