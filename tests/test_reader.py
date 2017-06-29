@@ -41,4 +41,7 @@ class TestReader(unittest.TestCase):
 		unknown = '{"type":"FishBat"}'
 		self.assertRaises(DataError, self.reader.read, unknown)
 
+		unknown2 = '{"type":"Person", "fishbat": "bob"}'
+		self.assertRaises(DataError, self.reader.read, unknown)
+
 
