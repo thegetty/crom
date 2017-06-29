@@ -1,6 +1,6 @@
 
 from __future__ import unicode_literals
-import os, sys
+import os, sys, re
 import codecs
 import inspect
 import uuid
@@ -95,6 +95,8 @@ class CromulentFactory(object):
 
 		self.elasticsearch_compatible = False
 		self.serialize_all_resources = False
+
+		self.json_indent = 2
 
 		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, 
 			"label": 5, "value": 6, "description": 7}
@@ -192,28 +194,61 @@ class CromulentFactory(object):
 		self.done = {}
 		return out
 
-	def _buildString(self, js, compact=True):
+	def _collapse_json(self, text, collapse):
+		js_indent = self.json_indent
+		lines = text.splitlines()
+		out = [lines[0]]
+		while lines:
+			l = lines.pop(0)
+			indent = len(re.split('\S', l, 1)[0])
+			if indent and l.rstrip()[-1] in ['[', '{']:
+				curr = indent
+				temp = []
+				stemp = []
+				while lines and curr <= indent:
+					if temp and curr == indent:
+						break
+					temp.append(l[curr:])
+					stemp.append(l.strip())
+					l = lines.pop(0)
+					indent = len(re.split('\S', l, 1)[0])					
+				temp.append(l[curr:])
+				stemp.append(l.lstrip())
+
+				short = " " * curr + ''.join(stemp)
+				if len(short) < collapse:
+					out.append(short)
+				else:
+					ntext = '\n'.join(temp)
+					nout = self._collapse_json(ntext, collapse)					
+					for no in nout:
+						out.append(" " * curr + no)
+			elif indent:
+				out.append(l)
+		out.append(l)
+		return out
+
+	def collapse_json(self, text, collapse):
+		return '\n'.join(self._collapse_json(text, collapse))
+
+	def _buildString(self, js, compact=True, collapse=0):
 		"""Build string from JSON."""
 		try:
-			if type(js) == dict:
-				if compact:
-					out = json.dumps(js, sort_keys=True, separators=(',',':'))
-				else:
-					out = json.dumps(js, sort_keys=True, indent=2)
+			if compact:
+				out = json.dumps(js, separators=(',',':'))
 			else:
-				if compact:
-					out = json.dumps(js, separators=(',',':'))
-				else:
-					out = json.dumps(js, indent=2)
+				out = json.dumps(js, indent=self.json_indent)
 		except:
 			out = ""
 			self.maybe_warn("Can't decode %r" % js)
+		if collapse:
+			out = self.collapse_json(out, collapse)
 		return out 		
 
-	def toString(self, what, compact=True):
+	def toString(self, what, compact=True, collapse=0):
 		"""Return JSON setialization as string."""
 		js = self.toJSON(what)
-		return self._buildString(js, compact)
+		return self._buildString(js, compact, collapse)
 
 	def toFile(self, what, compact=True, filename=""):
 		"""Write to local file.
