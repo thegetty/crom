@@ -14,7 +14,7 @@ setup(
         'data/key_order.json', 'data/context.jsonld']
     },
     test_suite="tests",
-    version = '0.5.1',
+    version = '0.5.5',
     description = 'A library for mapping CIDOC-CRM classes to Python objects',
     author = 'Getty Research Institute, Rob Sanderson',
     author_email = 'jgomez@getty.edu, rsanderson@getty.edu',
