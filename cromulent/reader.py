@@ -1,5 +1,6 @@
 from . import model
 from .model import factory, DataError, OrderedDict, BaseResource, KEY_ORDER_HASH as koh
+from .model import STR_TYPES
 from .extra import EoEActivity, Payment
 import json
 
@@ -12,7 +13,7 @@ class Reader(object):
 	def read(self, data):
 		if not data:
 			raise DataError("No data provided: %r" % data)
-		elif type(data) in [str, unicode]:
+		elif type(data) in STR_TYPES:
 			try:
 				data = json.loads(data)
 			except:
@@ -98,7 +99,7 @@ class Reader(object):
 					# recurse ...
 					val = self.construct(subvalue)
 					setattr(what, prop, val)
-				elif type(subvalue) in [str, unicode]:
+				elif type(subvalue) in STR_TYPES:
 					# raw URI to be made into a class of type rng
 					# or back reference
 					if subvalue in self.uri_object_map:
