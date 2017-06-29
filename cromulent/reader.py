@@ -81,7 +81,7 @@ class Reader(object):
 		propInfo = what._list_all_props()
 
 		# sort data by KOH to minimize chance of bad backrefs
-		itms = js.items()
+		itms = list(js.items())
 		itms.sort(key=lambda x: koh.get(x[0], 10000))
 
 		for (prop, value) in itms:
