@@ -223,9 +223,9 @@ def add_art_setter():
 	# set it by adding art=1 to the constructor
 
 	def art_post_init(self, **kw):
+		super(ManMadeObject, self)._post_init(**kw)
 		if "art" in kw:
 			self.classified_as = Type("aat:300133025")
-		super(ManMadeObject, self)._post_init(**kw)
 	ManMadeObject._post_init = art_post_init
 
 	def art2_post_init(self, **kw):

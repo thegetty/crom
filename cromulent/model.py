@@ -491,7 +491,7 @@ class BaseResource(ExternalResource):
 			if not inversed and self._factory.materialize_inverses and inverse:
 				# set the backwards ref		
 				value._set_magic_resource(inverse, self, True)
-			if multiple and self._factory.process_multiplicity:
+			if type(current) != list and multiple and self._factory.process_multiplicity:
 				object.__setattr__(self, which, [getattr(self, which)])
 
 	def _toJSON(self, top=False):
