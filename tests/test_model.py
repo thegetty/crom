@@ -27,7 +27,7 @@ class TestFactorySetup(unittest.TestCase):
 		model.factory.base_url = 'http://data.getty.edu/provenance/'
 		model.factory.base_dir = 'tests/provenance_base_dir'
 		model.factory.default_lang = 'en'
-		model.factory.context_uri = 'http://www.cidoc-crm.org/cidoc-crm/'
+		#model.factory.context_uri = 'http://www.cidoc-crm.org/cidoc-crm/'
 
 	def tearDown(self):
 		model.factory.base_url = 'http://lod.example.org/museum/'
@@ -43,8 +43,8 @@ class TestFactorySetup(unittest.TestCase):
 	def test_default_lang(self):
 		self.assertEqual(model.factory.default_lang, 'en')
 
-	def test_context_uri(self):
-		self.assertEqual(model.factory.context_uri, 'http://www.cidoc-crm.org/cidoc-crm/')
+	#def test_context_uri(self):
+	#	self.assertEqual(model.factory.context_uri, 'http://www.cidoc-crm.org/cidoc-crm/')
 
 	def test_set_debug_stream(self):
 		strm = open('err_output', 'w')
@@ -55,6 +55,14 @@ class TestFactorySetup(unittest.TestCase):
 		model.factory.set_debug('error_on_warning')
 		self.assertEqual(model.factory.debug_level, 'error_on_warning')
 		self.assertRaises(model.ConfigurationError, model.factory.set_debug, 'xxx')
+		self.assertRaises(model.MetadataError, model.factory.maybe_warn, "test")
+
+	def test_load_context(self):
+		self.assertRaises(model.ConfigurationError, model.factory.load_context, 
+			context_file="does_not_exist.txt")
+		model.factory.load_context(context_file="tests/test_context.json")
+		self.assertEqual(model.factory.context_json, {"id":"@id"})
+		self.assertRaises(model.ConfigurationError, model.factory.load_context)
 
 class TestFactorySerialization(unittest.TestCase):
 
@@ -62,8 +70,21 @@ class TestFactorySerialization(unittest.TestCase):
 		self.collection = model.InformationObject('collection')
 		self.collection.label = "Test Object"
 
+	def test_broken_unicode(self):
+		model.factory.debug_level = "error_on_warning"
+		try:
+			badval = b"\xFF\xFE\x02"
+		except:
+			badval = "\xFF\xFE\x02"
+		badjs = {"label": badval}
+		self.assertRaises(model.MetadataError, model.factory._buildString,
+			js=badjs)
+
 	def test_toJSON(self):
-		expect = OrderedDict([('id', u'http://lod.example.org/museum/InformationObject/collection'), 
+		model.factory.context_uri = 'http://lod.getty.edu/context.json'
+		expect = OrderedDict([
+			('@context', model.factory.context_uri),
+			('id', u'http://lod.example.org/museum/InformationObject/collection'), 
 			('type', 'InformationObject'), ('label', 'Test Object')])
 		outj = model.factory.toJSON(self.collection)
 		self.assertEqual(expect, outj)
@@ -130,6 +151,15 @@ class TestFactorySerialization(unittest.TestCase):
 		js = model.factory.toJSON(x)
 		self.assertTrue(js['label'] == x.label)
 
+	def test_external(self):
+		x = model.ExternalResource(ident="1")
+		model.factory.elasticsearch_compatible = 1
+		js = x._toJSON()
+		self.assertTrue(type(js) == dict)
+		model.factory.elasticsearch_compatible = 0
+		js = x._toJSON()
+		# testing unicode in 2, str in 3 :(
+		self.assertTrue(type(js) != dict)		
 
 class TestProcessTSV(unittest.TestCase):
 
@@ -168,6 +198,11 @@ class TestBuildClass(unittest.TestCase):
 		os.remove('tests/temp.tsv')
 
 class TestAutoIdentifiers(unittest.TestCase):
+
+	def test_bad_autoid(self):
+		model.factory.auto_id_type = "broken"
+		self.assertRaises(model.ConfigurationError, model.factory.generate_id,
+			"irrelevant")
 
 	def test_int(self):
 		model.factory.auto_id_type = "int"
@@ -221,9 +256,7 @@ class TestBaseResource(unittest.TestCase):
 	def setUp(self):
 		self.artist = model.Person('00001', 'Jane Doe')
 		self.son = model.Person('00002', 'John Doe')
-		# NOTE these fields will fail by default as not in the base profile
 		model.Person._properties['parent_of']['okayToUse'] = 1
-		#model.Person._properties['born']['okayToUse'] = 1
 
 	def test_init(self):
 		self.assertEqual(self.artist.id, 'http://lod.example.org/museum/Person/00001')
@@ -237,10 +270,6 @@ class TestBaseResource(unittest.TestCase):
 		self.assertEqual(desc, 1)
 		parent = self.artist._check_prop('parent_of', self.son)
 		self.assertEqual(parent, 2)
-		#birth = self.artist._check_prop('born', 1977)
-		#self.assertEqual(birth, 0)
-		#no_key = self.artist._check_prop('knew', 'Jen Smith')
-		#self.assertEqual(no_key, 0)
 
 	def test_list_all_props(self):
 		props = self.artist._list_all_props()
@@ -257,6 +286,16 @@ class TestBaseResource(unittest.TestCase):
 		self.assertTrue(self.artist._check_reference(['http']))
 		self.assertFalse(self.artist._check_reference(['xxx', 'yyy']))
 		self.assertTrue(self.artist._check_reference(model.Person))
+
+	def test_multiplicity(self):
+		model.factory.process_multiplicity = 1
+		who = model.Actor()
+		mmo = model.ManMadeObject()
+		who.current_owner_of = mmo
+		mmo.current_owner = who
+		self.assertEqual(mmo.current_owner, who)
+		self.assertEqual(who.current_owner_of, [mmo])		
+
 
 class TestMagicMethods(unittest.TestCase):
 

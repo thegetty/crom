@@ -78,6 +78,7 @@ class CromulentFactory(object):
 		self.validate_profile = True
 		self.validate_range = True
 		self.auto_assign_id = True
+		self.process_multiplicity = True
 
 		self.auto_id_type = "int-per-segment" #  "int", "int-per-type", "int-per-segment", "uuid"
 		self.default_lang = lang
@@ -122,10 +123,6 @@ class CromulentFactory(object):
 				fh.close()
 			else:
 				raise ConfigurationError("Provided context_file does not exist")
-		elif context.startswith('http'):
-			self.maybe_warn("Loading remote context. "
-				"Please create a local copy and use the context_file parameter")				
-			# XXX figure out how best to do this in 2.x and 3.x
 		else:
 			raise ConfigurationError("No context provided, and load_context not False")
 		self.context_json = json.loads(data)
@@ -208,9 +205,9 @@ class CromulentFactory(object):
 					out = json.dumps(js, separators=(',',':'))
 				else:
 					out = json.dumps(js, indent=2)
-		except UnicodeDecodeError:
-			self.maybe_warn("Can't decode %r" % js)
+		except:
 			out = ""
+			self.maybe_warn("Can't decode %r" % js)
 		return out 		
 
 	def toString(self, what, compact=True):
@@ -477,20 +474,25 @@ class BaseResource(ExternalResource):
 		elif type(current) == list:
 			current.append(value)
 		else:
-			new = [current, value]
-			object.__setattr__(self, which, new)
+			value = [current, value]
+			object.__setattr__(self, which, value)
 
-		if not inversed and self._factory.materialize_inverses:
-			# set the backwards ref
+		if self._factory.materialize_inverses or self._factory.process_multiplicity:
 			inverse = None
+			multiple = 1
 			for c in self._classhier:
 				if which in c._properties:
 					v = c._properties[which]
+					if 'multiple' in v:
+						multiple = v['multiple']
 					if 'inverse' in v:
 						inverse = v['inverse']
 						break
-			if inverse:	
+			if not inversed and self._factory.materialize_inverses and inverse:
+				# set the backwards ref		
 				value._set_magic_resource(inverse, self, True)
+			if multiple and self._factory.process_multiplicity:
+				object.__setattr__(self, which, [getattr(self, which)])
 
 	def _toJSON(self, top=False):
 		"""Serialize as JSON."""
@@ -564,7 +566,7 @@ class BaseResource(ExternalResource):
 						else:
 							# A number or string
 							newl.append(ni)
-					d[k] = newl
+					d[k] = newl				
 
 		if self._factory.full_names:
 			nd = {}
@@ -645,7 +647,7 @@ def process_tsv(fn):
 		else:
 			# property
 			data = {"name": name, "subOf": info[5], "label": info[3], "propName": info[2],
-			"desc": info[4], "range": info[7], "inverse": info[8], "okay": info[10]}
+			"desc": info[4], "range": info[7], "inverse": info[8], "okay": info[10], "multiple": info[11]}
 			try:
 				what = vocabData[info[6]]
 			except:
@@ -700,12 +702,17 @@ def build_class(crmName, parent, vocabData):
 		if not okay:
 			okay = '1'
 		okay = int(okay)
+		mult = p['multiple']
+		if not mult:
+			mult = '0'
+		mult = int(mult)
 
 		# can't guarantee classes have been built yet :(
 		c._properties[ccname] = {"rdf": "crm:%s" % name, 
 			"rangeStr": rng,
 			"inverseRdf": invRdf,
-			"okayToUse": okay}
+			"okayToUse": okay,
+			"multiple": mult}
  
 	# Build subclasses
 	for s in data['subs']:

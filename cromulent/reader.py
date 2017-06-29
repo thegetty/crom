@@ -1,5 +1,6 @@
 from . import model
 from .model import factory, DataError, OrderedDict, BaseResource, KEY_ORDER_HASH as koh
+from .model import STR_TYPES
 from .extra import EoEActivity, Payment
 import json
 
@@ -12,11 +13,13 @@ class Reader(object):
 	def read(self, data):
 		if not data:
 			raise DataError("No data provided: %r" % data)
-		elif type(data) in [str, unicode]:
+		elif type(data) in STR_TYPES:
 			try:
 				data = json.loads(data)
 			except:
 				raise DataError("Data is not valid JSON")
+		if not data:
+			raise DataError("No Data provided")
 		self.uri_object_map = {}
 		self.forward_refs = []
 		try:
@@ -33,8 +36,7 @@ class Reader(object):
 			if uri in self.uri_object_map:
 				setattr(what, prop, self.uri_object_map[uri])
 			else:
-				print "No class information for %s.%s = %s" % (what, prop, uri)
-				raise NotImplementedError()
+				raise NotImplementedError("No class information for %s.%s = %s".format(what, prop, uri))
 
 	def construct(self, js):
 		# pass in json, get back object
@@ -79,7 +81,7 @@ class Reader(object):
 		propInfo = what._list_all_props()
 
 		# sort data by KOH to minimize chance of bad backrefs
-		itms = js.items()
+		itms = list(js.items())
 		itms.sort(key=lambda x: koh.get(x[0], 10000))
 
 		for (prop, value) in itms:
@@ -97,7 +99,7 @@ class Reader(object):
 					# recurse ...
 					val = self.construct(subvalue)
 					setattr(what, prop, val)
-				elif type(subvalue) in [str, unicode]:
+				elif type(subvalue) in STR_TYPES:
 					# raw URI to be made into a class of type rng
 					# or back reference
 					if subvalue in self.uri_object_map:

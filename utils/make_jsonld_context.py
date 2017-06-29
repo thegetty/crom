@@ -26,7 +26,6 @@ context['schema'] = "http://schema.org/"
 context['skos'] = "http://www.w3.org/2004/02/skos/core#"
 context['foaf'] = 'http://xmlns.com/foaf/0.1/'
 context['xsd'] = "http://www.w3.org/2001/XMLSchema#"
-
 context["pi"] = "http://linked.art/ns/prov/"
 context["aat"]  = "http://vocab.getty.edu/aat/"
 context["ulan"] = "http://vocab.getty.edu/ulan/"
@@ -47,6 +46,7 @@ for l in lines:
 	else:
 		ctname = info[2]
 		rng = info[7]
+		mult = info[11] or '1'
 		if context.has_key(ctname):
 			print "Already found: %s   (%s vs %s)" % (ctname, context[ctname]['@id'], name)
 		else:
@@ -59,29 +59,24 @@ for l in lines:
 				typ = "@id"
 			if typ in ["rdfs:Literal", "xsd:dateTime"]:
 				context[ctname] = {"@id": "crm:%s" % name}
+			elif mult == '1':
+				context[ctname] = {"@id": "crm:%s" % name, "@type": typ, "@container":"@set"}
 			else:
-				context[ctname] = {"@id": "crm:%s" % name, "@type": typ} 
+				context[ctname] = {"@id": "crm:%s" % name, "@type": typ}
 
 # Language Map:   label, has_note, description  ?
 # "@container": "@language"
 
 context['label'] = {"@id": "rdfs:label"}
 context['value'] = {"@id": "rdf:value"}
-context['description'] = {"@id": "dc:description"}
-
-context['height'] = {"@id": "schema:height", "@type": "@id"}
-context['width'] = {"@id": "schema:width", "@type": "@id"}
-context['family_name'] = {"@id": "schema:familyName"}
-context['given_name'] = {"@id": "schema:givenName"}
-context['nationality'] = {"@id": "schema:nationality", "@type": "@id"}
-context['style'] = {"@id": "schema:genre", "@type": "@id"}
+context['description'] = {"@id": "dc:description", "@container": "@set"}
+context['style'] = {"@id": "schema:genre", "@type": "@id", "@container": "@set"}
 context['conforms_to'] = {'@id': "dcterms:conformsTo", "@type": "@id"}
 context['format'] = {"@id": "dc:format"}
-context['homepage'] = {"@id": "foaf:homepage", "@type": "@id"}
-context['webpage'] = {"@id": "foaf:page", "@type": "@id"}
-context['exact_match'] = {"@id": "skos:exactMatch", "@type": "@id"}
-context['related'] = {"@id": "dcterms:relation", "@type": "@id"}
-context['subject'] = {"@id": "dcterms:subject", "@type": "@id"}
+context['exact_match'] = {"@id": "skos:exactMatch", "@type": "@id", "@container": "@set"}
+context['close_match'] = {"@id": "skos:closeMatch", "@type": "@id", "@container": "@set"}
+context['related'] = {"@id": "dcterms:relation", "@type": "@id", "@container": "@set"}
+context['subject'] = {"@id": "dcterms:subject", "@type": "@id", "@container": "@set"}
 
 # Add in Provenance extension 
 context["Payment"] = "pi:Payment"
@@ -100,8 +95,8 @@ context["paid_amount"] = {
 
 ctxt = {"@context": context}
 
-outstr = json.dumps(ctxt, indent=2)
 
+outstr = json.dumps(ctxt, indent=2)
 fh = file("../cromulent/data/context.jsonld", 'w')
 fh.write(outstr)
 fh.close()
