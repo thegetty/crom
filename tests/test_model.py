@@ -59,10 +59,10 @@ class TestFactorySetup(unittest.TestCase):
 
 	def test_load_context(self):
 		self.assertRaises(model.ConfigurationError, model.factory.load_context, 
-			context_file="does_not_exist.txt")
-		model.factory.load_context(context_file="tests/test_context.json")
-		self.assertEqual(model.factory.context_json, {"id":"@id"})
-		self.assertRaises(model.ConfigurationError, model.factory.load_context)
+			"foo", {"foo":"does_not_exist.txt"})
+		model.factory.load_context("foo", {"foo":"tests/test_context.json"})
+		self.assertEqual(model.factory.context_json, {"@context":{"id":"@id"}})
+		self.assertRaises(model.ConfigurationError, model.factory.load_context, "", {})
 
 class TestFactorySerialization(unittest.TestCase):
 

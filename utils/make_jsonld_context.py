@@ -35,6 +35,9 @@ context["tgn"] = "http://vocab.getty.edu/tgn/"
 context['id'] = "@id"
 context['type'] = "@type"
 
+extension = OrderedDict()
+extension['crm'] = "http://www.cidoc-crm.org/cidoc-crm/"
+
 for l in lines:
 	l = l[:-1] # chomp
 	info= l.split('\t')
@@ -42,10 +45,16 @@ for l in lines:
 	if info[1] == "class":
 		# map json key to ontology for @type:@vocab
 		ctname = info[2]
-		context[ctname] = "crm:%s" % name
+		used = info[-1]
+		# split into used and other
+		if used == "1":			
+			context[ctname] = "crm:%s" % name
+		else:
+			extension[ctname] = "crm:%s" % name
 	else:
 		ctname = info[2]
 		rng = info[7]
+		used = info[-2]
 		mult = info[11] or '1'
 		if context.has_key(ctname):
 			print "Already found: %s   (%s vs %s)" % (ctname, context[ctname]['@id'], name)
@@ -57,12 +66,14 @@ for l in lines:
 					typ = rng
 			else:
 				typ = "@id"
+			which = context if used == "1" else extension
+
 			if typ in ["rdfs:Literal", "xsd:dateTime"]:
-				context[ctname] = {"@id": "crm:%s" % name}
+				which[ctname] = {"@id": "crm:%s" % name}
 			elif mult == '1':
-				context[ctname] = {"@id": "crm:%s" % name, "@type": typ, "@container":"@set"}
+				which[ctname] = {"@id": "crm:%s" % name, "@type": typ, "@container":"@set"}
 			else:
-				context[ctname] = {"@id": "crm:%s" % name, "@type": typ}
+				which[ctname] = {"@id": "crm:%s" % name, "@type": typ}
 
 # Language Map:   label, has_note, description  ?
 # "@container": "@language"
@@ -94,9 +105,14 @@ context["paid_amount"] = {
     }
 
 ctxt = {"@context": context}
-
+xctxt = {"@context": extension}
 
 outstr = json.dumps(ctxt, indent=2)
-fh = file("../cromulent/data/context.jsonld", 'w')
+fh = file("../cromulent/data/linked-art.json", 'w')
+fh.write(outstr)
+fh.close()
+
+outstr = json.dumps(xctxt, indent=2)
+fh = file("../cromulent/data/cidoc-extension.json", 'w')
 fh.write(outstr)
 fh.close()

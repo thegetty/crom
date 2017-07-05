@@ -8,6 +8,11 @@ import uuid
 ### Mappings for duplicate properties ###
 ### See build_tsv/vocab_reader
 
+KEY_ORDER_HASH = {}
+KEY_ORDER_DEFAULT = 10000
+LINKED_ART_CONTEXT_URI = "https://linked.art/ns/v1/linked-art.json"
+CRM_EXT_CONTEXT_URI = "https://linked.art/ns/v1/cidoc-extension.json"
+
 try:
     import json
 except:
@@ -64,7 +69,7 @@ class ProfileError(MetadataError):
 class CromulentFactory(object):
 
 	def __init__(self, base_url="", base_dir="", lang="", full_names=False, 
-		context="", context_file="", load_context=True):
+		context="", context_file={}, load_context=True):
 		self.base_url = base_url
 		self.base_dir = base_dir
 
@@ -83,6 +88,7 @@ class CromulentFactory(object):
 		self.auto_id_type = "int-per-segment" #  "int", "int-per-type", "int-per-segment", "uuid"
 		self.default_lang = lang
 		self.filename_extension = ".json"
+		# context_uri might actually be a list of URIs, and/or dicts
 		self.context_uri = context
 		self.context_json = {}
 
@@ -90,7 +96,14 @@ class CromulentFactory(object):
 		self.prefixes_rev = {}
 		# Maybe load it up for prefixes
 		if load_context:
-			self.load_context(context, context_file)
+			context_filemap = {
+				LINKED_ART_CONTEXT_URI: 
+					os.path.join(os.path.dirname(__file__), 'data', 'linked-art.json'),
+				CRM_EXT_CONTEXT_URI:
+					os.path.join(os.path.dirname(__file__), 'data', 'cidoc-extension.json')
+			}
+			context_filemap.update(context_file)
+			self.load_context(context, context_filemap)
 			self.load_prefixes_from_context()
 
 		self.elasticsearch_compatible = False
@@ -108,26 +121,35 @@ class CromulentFactory(object):
 		self._auto_id_segments = {}
 		self._auto_id_int = -1
 
-	def load_context(self, context="", context_file=""):
-		if context == "http://linked.art/ns/context/1/full.jsonld":
-			# Use LinkedArt CRM context
-			dd = os.path.join(os.path.dirname(__file__), 'data')
-			fn = os.path.join(dd, 'context.jsonld')
-			fh = open(fn)
-			data = fh.read()
-			fh.close()
-		elif context_file:
-			# Check if file exists and load it
-			# otherwise error
-			if os.path.exists(context_file):
-				fh = open(context_file)
-				data = fh.read()
-				fh.close()
-			else:
-				raise ConfigurationError("Provided context_file does not exist")
-		else:
+	def load_context(self, context, context_filemap):
+
+		if not context or not context_filemap:
 			raise ConfigurationError("No context provided, and load_context not False")
-		self.context_json = json.loads(data)
+
+		if type(context) != list:
+			context = [context]
+
+		js = {'@context': {}}
+		for ct in context:
+			fn = context_filemap.get(ct, "")
+			if fn:
+				try:
+					fh = open(fn)
+					data = fh.read()
+					fh.close()
+				except IOError:
+					raise ConfigurationError("Provided context file does not exist")
+			else:
+				# Fetch from web
+				data = "{}"
+
+			try:
+				ctx = json.loads(data)
+				js['@context'].update(ctx['@context'])
+			except:
+				raise ConfigurationError("Provided context does not have valid JSON")				
+		# this is the merged context information, not any single one
+		self.context_json = js
 
 	def load_prefixes_from_context(self):
 		# Filter context looking for prefixes
@@ -660,9 +682,6 @@ BaseResource._properties = {'id': {"rdf": "@id", "range": str, "okayToUse": 1},
 }
 BaseResource._classhier = (BaseResource, ExternalResource)
 
-KEY_ORDER_HASH = {}
-KEY_ORDER_DEFAULT = 10000
-
 def process_tsv(fn):
 	fh = codecs.open(fn, 'r', 'utf-8')
 	lines = fh.readlines()
@@ -794,5 +813,6 @@ def build_classes(fn=None, top=None):
 # and a different context used. But for now ...
 
 # Build the factory first, so properties can be added to key_order
-factory = CromulentFactory("http://lod.example.org/museum/", context="http://linked.art/ns/context/1/full.jsonld")
+factory = CromulentFactory("http://lod.example.org/museum/", context="https://linked.art/ns/v1/linked-art.json")
 build_classes()
+
