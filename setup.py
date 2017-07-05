@@ -11,7 +11,7 @@ setup(
     packages = ['cromulent'],
     package_data = {
         'cromulent': ['data/crm_vocab.tsv', 'data/overrides.json', 
-        'data/key_order.json', 'data/context.jsonld']
+        'data/key_order.json', 'data/linked-art.json', 'data/cidoc-extension.json']
     },
     test_suite="tests",
     version = '0.6.0',
