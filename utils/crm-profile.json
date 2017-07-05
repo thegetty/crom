@@ -82,7 +82,7 @@
   "E90_Symbolic_Object": 0, 
   "E92_Spacetime_Volume": 0, 
   "E93_Presence": 0, 
-  "E96_Purchase": 1, 
+  "E96_Purchase": 0, 
   "E97_Monetary_Amount": 1, 
   "E98_Currency": 1, 
   "E9_Move": 2, 

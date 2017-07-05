@@ -63,14 +63,12 @@ ext_classes = {
 	"WebPage": {"parent": InformationObject, "vocab":"aat", "id":"300264578"},
 	"Register": {"parent": InformationObject, "vocab":"aat", "id":"300027168"},
 
-	"Latitude":  {"parent": SpatialCoordinates, "vocab":"aat", "id":"300387565"},
-	"Longitude": {"parent": SpatialCoordinates, "vocab":"aat", "id":"300387567"},
-
 	"Height":     {"parent": Dimension, "vocab":"aat", "id":"300055644"},
 	"Width":      {"parent": Dimension, "vocab":"aat", "id":"300055647"},
 	"Depth":      {"parent": Dimension, "vocab":"aat", "id":"300072633"},
 	"Diameter":   {"parent": Dimension, "vocab":"aat", "id":"300055624"},
 	"Weight":     {"parent": Dimension, "vocab":"aat", "id":"300056240"},
+	"Color":      {"parent": Dimension, "vocab":"aat", "id":"300056130"},
 
 	"Gallery":      {"parent": Place, "vocab":"aat", "id":"300240057"},
 	"AuctionHouse": {"parent": Place, "vocab":"aat", "id":"300005234"},
@@ -82,7 +80,7 @@ ext_classes = {
 	"Nationality": {"parent": Group, "vocab":"aat", "id":"300379842"},
 	"Gender":      {"parent": Group, "vocab":"aat", "id":"300055147"},
 
-	"Auctioneer":  {"parent": Person, "vocab":"aat", "id":"300025208"},
+	"Auctioneer":  {"parent": Person, "vocab":"aat", "id":"300025208"}, # is this useful?
 
 	"Auction":     {"parent": Activity, "vocab":"aat", "id":"300054751"},
 	"Bidding":     {"parent": Activity, "vocab":"aat", "id":"300054602"}, # individual bid
@@ -92,6 +90,7 @@ ext_classes = {
 	"Exhibition":  {"parent": Activity, "vocab":"aat", "id":"300054766"},
 	"MultiExhibition": {"parent": Activity, "vocab":"aat", "id":"300054773"},
 	"Active":      {"parent": Activity, "vocab":"aat", "id":"300393177"},
+	"Purchase":  {"parent":Acquisition, "vocab":"aat", "id":"300077989"},
 
 	"Theft": {"parent": TransferOfCustody, "vocab":"aat", "id": "300055292"},
 
