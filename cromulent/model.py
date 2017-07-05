@@ -144,7 +144,6 @@ class CromulentFactory(object):
 				data = "{}"
 
 			try:
-				print data
 				ctx = json.loads(data)
 				js['@context'].update(ctx['@context'])
 			except:
