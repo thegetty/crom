@@ -689,16 +689,6 @@
       "@id": "crm:P147i_was_curated_by", 
       "@type": "@id"
     }, 
-    "component": {
-      "@id": "crm:P148_has_component", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "component_of": {
-      "@id": "crm:P148i_is_component_of", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
     "concept_identified_by": {
       "@id": "crm:P149_is_identified_by", 
       "@type": "@id"
