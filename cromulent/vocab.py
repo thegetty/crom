@@ -104,10 +104,11 @@ ext_classes = {
 	"Locating": {"parent": AttributeAssignment, "vocab":"aat", "id":"300393211"},
 	"Measuring": {"parent": AttributeAssignment, "vocab":"aat", "id":"300411672"},
 
-	"SupportPart": {"parent": PhysicalObject, "vocab":"aat", "id":"300014844"},
-	"FramePart": {"parent": PhysicalObject, "vocab":"aat", "id":"300404391"},
-	"MountPart": {"parent": PhysicalObject, "vocab":"aat", "id":"300131087"},
-	"PanelPart": {"parent": PhysicalObject, "vocab":"aat", "id":"300014657"},
+	"SupportPart": {"parent": ManMadeObject, "vocab":"aat", "id":"300014844"},
+	"FramePart": {"parent": ManMadeObject, "vocab":"aat", "id":"300404391"},
+	"MountPart": {"parent": ManMadeObject, "vocab":"aat", "id":"300131087"},
+	"PanelPart": {"parent": ManMadeObject, "vocab":"aat", "id":"300014657"},
+
 	"AuctionLotSet": {"parent": PhysicalObject, "vocab":"aat", "id":"300411307"},
 	"CollectionSet": {"parent": PhysicalObject, "vocab":"aat", "id":"300025976"},
 
@@ -151,11 +152,11 @@ ext_classes = {
 	"Print":  {"parent": ManMadeObject, "vocab": "aat", "id":"300041273"},
 	"TimeBasedMedia": {"parent": ManMadeObject, "vocab": "aat", "id":"300185191"},
 
-	"FrontFeature": {"parent": ManMadeFeature, "vocab": "aat", "id":"300190703"},
-	"BackFeature": {"parent": ManMadeFeature, "vocab": "aat", "id":"300190692"},
-	"TopFeature": {"parent": ManMadeFeature, "vocab": "aat", "id":"300190710"},
-	"BottomFeature": {"parent": ManMadeFeature, "vocab": "aat", "id":"300190695"},
-	"SideFeature": {"parent": ManMadeFeature, "vocab": "aat", "id":"300190706"}
+	"FrontPart": {"parent": ManMadeObject, "vocab": "aat", "id":"300190703"},
+	"BackPart": {"parent": ManMadeObject, "vocab": "aat", "id":"300190692"},
+	"TopPart": {"parent": ManMadeObject, "vocab": "aat", "id":"300190710"},
+	"BottomPart": {"parent": ManMadeObject, "vocab": "aat", "id":"300190695"},
+	"SidePart": {"parent": ManMadeObject, "vocab": "aat", "id":"300190706"}
 
 }
  

@@ -26,7 +26,7 @@ context['schema'] = "http://schema.org/"
 context['skos'] = "http://www.w3.org/2004/02/skos/core#"
 context['foaf'] = 'http://xmlns.com/foaf/0.1/'
 context['xsd'] = "http://www.w3.org/2001/XMLSchema#"
-context["pi"] = "http://linked.art/ns/prov/"
+context["la"] = "http://linked.art/ns/ext/"
 context["aat"]  = "http://vocab.getty.edu/aat/"
 context["ulan"] = "http://vocab.getty.edu/ulan/"
 context["tgn"] = "http://vocab.getty.edu/tgn/"
@@ -90,19 +90,32 @@ context['related'] = {"@id": "dcterms:relation", "@type": "@id", "@container": "
 context['subject'] = {"@id": "dcterms:subject", "@type": "@id", "@container": "@set"}
 
 # Add in Provenance extension 
-context["Payment"] = "pi:Payment"
+context["Payment"] = "la:Payment"
 context["paid_from"] = {
-      "@id": "pi:paid_from",
+      "@id": "la:paid_from",
       "@type": "@id"
     }
 context["paid_to"] = {
-      "@id": "pi:paid_to",
+      "@id": "la:paid_to",
       "@type": "@id"
     }
 context["paid_amount"] = {
-      "@id": "pi:paid_amount",
+      "@id": "la:paid_amount",
       "@type": "@id"
     }
+context['brought_into_effect'] = {
+	"@id": "la:brought_into_effect",
+	"@type": "@id"
+}
+context['took_out_of_effect'] = {
+	"@id": "la:took_out_of_effect",
+	"@type": "@id"
+}
+context['effective_in'] = {
+	"@id": "la:effective_in",
+	"@type": "@id"
+}
+
 
 ctxt = {"@context": context}
 xctxt = {"@context": extension}

@@ -8,7 +8,7 @@ except:
 	from ordereddict import OrderedDict
 
 from cromulent import reader
-from cromulent.model import factory, Person, DataError, BaseResource
+from cromulent.model import factory, Person, DataError, BaseResource, Dimension
 from cromulent.extra import EoEActivity
 
 class TestReader(unittest.TestCase):
@@ -44,4 +44,16 @@ class TestReader(unittest.TestCase):
 		unknown2 = '{"type":"Person", "fishbat": "bob"}'
 		self.assertRaises(DataError, self.reader.read, unknown)
 
+		# somewhere else, rdf_value has been added
+		try:
+			del Dimension._properties['value']
+		except:
+			# maybe not?
+			pass
 
+		value = '{"type": "Dimension", "value": 100}'
+		self.assertRaises(DataError, self.reader.read, value)
+
+		r2 = reader.Reader(rdf_value=True)
+		d = r2.read(value)
+		self.assertEqual(d.value, 100)

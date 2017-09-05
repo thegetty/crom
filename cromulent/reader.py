@@ -1,14 +1,23 @@
 from . import model
 from .model import factory, DataError, OrderedDict, BaseResource, KEY_ORDER_HASH as koh
 from .model import STR_TYPES
-from .extra import EoEActivity, Payment
+from .extra import EoEActivity, Payment, add_linkedart_properties, add_schema_properties, \
+	add_rdf_value
 import json
+
 
 class Reader(object):
 
-	def __init__(self):
+	def __init__(self, linkedart=False, schema=False, rdf_value=False):
 		self.uri_object_map = {}
 		self.forward_refs = []
+
+		if linkedart:
+			add_linkedart_properties()
+		if schema:
+			add_schema_properties()
+		if rdf_value:
+			add_rdf_value()
 
 	def read(self, data):
 		if not data:

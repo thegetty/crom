@@ -3,9 +3,9 @@
 # can generate classes for any ontology
 
 import inspect
-from .model import Destruction, EndOfExistence, Activity, Purchase, MonetaryAmount, Actor, Place, \
-	Type, Dimension, SymbolicObject, Person, ManMadeObject, PhysicalObject, CRMEntity, \
-	InformationObject, ManMadeThing, BaseResource
+from .model import Destruction, EndOfExistence, Activity, Purchase, MonetaryAmount, Actor, \
+	Place, Right, InformationObject, ManMadeThing, BaseResource, Period, \
+	Type, Dimension, SymbolicObject, Person, ManMadeObject, PhysicalObject, CRMEntity	
 
 # DestuctionActivity class as CRM has a Destruction Event and recommends multi-classing
 # WARNING:  instantiating this class in the default profile will raise an error
@@ -25,28 +25,28 @@ class EoEActivity(EndOfExistence, Activity):
 EoEActivity._classhier = inspect.getmro(EoEActivity)[:-1]
 
 # New Payment Activity
-Purchase._properties['offering_price'] = {"rdf":"pi:had_offering_price", "range": MonetaryAmount, "okayToUse": 1}
 class Payment(Activity):
 	_properties = {
-		"paid_amount": {"rdf": "pi:paid_amount", "range": MonetaryAmount, "okayToUse": 1, "multiple": 0},
-		"paid_to": {"rdf": "pi:paid_to", "range": Actor, "okayToUse": 1, "multiple": 0},
-		"paid_from": {"rdf": "pi:paid_from", "range": Actor, "okayToUse": 1, "multiple": 0}
+		"paid_amount": {"rdf": "la:paid_amount", "range": MonetaryAmount, "okayToUse": 1, "multiple": 0},
+		"paid_to": {"rdf": "la:paid_to", "range": Actor, "okayToUse": 1, "multiple": 0},
+		"paid_from": {"rdf": "la:paid_from", "range": Actor, "okayToUse": 1, "multiple": 0}
 	}
 	_uri_segment = "Payment"
-	_type = "pi:Payment"
+	_type = "la:Payment"
 Payment._classhier = inspect.getmro(Payment)[:-1]
+
+def add_linkedart_properties():
+	Activity._properties['brought_into_effect'] = \
+		{"rdf": "la:brought_into_effect", "range": Right, "okayToUse": 1, "multiple": 1}
+	Activity._properties['took_out_of_effect'] = \
+		{"rdf": "la:took_out_of_effect", "range": Right, "okayToUse": 1, "multiple": 1}
+	Right._properties['effective_in'] = \
+		{"rdf": "la:effective_in", "range": Period, "okayToUse": 1, "multiple": 1}
 
 # Require explict addition of extra shortcut properties
 def add_schema_properties():
-	#Person._properties['family_name'] = {"rdf": "schema:familyName", "range": str, "okayToUse": 1}
-	#Person._properties['given_name'] = {"rdf": "schema:givenName", "range": str, "okayToUse": 1}
-	#Person._properties['nationality'] = {"rdf": "schema:nationality", "range": Place, "okayToUse": 1}
 	ManMadeObject._properties['style'] = {"rdf": "schema:genre", "range": Type, "okayToUse": 1, "multiple": 1}
-	#ManMadeObject._properties['height'] = {"rdf": "schema:height", "range": Dimension, "okayToUse": 1}
-	#ManMadeObject._properties['width'] = {"rdf": "schema:width", "range": Dimension, "okayToUse": 1}
 	ManMadeObject._properties['subject'] = {"rdf": "dct:subject", "range": Type, "okayToUse": 1, "multiple": 1}
-	#BaseResource._properties['homepage'] = {"rdf": "foaf:homepage", "range": InformationObject, "okayToUse": 1}
-	#BaseResource._properties['webpage'] = {"rdf": "foaf:page", "range": InformationObject, "okayToUse": 1}
 	BaseResource._properties['exact_match'] = {"rdf": "skos:exactMatch", "range": BaseResource, "okayToUse": 1, "multiple": 1}
 	BaseResource._properties['close_match'] = {"rdf": "skos:closeMatch", "range": BaseResource, "okayToUse": 1, "multiple": 1}	
 	ManMadeThing._properties['conforms_to'] = {"rdf": "dcterms:conformsTo", "range": BaseResource, "okayToUse": 1, "multiple": 0}
