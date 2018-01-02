@@ -46,11 +46,13 @@ for l in lines:
 		# map json key to ontology for @type:@vocab
 		ctname = info[2]
 		used = info[-1]
+		if not name.startswith("la:"):
+			name = "crm:%s" % name
 		# split into used and other
 		if used == "1":			
-			context[ctname] = "crm:%s" % name
+			context[ctname] = name
 		else:
-			extension[ctname] = "crm:%s" % name
+			extension[ctname] = name
 	else:
 		ctname = info[2]
 		rng = info[7]
