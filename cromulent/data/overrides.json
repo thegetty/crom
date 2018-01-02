@@ -26,6 +26,7 @@
 		"P107":  "member",
 		"P107i": "member_of",
 		"P56":   "bears",
+		"P117i": "temporally_includes",
 
 		"P32":  "technique",
 		"P33":  "specific_technique",

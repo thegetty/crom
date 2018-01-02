@@ -14,7 +14,7 @@ setup(
         'data/key_order.json', 'data/linked-art.json', 'data/cidoc-extension.json']
     },
     test_suite="tests",
-    version = '0.7.1',
+    version = '0.7.2',
     description = 'A library for mapping CIDOC-CRM classes to Python objects',
     author = 'Rob Sanderson',
     author_email = 'rsanderson@getty.edu',
