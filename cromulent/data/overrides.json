@@ -48,7 +48,7 @@
 		"P164i": "timespan_of_presence",
 
 		"P151i": "participated_in_formation",
-		"P165i": "included_in",
+		"P165i": "incorporated_in",
 		"P132":  "volume_overlaps_with",
 		"P135i": "type_created_by"
 	}
