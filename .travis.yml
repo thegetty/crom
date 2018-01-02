@@ -12,8 +12,6 @@ notifications:
   email:
     recipients:
       - azaroth42@gmail.com
-      - jgomez@getty.edu
-      - arossetti@getty.edu
 script:
   coverage run --source=cromulent setup.py test
 after_success:

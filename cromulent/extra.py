@@ -3,26 +3,9 @@
 # can generate classes for any ontology
 
 import inspect
-from .model import Destruction, EndOfExistence, Activity, Purchase, MonetaryAmount, Actor, \
-	Place, Right, InformationObject, ManMadeThing, BaseResource, Period, \
-	Type, Dimension, SymbolicObject, Person, ManMadeObject, PhysicalObject, CRMEntity	
-
-# DestuctionActivity class as CRM has a Destruction Event and recommends multi-classing
-# WARNING:  instantiating this class in the default profile will raise an error
-
-class DestructionActivity(Destruction, Activity):
-	_uri_segment = "Activity"
-	_type = ["crm:E6_Destruction", "crm:E7_Activity"]
-	_niceType = ["Destruction", "Activity"]
-DestructionActivity._classhier = inspect.getmro(DestructionActivity)[:-1]
-
-# And hence we make an EndOfExistence+Activity class
-# for all activities that end existences
-class EoEActivity(EndOfExistence, Activity):
-	_uri_segment = "Activity"
-	_type = ["crm:64_End_of_Existence", "crm:E7_Activity"]
-	_niceType = ["EndOfExistence", "Activity"]	
-EoEActivity._classhier = inspect.getmro(EoEActivity)[:-1]
+from .model import Activity, MonetaryAmount, Actor, Place, Right, InformationObject, \
+	ManMadeThing, BaseResource, Type, Dimension, SymbolicObject, ManMadeObject, \
+	LinguisticObject	
 
 # New Payment Activity
 class Payment(Activity):
@@ -41,7 +24,7 @@ def add_linkedart_properties():
 	Activity._properties['took_out_of_effect'] = \
 		{"rdf": "la:took_out_of_effect", "range": Right, "okayToUse": 1, "multiple": 1}
 	Right._properties['effective_in'] = \
-		{"rdf": "la:effective_in", "range": Period, "okayToUse": 1, "multiple": 1}
+		{"rdf": "la:effective_in", "range": Place, "okayToUse": 1, "multiple": 1}
 
 # Require explict addition of extra shortcut properties
 def add_schema_properties():

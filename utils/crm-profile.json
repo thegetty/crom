@@ -86,6 +86,8 @@
   "E97_Monetary_Amount": 1, 
   "E98_Currency": 1, 
   "E9_Move": 2, 
+  "la:Name": 1,
+  "la:EndingActivity": 1,
 
   "P100_was_death_of": 0, 
   "P100i_died_in": 0, 

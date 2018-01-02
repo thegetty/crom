@@ -9,7 +9,6 @@ except:
 
 from cromulent import reader
 from cromulent.model import factory, Person, DataError, BaseResource, Dimension
-from cromulent.extra import EoEActivity
 
 class TestReader(unittest.TestCase):
 
@@ -34,9 +33,6 @@ class TestReader(unittest.TestCase):
 
 		basestr = '{"label": "base"}'
 		self.assertTrue(isinstance(self.reader.read(basestr), BaseResource))
-
-		eoeact = '{"type": ["EndOfExistence", "Activity"], "label":"boo crm"}'
-		self.assertTrue(isinstance(self.reader.read(eoeact), EoEActivity))
 
 		unknown = '{"type":"FishBat"}'
 		self.assertRaises(DataError, self.reader.read, unknown)

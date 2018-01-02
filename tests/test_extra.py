@@ -13,16 +13,6 @@ from cromulent.model import factory, Person, DataError, Dimension
 
 class TestExtraClasses(unittest.TestCase):
 
-	def test_destruction(self):
-		expect = OrderedDict([('id', u'http://lod.example.org/museum/Activity/1'), 
-			('type', ['Destruction', 'Activity']), ('label', "Test Destruction")])
-		extra.DestructionActivity._okayToUse = 1
-		da = extra.DestructionActivity("1")
-		da.label = "Test Destruction"
-		factory.context_uri = ""
-		dajs = factory.toJSON(da)
-		self.assertEqual(dajs, expect)
-
 	def test_payment(self):
 		expect = OrderedDict([('id', u'http://lod.example.org/museum/Payment/1'), ('type', 'Payment'), \
 			('paid_to', 'http://lod.example.org/museum/Person/1')])

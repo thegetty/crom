@@ -36,6 +36,8 @@ def register_aat_dimensionUnit(name, id):
 	d.label = name
 	dimensionUnits[name] = d
 
+primaryType = Type("aat:300404670")
+
 # Meta meta
 ext_classes = {
 	"LocalNumber": {"parent": Identifier, "vocab": "aat", "id": "300404621"},	
@@ -43,6 +45,7 @@ ext_classes = {
 	"LotNumber": {"parent": Identifier, "vocab": "aat", "id": "300404628"},
 
 	"PrimaryAppellation": {"parent": Appellation, "vocab": "aat", "id": "300404670"},
+	"Title": {"parent": Appellation, "vocab":"aat", "id":"300195168"},
 
 	"Inscription": {"parent": LinguisticObject, "vocab": "aat", "id": "300028702"},
 	"Signature": {"parent": LinguisticObject, "vocab": "aat", "id": "300028705"},

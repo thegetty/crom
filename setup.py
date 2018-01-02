@@ -14,11 +14,11 @@ setup(
         'data/key_order.json', 'data/linked-art.json', 'data/cidoc-extension.json']
     },
     test_suite="tests",
-    version = '0.7.0',
+    version = '0.7.1',
     description = 'A library for mapping CIDOC-CRM classes to Python objects',
-    author = 'Getty Research Institute, Rob Sanderson',
-    author_email = 'jgomez@getty.edu, rsanderson@getty.edu',
-    url = 'https://github.com/gri-is/crom',
+    author = 'Rob Sanderson',
+    author_email = 'rsanderson@getty.edu',
+    url = 'https://github.com/thegetty/crom',
     install_requires=install_requires,
     classifiers = [
         "Programming Language :: Python",

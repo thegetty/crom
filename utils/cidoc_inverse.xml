@@ -5640,4 +5640,18 @@ A digital photograph of a manuscript page incorporates the text of the manuscrip
 </rdf:Property>
 
 
+<rdfs:Class rdf:about="https://linked.art/ns/terms/Name">
+	<rdfs:label xml:lang="en">Name</rdfs:label>
+	<rdfs:comment></rdfs:comment>
+	<rdfs:subClassOf rdf:resource="E41_Appellation"/>
+	<rdfs:subClassOf rdf:resource="E33_Linguistic_Object"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:about="https://linked.art/ns/terms/EndingActivity">
+	<rdfs:label xml:lang="en">EndingActivity</rdfs:label>
+	<rdfs:comment></rdfs:comment>
+	<rdfs:subClassOf rdf:resource="E64_End_of_Existence"/>
+	<rdfs:subClassOf rdf:resource="E7_Activity"/>
+</rdfs:Class>
+
 </rdf:RDF>

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/gri-is/crom.svg?branch=master)](https://travis-ci.org/gri-is/crom) [![Coverage Status](https://coveralls.io/repos/github/gri-is/crom/badge.svg?branch=master)](https://coveralls.io/github/gri-is/crom?branch=master)
+[![Build Status](https://travis-ci.org/thegetty/crom.svg?branch=master)](https://travis-ci.org/thegetty/crom) [![Coverage Status](https://coveralls.io/repos/github/thegetty/crom/badge.svg?branch=master)](https://coveralls.io/github/thegetty/crom?branch=master)
 
 # Cromulent
 

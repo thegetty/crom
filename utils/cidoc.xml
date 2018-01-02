@@ -49,7 +49,7 @@ Property P82 is for modeling the minimum outer bounds of events i.e. at_some_tim
 P81 has its time interval redefined by P81a and P81b. Similarly, we redefine P82 by P82a and P82b.
 
 -->
-<rdf:RDF xml:lang="en" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.cidoc-crm.org/cidoc-crm/">
+<rdf:RDF xml:lang="en" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.cidoc-crm.org/cidoc-crm/" xmlns:la="http://linked.art/ns/terms/">
 
 <rdfs:Class rdf:about="E1_CRM_Entity">
 	<rdfs:label xml:lang="el">Οντότητα CIDOC CRM</rdfs:label>
@@ -5405,6 +5405,21 @@ A digital photograph of a manuscript page incorporates the text of the manuscrip
 	<rdfs:range rdf:resouce="E97_Monetary_Amount"/>
 	<rdfs:subPropertyOf rdf:resource=""/>
 </rdf:Property>
+
+
+<rdfs:Class rdf:about="https://linked.art/ns/terms/Name">
+	<rdfs:label xml:lang="en">Name</rdfs:label>
+	<rdfs:comment></rdfs:comment>
+	<rdfs:subClassOf rdf:resource="E41_Appellation"/>
+	<rdfs:subClassOf rdf:resource="E33_Linguistic_Object"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:about="https://linked.art/ns/terms/EndingActivity">
+	<rdfs:label xml:lang="en">EndingActivity</rdfs:label>
+	<rdfs:comment></rdfs:comment>
+	<rdfs:subClassOf rdf:resource="E64_End_of_Existence"/>
+	<rdfs:subClassOf rdf:resource="E7_Activity"/>
+</rdfs:Class>
 
 
 </rdf:RDF>
