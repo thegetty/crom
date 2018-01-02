@@ -49,7 +49,6 @@ classes = dom.xpath("//rdfs:Class", namespaces=NS)
 classXHash = {}
 for c in classes:
 	name = c.xpath('@rdf:about', namespaces=NS)[0]
-
 	if name.startswith(NS['la']):
 		name = name.replace(NS['la'], 'la:')
 
