@@ -6,7 +6,7 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
-	Activity, Group, Appellation, MonetaryAmount, Purchase, \
+	Activity, Group, Name, MonetaryAmount, Purchase, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
 	Acquisition, TransferOfCustody, ManMadeFeature
 
@@ -44,8 +44,7 @@ ext_classes = {
 	"AccessionNumber": {"parent": Identifier, "vocab": "aat", "id": "300312355"},
 	"LotNumber": {"parent": Identifier, "vocab": "aat", "id": "300404628"},
 
-	"PrimaryAppellation": {"parent": Appellation, "vocab": "aat", "id": "300404670"},
-	"Title": {"parent": Appellation, "vocab":"aat", "id":"300195168"},
+	"Title": {"parent": Name, "vocab":"aat", "id":"300195168"},
 
 	"Inscription": {"parent": LinguisticObject, "vocab": "aat", "id": "300028702"},
 	"Signature": {"parent": LinguisticObject, "vocab": "aat", "id": "300028705"},
@@ -115,13 +114,13 @@ ext_classes = {
 	"AuctionLotSet": {"parent": PhysicalObject, "vocab":"aat", "id":"300411307"},
 	"CollectionSet": {"parent": PhysicalObject, "vocab":"aat", "id":"300025976"},
 
-	"SortName": {"parent": Appellation, "vocab":"aat", "id":"300404672"},
-	"PrimaryName": {"parent": Appellation, "vocab":"aat", "id":"300404670"},
-	"GivenName": {"parent": Appellation, "vocab":"aat", "id":"300404651"},
-	"FamilyName": {"parent": Appellation, "vocab":"aat", "id":"300404652"},
-	"MiddleName": {"parent": Appellation, "vocab":"aat", "id":"300404654"},
-	"NamePrefix": {"parent": Appellation, "vocab":"aat", "id":"300404845"},
-	"NameSuffix": {"parent": Appellation, "vocab":"aat", "id":"300404662"},
+	"SortName": {"parent": Name, "vocab":"aat", "id":"300404672"},
+	"PrimaryName": {"parent": Name, "vocab":"aat", "id":"300404670"},
+	"GivenName": {"parent": Name, "vocab":"aat", "id":"300404651"},
+	"FamilyName": {"parent": Name, "vocab":"aat", "id":"300404652"},
+	"MiddleName": {"parent": Name, "vocab":"aat", "id":"300404654"},
+	"NamePrefix": {"parent": Name, "vocab":"aat", "id":"300404845"},
+	"NameSuffix": {"parent": Name, "vocab":"aat", "id":"300404662"},
 
 	"Painting": {"parent": ManMadeObject, "vocab": "aat", "id": "300033618"},
 	"Sculpture": {"parent": ManMadeObject, "vocab": "aat", "id": "300047090"},
