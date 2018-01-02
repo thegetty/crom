@@ -553,7 +553,7 @@
       "@id": "crm:P117_occurs_during", 
       "@type": "@id"
     }, 
-    "includes": {
+    "temporally_includes": {
       "@id": "crm:P117i_includes", 
       "@type": "@id"
     }, 
@@ -757,7 +757,7 @@
       "@id": "crm:P165_incorporates", 
       "@type": "@id"
     }, 
-    "included_in": {
+    "incorporated_by": {
       "@id": "crm:P165i_is_incorporated_in", 
       "@type": "@id"
     }, 

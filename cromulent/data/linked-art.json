@@ -49,6 +49,8 @@
     "Leaving": "crm:E86_Leaving", 
     "MonetaryAmount": "crm:E97_Monetary_Amount", 
     "Currency": "crm:E98_Currency", 
+    "Name": "crm:la:Name", 
+    "EndingActivity": "crm:la:EndingActivity", 
     "identified_by": {
       "@id": "crm:P1_is_identified_by", 
       "@type": "@id", 
@@ -370,12 +372,12 @@
       "@type": "@id", 
       "@container": "@set"
     }, 
-    "composed_of": {
+    "includes": {
       "@id": "crm:P106_is_composed_of", 
       "@type": "@id", 
       "@container": "@set"
     }, 
-    "composed_from": {
+    "included_in": {
       "@id": "crm:P106i_forms_part_of", 
       "@type": "@id", 
       "@container": "@set"
