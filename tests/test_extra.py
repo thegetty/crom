@@ -14,7 +14,9 @@ from cromulent.model import factory, Person, DataError, Dimension
 class TestExtraClasses(unittest.TestCase):
 
 	def test_payment(self):
-		expect = OrderedDict([('id', u'http://lod.example.org/museum/Payment/1'), ('type', 'Payment'), \
+		expect = OrderedDict([
+			('@context', factory.context_uri), \
+			('id', u'http://lod.example.org/museum/Payment/1'), ('type', 'Payment'), \
 			('paid_to', 'http://lod.example.org/museum/Person/1')])
 		p = extra.Payment('1')
 		who = Person('1')
