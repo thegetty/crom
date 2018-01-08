@@ -219,6 +219,7 @@ class TestAutoIdentifiers(unittest.TestCase):
 		self.assertEqual(int(p.id[-1]), int(p3.id[-1]))		
 
 	def test_int_per_segment(self):
+		model.factory._auto_id_segments = {}
 		model.factory.auto_id_type = "int-per-segment"
 		model.Activity._uri_segment = model.Person._uri_segment
 		p = model.Person()
