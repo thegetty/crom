@@ -141,6 +141,7 @@ ext_classes = {
 	"PhotographBook": {"parent": ManMadeObject, "vocab": "aat", "id": "300265728"},
 	"PhotographColor": {"parent": ManMadeObject, "vocab": "aat", "id": "300128347"},
 	"PhotographBW": {"parent": ManMadeObject, "vocab": "aat", "id": "300128359"},
+	"Negative": {"parent": ManMadeObject, "vocab": "aat", "id": "300127173"},
 
 	"Architecture": {"parent": ManMadeObject, "vocab": "aat", "id":"300263552"},
 	"Armor": {"parent": ManMadeObject, "vocab": "aat", "id":"300036745"},
