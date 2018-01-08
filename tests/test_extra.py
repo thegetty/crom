@@ -14,6 +14,7 @@ from cromulent.model import factory, Person, DataError, Dimension
 class TestExtraClasses(unittest.TestCase):
 
 	def test_payment(self):
+		factory.context_uri = "http://example.org/context.json",
 		expect = OrderedDict([
 			('@context', factory.context_uri), \
 			('id', u'http://lod.example.org/museum/Payment/1'), ('type', 'Payment'), \
