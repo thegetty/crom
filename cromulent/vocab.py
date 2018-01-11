@@ -8,7 +8,7 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
 	Activity, Group, Name, MonetaryAmount, Purchase, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
-	Acquisition, TransferOfCustody, ManMadeFeature
+	Acquisition, TransferOfCustody, ManMadeFeature, VisualItem
 
 # Add classified_as initialization hack for all resources
 def post_init(self, **kw):
@@ -44,6 +44,8 @@ ext_classes = {
 	"AccessionNumber": {"parent": Identifier, "vocab": "aat", "id": "300312355"},
 	"LotNumber": {"parent": Identifier, "vocab": "aat", "id": "300404628"},
 
+	"DigitalImage": {"parent": VisualItem, "vocab": "aat", "id": "300215302"},
+
 	"Title": {"parent": Name, "vocab":"aat", "id":"300195168"},
 
 	"Inscription": {"parent": LinguisticObject, "vocab": "aat", "id": "300028702"},
@@ -57,13 +59,13 @@ ext_classes = {
 	"ProvenanceStatement": {"parent": LinguisticObject, "vocab":"aat", "id":"300055863"},
 	"Description": {"parent": LinguisticObject, "vocab": "aat", "id":"300080091"},
 
-	"CatalogueRaisonne": {"parent": InformationObject, "vocab":"aat", "id":"300026061"},
-	"AuctionCatalog": {"parent": InformationObject, "vocab":"aat", "id":"300026068"},
-	"SalesCatalog": {"parent": InformationObject, "vocab":"aat", "id": "300026074"},
-	"ExhibitionCatalog": {"parent": InformationObject, "vocab":"aat", "id": "300026096"},
-	"AccountBook": {"parent": InformationObject, "vocab":"aat", "id": "300027483"},
-	"WebPage": {"parent": InformationObject, "vocab":"aat", "id":"300264578"},
-	"Register": {"parent": InformationObject, "vocab":"aat", "id":"300027168"},
+	"CatalogueRaisonne": {"parent": LinguisticObject, "vocab":"aat", "id":"300026061"},
+	"AuctionCatalog": {"parent": LinguisticObject, "vocab":"aat", "id":"300026068"},
+	"SalesCatalog": {"parent": LinguisticObject, "vocab":"aat", "id": "300026074"},
+	"ExhibitionCatalog": {"parent": LinguisticObject, "vocab":"aat", "id": "300026096"},
+	"AccountBook": {"parent": LinguisticObject, "vocab":"aat", "id": "300027483"},
+	"WebPage": {"parent": LinguisticObject, "vocab":"aat", "id":"300264578"},
+	"Register": {"parent": LinguisticObject, "vocab":"aat", "id":"300027168"},
 
 	"Height":     {"parent": Dimension, "vocab":"aat", "id":"300055644"},
 	"Width":      {"parent": Dimension, "vocab":"aat", "id":"300055647"},
