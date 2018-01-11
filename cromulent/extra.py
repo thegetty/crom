@@ -5,7 +5,7 @@
 import inspect
 from .model import Activity, MonetaryAmount, Actor, Place, Right, InformationObject, \
 	ManMadeThing, BaseResource, Type, Dimension, SymbolicObject, ManMadeObject, \
-	LinguisticObject	
+	LinguisticObject, VisualItem	
 
 # New Payment Activity
 class Payment(Activity):
@@ -29,6 +29,7 @@ def add_linkedart_properties():
 # Require explict addition of extra shortcut properties
 def add_schema_properties():
 	ManMadeObject._properties['style'] = {"rdf": "schema:genre", "range": Type, "okayToUse": 1, "multiple": 1}
+	VisualItem._properties['style'] = {"rdf": "schema:genre", "range": Type, "okayToUse": 1, "multiple": 1}
 	ManMadeObject._properties['subject'] = {"rdf": "dct:subject", "range": Type, "okayToUse": 1, "multiple": 1}
 	BaseResource._properties['exact_match'] = {"rdf": "skos:exactMatch", "range": BaseResource, "okayToUse": 1, "multiple": 1}
 	BaseResource._properties['close_match'] = {"rdf": "skos:closeMatch", "range": BaseResource, "okayToUse": 1, "multiple": 1}	
