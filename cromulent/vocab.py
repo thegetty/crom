@@ -58,6 +58,8 @@ ext_classes = {
 	"BiographyStatement": {"parent": LinguisticObject, "vocab":"aat", "id":"300080102"},
 	"ProvenanceStatement": {"parent": LinguisticObject, "vocab":"aat", "id":"300055863"},
 	"Description": {"parent": LinguisticObject, "vocab": "aat", "id":"300080091"},
+	"PaginationStatement": {"parent": LinguisticObject, "vocab":"aat","id":"300200294"},
+	"Abstract": {"parent": LinguisticObject, "vocab":"aat","id":"300026032"},
 
 	"CatalogueRaisonne": {"parent": LinguisticObject, "vocab":"aat", "id":"300026061"},
 	"AuctionCatalog": {"parent": LinguisticObject, "vocab":"aat", "id":"300026068"},
@@ -66,6 +68,24 @@ ext_classes = {
 	"AccountBook": {"parent": LinguisticObject, "vocab":"aat", "id": "300027483"},
 	"WebPage": {"parent": LinguisticObject, "vocab":"aat", "id":"300264578"},
 	"Register": {"parent": LinguisticObject, "vocab":"aat", "id":"300027168"},
+
+	"Page": {"parent": LinguisticObject, "vocab":"aat", "id":"300194222"},
+	"Folio": {"parent": LinguisticObject, "vocab":"aat", "id":"300189604"},
+	"DataRecord": {"parent": LinguisticObject, "vocab":"aat", "id":"300026685"},
+
+	"Journal": {"parent": LinguisticObject, "vocab":"aat", "id":"300215390"},
+	"Issue": {"parent": LinguisticObject, "vocab":"aat", "id":"300312349"},
+	"Volume": {"parent": LinguisticObject, "vocab":"aat", "id":"300265632"},
+	"Article": {"parent": LinguisticObject, "vocab":"aat", "id":"300048715"},
+	"Chapter": {"parent": LinguisticObject, "vocab":"aat", "id":"300311699"},
+	"Series": {"parent": LinguisticObject, "vocab":"aat", "id":"300027349"},
+	"Proceedings": {"parent": LinguisticObject, "vocab":"aat", "id":"300027316"},
+	"Monograph": {"parent": LinguisticObject, "vocab":"aat", "id":"300060417"},
+	"Patent": {"parent": LinguisticObject, "vocab":"aat", "id":"300027832"},
+	"Thesis": {"parent": LinguisticObject, "vocab":"aat", "id":"300028028"},
+	"TechnicalReport": {"parent": LinguisticObject, "vocab":"aat", "id":"300027323"},
+	"DocManuscript": {"parent": LinguisticObject, "vocab":"aat", "id":"300028579"},
+	"AudioVisualContent": {"parent": LinguisticObject, "vocab":"aat", "id":"300028045"},
 
 	"Height":     {"parent": Dimension, "vocab":"aat", "id":"300055644"},
 	"Width":      {"parent": Dimension, "vocab":"aat", "id":"300055647"},
@@ -94,6 +114,7 @@ ext_classes = {
 	"Exhibition":  {"parent": Activity, "vocab":"aat", "id":"300054766"},
 	"MultiExhibition": {"parent": Activity, "vocab":"aat", "id":"300054773"},
 	"Active":      {"parent": Activity, "vocab":"aat", "id":"300393177"},
+	"Publishing":  {"parent": Activity, "vocab":"aat", "id":"300054686"},
 	"Purchase":  {"parent":Acquisition, "vocab":"aat", "id":"300077989"},
 
 	"Theft": {"parent": TransferOfCustody, "vocab":"aat", "id": "300055292"},
