@@ -59,6 +59,7 @@ ext_classes = {
 	"ProvenanceStatement": {"parent": LinguisticObject, "vocab":"aat", "id":"300055863"},
 	"Description": {"parent": LinguisticObject, "vocab": "aat", "id":"300080091"},
 	"PaginationStatement": {"parent": LinguisticObject, "vocab":"aat","id":"300200294"},
+	"FoliationStatement": {"parent": LinguisticObject, "vocab":"aat","id":"300200662"},
 	"Abstract": {"parent": LinguisticObject, "vocab":"aat","id":"300026032"},
 
 	"CatalogueRaisonne": {"parent": LinguisticObject, "vocab":"aat", "id":"300026061"},
@@ -177,6 +178,8 @@ ext_classes = {
 	"Text": {"parent": ManMadeObject, "vocab": "aat", "id":"300263751"},
 	"Print":  {"parent": ManMadeObject, "vocab": "aat", "id":"300041273"},
 	"TimeBasedMedia": {"parent": ManMadeObject, "vocab": "aat", "id":"300185191"},
+
+	"Book": {"parent": ManMadeObject, "vocab":"aat", "id": "300028051"},
 
 	"FrontPart": {"parent": ManMadeObject, "vocab": "aat", "id":"300190703"},
 	"BackPart": {"parent": ManMadeObject, "vocab": "aat", "id":"300190692"},
