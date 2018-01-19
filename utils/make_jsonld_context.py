@@ -105,16 +105,19 @@ context["paid_amount"] = {
       "@id": "la:paid_amount",
       "@type": "@id"
     }
-context['brought_into_effect'] = {
-	"@id": "la:brought_into_effect",
+
+context["LegalClaim"] = "la:LegalClaim"
+
+context['instantiates'] = {
+	"@id": "la:instantiates",
 	"@type": "@id"
 }
-context['took_out_of_effect'] = {
-	"@id": "la:took_out_of_effect",
+context['jurisdiction'] = {
+	"@id": "la:jurisdiction",
 	"@type": "@id"
 }
-context['effective_in'] = {
-	"@id": "la:effective_in",
+context['claimed_by'] = {
+	"@id": "la:claimed_by",
 	"@type": "@id"
 }
 

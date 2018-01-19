@@ -5,7 +5,7 @@
 import inspect
 from .model import Activity, MonetaryAmount, Actor, Place, Right, InformationObject, \
 	ManMadeThing, BaseResource, Type, Dimension, SymbolicObject, ManMadeObject, \
-	LinguisticObject, VisualItem	
+	LinguisticObject, VisualItem
 
 # New Payment Activity
 class Payment(Activity):
@@ -18,13 +18,17 @@ class Payment(Activity):
 	_type = "la:Payment"
 Payment._classhier = inspect.getmro(Payment)[:-1]
 
-def add_linkedart_properties():
-	Activity._properties['brought_into_effect'] = \
-		{"rdf": "la:brought_into_effect", "range": Right, "okayToUse": 1, "multiple": 1}
-	Activity._properties['took_out_of_effect'] = \
-		{"rdf": "la:took_out_of_effect", "range": Right, "okayToUse": 1, "multiple": 1}
-	Right._properties['effective_in'] = \
-		{"rdf": "la:effective_in", "range": Place, "okayToUse": 1, "multiple": 1}
+# New LegalClaim Thing:
+
+class LegalClaim(ManMadeThing):
+	_properties = {
+		"claimed_by": {"rdf": "la:claimed_by", "range": Actor, "okayToUse": 1, "multiple": 1},
+		"jurisdiction": {"rdf": "la:jurisdiction", "range": Place, "okayToUse": 1, "multiple": 1},
+		"instantiates": {"rdf": "la:jurisdiction", "range": Right, "okayToUse": 1, "multiple": 0},	
+	}
+	_uri_segment = "LegalClaim"
+	_type = "la:LegalClaim"
+LegalClaim._classhier = inspect.getmro(LegalClaim)[:-1]
 
 # Require explict addition of extra shortcut properties
 def add_schema_properties():

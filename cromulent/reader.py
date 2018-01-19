@@ -1,8 +1,7 @@
 from . import model
 from .model import factory, DataError, OrderedDict, BaseResource, KEY_ORDER_HASH as koh
 from .model import STR_TYPES
-from .extra import Payment, add_linkedart_properties, add_schema_properties, \
-	add_rdf_value
+from .extra import Payment, add_schema_properties, add_rdf_value
 from .multiple_instantiation import EoEActivity
 import json
 

@@ -591,16 +591,17 @@
       "@id": "la:paid_amount", 
       "@type": "@id"
     }, 
-    "brought_into_effect": {
-      "@id": "la:brought_into_effect", 
+    "LegalClaim": "la:LegalClaim", 
+    "instantiates": {
+      "@id": "la:instantiates", 
       "@type": "@id"
     }, 
-    "took_out_of_effect": {
-      "@id": "la:took_out_of_effect", 
+    "jurisdiction": {
+      "@id": "la:jurisdiction", 
       "@type": "@id"
     }, 
-    "effective_in": {
-      "@id": "la:effective_in", 
+    "claimed_by": {
+      "@id": "la:claimed_by", 
       "@type": "@id"
     }
   }
