@@ -95,15 +95,18 @@ context['subject'] = {"@id": "dcterms:subject", "@type": "@id", "@container": "@
 context["Payment"] = "la:Payment"
 context["paid_from"] = {
       "@id": "la:paid_from",
-      "@type": "@id"
+      "@type": "@id",
+      "@container": "@set"
     }
 context["paid_to"] = {
       "@id": "la:paid_to",
-      "@type": "@id"
+      "@type": "@id",
+      "@container": "@set"
     }
 context["paid_amount"] = {
       "@id": "la:paid_amount",
-      "@type": "@id"
+      "@type": "@id",
+      "@container": "@set"
     }
 
 context["LegalClaim"] = "la:LegalClaim"
@@ -118,9 +121,9 @@ context['jurisdiction'] = {
 }
 context['claimed_by'] = {
 	"@id": "la:claimed_by",
-	"@type": "@id"
+	"@type": "@id",
+	"@container": "@set"
 }
-
 
 ctxt = {"@context": context}
 xctxt = {"@context": extension}
