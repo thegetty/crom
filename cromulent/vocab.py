@@ -6,7 +6,7 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
-	Activity, Group, Name, MonetaryAmount, Purchase, \
+	Activity, Group, Name, MonetaryAmount, Purchase, Right, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
 	Acquisition, TransferOfCustody, ManMadeFeature, VisualItem
 
@@ -47,6 +47,10 @@ ext_classes = {
 	"DigitalImage": {"parent": VisualItem, "vocab": "aat", "id": "300215302"},
 
 	"Title": {"parent": Name, "vocab":"aat", "id":"300195168"},
+
+	"OwnershipRight": {"parent": Right, "vocab":"aat","id":"300055603"},
+	"CustodyRight": {"parent": Right, "vocab":"aat","id":"300411616"},
+	"CopyrightRight": {"parent": Right, "vocab":"aat","id":"300055598"},
 
 	"Inscription": {"parent": LinguisticObject, "vocab": "aat", "id": "300028702"},
 	"Signature": {"parent": LinguisticObject, "vocab": "aat", "id": "300028705"},

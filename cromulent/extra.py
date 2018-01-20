@@ -9,6 +9,7 @@ from .model import Activity, MonetaryAmount, Actor, Place, Right, InformationObj
 
 # New Payment Activity
 class Payment(Activity):
+	_okayToUse = 1
 	_properties = {
 		"paid_amount": {"rdf": "la:paid_amount", "range": MonetaryAmount, "okayToUse": 1, "multiple": 0},
 		"paid_to": {"rdf": "la:paid_to", "range": Actor, "okayToUse": 1, "multiple": 0},
@@ -21,6 +22,7 @@ Payment._classhier = inspect.getmro(Payment)[:-1]
 # New LegalClaim Thing:
 
 class LegalClaim(ManMadeThing):
+	_okayToUse = 1
 	_properties = {
 		"claimed_by": {"rdf": "la:claimed_by", "range": Actor, "okayToUse": 1, "multiple": 1},
 		"jurisdiction": {"rdf": "la:jurisdiction", "range": Place, "okayToUse": 1, "multiple": 1},
