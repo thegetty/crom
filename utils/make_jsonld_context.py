@@ -117,13 +117,25 @@ context['instantiates'] = {
 }
 context['jurisdiction'] = {
 	"@id": "la:jurisdiction",
-	"@type": "@id"
+	"@type": "@id",
+	"@container": "@set"	
 }
 context['claimed_by'] = {
 	"@id": "la:claimed_by",
 	"@type": "@id",
 	"@container": "@set"
 }
+
+context['claimed_part'] = {
+	"@id": "la:claimed_part",
+	"@type": "@id",
+	"@container": "@set"
+}
+context['claimed_part_of'] = {
+	"@id": "la:claimed_part",
+	"@type": "@id"
+}
+
 
 ctxt = {"@context": context}
 xctxt = {"@context": extension}

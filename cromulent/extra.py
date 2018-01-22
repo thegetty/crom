@@ -26,7 +26,9 @@ class LegalClaim(ManMadeThing):
 	_properties = {
 		"claimed_by": {"rdf": "la:claimed_by", "range": Actor, "okayToUse": 1, "multiple": 1},
 		"jurisdiction": {"rdf": "la:jurisdiction", "range": Place, "okayToUse": 1, "multiple": 1},
-		"instantiates": {"rdf": "la:jurisdiction", "range": Right, "okayToUse": 1, "multiple": 0},	
+		"instantiates": {"rdf": "la:instantiates", "range": Right, "okayToUse": 1, "multiple": 0},
+		"claimed_part": {"rdf": "la:claimed_part", "range":	LegalClaim, "okayToUse": 1, "multiple": 1},
+		"claimed_part_of": {"rdf": "la:claimed_part_of", "range": LegalClaim, "okayToUse": 1, "multiple": 0},
 	}
 	_uri_segment = "LegalClaim"
 	_type = "la:LegalClaim"
