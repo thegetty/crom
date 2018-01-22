@@ -44,7 +44,6 @@
     "Collection": "crm:E78_Collection", 
     "PartAddition": "crm:E79_Part_Addition", 
     "PartRemoval": "crm:E80_Part_Removal", 
-    "Transformation": "crm:E81_Transformation", 
     "ActorAppellation": "crm:E82_Actor_Appellation", 
     "TypeCreation": "crm:E83_Type_Creation", 
     "InformationCarrier": "crm:E84_Information_Carrier", 
@@ -579,22 +578,6 @@
     }, 
     "borders_with": {
       "@id": "crm:P122_borders_with", 
-      "@type": "@id"
-    }, 
-    "resulted_in": {
-      "@id": "crm:P123_resulted_in", 
-      "@type": "@id"
-    }, 
-    "resulted_from": {
-      "@id": "crm:P123i_resulted_from", 
-      "@type": "@id"
-    }, 
-    "transformed": {
-      "@id": "crm:P124_transformed", 
-      "@type": "@id"
-    }, 
-    "transformed_by": {
-      "@id": "crm:P124i_was_transformed_by", 
       "@type": "@id"
     }, 
     "used_object_of_type": {

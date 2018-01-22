@@ -2,6 +2,7 @@ import unittest
 import sys
 import os
 import shutil
+import json
 
 try:
 	from collections import OrderedDict
@@ -143,7 +144,8 @@ class TestFactorySerialization(unittest.TestCase):
 		x.specific_purpose = e
 		js = model.factory.toJSON(x)
 		# Okay ... if we're breadth first, then custody_from is a resource
-		self.assertTrue(isinstance(js['transferred_custody_from'], OrderedDict))
+		# And now it's the first in the list
+		self.assertTrue(isinstance(js['transferred_custody_from'][0], OrderedDict))
 
 	def test_string_list(self):
 		x = model.Activity()

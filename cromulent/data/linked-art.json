@@ -45,6 +45,7 @@
     "Formation": "crm:E66_Formation", 
     "InformationObject": "crm:E73_Information_Object", 
     "Group": "crm:E74_Group", 
+    "Transformation": "crm:E81_Transformation", 
     "Joining": "crm:E85_Joining", 
     "Leaving": "crm:E86_Leaving", 
     "MonetaryAmount": "crm:E97_Monetary_Amount", 
@@ -414,6 +415,26 @@
     }, 
     "occurs_after": {
       "@id": "crm:P120i_occurs_after", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "resulted_in": {
+      "@id": "crm:P123_resulted_in", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "resulted_from": {
+      "@id": "crm:P123i_resulted_from", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "transformed": {
+      "@id": "crm:P124_transformed", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "transformed_by": {
+      "@id": "crm:P124i_was_transformed_by", 
       "@type": "@id", 
       "@container": "@set"
     }, 
