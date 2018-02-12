@@ -48,7 +48,6 @@
     "TypeCreation": "crm:E83_Type_Creation", 
     "InformationCarrier": "crm:E84_Information_Carrier", 
     "CurationActivity": "crm:E87_Curation_Activity", 
-    "PropositionalObject": "crm:E89_Propositional_Object", 
     "SymbolicObject": "crm:E90_Symbolic_Object", 
     "SpacetimeVolume": "crm:E92_Spacetime_Volume", 
     "Presence": "crm:E93_Presence", 
@@ -339,14 +338,6 @@
     }, 
     "listed_in": {
       "@id": "crm:P71i_is_listed_in", 
-      "@type": "@id"
-    }, 
-    "translation": {
-      "@id": "crm:P73_has_translation", 
-      "@type": "@id"
-    }, 
-    "translation_of": {
-      "@id": "crm:P73i_is_translation_of", 
       "@type": "@id"
     }, 
     "current_or_former_residence": {
@@ -650,10 +641,6 @@
     }, 
     "exemplified_by": {
       "@id": "crm:P137i_is_exemplified_by", 
-      "@type": "@id"
-    }, 
-    "alternative_form": {
-      "@id": "crm:P139_has_alternative_form", 
       "@type": "@id"
     }, 
     "used_constituent": {

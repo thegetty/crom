@@ -1,4 +1,4 @@
-
+ 
 # This assumes the default CIDOC-CRM, even though the model code 
 # can generate classes for any ontology
 
@@ -8,7 +8,8 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
 	Activity, Group, Name, MonetaryAmount, Purchase, Right, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
-	Acquisition, TransferOfCustody, ManMadeFeature, VisualItem
+	Acquisition, ManMadeFeature, VisualItem
+
 
 # Add classified_as initialization hack for all resources
 def post_init(self, **kw):
@@ -122,7 +123,8 @@ ext_classes = {
 	"Publishing":  {"parent": Activity, "vocab":"aat", "id":"300054686"},
 	"Purchase":  {"parent":Acquisition, "vocab":"aat", "id":"300077989"},
 
-	"Theft": {"parent": TransferOfCustody, "vocab":"aat", "id": "300055292"},
+	"Theft": {"parent": Acquisition, "vocab":"aat", "id": "300055292"},
+	"Looting": {"parent": Acquisition, "vocab":"aat", "id":"300379554"},
 
 	"Attribution": {"parent": AttributeAssignment, "vocab":"aat", "id": "300056109"},
 	"Appraising": {"parent": AttributeAssignment, "vocab":"aat", "id": "300054622"},
@@ -142,8 +144,9 @@ ext_classes = {
 	"AuctionLotSet": {"parent": PhysicalObject, "vocab":"aat", "id":"300411307"},
 	"CollectionSet": {"parent": PhysicalObject, "vocab":"aat", "id":"300025976"},
 
-	"SortName": {"parent": Name, "vocab":"aat", "id":"300404672"},
 	"PrimaryName": {"parent": Name, "vocab":"aat", "id":"300404670"},
+	"SortName": {"parent": Name, "vocab":"aat", "id":"300404672"},
+
 	"GivenName": {"parent": Name, "vocab":"aat", "id":"300404651"},
 	"FamilyName": {"parent": Name, "vocab":"aat", "id":"300404652"},
 	"MiddleName": {"parent": Name, "vocab":"aat", "id":"300404654"},
@@ -182,7 +185,6 @@ ext_classes = {
 	"Text": {"parent": ManMadeObject, "vocab": "aat", "id":"300263751"},
 	"Print":  {"parent": ManMadeObject, "vocab": "aat", "id":"300041273"},
 	"TimeBasedMedia": {"parent": ManMadeObject, "vocab": "aat", "id":"300185191"},
-
 	"Book": {"parent": ManMadeObject, "vocab":"aat", "id": "300028051"},
 
 	"FrontPart": {"parent": ManMadeObject, "vocab": "aat", "id":"300190703"},

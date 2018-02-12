@@ -35,11 +35,11 @@ LegalClaim._properties["claimed_part"] = {"rdf": "la:claimed_part", "range": Leg
 LegalClaim._properties["claimed_part_of"] = {"rdf": "la:claimed_part_of", "range": LegalClaim, "okayToUse": 1, "multiple": 0}
 LegalClaim._classhier = inspect.getmro(LegalClaim)[:-1]
 
+#      "IllegalClaim": {"parent": LegalClaim, "vocab":"aat", "id":"300055289"},
+
 # Require explict addition of extra shortcut properties
 def add_schema_properties():
-	ManMadeObject._properties['style'] = {"rdf": "schema:genre", "range": Type, "okayToUse": 1, "multiple": 1}
 	VisualItem._properties['style'] = {"rdf": "schema:genre", "range": Type, "okayToUse": 1, "multiple": 1}
-	ManMadeObject._properties['subject'] = {"rdf": "dct:subject", "range": Type, "okayToUse": 1, "multiple": 1}
 	BaseResource._properties['exact_match'] = {"rdf": "skos:exactMatch", "range": BaseResource, "okayToUse": 1, "multiple": 1}
 	BaseResource._properties['close_match'] = {"rdf": "skos:closeMatch", "range": BaseResource, "okayToUse": 1, "multiple": 1}	
 	ManMadeThing._properties['conforms_to'] = {"rdf": "dcterms:conformsTo", "range": BaseResource, "okayToUse": 1, "multiple": 0}
