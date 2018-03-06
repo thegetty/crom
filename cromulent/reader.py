@@ -6,12 +6,9 @@ import json
 
 class Reader(object):
 
-	def __init__(self, linkedart=False, schema=False, rdf_value=False):
+	def __init__(self):
 		self.uri_object_map = {}
 		self.forward_refs = []
-
-		if rdf_value:
-			add_rdf_value()
 
 	def read(self, data):
 		if not data:
