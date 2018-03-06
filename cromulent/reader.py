@@ -1,10 +1,8 @@
 from . import model
 from .model import factory, DataError, OrderedDict, BaseResource, KEY_ORDER_HASH as koh
 from .model import STR_TYPES
-from .extra import Payment, add_schema_properties, add_rdf_value
 from .multiple_instantiation import EoEActivity
 import json
-
 
 class Reader(object):
 
@@ -12,10 +10,6 @@ class Reader(object):
 		self.uri_object_map = {}
 		self.forward_refs = []
 
-		if linkedart:
-			add_linkedart_properties()
-		if schema:
-			add_schema_properties()
 		if rdf_value:
 			add_rdf_value()
 
