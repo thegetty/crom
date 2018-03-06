@@ -11,10 +11,11 @@ setup(
     packages = ['cromulent'],
     package_data = {
         'cromulent': ['data/crm_vocab.tsv', 'data/overrides.json', 
-        'data/key_order.json', 'data/linked-art.json', 'data/cidoc-extension.json']
+        'data/key_order.json', 'data/linked-art.json', 
+        'data/cidoc-extension.json', 'data/crm-profile.json']
     },
     test_suite="tests",
-    version = '0.8.0',
+    version = '0.8.9',
     description = 'A library for mapping CIDOC-CRM classes to Python objects',
     author = 'Rob Sanderson',
     author_email = 'rsanderson@getty.edu',
