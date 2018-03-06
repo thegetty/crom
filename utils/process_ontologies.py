@@ -13,6 +13,7 @@ NS = {'rdf':"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 	'owl':"http://www.w3.org/2002/07/owl#",
 	'crm':"http://www.cidoc-crm.org/cidoc-crm/",
 	'xml': "http://www.w3.org/XML/1998/namespace",
+	'ore': "http://www.openarchives.org/ore/terms/",
 	'la': "https://linked.art/ns/terms/"
 }
 
@@ -53,6 +54,8 @@ def process_classes(dom):
 		name = c.xpath('@rdf:about', namespaces=NS)[0]
 		if name.startswith(NS['la']):
 			name = name.replace(NS['la'], 'la:')
+		if name.startswith(NS['ore']):
+			name = name.replace(NS['ore'], 'ore:')
 
 		useflag = str(profile_flags.get(name, 0))
 		if classXHash.has_key(name):
@@ -82,6 +85,8 @@ def process_classes(dom):
 
 		if name.startswith('la:'):
 			ccname = name[3:]
+		elif name.startswith('ore:'):
+			ccname = name[4:]
 		else:
 			uc1 = name.find("_")
 			ccname = name[uc1+1:]

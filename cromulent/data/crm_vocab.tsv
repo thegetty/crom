@@ -369,8 +369,8 @@ P81b_begin_of_the_end	property	begin_of_the_end	begin of the end	This is defined
 P82a_begin_of_the_begin	property	begin_of_the_begin	begin of the begin	This is defined as the first boundary of the property P82	P82_at_some_time_within	E52_Time-Span	xsd:dateTime		21	1	0
 P82b_end_of_the_end	property	end_of_the_end	end of the end	This is defined as the second boundary of the property P82	P82_at_some_time_within	E52_Time-Span	xsd:dateTime		24	1	0
 la:Payment	class	Payment	Payment	Payment of Money	E7_Activity	1
-la:PropertyInterest	class	PropertyInterest	Property Interest	A particular property interest, be it ownership or security, of intellectual or physical property	E71_Man-Made_Thing	0
-la:Relationship	class	Relationship	Relationship		E28_Conceptual_Object	0
+la:PropertyInterest	class	PropertyInterest	Property Interest	A particular property interest, be it ownership or security, of intellectual or physical property	E71_Man-Made_Thing	1
+la:Relationship	class	Relationship	Relationship		E28_Conceptual_Object	1
 la:Name	class	Name	Name		E41_Appellation|E33_Linguistic_Object	1
 la:EndingActivity	class	EndingActivity	EndingActivity		E64_End_of_Existence|E7_Activity	1
 la:BeginningActivity	class	BeginningActivity	Beginning Activity		E63_Beginning_of_Existence|E7_Activity	0
@@ -386,15 +386,15 @@ https://linked.art/ns/terms/related_to	property	to	related to			la:Relationship	
 https://linked.art/ns/terms/related_from	property	from	related from			la:Relationship	E1_CRM_Entity		10000	0	0
 E97_Monetary_Amount	class	MonetaryAmount	Monetary Amount	This class comprises quantities of monetary possessions or obligations in terms of their nominal value with respect to a particular currency. These quantities may be abstract accounting units, the nominal value of a heap of coins or bank notes at the time of validity of the respective currency, the nominal value of a bill of exchange or other documents expressing monetary claims or obligations	E54_Dimension	1
 E98_Currency	class	Currency	Currency	This class comprises the units in which a monetary system, supported by an administrative authority or other community, quantifies and arithmetically compares all monetary amounts declared in the unit. The unit of a monetary system must describe a nominal value which is kept constant by its administrative authority and an associated banking system if it exists, and not by market value. For instance, one may pay with grams of gold, but the respective monetary amount would have been agreed as the gold price in US dollars on the day of the payment. Under this definition, British Pounds, U.S. Dollars, and European Euros are examples of currency, but “grams of gold” is not. One monetary system has one and only one currency. Instances of this class must not be confused with coin denominations, such as “Dime” or “Sestertius”. Non-monetary exchange of value in terms of quantities of a particular type of goods, such as cows, do not constitute a currency.	E55_Type	1
-http://www.openarchives.org/ore/terms/Aggregation	class	http://www.openarchives.org/ore/terms/Aggregation	Aggregation	ORE Aggregation is a conceptual collection of resources.	E28_Conceptual_Object	0
-http://www.openarchives.org/ore/terms/Proxy	class	http://www.openarchives.org/ore/terms/Proxy	Proxy	Proxy for a resource within the context of an Aggregation.	E1_CRM_Entity	0
+ore:Aggregation	class	Aggregation	Aggregation	ORE Aggregation is a conceptual collection of resources.	E28_Conceptual_Object	1
+ore:Proxy	class	Proxy	Proxy	Proxy for a resource within the context of an Aggregation.	E1_CRM_Entity	0
 P180_has_currency	property	currency	has currency	This property establishes the relationship between an instance of E97 Monetary Amount and the currency that it is measured in.	P91_has_unit	E97_Monetary_Amount	E98_Currency	P180i_was_currency_of	10000	1	0
 P181_has_amount	property	amount	has amount	This property establishes the relationship between an instance of E97 Monetary Amount and the amount of currency that it consists of.	P90_has_value	E97_Monetary_Amount	rdfs:Literal		10000	0	0
 http://www.w3.org/1999/02/22-rdf-syntax-ns#value	property	http://www.w3.org/1999/02/22rdfsyntaxns#value	value	Idiomatic property used for structured values.		E1_CRM_Entity	rdfs:Literal		10000	0	0
 http://www.w3.org/2000/01/rdf-schema#label	property	http://www.w3.org/2000/01/rdfschema#label	label	A human-readable name for the subject.		E1_CRM_Entity	xsd:string		10000	0	0
-http://www.openarchives.org/ore/terms/aggregates	property	http://www.openarchives.org/ore/terms/aggregates	aggregates	has member		http://www.openarchives.org/ore/terms/Aggregation	E1_CRM_Entity		10000	0	0
-http://www.openarchives.org/ore/terms/proxyIn	property	http://www.openarchives.org/ore/terms/proxyIn	proxy in	proxy in		http://www.openarchives.org/ore/terms/Proxy	http://www.openarchives.org/ore/terms/Aggregation		10000	0	0
-http://www.openarchives.org/ore/terms/proxyFor	property	http://www.openarchives.org/ore/terms/proxyFor	proxy for	proxy for		http://www.openarchives.org/ore/terms/Aggregation	E1_CRM_Entity		10000	0	0
+http://www.openarchives.org/ore/terms/aggregates	property	http://www.openarchives.org/ore/terms/aggregates	aggregates	has member		ore:Aggregation	E1_CRM_Entity		10000	0	0
+http://www.openarchives.org/ore/terms/proxyIn	property	http://www.openarchives.org/ore/terms/proxyIn	proxy in	proxy in		ore:Proxy	ore:Aggregation		10000	0	0
+http://www.openarchives.org/ore/terms/proxyFor	property	http://www.openarchives.org/ore/terms/proxyFor	proxy for	proxy for		ore:Aggregation	E1_CRM_Entity		10000	0	0
 http://www.w3.org/2002/07/owl#sameAs	property	http://www.w3.org/2002/07/owl#sameAs	sameAs	Exactly the same entity		E1_CRM_Entity	E1_CRM_Entity		10000	0	0
 http://www.w3.org/2004/02/skos/core#exactMatch	property	http://www.w3.org/2004/02/skos/core#exactMatch	exactMatch	Exact Match, not quite sameAs, good for most uses		E1_CRM_Entity	E1_CRM_Entity		10000	0	0
 http://www.w3.org/2004/02/skos/core#closeMatch	property	http://www.w3.org/2004/02/skos/core#closeMatch	closeMatch	Close Match, good for some uses		E1_CRM_Entity	E1_CRM_Entity		10000	0	0
