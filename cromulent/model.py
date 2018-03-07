@@ -441,6 +441,10 @@ class BaseResource(ExternalResource):
 					rng = c._properties[which]['range']
 					if rng == str:					
 						return 1
+					elif type(value) == BaseResource:
+						# Allow direct instances of base resource anywhere
+						# this is an override for external URIs
+						return 2
 					elif isinstance(value, rng):
 						return 2
 					else:
@@ -677,8 +681,7 @@ class BaseResource(ExternalResource):
 # Ensure everything can have id, type, label and description
 BaseResource._properties = {'id': {"rdf": "@id", "range": str, "okayToUse": 1}, 
 	'type': {"rdf": "rdf:type", "range": str, "okayToUse": 1}, 
-	'label': {"rdf": "rdfs:label", "range": str, "okayToUse": 1},
-	'description': {"rdf": "dc:description", "range": str, "okayToUse": 1}
+	'label': {"rdf": "rdfs:label", "range": str, "okayToUse": 1}
 }
 BaseResource._classhier = (BaseResource, ExternalResource)
 

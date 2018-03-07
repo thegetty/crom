@@ -14,7 +14,10 @@ NS = {'rdf':"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 	'crm':"http://www.cidoc-crm.org/cidoc-crm/",
 	'xml': "http://www.w3.org/XML/1998/namespace",
 	'ore': "http://www.openarchives.org/ore/terms/",
-	'la': "https://linked.art/ns/terms/"
+	'la': "https://linked.art/ns/terms/",
+	"skos": "http://www.w3.org/2004/02/skos/core#",
+	"schema": "http://schema.org/",
+	"dc": "http://purl.org/dc/elements/1.1/"
 }
 
 # Order imposed by the library
@@ -52,10 +55,10 @@ def process_classes(dom):
 	classes = dom.xpath("//rdfs:Class", namespaces=NS)
 	for c in classes:
 		name = c.xpath('@rdf:about', namespaces=NS)[0]
-		if name.startswith(NS['la']):
-			name = name.replace(NS['la'], 'la:')
-		if name.startswith(NS['ore']):
-			name = name.replace(NS['ore'], 'ore:')
+		for (pref,ns) in NS.items():
+			if name.startswith(ns):
+				name = name.replace(ns, "%s:" % pref)
+				break
 
 		useflag = str(profile_flags.get(name, 0))
 		if classXHash.has_key(name):
@@ -83,10 +86,11 @@ def process_classes(dom):
 		else:
 			subCls = ""
 
-		if name.startswith('la:'):
-			ccname = name[3:]
-		elif name.startswith('ore:'):
-			ccname = name[4:]
+		# Assume that we've done our job okay and put in overrides for NSS
+
+		cidx = name.find(":")
+		if cidx > -1:
+			ccname = name[cidx+1:]
 		else:
 			uc1 = name.find("_")
 			ccname = name[uc1+1:]
@@ -99,6 +103,12 @@ def process_props(dom):
 	props = dom.xpath("//rdf:Property",namespaces=NS)
 	for p in props:
 		name = p.xpath('@rdf:about', namespaces=NS)[0]
+
+		for (pref,ns) in NS.items():
+			if name.startswith(ns):
+				name = name.replace(ns, "%s:" % pref)
+				break		
+
 		useflags = profile_flags.get(name, [0,0]) or [0,0]
 		propXHash[name] = [p, useflags[0]]
 
@@ -138,17 +148,23 @@ def process_props(dom):
 		else:
 			inverse = ""
 
-		uc1 = name.find("_")
-		pno = name[:uc1]
-		if property_overrides.has_key(pno):
-			ccname = property_overrides[pno]
+		cidx = name.find(":")
+		if property_overrides.has_key(name):
+			ccname = property_overrides[name]
+		elif cidx > -1:
+			ccname = name[cidx+1:]
 		else:
-			ccname = name[uc1+1:]
-			ccname = ccname.replace("-", "")
-			if ccname.startswith("is_"):
-				ccname = ccname[3:]
-			elif ccname.startswith("has_") or ccname.startswith("had_") or ccname.startswith("was_"):
-				ccname = ccname[4:]
+			uc1 = name.find("_")
+			pno = name[:uc1]
+			if property_overrides.has_key(pno):
+				ccname = property_overrides[pno]
+			else:
+				ccname = name[uc1+1:]
+				ccname = ccname.replace("-", "")
+				if ccname.startswith("is_"):
+					ccname = ccname[3:]
+				elif ccname.startswith("has_") or ccname.startswith("had_") or ccname.startswith("was_"):
+					ccname = ccname[4:]
 
 		koi = str(key_order_hash.get(ccname, default_key_order))
 
