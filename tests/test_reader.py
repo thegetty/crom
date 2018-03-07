@@ -47,9 +47,3 @@ class TestReader(unittest.TestCase):
 			# maybe not?
 			pass
 
-		value = '{"type": "Dimension", "value": 100}'
-		self.assertRaises(DataError, self.reader.read, value)
-
-		r2 = reader.Reader(rdf_value=True)
-		d = r2.read(value)
-		self.assertEqual(d.value, 100)

@@ -77,12 +77,17 @@ for l in lines:
 			else:
 				which[ctname] = {"@id": "crm:%s" % name, "@type": typ}
 
-# Language Map:   label, has_note, description  ?
-# "@container": "@language"
+
+
+# Now process data/linkedart.xml
+
+
+# And data/linkedart_crm_enhancements.xml
+
+
 
 context['label'] = {"@id": "rdfs:label"}
 context['value'] = {"@id": "rdf:value"}
-context['description'] = {"@id": "dc:description", "@container": "@set"}
 context['style'] = {"@id": "schema:genre", "@type": "@id", "@container": "@set"}
 context['conforms_to'] = {'@id': "dcterms:conformsTo", "@type": "@id"}
 context['format'] = {"@id": "dc:format"}
@@ -109,7 +114,7 @@ context["paid_amount"] = {
       "@container": "@set"
     }
 
-context["LegalClaim"] = "la:LegalClaim"
+context["PropertyInterest"] = "la:PropertyInterest"
 
 context['instantiates'] = {
 	"@id": "la:instantiates",

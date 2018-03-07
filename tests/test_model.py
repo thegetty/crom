@@ -269,7 +269,7 @@ class TestBaseResource(unittest.TestCase):
 		self.assertFalse(hasattr(self.artist, 'has_type'))
 
 	def test_check_prop(self):
-		desc = self.artist._check_prop('description', 'Jane Doe\'s Bio')
+		desc = self.artist._check_prop('label', 'Jane Doe\'s Bio')
 		self.assertEqual(desc, 1)
 		parent = self.artist._check_prop('parent_of', self.son)
 		self.assertEqual(parent, 2)

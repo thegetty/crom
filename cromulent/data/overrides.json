@@ -53,5 +53,11 @@
 		"P151i": "participated_in_formation",
 		"P165i": "incorporated_by",
 		"P132":  "volume_overlaps_with",
-		"P135i": "type_created_by"
+		"P135i": "type_created_by",
+
+		"skos:closeMatch": "close_match",
+		"skos:exactMatch": "exact_match",
+		"dcterms:conformsTo": "conforms_to",
+		"dcterms:relation": "related",
+		"schema:genre": "style"
 	}

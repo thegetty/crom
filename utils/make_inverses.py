@@ -15,9 +15,8 @@ NS = {'rdf':"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 }
 
 dom = etree.XML(data)
-stuff = []
-
 names = []
+inverses = {}
 
 props = dom.xpath("//rdf:Property",namespaces=NS)
 for p in props:
@@ -28,26 +27,36 @@ for p in props:
 	name = p.xpath('@rdf:about', namespaces=NS)[0]	
 	fu = name.find('_')
 	pid = name[:fu]
-	if pid[-1] == "i":
-		pid = pid[:-1]
 	if pid[-1] in ['a', 'b']:
 		# No inverses for botb eote
 		continue
 	inverse = ""
+	if pid[-1] == "i":
+		pid = pid[:-1]
+	else:
+		pid = pid + "i"
+	pid += "_"
+
 	for i in names:
 		if i.startswith(pid) and i != name:
 			inverse = i
 			break
+	if inverse:
+		inverses[name] = inverse
 
-	# add an element: <owl:inverseOf rdf:resource="name"/>
-	owl = etree.Element("{%s}inverseOf" % NS['owl'], nsmap={'owl':NS['owl']})
-	owl.set("{%s}resource" % NS['rdf'], inverse)
-	p.append(owl)
+# Now print ONLY the inverses
+outlines = [
+'<rdf:RDF xml:lang="en" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.cidoc-crm.org/cidoc-crm/" xmlns:la="http://linked.art/ns/terms/">'
+]
 
-# Now pretty print dom
-outstr = etree.tostring(dom, pretty_print=True)
-outstr = outstr.replace("\n<owl:", "\n    <owl:")
-outstr = outstr.replace("/></rdf:Property", "/>\n</rdf:Property")
-fh = file('cidoc_inverse.xml', 'w')
+for n in names:
+	if n in inverses:
+		outlines.append('  <rdf:Property rdf:about="%s">' % n )
+		outlines.append('    <owl:inverseOf rdf:resource="%s"/>' % inverses[n])
+		outlines.append('  </rdf:Property>')
+outlines.append('</rdf:RDF>')
+outstr = '\n'.join(outlines)
+
+fh = file('data/inverses.xml', 'w')
 fh.write(outstr)
 fh.close()
