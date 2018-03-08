@@ -386,8 +386,8 @@ la:related_to	property	related_to	related to			la:Relationship	E1_CRM_Entity		10
 la:related_from	property	related_from	related from			la:Relationship	E1_CRM_Entity		10000	1	0
 E97_Monetary_Amount	class	MonetaryAmount	Monetary Amount	This class comprises quantities of monetary possessions or obligations in terms of their nominal value with respect to a particular currency. These quantities may be abstract accounting units, the nominal value of a heap of coins or bank notes at the time of validity of the respective currency, the nominal value of a bill of exchange or other documents expressing monetary claims or obligations	E54_Dimension	1
 E98_Currency	class	Currency	Currency	This class comprises the units in which a monetary system, supported by an administrative authority or other community, quantifies and arithmetically compares all monetary amounts declared in the unit. The unit of a monetary system must describe a nominal value which is kept constant by its administrative authority and an associated banking system if it exists, and not by market value. For instance, one may pay with grams of gold, but the respective monetary amount would have been agreed as the gold price in US dollars on the day of the payment. Under this definition, British Pounds, U.S. Dollars, and European Euros are examples of currency, but “grams of gold” is not. One monetary system has one and only one currency. Instances of this class must not be confused with coin denominations, such as “Dime” or “Sestertius”. Non-monetary exchange of value in terms of quantities of a particular type of goods, such as cows, do not constitute a currency.	E55_Type	1
-ore:Aggregation	class	Aggregation	Aggregation	ORE Aggregation is a conceptual collection of resources.	E28_Conceptual_Object	1
-ore:Proxy	class	Proxy	Proxy	Proxy for a resource within the context of an Aggregation.	E1_CRM_Entity	0
+ore:Aggregation	class	Aggregation	Aggregation	ORE Aggregation is a conceptual collection of resources.	E72_Legal_Object|E89_Propositional_Object	1
+ore:Proxy	class	Proxy	Proxy	Proxy for a resource within the context of an Aggregation.	E89_Propositional_Object	0
 P180_has_currency	property	currency	has currency	This property establishes the relationship between an instance of E97 Monetary Amount and the currency that it is measured in.	P91_has_unit	E97_Monetary_Amount	E98_Currency	P180i_was_currency_of	10000	1	0
 P181_has_amount	property	amount	has amount	This property establishes the relationship between an instance of E97 Monetary Amount and the amount of currency that it consists of.	P90_has_value	E97_Monetary_Amount	rdfs:Literal		10000	0	0
 rdf:value	property	value	value	Idiomatic property used for structured values.		E1_CRM_Entity	rdfs:Literal		10000	1	0
@@ -398,7 +398,7 @@ ore:proxyFor	property	proxyFor	proxy for	proxy for		ore:Proxy	E1_CRM_Entity		100
 owl:sameAs	property	sameAs	sameAs	Exactly the same entity		E1_CRM_Entity	E1_CRM_Entity		10000	0	0
 skos:exactMatch	property	exact_match	exactMatch	Exact Match, not quite sameAs, good for most uses		E1_CRM_Entity	E1_CRM_Entity		10000	1	1
 skos:closeMatch	property	close_match	closeMatch	Close Match, good for some uses		E1_CRM_Entity	E1_CRM_Entity		10000	0	0
-rdfs:seeAlso	property	seeAlso	seeAlso	A related resource, that is machine readable and related to the current resource.		E1_CRM_Entity	E28_Conceptual_Object		10000	0	0
+rdfs:seeAlso	property	seeAlso	seeAlso	A related resource, that is machine readable and related to the current resource.		E1_CRM_Entity	E73_Information_Object		10000	0	0
 dcterms:relation	property	related	relation	Related resources, with no further similarity semantics defined		E1_CRM_Entity	E1_CRM_Entity		10000	1	1
 schema:genre	property	style	genre	Shortcut for Genre or Style		E36_Visual_Item	E55_Type		10000	1	1
 dcterms:conformsTo	property	conforms_to	conformsTo	Some thing conforms to some standard		E71_Man-Made_Thing	E73_Information_Object		10000	1	0

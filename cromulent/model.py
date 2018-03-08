@@ -423,6 +423,11 @@ class BaseResource(ExternalResource):
 			else:			
 				object.__setattr__(self, which, value)				
 
+	def _prop_okay(self, which):
+		for c in self._classhier:
+			if which in c._properties:
+				return c._properties[which]['okayToUse']		 
+
 	def _check_prop(self, which, value):
 		val_props = self._factory.validate_properties
 		val_profile = self._factory.validate_profile
