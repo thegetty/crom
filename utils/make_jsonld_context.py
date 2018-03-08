@@ -46,7 +46,7 @@ for l in lines:
 		# map json key to ontology for @type:@vocab
 		ctname = info[2]
 		used = info[-1]
-		if not name.startswith("la:"):
+		if name.startswith("E"):
 			name = "crm:%s" % name
 		# split into used and other
 		if used == "1":			
@@ -70,77 +70,15 @@ for l in lines:
 				typ = "@id"
 			which = context if used == "1" else extension
 
-			if typ in ["rdfs:Literal", "xsd:dateTime"]:
-				which[ctname] = {"@id": "crm:%s" % name}
+			if name.startswith("P"):
+				name = "crm:%s" % name
+
+			if typ in ["rdfs:Literal", "xsd:dateTime", "xsd:string"]:
+				which[ctname] = {"@id": name}
 			elif mult == '1':
-				which[ctname] = {"@id": "crm:%s" % name, "@type": typ, "@container":"@set"}
+				which[ctname] = {"@id": name, "@type": typ, "@container":"@set"}
 			else:
-				which[ctname] = {"@id": "crm:%s" % name, "@type": typ}
-
-
-
-# Now process data/linkedart.xml
-
-
-# And data/linkedart_crm_enhancements.xml
-
-
-
-context['label'] = {"@id": "rdfs:label"}
-context['value'] = {"@id": "rdf:value"}
-context['style'] = {"@id": "schema:genre", "@type": "@id", "@container": "@set"}
-context['conforms_to'] = {'@id': "dcterms:conformsTo", "@type": "@id"}
-context['format'] = {"@id": "dc:format"}
-context['exact_match'] = {"@id": "skos:exactMatch", "@type": "@id", "@container": "@set"}
-context['close_match'] = {"@id": "skos:closeMatch", "@type": "@id", "@container": "@set"}
-context['related'] = {"@id": "dcterms:relation", "@type": "@id", "@container": "@set"}
-context['subject'] = {"@id": "dcterms:subject", "@type": "@id", "@container": "@set"}
-
-# Add in Provenance extension 
-context["Payment"] = "la:Payment"
-context["paid_from"] = {
-      "@id": "la:paid_from",
-      "@type": "@id",
-      "@container": "@set"
-    }
-context["paid_to"] = {
-      "@id": "la:paid_to",
-      "@type": "@id",
-      "@container": "@set"
-    }
-context["paid_amount"] = {
-      "@id": "la:paid_amount",
-      "@type": "@id",
-      "@container": "@set"
-    }
-
-context["PropertyInterest"] = "la:PropertyInterest"
-
-context['instantiates'] = {
-	"@id": "la:instantiates",
-	"@type": "@id"
-}
-context['jurisdiction'] = {
-	"@id": "la:jurisdiction",
-	"@type": "@id",
-	"@container": "@set"	
-}
-context['claimed_by'] = {
-	"@id": "la:claimed_by",
-	"@type": "@id",
-	"@container": "@set"
-}
-
-context['claimed_part'] = {
-	"@id": "la:claimed_part",
-	"@type": "@id",
-	"@container": "@set"
-}
-context['claimed_part_of'] = {
-	"@id": "la:claimed_part",
-	"@type": "@id"
-}
-
+				which[ctname] = {"@id": name, "@type": typ}
 
 ctxt = {"@context": context}
 xctxt = {"@context": extension}
