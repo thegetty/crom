@@ -546,7 +546,7 @@ class BaseResource(ExternalResource):
 					v = c._properties[which]
 					if 'multiple' in v:
 						multiple = v['multiple']
-					if 'inverse' in v:
+					if 'inverse' in v and v['inverse']:
 						inverse = v['inverse']
 						break
 			if not inversed and self._factory.materialize_inverses and inverse:
@@ -754,7 +754,15 @@ def build_class(crmName, parent, vocabData):
 		name = p['name']
 		rng = p['range']
 		ccname = p['propName']
-		invRdf = "crm:%s" % p["inverse"]
+		if p['inverse']:
+			i = p['inverse']
+			if i[0] == "P":
+				invRdf = "crm:%s" % i
+			else:
+				invRdf = i
+		else:
+			invRdf = ""
+
 		okay = p['okay']
 		if not okay:
 			okay = '1'
