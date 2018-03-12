@@ -59,5 +59,6 @@
 		"skos:exactMatch": "exact_match",
 		"dcterms:conformsTo": "conforms_to",
 		"dcterms:relation": "related",
-		"schema:genre": "style"
+		"schema:genre": "style",
+		"ore:isAggregatedBy": "aggregated_by"
 	}

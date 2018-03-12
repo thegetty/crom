@@ -69,6 +69,13 @@
         <rdfs:range rdf:resource="E1_CRM_Entity"/>
 </rdf:Property>
 
+<rdf:Property rdf:about="http://www.openarchives.org/ore/terms/isAggregatedBy">
+        <rdfs:label xml:lang="en">aggregated by</rdfs:label>
+        <rdfs:comment xml:lang="en">member of</rdfs:comment>
+        <rdfs:domain rdf:resource="E1_CRM_Entity"/>
+        <rdfs:range rdf:resource="http://www.openarchives.org/ore/terms/Aggregation"/>
+</rdf:Property>
+
 <rdfs:Class rdf:about="http://www.openarchives.org/ore/terms/Proxy">
     <rdfs:label xml:lang="en">Proxy</rdfs:label>
     <rdfs:comment>Proxy for a resource within the context of an Aggregation.</rdfs:comment>

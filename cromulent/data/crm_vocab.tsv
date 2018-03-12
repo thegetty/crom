@@ -393,6 +393,7 @@ P181_has_amount	property	amount	has amount	This property establishes the relatio
 rdf:value	property	value	value	Idiomatic property used for structured values.		E1_CRM_Entity	rdfs:Literal		10000	1	0
 rdfs:label	property	label	label	A human-readable name for the subject.		E1_CRM_Entity	xsd:string		10000	1	0
 ore:aggregates	property	aggregates	aggregates	has member		ore:Aggregation	E1_CRM_Entity		10000	1	1
+ore:isAggregatedBy	property	aggregated_by	aggregated by	member of		E1_CRM_Entity	ore:Aggregation		10000	1	1
 ore:proxyIn	property	proxyIn	proxy in	proxy in		ore:Proxy	ore:Aggregation		10000	1	0
 ore:proxyFor	property	proxyFor	proxy for	proxy for		ore:Proxy	E1_CRM_Entity		10000	1	0
 owl:sameAs	property	sameAs	sameAs	Exactly the same entity		E1_CRM_Entity	E1_CRM_Entity		10000	0	0

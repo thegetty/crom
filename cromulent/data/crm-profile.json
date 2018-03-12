@@ -403,6 +403,7 @@
   "schema:genre": [1,1], 
   "skos:exactMatch": [1,1],
   "ore:aggregates": [1,1],
+  "ore:isAggregatedBy": [1,1],
   "ore:proxyIn": [1,0],
   "ore:proxyFor": [1,0]
 }

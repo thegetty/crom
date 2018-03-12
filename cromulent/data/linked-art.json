@@ -632,6 +632,11 @@
       "@type": "@id", 
       "@container": "@set"
     }, 
+    "aggregated_by": {
+      "@id": "ore:isAggregatedBy", 
+      "@type": "ore:Aggregation", 
+      "@container": "@set"
+    }, 
     "proxyIn": {
       "@id": "ore:proxyIn", 
       "@type": "ore:Aggregation"
