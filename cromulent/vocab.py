@@ -10,7 +10,6 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
 	Acquisition, ManMadeFeature, VisualItem, Aggregation
 
-
 # Add classified_as initialization hack for all resources
 def post_init(self, **kw):
 	if self.__class__._classification:
@@ -191,7 +190,11 @@ ext_classes = {
 	"BackPart": {"parent": ManMadeObject, "vocab": "aat", "id":"300190692"},
 	"TopPart": {"parent": ManMadeObject, "vocab": "aat", "id":"300190710"},
 	"BottomPart": {"parent": ManMadeObject, "vocab": "aat", "id":"300190695"},
-	"SidePart": {"parent": ManMadeObject, "vocab": "aat", "id":"300190706"}
+	"SidePart": {"parent": ManMadeObject, "vocab": "aat", "id":"300190706"},
+
+	"StartingPrice": {"parent": MonetaryAmount, "vocab": "aat", "id": "300417242"},
+	"ReservePrice": {"parent": MonetaryAmount, "vocab": "aat", "id": "300417243"},
+	"EstimatedPrice": {"parent": MonetaryAmount, "vocab": "aat", "id": "300417244"}
 
 }
  
