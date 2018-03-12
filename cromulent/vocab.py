@@ -8,7 +8,7 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
 	Activity, Group, Name, MonetaryAmount, Right, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
-	Acquisition, ManMadeFeature, VisualItem
+	Acquisition, ManMadeFeature, VisualItem, Aggregation
 
 
 # Add classified_as initialization hack for all resources
@@ -141,8 +141,8 @@ ext_classes = {
 	"MountPart": {"parent": ManMadeObject, "vocab":"aat", "id":"300131087"},
 	"PanelPart": {"parent": ManMadeObject, "vocab":"aat", "id":"300014657"},
 
-	"AuctionLotSet": {"parent": PhysicalObject, "vocab":"aat", "id":"300411307"},
-	"CollectionSet": {"parent": PhysicalObject, "vocab":"aat", "id":"300025976"},
+	"AuctionLotSet": {"parent": Aggregation, "vocab":"aat", "id":"300411307"},
+	"CollectionSet": {"parent": Aggregation, "vocab":"aat", "id":"300025976"},
 
 	"PrimaryName": {"parent": Name, "vocab":"aat", "id":"300404670"},
 	"SortName": {"parent": Name, "vocab":"aat", "id":"300404672"},
