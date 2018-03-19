@@ -166,13 +166,17 @@ class TestFactorySerialization(unittest.TestCase):
 class TestProcessTSV(unittest.TestCase):
 
 	def test_process_tsv(self):
-		expect = {u'subs': [u'E84_Information_Carrier', 'ore:Proxy'], u'label': u'Man-Made Object', u'className': u'ManMadeObject', 
+		expect = {u'subs': [u'E84_Information_Carrier', u'ore:Proxy'], u'label': u'Man-Made Object', u'className': u'ManMadeObject', 
 		u'subOf': u'E19_Physical_Object|E24_Physical_Man-Made_Thing', u'props': [], u'class': None, u'okay': u'1'}
 		fn = 'cromulent/data/crm_vocab.tsv'
 		vocabData = model.process_tsv(fn)
 		man_made = vocabData['E22_Man-Made_Object']
 		del man_made['desc']
-		self.assertEqual(expect, man_made)
+		try:
+			self.assertEqual(expect, man_made)
+		except:
+			expect[u'subs'] = [u'ore:Proxy', u'E84_Information_Carrier']
+			self.assertEqual(expect, man_made)
 
 class TestBuildClasses(unittest.TestCase):
 
