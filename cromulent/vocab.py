@@ -126,16 +126,6 @@ ext_classes = {
 	"Theft": {"parent": Acquisition, "vocab":"aat", "id": "300055292"},
 	"Looting": {"parent": Acquisition, "vocab":"aat", "id":"300379554"},
 
-	"Attribution": {"parent": AttributeAssignment, "vocab":"aat", "id": "300056109"},
-	"Appraising": {"parent": AttributeAssignment, "vocab":"aat", "id": "300054622"},
-	"Dating": {"parent": AttributeAssignment, "vocab":"aat", "id":"300054714"},
-	"Naming": {"parent": AttributeAssignment, "vocab":"aat", "id":"300411672"},
-	"StyleOfAttribution": {"parent": AttributeAssignment, "vocab":"aat", "id": "300404285"},
-	"Classifying": {"parent": AttributeAssignment, "vocab":"aat", "id":"300054631"},
-	"Describing": {"parent": AttributeAssignment, "vocab":"aat", "id":"300080091"},
-	"Locating": {"parent": AttributeAssignment, "vocab":"aat", "id":"300393211"},
-	"Measuring": {"parent": AttributeAssignment, "vocab":"aat", "id":"300411672"},
-
 	"SupportPart": {"parent": ManMadeObject, "vocab":"aat", "id":"300014844"},
 	"FramePart": {"parent": ManMadeObject, "vocab":"aat", "id":"300404391"},
 	"MountPart": {"parent": ManMadeObject, "vocab":"aat", "id":"300131087"},
@@ -324,6 +314,6 @@ def add_attribute_assignment_check():
 			# override
 			assto_res = BaseResource()
 		if ass_res:
-			ass_res._check_prop(value, assto_res)
+			assto_res._check_prop(value, ass_res)
 		object.__setattr__(self, p2, value)
 	setattr(AttributeAssignment, "set_%s" % p2, aa_set_classified_as)
