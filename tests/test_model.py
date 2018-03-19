@@ -166,12 +166,12 @@ class TestFactorySerialization(unittest.TestCase):
 class TestProcessTSV(unittest.TestCase):
 
 	def test_process_tsv(self):
-		expect = {u'subs': [u'E84_Information_Carrier'], u'label': u'Man-Made Object', u'className': u'ManMadeObject', 
-		u'subOf': u'E19_Physical_Object|E24_Physical_Man-Made_Thing', u'props': [], u'class': None, u'okay': u'1',
-		u'desc': u'This class comprises physical objects purposely created by human activity.\\nNo assumptions are made as to the extent of modification required to justify regarding an object as man-made. For example, an inscribed piece of rock or a preserved butterfly are both regarded as instances of E22 Man-Made Object.'}
+		expect = {u'subs': [u'E84_Information_Carrier', 'ore:Proxy'], u'label': u'Man-Made Object', u'className': u'ManMadeObject', 
+		u'subOf': u'E19_Physical_Object|E24_Physical_Man-Made_Thing', u'props': [], u'class': None, u'okay': u'1'}
 		fn = 'cromulent/data/crm_vocab.tsv'
 		vocabData = model.process_tsv(fn)
 		man_made = vocabData['E22_Man-Made_Object']
+		del man_made['desc']
 		self.assertEqual(expect, man_made)
 
 class TestBuildClasses(unittest.TestCase):

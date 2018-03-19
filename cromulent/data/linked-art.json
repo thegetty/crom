@@ -15,22 +15,17 @@
     "tgn": "http://vocab.getty.edu/tgn/", 
     "id": "@id", 
     "type": "@type", 
-    "Period": "crm:E4_Period", 
-    "Event": "crm:E5_Event", 
     "Activity": "crm:E7_Activity", 
     "Acquisition": "crm:E8_Acquisition", 
     "TransferOfCustody": "crm:E10_Transfer_of_Custody", 
     "Production": "crm:E12_Production", 
     "AttributeAssignment": "crm:E13_Attribute_Assignment", 
-    "PhysicalObject": "crm:E19_Physical_Object", 
     "Person": "crm:E21_Person", 
     "ManMadeObject": "crm:E22_Man-Made_Object", 
-    "ManMadeFeature": "crm:E25_Man-Made_Feature", 
     "Right": "crm:E30_Right", 
     "LinguisticObject": "crm:E33_Linguistic_Object", 
     "VisualItem": "crm:E36_Visual_Item", 
     "Actor": "crm:E39_Actor", 
-    "Appellation": "crm:E41_Appellation", 
     "Identifier": "crm:E42_Identifier", 
     "TimeSpan": "crm:E52_Time-Span", 
     "Place": "crm:E53_Place", 
@@ -483,7 +478,7 @@
       "@type": "@id", 
       "@container": "@set"
     }, 
-    "alternative_form": {
+    "alternative": {
       "@id": "crm:P139_has_alternative_form", 
       "@type": "@id", 
       "@container": "@set"
@@ -617,6 +612,7 @@
     "MonetaryAmount": "crm:E97_Monetary_Amount", 
     "Currency": "crm:E98_Currency", 
     "Aggregation": "ore:Aggregation", 
+    "Proxy": "ore:Proxy", 
     "currency": {
       "@id": "crm:P180_has_currency", 
       "@type": "@id"

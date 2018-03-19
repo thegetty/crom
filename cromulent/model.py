@@ -94,6 +94,7 @@ class CromulentFactory(object):
 
 		self.prefixes = {}
 		self.prefixes_rev = {}
+		self.context_rev = {}
 		# Maybe load it up for prefixes
 		if load_context:
 			context_filemap = {
@@ -104,7 +105,6 @@ class CromulentFactory(object):
 			}
 			context_filemap.update(context_file)
 			self.load_context(context, context_filemap)
-			self.load_prefixes_from_context()
 
 		self.elasticsearch_compatible = False
 		self.serialize_all_resources = False
@@ -150,13 +150,21 @@ class CromulentFactory(object):
 				raise ConfigurationError("Provided context does not have valid JSON")				
 		# this is the merged context information, not any single one
 		self.context_json = js
+		self.process_context()
 
-	def load_prefixes_from_context(self):
+	def process_context(self):
 		# Filter context looking for prefixes
+		# And make reverse mapping
 		for (k,v) in self.context_json['@context'].items():
 			if type(v) in STR_TYPES and v[-1] in ['/', '#']:
 				self.prefixes[k] = v
 				self.prefixes_rev[v] = k
+			else:
+				if type(v) in STR_TYPES:
+					rdf = v
+				else:
+					rdf = v['@id']
+				self.context_rev[rdf] = k
 
 	def set_debug_stream(self, strm):
 		"""Set debug level."""
@@ -405,6 +413,11 @@ class BaseResource(ExternalResource):
 		elif which[0] == "_" or not value:
 			object.__setattr__(self, which, value)			
 		else:
+			# Allow per-class setters
+			if hasattr(self, 'set_%s' % which):
+				fn = getattr(self, 'set_%s' % which)
+				return fn(value)
+
 			if self._factory.validate_properties or self._factory.validate_profile or self._factory_validate_range:
 				ok = self._check_prop(which, value)
 			elif isinstance(value, ExternalResource):
@@ -412,11 +425,7 @@ class BaseResource(ExternalResource):
 			else:
 				ok = 1
 
-			# Allow per class/prop setter functions to do extra magic
-			if hasattr(self, which) and hasattr(self, 'set_%s' % which):
-				fn = getattr(self, 'set_%s' % which)
-				return fn(value)
-			elif which in self._lang_properties:
+			if which in self._lang_properties:
 				self._set_magic_lang(which, value)
 			elif ok == 2:
 				self._set_magic_resource(which, value)
@@ -595,7 +604,6 @@ class BaseResource(ExternalResource):
 		KOH = self._factory.key_order_hash
 		kodflt = self._factory.key_order_default
 		kvs = sorted(d.items(), key=lambda x: KOH.get(x[0], kodflt))
-
 
 		# WARNING:  This means that individual factories are NOT thread safe
 		self._factory.done[self.id] = 1

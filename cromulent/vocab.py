@@ -8,7 +8,8 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
 	Activity, Group, Name, MonetaryAmount, Right, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
-	Acquisition, ManMadeFeature, VisualItem, Aggregation
+	Acquisition, ManMadeFeature, VisualItem, Aggregation, Proxy, \
+	STR_TYPES, factory
 
 # Add classified_as initialization hack for all resources
 def post_init(self, **kw):
@@ -254,7 +255,6 @@ def typeToJSON(self, top=False):
 		return self.id
 Type._toJSON = typeToJSON
 
-
 def add_art_setter():
 	# Linked.Art profile requires aat:300133025 on all artworks
 	# Art can be a ManMadeObject or an InformationObject
@@ -271,4 +271,59 @@ def add_art_setter():
 			self.classified_as = Type("aat:300133025")
 		super(InformationObject, self)._post_init(**kw)
 	InformationObject._post_init = art2_post_init
-	
+
+
+def add_proxy_wrapper():
+	# There isn't an inverse of proxyFor / proxyIn.
+	# So we need to use a JSON-LD @reverse property `proxies`
+	# This adds it, as it's not part of the ontology proper.
+
+	Aggregation.proxies = []
+	def aggr_post_init(self, **kw):
+		self.proxies = []
+	Aggregation._post_init = aggr_post_init
+
+	def proxy_set_magic_resource(self, which, value, inversed=False):
+		super(Proxy, self)._set_magic_resource(which, value, inversed)
+		# Look up what the context maps ore:proxyIn to
+		pin = factory.context_rev.get('ore:proxyIn', 'proxyIn')
+		if which == 'proxyIn':
+			value.proxies.append(self)
+	Proxy._set_magic_resource = proxy_set_magic_resource
+
+def add_attribute_assignment_check():
+	# Allow references to properties in p2 on AttrAssign
+	# Validate that the property is allowed in assigned
+	# either on set, or when assigned is set
+		
+	p2 = factory.context_rev.get('crm:P2_has_type', 'classified_as')
+	ass = factory.context_rev.get('crm:P141_assigned', 'assigned')
+	assto = factory.context_rev.get('crm:P140:assigned_attribute_to', 'assigned_to')
+
+	def aa_set_assigned(self, value):
+		assto_res = getattr(self, assto, None)
+		if assto_res:
+			p2_res = getattr(self, p2, None)
+			assto_res._check_prop(p2_res, value)
+		object.__setattr__(self, ass, value)
+	setattr(AttributeAssignment, "set_%s" % ass, aa_set_assigned)
+
+	def aa_set_assigned_to(self, value):
+		ass_res = getattr(self, ass, None)
+		p2_res = getattr(self, p2, None)		
+		if ass_res and p2_res:
+			# unmap the URI to property name
+			value._check_prop(p2_res, ass_res)
+		object.__setattr__(self, assto, value)
+	setattr(AttributeAssignment, "set_%s" % assto, aa_set_assigned_to)
+
+	def aa_set_classified_as(self, value):
+		ass_res = getattr(self, ass, None)
+		assto_res = getattr(self, assto, None)
+		if not assto_res:
+			# override
+			assto_res = BaseResource()
+		if ass_res:
+			ass_res._check_prop(value, assto_res)
+		object.__setattr__(self, p2, value)
+	setattr(AttributeAssignment, "set_%s" % p2, aa_set_classified_as)

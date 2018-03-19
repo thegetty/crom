@@ -54,6 +54,7 @@
 		"P165i": "incorporated_by",
 		"P132":  "volume_overlaps_with",
 		"P135i": "type_created_by",
+		"P139": "alternative",
 
 		"skos:closeMatch": "close_match",
 		"skos:exactMatch": "exact_match",
