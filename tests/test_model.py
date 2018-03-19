@@ -171,7 +171,7 @@ class TestProcessTSV(unittest.TestCase):
 		fn = 'cromulent/data/crm_vocab.tsv'
 		vocabData = model.process_tsv(fn)
 		man_made = vocabData['E22_Man-Made_Object']
-		del man_made['desc']
+		del man_made['desc']  # too long and volatile
 		try:
 			self.assertEqual(expect, man_made)
 		except:
