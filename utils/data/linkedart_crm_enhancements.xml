@@ -58,7 +58,6 @@
 <rdfs:Class rdf:about="http://www.openarchives.org/ore/terms/Aggregation">
     <rdfs:label xml:lang="en">Aggregation</rdfs:label>
     <rdfs:comment>ORE Aggregation is a conceptual collection of resources.</rdfs:comment>
-    <rdfs:subClassOf rdf:resource="E72_Legal_Object"/>
     <rdfs:subClassOf rdf:resource="E89_Propositional_Object"/>
 </rdfs:Class>
 
