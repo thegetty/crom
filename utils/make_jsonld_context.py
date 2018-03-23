@@ -17,6 +17,7 @@ lines = fh.readlines()
 fh.close()
 
 context = OrderedDict()
+context['@version'] = 1.1
 context['crm'] = "http://www.cidoc-crm.org/cidoc-crm/"
 context['rdf'] = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 context['rdfs'] = "http://www.w3.org/2000/01/rdf-schema#"
@@ -36,6 +37,7 @@ context['id'] = "@id"
 context['type'] = "@type"
 
 extension = OrderedDict()
+extension['@version'] = 1.1
 extension['crm'] = "http://www.cidoc-crm.org/cidoc-crm/"
 
 for l in lines:
@@ -50,15 +52,21 @@ for l in lines:
 			name = "crm:%s" % name
 		# split into used and other
 		if used == "1":			
-			context[ctname] = name
+			context[ctname] = {"@id": name, "@context": {}}
 		else:
-			extension[ctname] = name
+			extension[ctname] = {"@id": name, "@context": {}}
 	else:
 		ctname = info[2]
+
+		write = not ctname in ['part', 'part_of']
+		# These need to be added correctly to all parents in the ontology
+
+		dmn = info[6]
 		rng = info[7]
 		used = info[-2]
 		mult = info[11] or '1'
-		if context.has_key(ctname):
+		which = context if used == "1" else extension
+		if which.has_key(ctname):
 			print "Already found: %s   (%s vs %s)" % (ctname, context[ctname]['@id'], name)
 		else:
 			if rng:
@@ -68,17 +76,19 @@ for l in lines:
 					typ = rng
 			else:
 				typ = "@id"
-			which = context if used == "1" else extension
 
 			if name.startswith("P"):
 				name = "crm:%s" % name
 
-			if typ in ["rdfs:Literal", "xsd:dateTime", "xsd:string"]:
-				which[ctname] = {"@id": name}
-			elif mult == '1':
-				which[ctname] = {"@id": name, "@type": typ, "@container":"@set"}
+			if write:
+				if typ in ["rdfs:Literal", "xsd:dateTime", "xsd:string"]:
+					which[ctname] = {"@id": name}
+				elif mult == '1':
+					which[ctname] = {"@id": name, "@type": typ, "@container":"@set"}
+				else:
+					which[ctname] = {"@id": name, "@type": typ}
 			else:
-				which[ctname] = {"@id": name, "@type": typ}
+				print "scoped context: %s: %s on %s" % (ctname, name, dmn)
 
 ctxt = {"@context": context}
 xctxt = {"@context": extension}
