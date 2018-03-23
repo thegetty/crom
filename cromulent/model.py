@@ -773,7 +773,11 @@ def build_class(crmName, parent, vocabData):
 	# nb globals() here is only this module
 	if name in globals():
 		c = globals()[name]
-		c.__bases__ += (parent,)
+		try:	
+			c.__bases__ += (parent,)
+		except:
+			print("MRO FAILURE: %r --> %r + %r" % (c, c.__bases__, parent))
+			raise
 		return
 
 	c = type(name, (parent,), {'__doc__': data['desc']})
