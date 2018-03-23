@@ -51,11 +51,11 @@
         <rdfs:range rdf:resource="E53_Place"/>
 </rdf:Property>
 
-<rdf:Property rdf:about="https://linked.art/ns/terms/claimed_under">
-    <rdfs:label xml:lang="en">Claimed under</rdfs:label>
-    <rdfs:comment xml:lang="en">The legal concept that the property interest is claimed under</rdfs:comment>
+<rdf:Property rdf:about="https://linked.art/ns/terms/interest_for">
+    <rdfs:label xml:lang="en">interest for</rdfs:label>
+    <rdfs:comment xml:lang="en">The object that the property interest is for</rdfs:comment>
     <rdfs:domain rdf:resource="https://linked.art/ns/terms/PropertyInterest"/>
-    <rdfs:range rdf:resource="E30_Right"/>
+    <rdfs:range rdf:resource="E72_Legal_Object"/>
 </rdf:Property>
 
 <rdf:Property rdf:about="https://linked.art/ns/terms/interest_part">
@@ -68,7 +68,7 @@
 
 <rdf:Property rdf:about="https://linked.art/ns/terms/interest_part_of">
     <rdfs:label xml:lang="en">Interest Part Of</rdfs:label>
-    <rdfs:comment xml:lang="en">The subject property interest is part of the object     property interest</rdfs:comment>
+    <rdfs:comment xml:lang="en">The subject property interest is part of the object property interest</rdfs:comment>
     <rdfs:domain rdf:resource="https://linked.art/ns/terms/PropertyInterest"/>
     <rdfs:range rdf:resource="https://linked.art/ns/terms/PropertyInterest"/>
     <owl:inverseOf rdf:resource="https://linked.art/ns/terms/interest_part"/>

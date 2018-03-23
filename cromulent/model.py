@@ -79,6 +79,7 @@ class CromulentFactory(object):
 
 		self.materialize_inverses = False
 		self.full_names = False
+		self.pipe_scoped_contexts = False
 		self.validate_properties = True
 		self.validate_profile = True
 		self.validate_range = True
@@ -112,9 +113,9 @@ class CromulentFactory(object):
 		self.json_indent = 2
 
 		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, 
-			"label": 5, "value": 6, "description": 7}
+			"label": 5, "value": 6}
 		self.full_key_order_hash = {"@context": 0, "@id": 1, "rdf:type": 2, "@type": 2,
-			"rdfs:label": 5, "rdf:value": 6,  "dc:description": 7}
+			"rdfs:label": 5, "rdf:value": 6}
 		self.key_order_default = 10000
 
 		self._auto_id_types = {}
@@ -159,6 +160,8 @@ class CromulentFactory(object):
 			if type(v) in STR_TYPES and v[-1] in ['/', '#']:
 				self.prefixes[k] = v
 				self.prefixes_rev[v] = k
+			elif k == "@version":
+				continue
 			else:
 				if type(v) in STR_TYPES:
 					rdf = v
@@ -688,6 +691,25 @@ class BaseResource(ExternalResource):
 			else:
 				# ??!!
 				raise ConfigurationError("Class is badly configured for type")
+
+			if self._factory.pipe_scoped_contexts:
+				if 'part' in d:
+					# Calculate which part
+					for c in reversed(self._classhier):
+						if 'part' in c._properties:
+							nk = c._properties['part']['rdf']
+							d['part|%s' % nk]  = d['part']
+							del d['part']
+							break
+				if 'part_of' in d:
+					# Calculate which part
+					for c in reversed(self._classhier):
+						if 'part_of' in c._properties:
+							nk = c._properties['part_of']['rdf']
+							d['part_of|%s' % nk]  = d['part_of']
+							del d['part_of']
+							break
+
 
 		return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
 
