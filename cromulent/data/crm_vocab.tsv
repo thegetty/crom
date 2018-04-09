@@ -299,8 +299,8 @@ P125_used_object_of_type	property	used_object_of_type	used object of type	This p
 P125i_was_type_of_object_used_in	property	type_of_object_used_in	was type of object used in			E55_Type	E7_Activity	P125_used_object_of_type	10000	0	0
 P126_employed	property	employed	employed	This property identifies E57 Material employed in an E11 Modification.\nThe E57 Material used during the E11 Modification does not necessarily become incorporated into the E24 Physical Man-Made Thing that forms the subject of the E11 Modification.		E11_Modification	E57_Material	P126i_was_employed_in	10000	0	0
 P126i_was_employed_in	property	employed_in	was employed in			E57_Material	E11_Modification	P126_employed	10000	0	0
-P127_has_broader_term	property	broader_term	has broader term	This property identifies a super-Type to which an E55 Type is related. \n  It allows Types to be organised into hierarchies. This is the sense of "broader term generic    (BTG)" as defined in ISO 2788		E55_Type	E55_Type	P127i_has_narrower_term	10000	0	0
-P127i_has_narrower_term	property	narrower_term	has narrower term			E55_Type	E55_Type	P127_has_broader_term	10000	0	0
+P127_has_broader_term	property	part_of	has broader term	This property identifies a super-Type to which an E55 Type is related. \n  It allows Types to be organised into hierarchies. This is the sense of "broader term generic    (BTG)" as defined in ISO 2788		E55_Type	E55_Type	P127i_has_narrower_term	10000	1	1
+P127i_has_narrower_term	property	part	has narrower term			E55_Type	E55_Type	P127_has_broader_term	102	1	1
 P128_carries	property	carries	carries	This property identifies an E90 Symbolic Object carried by an instance of E18 Physical Thing.	P130_shows_features_of	E18_Physical_Thing	E90_Symbolic_Object	P128i_is_carried_by	10000	1	1
 P128i_is_carried_by	property	carried_by	is carried by		P130i_features_are_also_found_on	E90_Symbolic_Object	E18_Physical_Thing	P128_carries	10000	1	1
 P129_is_about	property	about	is about	This property documents that an E89 Propositional Object has as subject an instance of E1 CRM Entity.	P67_refers_to	E89_Propositional_Object	E1_CRM_Entity	P129i_is_subject_of	10000	1	1
