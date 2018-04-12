@@ -105,6 +105,13 @@
     <rdfs:subClassOf rdf:resource="E33_Linguistic_Object"/>
 </rdfs:Class>
 
+<rdfs:Class rdf:about="https://linked.art/ns/terms/BeginningActivity">
+    <rdfs:label xml:lang="en">Beginning Activity</rdfs:label>
+    <rdfs:comment></rdfs:comment>
+    <rdfs:subClassOf rdf:resource="E63_Beginning_of_Existence"/>
+    <rdfs:subClassOf rdf:resource="E7_Activity"/>
+</rdfs:Class>
+
 <rdfs:Class rdf:about="https://linked.art/ns/terms/EndingActivity">
     <rdfs:label xml:lang="en">EndingActivity</rdfs:label>
     <rdfs:comment></rdfs:comment>
@@ -112,11 +119,12 @@
     <rdfs:subClassOf rdf:resource="E7_Activity"/>
 </rdfs:Class>
 
-<rdfs:Class rdf:about="https://linked.art/ns/terms/BeginningActivity">
-    <rdfs:label xml:lang="en">Beginning Activity</rdfs:label>
+<rdfs:Class rdf:about="https://linked.art/ns/terms/TransformingActivity">
+    <rdfs:label xml:lang="en">TransformingActivity</rdfs:label>
     <rdfs:comment></rdfs:comment>
-    <rdfs:subClassOf rdf:resource="E63_Beginning_of_Existence"/>
+    <rdfs:subClassOf rdf:resource="E81_Transformation"/>
     <rdfs:subClassOf rdf:resource="E7_Activity"/>
 </rdfs:Class>
+
 
 </rdf:RDF>

@@ -718,6 +718,10 @@
       "@context": {}, 
       "@id": "ore:Proxy"
     }, 
+    "TransformingActivity": {
+      "@context": {},
+      "@id": "la:TransformingActivity"
+    },
     "currency": {
       "@id": "crm:P180_has_currency", 
       "@type": "@id"
