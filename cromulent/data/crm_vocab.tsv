@@ -400,7 +400,7 @@ ore:proxyFor	property	proxyFor	proxy for	proxy for		ore:Proxy	E1_CRM_Entity		100
 owl:sameAs	property	sameAs	sameAs	Exactly the same entity		E1_CRM_Entity	E1_CRM_Entity		10000	0	0
 skos:exactMatch	property	exact_match	exactMatch	Exact Match, not quite sameAs, good for most uses		E1_CRM_Entity	E1_CRM_Entity		10000	1	1
 skos:closeMatch	property	close_match	closeMatch	Close Match, good for some uses		E1_CRM_Entity	E1_CRM_Entity		10000	0	0
-rdfs:seeAlso	property	seeAlso	seeAlso	A related resource, that is machine readable and related to the current resource.		E1_CRM_Entity	E73_Information_Object		10000	0	0
+rdfs:seeAlso	property	see_also	seeAlso	A related resource, that is machine readable and related to the current resource.		E1_CRM_Entity	E73_Information_Object		10000	1	1
 dcterms:relation	property	related	relation	Related resources, with no further similarity semantics defined		E1_CRM_Entity	E1_CRM_Entity		10000	1	1
 schema:genre	property	style	genre	Shortcut for Genre or Style		E36_Visual_Item	E55_Type		10000	1	1
 dcterms:conformsTo	property	conforms_to	conformsTo	Some thing conforms to some standard		E71_Man-Made_Thing	E73_Information_Object		10000	1	0

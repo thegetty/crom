@@ -759,6 +759,11 @@
       "@id": "dcterms:relation", 
       "@type": "@id", 
       "@container": "@set"
+    },
+    "see_also": {
+      "@id": "rdfs:seeAlso",
+      "@type": "@id",
+      "@container": "@set"
     }, 
     "style": {
       "@id": "schema:genre", 

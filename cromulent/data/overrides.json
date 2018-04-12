@@ -64,5 +64,6 @@
 		"dcterms:conformsTo": "conforms_to",
 		"dcterms:relation": "related",
 		"schema:genre": "style",
-		"ore:isAggregatedBy": "aggregated_by"
+		"ore:isAggregatedBy": "aggregated_by",
+		"rdfs:seeAlso": "see_also"
 	}
