@@ -80,7 +80,7 @@
 </rdf:Property>
 
 
-<!-- This is truly horrible :(  -->
+<!-- This is truly, truly horrible :(  -->
 
 <rdfs:Class rdf:about="http://www.openarchives.org/ore/terms/Proxy">
     <rdfs:label xml:lang="en">Proxy</rdfs:label>
@@ -90,6 +90,7 @@
     <rdfs:subClassOf rdf:resource="https://linked.art/ns/terms/Relationship"/>
     <rdfs:subClassOf rdf:resource="https://linked.art/ns/terms/Name"/>
     <rdfs:subClassOf rdf:resource="https://linked.art/ns/terms/EndingActivity"/>
+    <rdfs:subClassOf rdf:resource="https://linked.art/ns/terms/TransformingActivity"/>
     <rdfs:subClassOf rdf:resource="E8_Acquisition"/>
     <rdfs:subClassOf rdf:resource="E13_Attribute_Assignment"/>
     <rdfs:subClassOf rdf:resource="E65_Creation"/>
@@ -103,9 +104,7 @@
     <rdfs:subClassOf rdf:resource="E21_Person"/>
     <rdfs:subClassOf rdf:resource="E53_Place"/>
     <rdfs:subClassOf rdf:resource="E12_Production"/>
-    <rdfs:subClassOf rdf:resource="E30_Right"/>
     <rdfs:subClassOf rdf:resource="E10_Transfer_of_Custody"/>
-    <rdfs:subClassOf rdf:resource="E81_Transformation"/>
     <rdfs:subClassOf rdf:resource="E36_Visual_Item"/>
     <rdfs:subClassOf rdf:resource="http://www.openarchives.org/ore/terms/Aggregation"/>
 </rdfs:Class>
