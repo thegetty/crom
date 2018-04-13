@@ -107,8 +107,8 @@ ext_classes = {
 
 	"MuseumOrg":   {"parent": Group, "vocab":"aat", "id":"300312281"},
 	"Department":  {"parent": Group, "vocab":"aat", "id":"300263534"},
-	"Nationality": {"parent": Group, "vocab":"aat", "id":"300379842"},
-	"Gender":      {"parent": Group, "vocab":"aat", "id":"300055147"},
+	"Nationality": {"parent": Aggregation, "vocab":"aat", "id":"300379842"},
+	"Gender":      {"parent": Aggregation, "vocab":"aat", "id":"300055147"},
 
 	"Auctioneer":  {"parent": Person, "vocab":"aat", "id":"300025208"}, # is this useful?
 
