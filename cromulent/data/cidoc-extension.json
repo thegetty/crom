@@ -874,14 +874,6 @@
       "@id": "crm:P152i_is_parent_of", 
       "@type": "@id"
     }, 
-    "occupies": {
-      "@id": "crm:P156_occupies", 
-      "@type": "@id"
-    }, 
-    "occupied_by": {
-      "@id": "crm:P156i_is_occupied_by", 
-      "@type": "@id"
-    }, 
     "at_rest_relative_to": {
       "@id": "crm:P157_is_at_rest_relative_to", 
       "@type": "@id"
@@ -930,14 +922,13 @@
       "@id": "crm:P167i_was_place_of", 
       "@type": "@id"
     }, 
-    "place_is_defined_by": {
+    "defined_by": {
       "@id": "crm:P168_place_is_defined_by", 
-      "@type": "@id"
+      "@container": "@set"
     }, 
-    "defines_place": {
-      "@id": "crm:P168i_defines_place", 
-      "@type": "@id"
-    }, 
+    "defines": {
+      "@id": "crm:P168i_defines_place"
+    },
     "BeginningActivity": {
       "@context": {}, 
       "@id": "la:BeginningActivity"
