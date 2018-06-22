@@ -6,7 +6,7 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
-	Activity, Group, Name, MonetaryAmount, Right, \
+	Activity, Group, Name, MonetaryAmount, PropertyInterest, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
 	Acquisition, ManMadeFeature, VisualItem, Aggregation, Proxy, \
 	STR_TYPES, factory
@@ -49,9 +49,9 @@ ext_classes = {
 
 	"Title": {"parent": Name, "vocab":"aat", "id":"300195168"},
 
-	"OwnershipRight": {"parent": Right, "vocab":"aat","id":"300055603"},
-	"CustodyRight": {"parent": Right, "vocab":"aat","id":"300411616"},
-	"CopyrightRight": {"parent": Right, "vocab":"aat","id":"300055598"},
+	"OwnershipRight": {"parent": PropertyInterest, "vocab":"aat","id":"300055603"},
+	"CustodyRight": {"parent": PropertyInterest, "vocab":"aat","id":"300411616"},
+	"CopyrightRight": {"parent": PropertyInterest, "vocab":"aat","id":"300055598"},
 
 	"Inscription": {"parent": LinguisticObject, "vocab": "aat", "id": "300028702"},
 	"Signature": {"parent": LinguisticObject, "vocab": "aat", "id": "300028705"},

@@ -623,6 +623,21 @@
       "@type": "@id", 
       "@container": "@set"
     }, 
+    "occupies": {
+      "@id": "crm:P156_occupies", 
+      "@type": "@id"
+    }, 
+    "occupied_by": {
+      "@id": "crm:P156i_is_occupied_by", 
+      "@type": "@id"
+    }, 
+    "defined_by": {
+      "@id": "crm:P168_place_is_defined_by", 
+      "@container": "@set"
+    }, 
+    "defines": {
+      "@id": "crm:P168i_defines_place"
+    },
     "end_of_the_begin": {
       "@id": "crm:P81a_end_of_the_begin"
     }, 
