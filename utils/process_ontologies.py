@@ -89,7 +89,7 @@ def process_classes(dom):
 
 		# Hack SP4 and 5 to be readable :(
 		if name == "crmgeo:SP4_Spatial_Coordinate_Reference_System":
-			ccname = "Coordinate_System"
+			ccname = "CoordinateSystem"
 		elif name == "crmgeo:SP5_Geometric_Place_Expression":
 			ccname = "Geometry"
 		else:
