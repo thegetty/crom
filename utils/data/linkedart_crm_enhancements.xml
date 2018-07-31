@@ -34,6 +34,37 @@
     <rdfs:subPropertyOf rdf:resource="P90_has_value"/>
 </rdf:Property>
 
+<!-- imported CRM extension classes -->
+<!-- We only need SP4, SP5 and Q9, not all of CRM Geo -->
+
+  <rdfs:Class rdf:about="http://www.ics.forth.gr/isl/CRMgeo/SP5_Geometric_Place_Expression">
+    <rdfs:label xml:lang="en">Geometry</rdfs:label>
+    <rdfs:comment>Scope note: This class comprises definitions of places by quantitative expressions. An instance of SP5 Geometric Place Expression can be seen as a prescription of how to find the location meant by this expression in the real world (S), which is based on measuring where the quantities referred to in the expression lead to, beginning from the reference points of the respective reference system.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="E73_Information_Object"/>
+    <rdfs:subClassOf rdf:resource="E47_Spatial_Coordinates"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://www.ics.forth.gr/isl/CRMgeo/SP4_Spatial_Coordinate_Reference_System">
+    <rdfs:label xml:lang="en">Spatial Coordinate Reference System</rdfs:label>
+    <rdfs:subClassOf rdf:resource="E29_Design_or_Procedure"/>
+    <rdfs:comment>Scope note: This class compromises systems that are used to describe locations in a SP3 Reference Space (S). An instance of SP4 Spatial Coordinate Reference System is composed of two parts: The first is a Coordinate System which is a set of coordinate axes with specified units of measurement and axis directions. The second part is a set of reference features at rest in the Reference Space it describes in the real world that relate the Coordinate System to real world locations (U) and fix it with respect to the reference object of its Reference Space.</rdfs:comment>
+  </rdfs:Class>
+
+  <rdf:Property rdf:about="http://www.ics.forth.gr/isl/CRMgeo/Q9_is_expressed_in_terms_of">
+    <rdfs:label xml:lang="en">expressed in terms of</rdfs:label>
+    <rdfs:domain rdf:resource="http://www.ics.forth.gr/isl/CRMgeo/SP5_Geometric_Place_Expression"/>
+    <rdfs:range rdf:resource="http://www.ics.forth.gr/isl/CRMgeo/SP4_Spatial_Coordinate_Reference_System"/>
+    <rdfs:comment>Scope note:        This property defines the coordinate reference system in terms of which a geometric place expression is formulated.</rdfs:comment>
+    <owl:inverseOf rdf:resource="http://www.ics.forth.gr/isl/CRMgeo/Q9i_terms_express"/>    
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://www.ics.forth.gr/isl/CRMgeo/Q9i_terms_express">
+    <rdfs:label xml:lang="en">terms express</rdfs:label>
+    <rdfs:domain rdf:resource="http://www.ics.forth.gr/isl/CRMgeo/SP4_Spatial_Coordinate_Reference_System"/>
+    <rdfs:range rdf:resource="http://www.ics.forth.gr/isl/CRMgeo/SP5_Geometric_Place_Expression"/>
+    <owl:inverseOf rdf:resource="http://www.ics.forth.gr/isl/CRMgeo/Q9_is_expressed_in_terms_of"/>
+  </rdf:Property>
+
 <!-- These redefine external classes and properties in relation to CRM -->
 <!-- All care has been taken in this mapping to avoid introducing semantics -->
 <!-- where non existed previously -->
@@ -167,7 +198,7 @@
 <rdf:Property rdf:about="http://schema.org/genre">
         <rdfs:label xml:lang="en">genre</rdfs:label>
         <rdfs:comment xml:lang="en">Shortcut for Genre or Style</rdfs:comment>
-        <rdfs:domain rdf:resource="E36_Visual_Item"/>
+        <rdfs:domain rdf:resource="E73_Information_Object"/>
         <rdfs:range rdf:resource="E55_Type"/>
 </rdf:Property>
 

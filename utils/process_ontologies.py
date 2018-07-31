@@ -17,7 +17,8 @@ NS = {'rdf':"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 	'la': "https://linked.art/ns/terms/",
 	"skos": "http://www.w3.org/2004/02/skos/core#",
 	"schema": "http://schema.org/",
-	"dc": "http://purl.org/dc/elements/1.1/"
+	"dc": "http://purl.org/dc/elements/1.1/",
+	"crmgeo": "http://www.ics.forth.gr/isl/CRMgeo/"
 }
 
 # Order imposed by the library
@@ -86,16 +87,21 @@ def process_classes(dom):
 		else:
 			subCls = ""
 
-		# Assume that we've done our job okay and put in overrides for NSS
-
-		cidx = name.find(":")
-		if cidx > -1:
-			ccname = name[cidx+1:]
+		# Hack SP4 and 5 to be readable :(
+		if name == "crmgeo:SP4_Spatial_Coordinate_Reference_System":
+			ccname = "Coordinate_System"
+		elif name == "crmgeo:SP5_Geometric_Place_Expression":
+			ccname = "Geometry"
 		else:
-			uc1 = name.find("_")
-			ccname = name[uc1+1:]
-			ccname = ccname.replace("_or_", "_Or_").replace("_of_", "_Of_")
-			ccname = ccname.replace('-', '').replace('_', '')
+			# Assume that we've done our job okay and put in overrides for NSS
+			cidx = name.find(":")
+			if cidx > -1:
+				ccname = name[cidx+1:]			
+			else:
+				uc1 = name.find("_")
+				ccname = name[uc1+1:]
+				ccname = ccname.replace("_or_", "_Or_").replace("_of_", "_Of_")
+				ccname = ccname.replace('-', '').replace('_', '')
 
 		stuff.append([name, "class", ccname, label, comment, subCls, useflag])
 
@@ -134,6 +140,7 @@ def process_props(dom):
 				rang = rang.replace(v,"%s:" % k)
 		else:
 			rang = ""
+
 		subProp = p.xpath('./rdfs:subPropertyOf/@rdf:resource', namespaces=NS)
 		if subProp:
 			subProp = subProp[0]

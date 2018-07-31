@@ -37,6 +37,13 @@ def register_aat_dimensionUnit(name, id):
 	d.label = name
 	dimensionUnits[name] = d
 
+languages = {}
+
+def register_aat_language(name, id):
+	l = Language("http://vocab.getty.edu/aat/%s" % id)
+	l.label = name
+	languages[name] = l
+
 primaryType = Type("aat:300404670")
 
 # Meta meta
@@ -233,6 +240,13 @@ dim_unit_mapping = {
 }
 for (k,v) in dim_unit_mapping.items():
 	register_aat_dimensionUnit(k,v)
+
+language_mapping = {
+	"en": "300388277",
+	"fr": "300388306",
+	"de": "300388344",
+	"es": "300389311"
+}
 
 # Monkey patch Type's _toJSON to only emit full data if not just URI+type
 def typeToJSON(self, top=False):
