@@ -9,7 +9,7 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	Activity, Group, Name, MonetaryAmount, PropertyInterest, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
 	Acquisition, ManMadeFeature, VisualItem, Aggregation, Proxy, \
-	PropositionalObject, Payment, Creation, \
+	PropositionalObject, Payment, Creation, ContactPoint, \
 	STR_TYPES, factory
 
 # Add classified_as initialization hack for all resources
@@ -143,6 +143,9 @@ ext_classes = {
 	"MiddleName": {"parent": Name, "id":"300404654", "label": "Middle Name"},
 	"NamePrefix": {"parent": Name, "id":"300404845", "label": "Name Prefix"},
 	"NameSuffix": {"parent": Name, "id":"300404662", "label": "Name Suffix"},
+
+	"EmailAddress": {"parent": ContactPoint, "id":"300149026", "label": "Email Address"},
+	"StreetAddress": {"parent": ContactPoint, "id":"300386983", "label": "Street Address"},
 
 	"Painting": {"parent": ManMadeObject, "id": "300033618", "label": "Painting"},
 	"Sculpture": {"parent": ManMadeObject, "id": "300047090", "label": "Sculpture"},
