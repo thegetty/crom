@@ -14,18 +14,6 @@
       "@context": {}, 
       "@id": "crm:E3_Condition_State"
     }, 
-    "Period": {
-      "@context": {}, 
-      "@id": "crm:E4_Period"
-    }, 
-    "Event": {
-      "@context": {}, 
-      "@id": "crm:E5_Event"
-    }, 
-    "Destruction": {
-      "@context": {}, 
-      "@id": "crm:E6_Destruction"
-    }, 
     "Move": {
       "@context": {}, 
       "@id": "crm:E9_Move"
@@ -149,23 +137,7 @@
     "Date": {
       "@context": {}, 
       "@id": "crm:E50_Date"
-    }, 
-    "ContactPoint": {
-      "@context": {}, 
-      "@id": "crm:E51_Contact_Point"
-    }, 
-    "Birth": {
-      "@context": {}, 
-      "@id": "crm:E67_Birth"
-    }, 
-    "Dissolution": {
-      "@context": {}, 
-      "@id": "crm:E68_Dissolution"
-    }, 
-    "Death": {
-      "@context": {}, 
-      "@id": "crm:E69_Death"
-    }, 
+    },  
     "Thing": {
       "@context": {}, 
       "@id": "crm:E70_Thing"
@@ -517,13 +489,23 @@
     "current_or_former_residence_of": {
       "@id": "crm:P74i_is_current_or_former_residence_of", 
       "@type": "@id"
+    },  
+    "brought_into_existence": {
+      "@id": "crm:P92_brought_into_existence", 
+      "@type": "@id", 
+      "@container": "@set"
     }, 
-    "contact_point": {
-      "@id": "crm:P76_has_contact_point", 
+    "brought_into_existence_by": {
+      "@id": "crm:P92i_was_brought_into_existence_by", 
       "@type": "@id"
     }, 
-    "provides_access_to": {
-      "@id": "crm:P76i_provides_access_to", 
+    "took_out_of_existence": {
+      "@id": "crm:P93_took_out_of_existence", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "taken_out_of_existence_by": {
+      "@id": "crm:P93i_was_taken_out_of_existence_by", 
       "@type": "@id"
     }, 
     "time_identified_by": {
