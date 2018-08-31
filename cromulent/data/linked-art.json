@@ -1,7 +1,9 @@
 {
   "@context": {
     "@version": 1.1, 
-    "crm": "http://www.cidoc-crm.org/cidoc-crm/", 
+    "crm": "http://www.cidoc-crm.org/cidoc-crm/",
+    "geo": "http://www.ics.forth.gr/isl/CRMgeo/",
+    "sci": "http://www.ics.forth.gr/isl/CRMsci/", 
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#", 
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#", 
     "dc": "http://purl.org/dc/elements/1.1/", 
@@ -11,11 +13,10 @@
     "foaf": "http://xmlns.com/foaf/0.1/", 
     "xsd": "http://www.w3.org/2001/XMLSchema#", 
     "la": "https://linked.art/ns/terms/", 
-    "aat": "http://vocab.getty.edu/aat/", 
-    "ulan": "http://vocab.getty.edu/ulan/", 
-    "tgn": "http://vocab.getty.edu/tgn/", 
+
     "id": "@id", 
     "type": "@type", 
+
     "Activity": {
       "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
       "@id": "crm:E7_Activity"
@@ -127,7 +128,10 @@
     "PropositionalObject": {
       "@context": {"part": {"@id":"crm:P148_has_component","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P148i_is_component_of","@type":"@id","@container":"@set"}}, 
       "@id": "crm:E89_Propositional_Object"
-    }, 
+    },
+
+
+
     "identified_by": {
       "@id": "crm:P1_is_identified_by", 
       "@type": "@id", 
@@ -656,6 +660,8 @@
       "@id": "crm:P82b_end_of_the_end"
     }, 
 
+
+
     "Payment": {
       "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
       "@id": "la:Payment"
@@ -672,10 +678,47 @@
       "@context": {"part": {"@id":"crm:P106_is_composed_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P106i_forms_part_of","@type":"@id","@container":"@set"}}, 
       "@id": "la:Name"
     }, 
-    "EndingActivity": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
-      "@id": "la:EndingActivity"
-    }, 
+    "Phase": {
+      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, ,
+      "@id": "la:Phase"
+    },
+
+    "initiated": {
+      "@id": "la:initiated",
+      "@type": "@id"
+    },
+    "initiated_by": {
+      "@id": "la:initiated_by",
+      "@type": "@id"
+    },
+    "terminated": {
+      "@id": "la:terminated",
+      "@type": "@id"
+    },
+    "terminated_by": {
+      "@id": "la:terminated_by",
+      "@type": "@id"
+    },
+    "phase": {
+      "@id": "la:has_phase",
+      "@type": "@id"
+    },
+    "phase_of": {
+      "@id": "la:phase_of",
+      "@type": "@id"
+    },
+    "related_entity": {
+      "@id": "la:related_entity",
+      "@type": "@id"
+    },
+    "related_entity_of": {
+      "@id": "la:related_entity_of",
+      "@type": "@id"
+    },
+    "relationship": {
+      "@id": "la:relationship",
+      "@type": "@id"
+    },
 
     "paid_amount": {
       "@id": "la:paid_amount", 
@@ -721,7 +764,21 @@
     "related_from": {
       "@id": "la:related_from", 
       "@type": "@id"
-    }, 
+    },
+
+
+    "DeclarativePlace": {
+      "@context": {},
+      "@id": "geo:SP6_Declarative_Place"
+    },
+    "Geometry": {
+      "@context": {},
+      "@id": "geo:SP5_Geometric_Place_Expression"
+    },
+    "CoordinateSystem": {
+      "@context": {},
+      "@id": "geo:SP4_Spatial_Coordinate_Reference_System"
+    },
     "MonetaryAmount": {
       "@context": {}, 
       "@id": "crm:E97_Monetary_Amount"
@@ -738,10 +795,16 @@
       "@context": {}, 
       "@id": "ore:Proxy"
     }, 
-    "TransformingActivity": {
-      "@context": {},
-      "@id": "la:TransformingActivity"
+
+    "approximates": {
+      "@id": "geo:Q11_approximates",
+      "@type": "@id"
     },
+    "approximated_by": {
+      "@id": "geo:Q11_is_approximated_by",
+      "@type": "@id"
+    },
+
     "currency": {
       "@id": "crm:P180_has_currency", 
       "@type": "@id"
