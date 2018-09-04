@@ -575,30 +575,7 @@
       "@id": "crm:P97i_was_father_for", 
       "@type": "@id"
     }, 
-    "brought_into_life": {
-      "@id": "crm:P98_brought_into_life", 
-      "@type": "@id"
-    }, 
-    "born": {
-      "@id": "crm:P98i_was_born", 
-      "@type": "@id"
-    }, 
-    "dissolved": {
-      "@id": "crm:P99_dissolved", 
-      "@type": "@id"
-    }, 
-    "dissolved_by": {
-      "@id": "crm:P99i_was_dissolved_by", 
-      "@type": "@id"
-    }, 
-    "death_of": {
-      "@id": "crm:P100_was_death_of", 
-      "@type": "@id"
-    }, 
-    "died_in": {
-      "@id": "crm:P100i_died_in", 
-      "@type": "@id"
-    }, 
+ 
     "as_general_use": {
       "@id": "crm:P101_had_as_general_use", 
       "@type": "@id"
