@@ -148,7 +148,6 @@ ext_classes = {
 	"NameSuffix": {"parent": Name, "id":"300404662", "label": "Name Suffix"},
 	"NamePrefix": {"parent": Name, "id":"300404845", "label": "Name Prefix"},
 
-
 	"EmailAddress": {"parent": ContactPoint, "id":"300149026", "label": "Email Address"},
 	"StreetAddress": {"parent": ContactPoint, "id":"300386983", "label": "Street Address"},
 	"StreetNumber": {"parent": ContactPoint, "id":"300419272", "label": "Street Number"},
