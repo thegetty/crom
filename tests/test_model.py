@@ -166,7 +166,7 @@ class TestFactorySerialization(unittest.TestCase):
 class TestProcessTSV(unittest.TestCase):
 
 	def test_process_tsv(self):
-		expect = {u'subs': [u'E84_Information_Carrier', u'ore:Proxy'], u'label': u'Man-Made Object', u'className': u'ManMadeObject', 
+		expect = {u'subs': [u'E84_Information_Carrier'], u'label': u'Man-Made Object', u'className': u'ManMadeObject', 
 		u'subOf': u'E19_Physical_Object|E24_Physical_Man-Made_Thing', u'props': [], u'class': None, u'okay': u'1'}
 		fn = 'cromulent/data/crm_vocab.tsv'
 		vocabData = model.process_tsv(fn)
