@@ -9,7 +9,7 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	Activity, Group, Name, MonetaryAmount, PropertyInterest, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
 	Acquisition, ManMadeFeature, VisualItem, Aggregation, Proxy, \
-	PropositionalObject, Payment, Creation, ContactPoint, \
+	PropositionalObject, Payment, Creation, ContactPoint, Phase, \
 	STR_TYPES, factory
 
 # Add classified_as initialization hack for all resources
@@ -46,7 +46,6 @@ ext_classes = {
 	"LotNumber": {"parent": Identifier, "id": "300404628", "label": "Lot Number"},
 
 	"DigitalImage": {"parent": VisualItem, "id": "300215302", "label": "Digital Image"},
-	"Title": {"parent": Name, "id":"300195168", "label": "Title"},
 
 	"OwnershipRight": {"parent": PropertyInterest, "id":"300055603", "label": "Ownership Right"},
 	"CustodyRight": {"parent": PropertyInterest, "id":"300411616", "label": "Custody Right"},
@@ -137,15 +136,23 @@ ext_classes = {
 
 	"PrimaryName": {"parent": Name, "id":"300404670", "label": "Primary Name"},
 	"SortName": {"parent": Name, "id":"300404672", "label": "Sorting Name"},
+	"PersonalName": {"parent": Name, "id":"300266386", "label": "Personal Name"},
+	"Title": {"parent": Name, "id":"300195168", "label": "Title"},
+	"DisplayName": {"parent": Name, "id": "300404669", "label": "Display Title"},
+	"AliasName": {"parent": Name, "id": "300404664", "label": "Alias"},
+	"MaidenName": {"parent": Name, "id": "300404682", "label": "Maiden Name"},
 
 	"GivenName": {"parent": Name, "id":"300404651", "label": "Given Name"},
 	"FamilyName": {"parent": Name, "id":"300404652", "label": "Family Name"},
 	"MiddleName": {"parent": Name, "id":"300404654", "label": "Middle Name"},
-	"NamePrefix": {"parent": Name, "id":"300404845", "label": "Name Prefix"},
 	"NameSuffix": {"parent": Name, "id":"300404662", "label": "Name Suffix"},
+	"NamePrefix": {"parent": Name, "id":"300404845", "label": "Name Prefix"},
 
 	"EmailAddress": {"parent": ContactPoint, "id":"300149026", "label": "Email Address"},
 	"StreetAddress": {"parent": ContactPoint, "id":"300386983", "label": "Street Address"},
+	"StreetNumber": {"parent": ContactPoint, "id":"300419272", "label": "Street Number"},
+	"StreetName": {"parent": ContactPoint, "id": "300419273", "label": "Street Name"},
+	"PostalCode": {"parent": ContactPoint, "id": "300419274", "label": "Postal Code"},
 
 	"Painting": {"parent": ManMadeObject, "id": "300033618", "label": "Painting"},
 	"Sculpture": {"parent": ManMadeObject, "id": "300047090", "label": "Sculpture"},
@@ -231,7 +238,7 @@ identity_instances = {
 	"greek": {"parent": Language, "id":"300389734", "label":"Greek"},
 	"ancient greek": {"parent": Language, "id": "300387827", "label": "Ancient Greek"},
 	"latin": {"parent": Language, "id":"300388693", "label":"Latin"},
-	"japanese": {"parent": Language, "id":"300388487", "label":"Japanese"},
+	"japanese": {"parent": Language, "id":"300388486", "label":"Japanese"},
 	"primary": {"parent": Type, "id": "300404670", "label": "Primary"},
 	"artwork": {"parent": Type, "id": "300133025", "label": "Artwork"},
 	"french nationality": {"parent": Aggregation, "id": "300111188", "label": "French"},
@@ -312,6 +319,9 @@ def add_attribute_assignment_check():
 	p2 = factory.context_rev.get('crm:P2_has_type', 'classified_as')
 	ass = factory.context_rev.get('crm:P141_assigned', 'assigned')
 	assto = factory.context_rev.get('crm:P140:assigned_attribute_to', 'assigned_to')
+	phase_rel = factory.context_rev.get('la:relationship', 'relationship')
+	phase_of = factory.context_rev.get('la:phase_of', 'phase_of')
+	phase_entity = factory.context_rev.get('la:related_entity', 'related_entity')
 
 	def aa_set_assigned(self, value):
 		assto_res = getattr(self, assto, None)
@@ -340,3 +350,10 @@ def add_attribute_assignment_check():
 			assto_res._check_prop(value, ass_res)
 		object.__setattr__(self, p2, value)
 	setattr(AttributeAssignment, "set_%s" % p2, aa_set_classified_as)
+
+	def phase_set_relationship(self, value):
+		# XXX do same checking as above
+		object.__setattr__(self, phase_rel, value)
+	setattr(Phase, "set_%s" % phase_rel, phase_set_relationship)		
+
+

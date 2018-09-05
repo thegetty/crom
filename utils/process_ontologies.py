@@ -18,7 +18,8 @@ NS = {'rdf':"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 	"skos": "http://www.w3.org/2004/02/skos/core#",
 	"schema": "http://schema.org/",
 	"dc": "http://purl.org/dc/elements/1.1/",
-	"crmgeo": "http://www.ics.forth.gr/isl/CRMgeo/"
+	"geo": "http://www.ics.forth.gr/isl/CRMgeo/",
+	"sci": "http://www.ics.forth.gr/isl/CRMsci/"
 }
 
 # Order imposed by the library
@@ -88,10 +89,12 @@ def process_classes(dom):
 			subCls = ""
 
 		# Hack SP4 and 5 to be readable :(
-		if name == "crmgeo:SP4_Spatial_Coordinate_Reference_System":
+		if name == "geo:SP4_Spatial_Coordinate_Reference_System":
 			ccname = "CoordinateSystem"
-		elif name == "crmgeo:SP5_Geometric_Place_Expression":
+		elif name == "geo:SP5_Geometric_Place_Expression":
 			ccname = "Geometry"
+		elif name == "geo:SP6_Declarative_Place":
+			ccname = "DeclarativePlace"
 		else:
 			# Assume that we've done our job okay and put in overrides for NSS
 			cidx = name.find(":")
