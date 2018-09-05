@@ -75,15 +75,13 @@
 </rdf:Property>
 
 
-
 <!-- Phase -->
 <!-- This looks like S16 State, but state is only for physical states not social ones like ownership. State is deprecated in latest CRMsci, per G.B. -->
-
 
 <rdfs:Class rdf:about="https://linked.art/ns/terms/Phase">
     <rdfs:label xml:lang="en">Phase</rdfs:label>
     <rdfs:comment> The period of time during which an entity is in a certain phase or state of its existence.  The phase can be physical (the box is open, the painting is 14 ft wide) or social (the sculpture is owned by some Actor, the building is used as a castle).</rdfs:comment>
-    <rdfs:subClassOf rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:subClassOf rdf:resource="E4_Period"/>
 </rdfs:Class>
 
 <rdf:Property rdf:about="https://linked.art/ns/terms/initiated">

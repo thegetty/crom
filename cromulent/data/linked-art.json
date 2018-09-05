@@ -718,11 +718,11 @@
       "@context": {"part": {"@id":"crm:P106_is_composed_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P106i_forms_part_of","@type":"@id","@container":"@set"}}, 
       "@id": "la:Name"
     }, 
+
     "Phase": {
       "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}},
       "@id": "la:Phase"
     },
-
     "initiated": {
       "@id": "la:initiated",
       "@type": "@id"
