@@ -109,6 +109,7 @@ class CromulentFactory(object):
 
 		self.elasticsearch_compatible = False
 		self.serialize_all_resources = False
+		self.id_type_label = False
 
 		self.json_indent = 2
 
@@ -329,6 +330,7 @@ class ExternalResource(object):
 	_properties = {}
 	_type = ""
 	_niceType = ""
+	_embed = True
 
 	def __init__(self, ident=""):
 		self._factory = factory
@@ -580,7 +582,7 @@ class BaseResource(ExternalResource):
 		d = self.__dict__.copy()
 		del d['_factory']
 
-		if self.id in self._factory.done or set(d.keys()) == set(['id', 'type']):
+		if not factory.id_type_label and (self.id in self._factory.done or set(d.keys()) == set(['id', 'type'])):
 			if self._factory.elasticsearch_compatible:
 				return {'id': self.id}
 			else:
@@ -602,6 +604,21 @@ class BaseResource(ExternalResource):
 		# Add back context at the top, if set
 		if top and self._factory.context_uri: 
 			d['@context'] = self._factory.context_uri
+
+
+		if (self._factory.id_type_label and self.id in self._factory.done) or (not top and not self._embed):
+			# limit to only id, type, label
+			nd = {}
+			nd['id'] = d['id']
+			try:
+				nd['type'] = d['type']
+			except:
+				pass
+			try:
+				nd['label'] = d['label']
+			except:
+				pass
+			d = nd
 
 		# Need to do in order now to get done correctly ordered
 		KOH = self._factory.key_order_hash

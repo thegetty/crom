@@ -3,7 +3,7 @@
 # can generate classes for any ontology
 
 from .model import Identifier, Mark, ManMadeObject, Type, \
-	Person, Material, MeasurementUnit, Place, Dimension, \
+	Person, Material, MeasurementUnit, Place, Dimension, Currency, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, Language, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
 	Activity, Group, Name, MonetaryAmount, PropertyInterest, \
@@ -75,7 +75,7 @@ ext_classes = {
 
 	"Page": {"parent": LinguisticObject, "id":"300194222", "label": "Page"},
 	"Folio": {"parent": LinguisticObject, "id":"300189604", "label": "Folio"},
-	"DataRecord": {"parent": LinguisticObject, "id":"300026685", "label": "Data Record"},
+	"DataRecord": {"parent": LinguisticObject, "id":"300026685", "label": "Data Record"}, # Not sure about this one
 
 	"Journal": {"parent": LinguisticObject, "id":"300215390", "label": "Journal"},
 	"Issue": {"parent": LinguisticObject, "id":"300312349", "label": "Issue"},
@@ -260,7 +260,11 @@ identity_instances = {
 	"sculpting": {"parent": Type, "id":"300264383", "label": "Sculpting"},
 	"painting": {"parent": Type, "id":"300161986", "label": "Painting"},
 	"first": {"parent": Type, "id":"300404050", "label": "First"},
-	"last": {"parent": Type, "id": "XXX", "label": "Last"}
+	"last": {"parent": Type, "id": "XXX", "label": "Last"},
+
+	"us dollars": {"parent": Currency, "id":"300411994", "label": "US Dollars"},
+	"gb pounds": {"parent": Currency, "id":"300", "label": "British Pounds"},
+	"dutch guilder": {"parent": Currency, "id":"300412019", "label": "Dutch Guilder"}
 }
 
 for (name,v) in identity_instances.items():
