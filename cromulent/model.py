@@ -109,7 +109,7 @@ class CromulentFactory(object):
 
 		self.elasticsearch_compatible = False
 		self.serialize_all_resources = False
-		self.id_type_label = False
+		self.id_type_label = True
 
 		self.json_indent = 2
 
