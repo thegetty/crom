@@ -112,7 +112,7 @@ class CromulentFactory(object):
 		self.id_type_label = True
 
 		self.json_indent = 2
-
+		self.order_json = True
 		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, 
 			"label": 5, "value": 6}
 		self.full_key_order_hash = {"@context": 0, "@id": 1, "rdf:type": 2, "@type": 2,
@@ -727,8 +727,10 @@ class BaseResource(ExternalResource):
 							del d['part_of']
 							break
 
-
-		return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
+		if self._factory.order_json:
+			return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
+		else:
+			return d
 
 # Ensure everything can have id, type, label and description
 BaseResource._properties = {'id': {"rdf": "@id", "range": str, "okayToUse": 1}, 
