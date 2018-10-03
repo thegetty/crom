@@ -98,7 +98,7 @@
   "ore:Proxy": 1,
   "P100_was_death_of": [1,0], 
   "P100i_died_in": [1,0], 
-  "P101_had_as_general_use": 0, 
+  "P101_had_as_general_use": [1,1], 
   "P101i_was_use_of": 0, 
   "P102_has_title": 0, 
   "P102i_is_title_of": 0, 

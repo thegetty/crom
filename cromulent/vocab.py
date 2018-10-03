@@ -15,23 +15,35 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 # Add classified_as initialization hack for all resources
 def post_init(self, **kw):
 	if self.__class__._classification:
-		self.classified_as = self._classification
+		for t in self._classification:
+			self.classified_as = t
 BaseResource._post_init = post_init
 
-def register_aat_class(name, parent, id, label):
+def register_aat_class(name, data):
+	parent = data['parent']
+	id = data['id']
+	label = data['label']
+
 	c = type(name, (parent,), {})
 	if id.startswith('http'):
 		t = Type(id)
 	else:
 		t = Type("http://vocab.getty.edu/aat/%s" % id)
 	t.label = label
-	c._classification = t
+	if parent == LinguisticObject and data.has_key('brief'):
+		c._classification = [t, instances["brief text"]]
+	else:	
+		c._classification = [t]		
 	c._type = None # To avoid conflicting with parent class
 	globals()[name] = c	
 
 instances = {}
 
-def register_instance(name, parent, id, label):
+def register_instance(name, data):
+	parent = data['parent']
+	id = data['id']
+	label = data['label']
+
 	if id.startswith('http'):
 		t = parent(id)
 	else:
@@ -51,19 +63,19 @@ ext_classes = {
 	"CustodyRight": {"parent": PropertyInterest, "id":"300411616", "label": "Custody Right"},
 	"CopyrightRight": {"parent": PropertyInterest, "id":"300055598", "label": "Copyright"},
 
-	"Inscription": {"parent": LinguisticObject, "id": "300028702", "label": "Inscription"},
-	"Signature": {"parent": LinguisticObject, "id": "300028705", "label": "Signature"},
-	"MaterialStatement": {"parent": LinguisticObject, "id": "300010358", "label": "Material Statement"},
-	"DimensionStatement": {"parent": LinguisticObject, "id": "300266036", "label": "Dimension Statement"},
-	"CreditStatement": {"parent": LinguisticObject, "id": "300026687", "label": "Credit Statement"},
-	"RightsStatement": {"parent": LinguisticObject, "id": "300055547", "label": "Rights Statement"},
-	"EditionStatement": {"parent": LinguisticObject, "id":"300121294", "label": "Edition Statement"},
-	"BiographyStatement": {"parent": LinguisticObject, "id":"300080102", "label": "Biography Statement"},
-	"ProvenanceStatement": {"parent": LinguisticObject, "id":"300055863", "label": "Provenance Statement"},
-	"Description": {"parent": LinguisticObject, "id":"300080091", "label": "Description"},
-	"PaginationStatement": {"parent": LinguisticObject, "id":"300200294", "label": "Pagination Statement"},
-	"FoliationStatement": {"parent": LinguisticObject, "id":"300200662", "label": "Foliation Statement"},
-	"Abstract": {"parent": LinguisticObject, "id":"300026032", "label": "Abstract"},
+	"Inscription": {"parent": LinguisticObject, "id": "300028702", "label": "Inscription", "brief": True},
+	"Signature": {"parent": LinguisticObject, "id": "300028705", "label": "Signature", "brief": True},
+	"MaterialStatement": {"parent": LinguisticObject, "id": "300010358", "label": "Material Statement", "brief": True},
+	"DimensionStatement": {"parent": LinguisticObject, "id": "300266036", "label": "Dimension Statement", "brief": True},
+	"CreditStatement": {"parent": LinguisticObject, "id": "300026687", "label": "Credit Statement", "brief": True},
+	"RightsStatement": {"parent": LinguisticObject, "id": "300055547", "label": "Rights Statement", "brief": True},
+	"EditionStatement": {"parent": LinguisticObject, "id":"300121294", "label": "Edition Statement", "brief": True},
+	"BiographyStatement": {"parent": LinguisticObject, "id":"300080102", "label": "Biography Statement", "brief": True},
+	"ProvenanceStatement": {"parent": LinguisticObject, "id":"300055863", "label": "Provenance Statement", "brief": True},
+	"Description": {"parent": LinguisticObject, "id":"300080091", "label": "Description", "brief": True},
+	"PaginationStatement": {"parent": LinguisticObject, "id":"300200294", "label": "Pagination Statement", "brief": True},
+	"FoliationStatement": {"parent": LinguisticObject, "id":"300200662", "label": "Foliation Statement", "brief": True},
+	"Abstract": {"parent": LinguisticObject, "id":"300026032", "label": "Abstract", "brief": True},
 
 	"CatalogueRaisonne": {"parent": LinguisticObject, "id":"300026061", "label": "Catalogue Raisonne"},
 	"AuctionCatalog": {"parent": LinguisticObject, "id":"300026068", "label": "Auction Catalog"},
@@ -72,7 +84,6 @@ ext_classes = {
 	"AccountBook": {"parent": LinguisticObject, "id": "300027483", "label": "Account Book"},
 	"WebPage": {"parent": LinguisticObject, "id":"300264578", "label": "Web Page"},
 	"Register": {"parent": LinguisticObject, "id":"300027168", "label": "Register"},
-
 	"Page": {"parent": LinguisticObject, "id":"300194222", "label": "Page"},
 	"Folio": {"parent": LinguisticObject, "id":"300189604", "label": "Folio"},
 	"DataRecord": {"parent": LinguisticObject, "id":"300026685", "label": "Data Record"}, # Not sure about this one
@@ -200,8 +211,6 @@ ext_classes = {
 
 }
  
-for (name,v) in ext_classes.items():
-	register_aat_class(name, v['parent'], v['id'], v['label'])
 
 identity_instances = {
 	"watercolor": {"parent": Material, "id": "300015045", "label": "watercolors"},	
@@ -296,6 +305,8 @@ identity_instances = {
 	"style portrait": {"parent": Type, "id":"300015637", "label": "Portrait"},
 	"style still life": {"parent": Type, "id":"300015638", "label": "Still Life"},
 
+	"brief text": {"parent": Type, "id": "300418049", "label":"Brief Text"},
+
 	"us dollars": {"parent": Currency, "id":"300411994", "label": "US Dollars"},
 	"gb pounds": {"parent": Currency, "id":"300411998", "label": "British Pounds"},
 	"dutch guilder": {"parent": Currency, "id":"300412019", "label": "Dutch Guilder"},
@@ -315,7 +326,10 @@ identity_instances = {
 }
 
 for (name,v) in identity_instances.items():
-	register_instance(name, v['parent'], v['id'], v['label'])
+	register_instance(name, v)
+
+for (name,v) in ext_classes.items():
+	register_aat_class(name, v)
 
 # pen, pencil, card, cardboard, porcelain, wax, ceramic, plaster
 # crayon, millboard, gouache, brass, stone, lead, iron, clay,
