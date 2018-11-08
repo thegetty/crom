@@ -2,7 +2,8 @@
 # This assumes the default CIDOC-CRM, even though the model code 
 # can generate classes for any ontology
 
-from .model import Identifier, Mark, ManMadeObject, Type, \
+# gvp 'from model' instead of 'from .model'
+from model import Identifier, Mark, ManMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, Currency, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, Language, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
@@ -30,7 +31,11 @@ def register_aat_class(name, data):
 	else:
 		t = Type("http://vocab.getty.edu/aat/%s" % id)
 	t.label = label
-	if parent == LinguisticObject and data.has_key('brief'):
+	
+	# gvp - hes_key is depricated in Python 3
+	#if parent == LinguisticObject and data.has_key('brief'):
+	if parent == LinguisticObject and 'brief' in data:
+	##	
 		c._classification = [t, instances["brief text"]]
 	else:	
 		c._classification = [t]		
@@ -208,10 +213,8 @@ ext_classes = {
 	"EstimatedPrice": {"parent": MonetaryAmount, "id": "300417244", "label": "Estimated Price"},
 
 	"CommissionPayment": {"parent": Payment, "id": "300393199", "label": "Commission"}
-
 }
  
-
 identity_instances = {
 	"watercolor": {"parent": Material, "id": "300015045", "label": "watercolors"},	
 	"oil": {"parent": Material, "id": "300015050", "label": "oil"},

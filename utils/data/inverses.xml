@@ -797,16 +797,4 @@
   <rdf:Property rdf:about="P168i_defines_place">
     <owl:inverseOf rdf:resource="P168_place_is_defined_by"/>
   </rdf:Property>
-  <rdf:Property rdf:about="P179_had_sales_price">
-    <owl:inverseOf rdf:resource="P179i_was_sales_price_of"/>
-  </rdf:Property>
-  <rdf:Property rdf:about="P179i_was_sales_price_of">
-    <owl:inverseOf rdf:resource="P179_had_sales_price"/>
-  </rdf:Property>
-  <rdf:Property rdf:about="P180_has_currency">
-    <owl:inverseOf rdf:resource="P180i_was_currency_of"/>
-  </rdf:Property>
-  <rdf:Property rdf:about="P180i_was_currency_of">
-    <owl:inverseOf rdf:resource="P180_has_currency"/>
-  </rdf:Property>
 </rdf:RDF>
