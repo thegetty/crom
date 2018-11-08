@@ -7,8 +7,18 @@ except:
 	# 2.6
 	from ordereddict import OrderedDict
 
-from cromulent import reader
-from cromulent.model import factory, Person, DataError, BaseResource, Dimension
+# Windows - 1. win directory fix  2. Change import statements accordingly
+import sys
+import os
+curr_dir = os.path.dirname(__file__)
+crom_dir = os.path.abspath(os.path.join(curr_dir, '..', 'cromulent'))
+sys.path.append(crom_dir)
+
+import reader
+from model import factory, Person, DataError, BaseResource, Dimension
+#from cromulent import reader
+#from cromulent.model import factory, Person, DataError, BaseResource, Dimension
+##
 
 class TestReader(unittest.TestCase):
 
@@ -38,8 +48,11 @@ class TestReader(unittest.TestCase):
 		self.assertRaises(DataError, self.reader.read, unknown)
 
 		unknown2 = '{"type":"Person", "fishbat": "bob"}'
-		self.assertRaises(DataError, self.reader.read, unknown)
-
+		# Bug - unknown2 should be tested. Copy-paste problem
+		self.assertRaises(DataError, self.reader.read, unknown2)
+		#self.assertRaises(DataError, self.reader.read, unknown)        
+        ##
+		
 		# somewhere else, rdf_value has been added
 		try:
 			del Dimension._properties['value']

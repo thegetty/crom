@@ -2,6 +2,7 @@ from lxml import etree
 import codecs
 import json
 import sys
+import os
 
 PROFILE_ONLY = '--profile' in sys.argv
 default_key_order = 10000
@@ -26,25 +27,47 @@ NS = {'rdf':"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 # @context = 0, id = 1, rdf:type = 2
 # rdfs:label = 5, rdf:value = 6, dc:description = 7
 
-fh = file('../cromulent/data/key_order.json')
+# Windows, Python 3 - 1. win path fix  2. 'file' is deprecated, used 'open'
+curr_dir = os.path.dirname(__file__)
+data_dir = os.path.abspath(os.path.join(curr_dir, '..', 'cromulent/data'))
+fh = open(data_dir + '/key_order.json')
+#fh = file('../cromulent/data/key_order.json')
+##
+
 data = fh.read()
 fh.close()
 key_order_hash = json.loads(data)
 
 # Allow configuration of overrides for the mapping of ontology to python/json
-fh = file('../cromulent/data/overrides.json')
+
+# Windows, Python 3
+fh = open(data_dir + '/overrides.json')
+#fh = file('../cromulent/data/overrides.json')
+##
+
 data = fh.read()
 fh.close()
 property_overrides = json.loads(data)
 
 # Allow subsetting of CRM into in-use / not-in-use to enable the library
 # to warn on instantiation of not-in-use properties or classes
-fh = file('../cromulent/data/crm-profile.json')
+
+# Windows, Python 3
+fh = open(data_dir + '/crm-profile.json')
+#fh = file('../cromulent/data/crm-profile.json')
+##
+
 data = fh.read()
 fh.close()
 profile_flags = json.loads(data)
 
-fh = file('data/inverses.xml')
+# Windows, Python 3 - 1. win path fix (curr_dir defined earlier)  2. 'file' is deprecated, used 'open'
+rel_path = 'data'
+xml_path = os.path.join(curr_dir, rel_path + "/inverses.xml")
+fh = open(xml_path)
+#fh = file('data/inverses.xml')
+##
+
 data = fh.read()
 fh.close()
 invdom = etree.XML(data)
@@ -63,7 +86,11 @@ def process_classes(dom):
 				break
 
 		useflag = str(profile_flags.get(name, 0))
-		if classXHash.has_key(name):
+
+		# Python 3 - has_key() is depricated. Used 'in' instead
+		if name in classXHash:
+		#if classXHash.has_key(name):  
+		##
 			classXHash[name][0] = c
 		else:
 			classXHash[name] = [c, useflag]
@@ -159,14 +186,22 @@ def process_props(dom):
 			inverse = ""
 
 		cidx = name.find(":")
-		if property_overrides.has_key(name):
+
+		# Python 3 - has_key() is depricated. Used 'in' instead
+		if name in property_overrides:
+		# if property_overrides.has_key(name):
+		##
 			ccname = property_overrides[name]
 		elif cidx > -1:
 			ccname = name[cidx+1:]
 		else:
 			uc1 = name.find("_")
 			pno = name[:uc1]
-			if property_overrides.has_key(pno):
+
+			# Python 3 - has_key() is deprecated. Used 'in' instead
+			if pno in property_overrides:
+			# if property_overrides.has_key(pno):
+			##
 				ccname = property_overrides[pno]
 			else:
 				ccname = name[uc1+1:]
@@ -186,27 +221,55 @@ def process_props(dom):
 files = ['cidoc.xml', 'linkedart.xml', 'linkedart_crm_enhancements.xml']
 
 for fn in files:
-	print "processing: %s" % fn
-	fh = file('data/%s' % fn)
+	# Python 3
+	print("processing: %s" % fn)
+	#print "processing: %s" % fn
+	##
+
+ 	# Windows - win path fix ('rel_path' defined earlier)
+	fn = os.path.join(curr_dir, rel_path + "/" + fn)
+	fh = open(fn, encoding='utf-8')
+	#fh = file('data/%s' % fn)
+	##   
+
 	data = fh.read()
 	fh.close()
+
+	# Windows - encoding fix
+	data = bytes(bytearray(data, encoding='utf-8'))
+	##
+
 	dom = etree.XML(data)
 	process_classes(dom)
 	process_props(dom)
 
 
 # outdata = '\n'.join(['\t'.join(x) for x in stuff])
-fh = codecs.open('../cromulent/data/crm_vocab.tsv', 'w', 'utf-8')
+
+# Windows - win path fix ('curr_dir' defined earlier)
+data_dir = os.path.abspath(os.path.join(curr_dir, '..', 'cromulent/data'))
+fn = data_dir + '/crm_vocab.tsv'
+fh = codecs.open(fn, 'w', 'utf-8')
+#fh = codecs.open('../cromulent/data/crm_vocab.tsv', 'w', 'utf-8')
+##
+
 for l in stuff:
 	name = l[0]
-	line = '\t'.join(l) + "\n"	
-	if classXHash.has_key(name):
+	line = '\t'.join(l) + "\n"
+
+	# Python 3 - has_key() is deprecated. Used 'in' instead
+	if name in classXHash:
+	#if classXHash.has_key(name):    
+	##
 		okay = classXHash[name][1]
-	elif propXHash.has_key(name):
+	# Python 3 - has_key() is deprecated. Used 'in' instead
+	elif name in propXHash:
+	#elif propXHash.has_key(name):
+	##
 		okay = propXHash[name][1]
 	else:
 		okay = 0
-		print "Could not find %s" % name
+		print("Could not find %s" % name)
 	if not PROFILE_ONLY or okay:
 		fh.write(line)
 fh.close()

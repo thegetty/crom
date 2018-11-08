@@ -1,7 +1,14 @@
-from . import model
-from .model import factory, DataError, OrderedDict, BaseResource, KEY_ORDER_HASH as koh
-from .model import STR_TYPES
-from .multiple_instantiation import EoEActivity
+# Windows - fix for win
+import model
+from model import factory, DataError, OrderedDict, BaseResource, KEY_ORDER_HASH as koh
+from model import STR_TYPES
+from multiple_instantiation import EoEActivity
+#from . import model
+#from .model import factory, DataError, OrderedDict, BaseResource, KEY_ORDER_HASH as koh
+#from .model import STR_TYPES
+#from .multiple_instantiation import EoEActivity
+##
+
 import json
 
 class Reader(object):

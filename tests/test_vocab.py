@@ -2,8 +2,16 @@ import unittest
 import sys
 import os
 
-from cromulent import vocab, model
-from cromulent.model import factory
+# Windows - 1. win directory fix  2. Change 'import' statements accordingly
+curr_dir = os.path.dirname(__file__)
+crom_dir = os.path.abspath(os.path.join(curr_dir, '..', 'cromulent'))
+sys.path.append(crom_dir)
+
+import vocab, model
+from model import factory
+#from cromulent import vocab, model
+#from cromulent.model import factory
+##
 
 class TestClassBuilder(unittest.TestCase):
 	def setUp(self):
@@ -13,13 +21,24 @@ class TestClassBuilder(unittest.TestCase):
 		pass
 
 	def test_class(self):
-		vocab.register_aat_class("TestObject1", model.ManMadeObject, "1", "example 1")
-		from cromulent.vocab import TestObject1
-		self.assertEqual(TestObject1._classification.id, "aat:1")
+		# Bugs, Windows - 1.function takes 2 arguments, not 4. Second argument - dict  2. Change 'import' statements  3. 'classification is a list, not field
+		vocab.register_aat_class("TestObject1", {"parent": model.ManMadeObject, "id": "1", "label": "example 1"})
+		#vocab.register_aat_class("TestObject1", model.ManMadeObject, "1", "example 1")
+
+		from vocab import TestObject1
+		#from cromulent.vocab import TestObject1	
+	
+		self.assertEqual(TestObject1._classification[0].id, "aat:1")
+		#self.assertEqual(TestObject1._classification.id, "aat:1")
+		##
 
 	def test_instance(self):
-		vocab.register_instance("TestMaterial2", model.Material, "2", "example 2")
-		self.assertTrue('TestMaterial2' in vocab.instances)
+		# Bug - function takes 2 arguments, not 4. Second argument - dict 
+		vocab.register_instance("TestMaterial2", {"parent": model.Material, "id": "2", "label": "example 2"})
+		# vocab.register_instance("TestMaterial2", model.Material, "2", "example 2")
+		##		
+		
+		# self.assertTrue('TestMaterial2' in vocab.instances)
 		tm2 = vocab.instances['TestMaterial2']
 		self.assertEqual(tm2.id, "aat:2")
 

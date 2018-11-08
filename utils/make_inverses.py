@@ -1,9 +1,21 @@
 from lxml import etree
 import codecs
 
-fh = file('cidoc.xml')
+# Windows, Python 3 - 1. win path fix 2. 'file' is deprecated, used 'open' 
+import os
+curr_dir = os.path.dirname(__file__)
+rel_path = "data"
+xml_path = os.path.join(curr_dir, rel_path + "/cidoc.xml")
+#fh = file('cidoc.xml')
+fh = open(xml_path, encoding='utf-8')
+##
+
 data = fh.read()
 fh.close()
+
+# Windows - fix for encoding error
+data = bytes(bytearray(data, encoding='utf-8'))
+##
 
 NS = {'rdf':"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 	'xsd':"http://www.w3.org/2001/XMLSchema#",
@@ -57,6 +69,11 @@ for n in names:
 outlines.append('</rdf:RDF>')
 outstr = '\n'.join(outlines)
 
-fh = file('data/inverses.xml', 'w')
+# Windows, Python 3 - 1. win path fix  2. 'file' is deprecated, used 'open'
+inverses_path = os.path.join(curr_dir, rel_path + "/inverses.xml")
+fh = open(inverses_path, 'w')
+#fh = file('data/inverses.xml', 'w')
+##
+
 fh.write(outstr)
 fh.close()

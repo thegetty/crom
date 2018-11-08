@@ -1,6 +1,7 @@
 
 import codecs
 import json
+import os
 
 try:
     from collections import OrderedDict
@@ -10,8 +11,13 @@ except:
     except:
         raise Exception("To run with old pythons you must: easy_install ordereddict")
 
+# Windows - win path fix
+curr_dir = os.path.dirname(__file__)
+data_dir = os.path.abspath(os.path.join(curr_dir, '..', 'cromulent/data'))
+fn = data_dir + '/crm_vocab.tsv'
+#fn = '../cromulent/data/crm_vocab.tsv'
+##
 
-fn = '../cromulent/data/crm_vocab.tsv'
 fh = codecs.open(fn, 'r', 'utf-8')
 lines = fh.readlines()
 fh.close()
@@ -66,8 +72,15 @@ for l in lines:
 		used = info[-2]
 		mult = info[11] or '1'
 		which = context if used == "1" else extension
-		if which.has_key(ctname):
-			print "Already found: %s   (%s vs %s)" % (ctname, context[ctname]['@id'], name)
+
+		# Python 3 - 'has_key' deprecated, used 'in' instead
+		# if which.has_key(ctname):
+		##
+		if ctname in which:
+			# Python 3
+			print("Already found: %s   (%s vs %s)" % (ctname, context[ctname]['@id'], name))
+			#print "Already found: %s   (%s vs %s)" % (ctname, context[ctname]['@id'], name)
+			##
 		else:
 			if rng:
 				if rng[0] == "E":
@@ -88,17 +101,30 @@ for l in lines:
 				else:
 					which[ctname] = {"@id": name, "@type": typ}
 			else:
-				print "scoped context: %s: %s on %s" % (ctname, name, dmn)
+				# Python 3
+				print("scoped context: %s: %s on %s" % (ctname, name, dmn))
+				#print "scoped context: %s: %s on %s" % (ctname, name, dmn)
+				##
 
 ctxt = {"@context": context}
 xctxt = {"@context": extension}
 
 outstr = json.dumps(ctxt, indent=2)
-fh = file("../cromulent/data/linked-art.json", 'w')
+
+# Windows, Python 3 - 1. win path fix ('data_dir' defined earlier) 2. 'file' is deprecated in Python 3
+fh = open(data_dir + '/linked-art.json', 'w')
+#fh = file("../cromulent/data/linked-art.json", 'w')
+##
+
 fh.write(outstr)
 fh.close()
 
 outstr = json.dumps(xctxt, indent=2)
-fh = file("../cromulent/data/cidoc-extension.json", 'w')
+
+# Windows, Python 3 - 1. win path fix ('data_dir' defined earlier) 2. 'file' is deprecated in Python 3
+fh = open(data_dir + '/cidoc-extension.json', 'w')
+#fh = file("../cromulent/data/cidoc-extension.json", 'w')
+##
+
 fh.write(outstr)
 fh.close()
