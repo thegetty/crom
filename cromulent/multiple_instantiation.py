@@ -3,7 +3,7 @@
 # can generate classes for any ontology
 
 import inspect
-from .model import Destruction, EndOfExistence, Activity, Appellation, LinguisticObject	
+from cromulent.model import Destruction, EndOfExistence, Activity, Appellation, LinguisticObject	
 
 # DestuctionActivity class as CRM has a Destruction Event and recommends multi-classing
 # WARNING:  instantiating this class in the default profile will raise an error

@@ -30,7 +30,7 @@ def register_aat_class(name, data):
 	else:
 		t = Type("http://vocab.getty.edu/aat/%s" % id)
 	t.label = label
-	if parent == LinguisticObject and data.has_key('brief'):
+	if parent == LinguisticObject and "brief" in data:
 		c._classification = [t, instances["brief text"]]
 	else:	
 		c._classification = [t]		
@@ -116,9 +116,10 @@ ext_classes = {
 
 	"MuseumOrg":   {"parent": Group, "id":"300312281", "label": "Museum"},
 	"Department":  {"parent": Group, "id":"300263534", "label": "Department"},
-	"Nationality": {"parent": Aggregation, "id":"300379842", "label": "Nationality"},
-	"Gender":      {"parent": Aggregation, "id":"300055147", "label": "Gender"},
 
+
+	"Nationality": {"parent": Type, "id":"300379842", "label": "Nationality"},
+	"Gender":      {"parent": Type, "id":"300055147", "label": "Gender"},
 	"Auctioneer":  {"parent": Person, "id":"300025208", "label": "Auctioneer"}, # is this useful?
 
 	"Auction":     {"parent": Activity, "id":"300054751", "label": "Auctioning"},
@@ -229,6 +230,8 @@ identity_instances = {
 	"albumen silver print": {"parent": Material, "id": "300127121", "label": "albumen silver print"},
 	"gelatin silver print": {"parent": Material, "id": "300128695", "label": "gelatin silver print"},
 	"silver": {"parent": Material, "id": "300011029", "label": "silver"},
+
+	"synthetic": {"parent": Type, "id": "xxx", "label": "Synthetic Material"},
 
 	"inches": {"parent": MeasurementUnit, "id": "300379100", "label": "inches"},
 	"feet": {"parent": MeasurementUnit, "id":"300379101", "label": "feet"},

@@ -1,7 +1,7 @@
-from . import model
-from .model import factory, DataError, OrderedDict, BaseResource, KEY_ORDER_HASH as koh
-from .model import STR_TYPES
-from .multiple_instantiation import EoEActivity
+from cromulent import model
+from cromulent.model import factory, DataError, OrderedDict, BaseResource, KEY_ORDER_HASH as koh
+from cromulent.model import STR_TYPES
+from cromulent.multiple_instantiation import EoEActivity
 import json
 
 class Reader(object):

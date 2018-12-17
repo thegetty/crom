@@ -14,10 +14,6 @@
       "@context": {}, 
       "@id": "crm:E3_Condition_State"
     }, 
-    "Move": {
-      "@context": {}, 
-      "@id": "crm:E9_Move"
-    }, 
     "Modification": {
       "@context": {}, 
       "@id": "crm:E11_Modification"
@@ -137,7 +133,15 @@
     "Date": {
       "@context": {}, 
       "@id": "crm:E50_Date"
-    },  
+    }, 
+    "BeginningOfExistence": {
+      "@context": {}, 
+      "@id": "crm:E63_Beginning_of_Existence"
+    }, 
+    "EndOfExistence": {
+      "@context": {}, 
+      "@id": "crm:E64_End_of_Existence"
+    }, 
     "Thing": {
       "@context": {}, 
       "@id": "crm:E70_Thing"
@@ -198,15 +202,6 @@
       "@context": {}, 
       "@id": "crm:E93_Presence"
     }, 
-    "temporally_within": {
-      "@id": "crm:P86_falls_within", 
-      "@type": "@id"
-    }, 
-    "temporally_contains": {
-      "@id": "crm:P86i_contains", 
-      "@type": "@id"
-    },
-
     "type_of": {
       "@id": "crm:P2i_is_type_of", 
       "@type": "@id"
@@ -254,14 +249,6 @@
       "@id": "crm:P11i_participated_in", 
       "@type": "@id"
     }, 
-    "destroyed": {
-      "@id": "crm:P13_destroyed", 
-      "@type": "@id"
-    }, 
-    "destroyed_by": {
-      "@id": "crm:P13i_was_destroyed_by", 
-      "@type": "@id"
-    }, 
     "intended_use_of": {
       "@id": "crm:P19_was_intended_use_of", 
       "@type": "@id"
@@ -276,30 +263,6 @@
     }, 
     "purpose_of": {
       "@id": "crm:P21i_was_purpose_of", 
-      "@type": "@id"
-    }, 
-    "moved": {
-      "@id": "crm:P25_moved", 
-      "@type": "@id"
-    }, 
-    "moved_by": {
-      "@id": "crm:P25i_moved_by", 
-      "@type": "@id"
-    }, 
-    "moved_to": {
-      "@id": "crm:P26_moved_to", 
-      "@type": "@id"
-    }, 
-    "destination_of": {
-      "@id": "crm:P26i_was_destination_of", 
-      "@type": "@id"
-    }, 
-    "moved_from": {
-      "@id": "crm:P27_moved_from", 
-      "@type": "@id"
-    }, 
-    "origin_of": {
-      "@id": "crm:P27i_was_origin_of", 
       "@type": "@id"
     }, 
     "modified": {
@@ -489,24 +452,6 @@
     "current_or_former_residence_of": {
       "@id": "crm:P74i_is_current_or_former_residence_of", 
       "@type": "@id"
-    },  
-    "brought_into_existence": {
-      "@id": "crm:P92_brought_into_existence", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "brought_into_existence_by": {
-      "@id": "crm:P92i_was_brought_into_existence_by", 
-      "@type": "@id"
-    }, 
-    "took_out_of_existence": {
-      "@id": "crm:P93_took_out_of_existence", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "taken_out_of_existence_by": {
-      "@id": "crm:P93i_was_taken_out_of_existence_by", 
-      "@type": "@id"
     }, 
     "time_identified_by": {
       "@id": "crm:P78_is_identified_by", 
@@ -575,9 +520,20 @@
       "@id": "crm:P97i_was_father_for", 
       "@type": "@id"
     }, 
- 
-    "as_general_use": {
-      "@id": "crm:P101_had_as_general_use", 
+    "brought_into_life": {
+      "@id": "crm:P98_brought_into_life", 
+      "@type": "@id"
+    }, 
+    "born": {
+      "@id": "crm:P98i_was_born", 
+      "@type": "@id"
+    }, 
+    "dissolved": {
+      "@id": "crm:P99_dissolved", 
+      "@type": "@id"
+    }, 
+    "dissolved_by": {
+      "@id": "crm:P99i_was_dissolved_by", 
       "@type": "@id"
     }, 
     "use_of": {
@@ -724,14 +680,6 @@
       "@id": "crm:P126i_was_employed_in", 
       "@type": "@id"
     }, 
-    "broader_term": {
-      "@id": "crm:P127_has_broader_term", 
-      "@type": "@id"
-    }, 
-    "narrower_term": {
-      "@id": "crm:P127i_has_narrower_term", 
-      "@type": "@id"
-    }, 
     "shows_features_of": {
       "@id": "crm:P130_shows_features_of", 
       "@type": "@id"
@@ -876,16 +824,13 @@
       "@id": "crm:P167i_was_place_of", 
       "@type": "@id"
     }, 
-    "defined_by": {
+    "place_is_defined_by": {
       "@id": "crm:P168_place_is_defined_by", 
-      "@container": "@set"
+      "@type": "@id"
     }, 
-    "defines": {
-      "@id": "crm:P168i_defines_place"
-    },
-    "BeginningActivity": {
-      "@context": {}, 
-      "@id": "la:BeginningActivity"
+    "defines_place": {
+      "@id": "crm:P168i_defines_place", 
+      "@type": "@id"
     }, 
     "amount": {
       "@id": "crm:P181_has_amount"
@@ -896,10 +841,6 @@
     }, 
     "close_match": {
       "@id": "skos:closeMatch", 
-      "@type": "@id"
-    }, 
-    "seeAlso": {
-      "@id": "rdfs:seeAlso", 
       "@type": "@id"
     }
   }

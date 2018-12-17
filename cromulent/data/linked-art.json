@@ -1,58 +1,55 @@
 {
   "@context": {
-    "@version": 1.1,
-
-    "crm": "http://www.cidoc-crm.org/cidoc-crm/",
-    "geo": "http://www.ics.forth.gr/isl/CRMgeo/",
-    "sci": "http://www.ics.forth.gr/isl/CRMsci/", 
+    "@version": 1.1, 
+    "crm": "http://www.cidoc-crm.org/cidoc-crm/", 
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#", 
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#", 
     "dc": "http://purl.org/dc/elements/1.1/", 
     "dcterms": "http://purl.org/dc/terms/", 
     "schema": "http://schema.org/", 
     "skos": "http://www.w3.org/2004/02/skos/core#", 
+    "foaf": "http://xmlns.com/foaf/0.1/", 
     "xsd": "http://www.w3.org/2001/XMLSchema#", 
-    "la": "https://linked.art/ns/terms/",
-    "ore": "http://www.openarchives.org/ore/terms/", 
-
-    "aat": "http://vocab.getty.edu/aat/",
-    "ulan": "http://vocab.getty.edu/ulan/",
-    "tgn": "http://vocab.getty.edu/tgn/",
-
+    "la": "https://linked.art/ns/terms/", 
+    "aat": "http://vocab.getty.edu/aat/", 
+    "ulan": "http://vocab.getty.edu/ulan/", 
+    "tgn": "http://vocab.getty.edu/tgn/", 
     "id": "@id", 
     "type": "@type", 
-
-    "Activity": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
-      "@id": "crm:E7_Activity"
-    }, 
-    "Acquisition": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
-      "@id": "crm:E8_Acquisition"
-    }, 
     "Period": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E4_Period"
     }, 
     "Event": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}},  
+      "@context": {}, 
       "@id": "crm:E5_Event"
     }, 
     "Destruction": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E6_Destruction"
     }, 
-
+    "Activity": {
+      "@context": {}, 
+      "@id": "crm:E7_Activity"
+    }, 
+    "Acquisition": {
+      "@context": {}, 
+      "@id": "crm:E8_Acquisition"
+    }, 
+    "Move": {
+      "@context": {}, 
+      "@id": "crm:E9_Move"
+    }, 
     "TransferOfCustody": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E10_Transfer_of_Custody"
     }, 
     "Production": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E12_Production"
     }, 
     "AttributeAssignment": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E13_Attribute_Assignment"
     }, 
     "Person": {
@@ -60,15 +57,15 @@
       "@id": "crm:E21_Person"
     }, 
     "ManMadeObject": {
-      "@context": {"part": {"@id": "crm:P46_is_composed_of","@type":"@id","@container":"@set"}, "part_of": "crm:P46i_forms_part_of"}, 
+      "@context": {}, 
       "@id": "crm:E22_Man-Made_Object"
     }, 
     "LinguisticObject": {
-      "@context": {"part": {"@id":"crm:P106_is_composed_of","@type":"@id","@container":"@set"}, "part_of": "crm:P106i_forms_part_of"}, 
+      "@context": {}, 
       "@id": "crm:E33_Linguistic_Object"
     }, 
     "VisualItem": {
-      "@context": {"part": {"@id":"crm:P106_is_composed_of","@type":"@id","@container":"@set"}, "part_of": "crm:P106i_forms_part_of"}, 
+      "@context": {}, 
       "@id": "crm:E36_Visual_Item"
     }, 
     "Actor": {
@@ -76,19 +73,19 @@
       "@id": "crm:E39_Actor"
     }, 
     "Identifier": {
-      "@context": {"part": {"@id":"crm:P106_is_composed_of","@type":"@id","@container":"@set"}, "part_of": "crm:P106i_forms_part_of"}, 
+      "@context": {}, 
       "@id": "crm:E42_Identifier"
     }, 
     "ContactPoint": {
-      "@context": {"part": {"@id":"crm:P106_is_composed_of","@type":"@id","@container":"@set"}, "part_of": "crm:P106i_forms_part_of"},  
+      "@context": {}, 
       "@id": "crm:E51_Contact_Point"
     }, 
     "TimeSpan": {
-      "@context": {"part_of": "crm:P86_falls_within", "part": {"@id":"crm:P86i_contains","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E52_Time-Span"
     }, 
     "Place": {
-      "@context": {"part_of": "crm:P89_falls_within", "part": {"@id":"crm:P89i_contains","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E53_Place"
     }, 
     "Dimension": {
@@ -96,43 +93,43 @@
       "@id": "crm:E54_Dimension"
     }, 
     "Type": {
-      "@context": {"part": {"@id":"crm:P127i_has_narrower_term","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P127_has_broader_term","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E55_Type"
     }, 
     "Language": {
-      "@context": {"part": {"@id":"crm:P127i_has_narrower_term","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P127_has_broader_term","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E56_Language"
     }, 
     "Material": {
-      "@context": {"part": {"@id":"crm:P127i_has_narrower_term","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P127_has_broader_term","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E57_Material"
     }, 
     "MeasurementUnit": {
-      "@context": {"part": {"@id":"crm:P127i_has_narrower_term","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P127_has_broader_term","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E58_Measurement_Unit"
     }, 
-    "Birth": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
-      "@id": "crm:E67_Birth"
-    }, 
-    "Dissolution": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}},  
-      "@id": "crm:E68_Dissolution"
-    }, 
-    "Death": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
-      "@id": "crm:E69_Death"
-    }, 
     "Creation": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E65_Creation"
     }, 
     "Formation": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E66_Formation"
     }, 
+    "Birth": {
+      "@context": {}, 
+      "@id": "crm:E67_Birth"
+    }, 
+    "Dissolution": {
+      "@context": {}, 
+      "@id": "crm:E68_Dissolution"
+    }, 
+    "Death": {
+      "@context": {}, 
+      "@id": "crm:E69_Death"
+    }, 
     "InformationObject": {
-      "@context": {"part": {"@id":"crm:P106_is_composed_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P106i_forms_part_of","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E73_Information_Object"
     }, 
     "Group": {
@@ -140,24 +137,21 @@
       "@id": "crm:E74_Group"
     }, 
     "Transformation": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E81_Transformation"
     }, 
     "Joining": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E85_Joining"
     }, 
     "Leaving": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E86_Leaving"
     }, 
     "PropositionalObject": {
-      "@context": {"part": {"@id":"crm:P148_has_component","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P148i_is_component_of","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E89_Propositional_Object"
-    },
-
-
-
+    }, 
     "identified_by": {
       "@id": "crm:P1_is_identified_by", 
       "@type": "@id", 
@@ -181,46 +175,6 @@
       "@type": "@id", 
       "@container": "@set"
     }, 
-    "consists_of": {
-      "@id": "crm:P9_consists_of", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "forms_part_of": {
-      "@id": "crm:P9i_forms_part_of", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "physical_part": {
-      "@id": "crm:P46_is_composed_of", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "physical_part_of": {
-      "@id": "crm:P46i_forms_part_of", 
-      "@type": "@id", 
-      "@container": "@set"
-    },
-    "spatially_within": {
-      "@id": "crm:P89_falls_within", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "spatially_contains": {
-      "@id": "crm:P89i_contains", 
-      "@type": "@id", 
-      "@container": "@set"
-    },
-    "includes": {
-      "@id": "crm:P106_is_composed_of", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "included_in": {
-      "@id": "crm:P106i_forms_part_of", 
-      "@type": "@id", 
-      "@container": "@set"
-    },
     "involved": {
       "@id": "crm:P12_occurred_in_the_presence_of", 
       "@type": "@id", 
@@ -230,6 +184,14 @@
       "@id": "crm:P12i_was_present_at", 
       "@type": "@id", 
       "@container": "@set"
+    }, 
+    "destroyed": {
+      "@id": "crm:P13_destroyed", 
+      "@type": "@id"
+    }, 
+    "destroyed_by": {
+      "@id": "crm:P13i_was_destroyed_by", 
+      "@type": "@id"
     }, 
     "carried_out_by": {
       "@id": "crm:P14_carried_out_by", 
@@ -308,6 +270,34 @@
     }, 
     "changed_ownership_through": {
       "@id": "crm:P24i_changed_ownership_through", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "moved": {
+      "@id": "crm:P25_moved", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "moved_by": {
+      "@id": "crm:P25i_moved_by", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "moved_to": {
+      "@id": "crm:P26_moved_to", 
+      "@type": "@id"
+    }, 
+    "destination_of": {
+      "@id": "crm:P26i_was_destination_of", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "moved_from": {
+      "@id": "crm:P27_moved_from", 
+      "@type": "@id"
+    }, 
+    "origin_of": {
+      "@id": "crm:P27i_was_origin_of", 
       "@type": "@id", 
       "@container": "@set"
     }, 
@@ -462,14 +452,34 @@
     }, 
     "contact_point": {
       "@id": "crm:P76_has_contact_point", 
-      "@type": "@id"
+      "@type": "@id", 
+      "@container": "@set"
     }, 
     "provides_access_to": {
       "@id": "crm:P76i_provides_access_to", 
-      "@type": "@id"
-    },
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
     "unit": {
       "@id": "crm:P91_has_unit", 
+      "@type": "@id"
+    }, 
+    "brought_into_existence": {
+      "@id": "crm:P92_brought_into_existence", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "brought_into_existence_by": {
+      "@id": "crm:P92i_was_brought_into_existence_by", 
+      "@type": "@id"
+    }, 
+    "took_out_of_existence": {
+      "@id": "crm:P93_took_out_of_existence", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "taken_out_of_existence_by": {
+      "@id": "crm:P93i_was_taken_out_of_existence_by", 
       "@type": "@id"
     }, 
     "created": {
@@ -490,22 +500,6 @@
       "@id": "crm:P95i_was_formed_by", 
       "@type": "@id"
     }, 
-    "brought_into_life": {
-      "@id": "crm:P98_brought_into_life", 
-      "@type": "@id"
-    }, 
-    "born": {
-      "@id": "crm:P98i_was_born", 
-      "@type": "@id"
-    }, 
-    "dissolved": {
-      "@id": "crm:P99_dissolved", 
-      "@type": "@id"
-    }, 
-    "dissolved_by": {
-      "@id": "crm:P99i_was_dissolved_by", 
-      "@type": "@id"
-    }, 
     "death_of": {
       "@id": "crm:P100_was_death_of", 
       "@type": "@id"
@@ -513,7 +507,12 @@
     "died_in": {
       "@id": "crm:P100i_died_in", 
       "@type": "@id"
-    },
+    }, 
+    "general_use": {
+      "@id": "crm:P101_had_as_general_use", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
     "member": {
       "@id": "crm:P107_has_current_or_former_member", 
       "@type": "@id", 
@@ -674,19 +673,14 @@
     }, 
     "occupies": {
       "@id": "crm:P156_occupies", 
-      "@type": "@id"
+      "@type": "@id", 
+      "@container": "@set"
     }, 
     "occupied_by": {
       "@id": "crm:P156i_is_occupied_by", 
-      "@type": "@id"
-    }, 
-    "defined_by": {
-      "@id": "crm:P168_place_is_defined_by", 
+      "@type": "@id", 
       "@container": "@set"
     }, 
-    "defines": {
-      "@id": "crm:P168i_defines_place"
-    },
     "end_of_the_begin": {
       "@id": "crm:P81a_end_of_the_begin"
     }, 
@@ -699,67 +693,26 @@
     "end_of_the_end": {
       "@id": "crm:P82b_end_of_the_end"
     }, 
-
-
-
     "Payment": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "la:Payment"
     }, 
     "PropertyInterest": {
-      "@context": {"part": {"@id":"la:interest_part","@type":"@id","@container":"@set"}, "part_of": "la:interest_part_of"}, 
+      "@context": {}, 
       "@id": "la:PropertyInterest"
+    }, 
+    "Phase": {
+      "@context": {}, 
+      "@id": "la:Phase"
     }, 
     "Relationship": {
       "@context": {}, 
       "@id": "la:Relationship"
     }, 
     "Name": {
-      "@context": {"part": {"@id":"crm:P106_is_composed_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P106i_forms_part_of","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "la:Name"
     }, 
-
-    "Phase": {
-      "@context": {"part": {"@id": "crm:P9_consists_of","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P9i_forms_part_of","@type":"@id","@container":"@set"}},
-      "@id": "la:Phase"
-    },
-    "initiated": {
-      "@id": "la:initiated",
-      "@type": "@id"
-    },
-    "initiated_by": {
-      "@id": "la:initiated_by",
-      "@type": "@id"
-    },
-    "terminated": {
-      "@id": "la:terminated",
-      "@type": "@id"
-    },
-    "terminated_by": {
-      "@id": "la:terminated_by",
-      "@type": "@id"
-    },
-    "phase": {
-      "@id": "la:has_phase",
-      "@type": "@id"
-    },
-    "phase_of": {
-      "@id": "la:phase_of",
-      "@type": "@id"
-    },
-    "related_entity": {
-      "@id": "la:related_entity",
-      "@type": "@id"
-    },
-    "related_entity_of": {
-      "@id": "la:related_entity_of",
-      "@type": "@id"
-    },
-    "relationship": {
-      "@id": "la:relationship",
-      "@type": "@id"
-    },
-
     "paid_amount": {
       "@id": "la:paid_amount", 
       "@type": "@id"
@@ -797,6 +750,48 @@
       "@id": "la:interest_part_of", 
       "@type": "la:PropertyInterest"
     }, 
+    "initiated": {
+      "@id": "la:initiated", 
+      "@type": "la:Phase", 
+      "@container": "@set"
+    }, 
+    "initiated_by": {
+      "@id": "la:initiated_by", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "terminated": {
+      "@id": "la:terminated", 
+      "@type": "la:Phase", 
+      "@container": "@set"
+    }, 
+    "terminated_by": {
+      "@id": "la:terminated_by", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "has_phase": {
+      "@id": "la:has_phase", 
+      "@type": "la:Phase", 
+      "@container": "@set"
+    }, 
+    "phase_of": {
+      "@id": "la:phase_of", 
+      "@type": "@id"
+    }, 
+    "related_entity": {
+      "@id": "la:related_entity", 
+      "@type": "@id"
+    }, 
+    "related_entity_of": {
+      "@id": "la:related_entity_of", 
+      "@type": "la:Phase", 
+      "@container": "@set"
+    }, 
+    "relationship": {
+      "@id": "la:relationship", 
+      "@type": "@id"
+    }, 
     "related_to": {
       "@id": "la:related_to", 
       "@type": "@id"
@@ -804,28 +799,26 @@
     "related_from": {
       "@id": "la:related_from", 
       "@type": "@id"
-    },
-
-
-    "DeclarativePlace": {
-      "@context": {},
-      "@id": "geo:SP6_Declarative_Place"
-    },
-    "Geometry": {
-      "@context": {},
-      "@id": "geo:SP5_Geometric_Place_Expression"
-    },
-    "CoordinateSystem": {
-      "@context": {},
-      "@id": "geo:SP4_Spatial_Coordinate_Reference_System"
-    },
+    }, 
     "MonetaryAmount": {
       "@context": {}, 
       "@id": "crm:E97_Monetary_Amount"
     }, 
     "Currency": {
-      "@context": {"part": {"@id":"crm:P127i_has_narrower_term","@type":"@id","@container":"@set"}, "part_of": {"@id":"crm:P127_has_broader_term","@type":"@id","@container":"@set"}}, 
+      "@context": {}, 
       "@id": "crm:E98_Currency"
+    }, 
+    "DeclarativePlace": {
+      "@context": {}, 
+      "@id": "geo:SP6_Declarative_Place"
+    }, 
+    "Geometry": {
+      "@context": {}, 
+      "@id": "geo:SP5_Geometric_Place_Expression"
+    }, 
+    "CoordinateSystem": {
+      "@context": {}, 
+      "@id": "geo:SP4_Spatial_Coordinate_Reference_System"
     }, 
     "Aggregation": {
       "@context": {}, 
@@ -835,29 +828,36 @@
       "@context": {}, 
       "@id": "ore:Proxy"
     }, 
-
-    "approximates": {
-      "@id": "geo:Q11_approximates",
-      "@type": "@id"
-    },
-    "approximated_by": {
-      "@id": "geo:Q11_is_approximated_by",
-      "@type": "@id"
-    },
-    "caused": {
-      "@id": "sci:O13_triggers",
-      "@type": "@id"
-    },
-    "caused_by": {
-      "@id": "sci:O13i_is_triggered_by",
-      "@type": "@id"
-
-    },
-
-
     "currency": {
       "@id": "crm:P180_has_currency", 
       "@type": "@id"
+    }, 
+    "Q9_is_expressed_in_terms_of": {
+      "@id": "geo:Q9_is_expressed_in_terms_of", 
+      "@type": "geo:SP4_Spatial_Coordinate_Reference_System"
+    }, 
+    "Q9i_terms_express": {
+      "@id": "geo:Q9i_terms_express", 
+      "@type": "geo:SP5_Geometric_Place_Expression"
+    }, 
+    "Q11_approximates": {
+      "@id": "geo:Q11_approximates", 
+      "@type": "@id"
+    }, 
+    "Q11i_is_approximated_by": {
+      "@id": "geo:Q11i_is_approximated_by", 
+      "@type": "geo:SP6_Declarative_Place", 
+      "@container": "@set"
+    }, 
+    "caused": {
+      "@id": "sci:O13_triggers", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "caused_by": {
+      "@id": "sci:O13i_is_triggered_by", 
+      "@type": "@id", 
+      "@container": "@set"
     }, 
     "value": {
       "@id": "rdf:value"
@@ -888,14 +888,14 @@
       "@type": "@id", 
       "@container": "@set"
     }, 
+    "see_also": {
+      "@id": "rdfs:seeAlso", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
     "related": {
       "@id": "dcterms:relation", 
       "@type": "@id", 
-      "@container": "@set"
-    },
-    "see_also": {
-      "@id": "rdfs:seeAlso",
-      "@type": "@id",
       "@container": "@set"
     }, 
     "style": {
