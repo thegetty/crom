@@ -4,6 +4,7 @@ import os, sys, re
 import codecs
 import inspect
 import uuid
+import datetime
 
 ### Mappings for duplicate properties ###
 ### See build_tsv/vocab_reader
@@ -335,7 +336,9 @@ class ExternalResource(object):
 	def __init__(self, ident=""):
 		self._factory = factory
 		if ident:
-			if ident.startswith('http') or ident.startswith('urn:uuid'):
+			if ident.startswith('urn:uuid'):
+				self.id = ident
+			elif ident.startswith('http'):
 				# Try to find prefixable term
 				hashed = ident.rsplit('#', 1)
 				if len(hashed) == 1:
