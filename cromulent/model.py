@@ -276,6 +276,7 @@ class CromulentFactory(object):
 		except:
 			out = ""
 			self.maybe_warn("Can't decode %r" % js)
+			raise
 		if collapse:
 			out = self.collapse_json(out, collapse)
 		return out 		
@@ -642,6 +643,9 @@ class BaseResource(ExternalResource):
 					for ni in v:
 						if isinstance(ni, ExternalResource):
 							tbd.append(ni.id)
+				elif isinstance(v, datetime.datetime):
+					# replace with string
+					kvs[k] = v.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 		for t in tbd:
 			if not t in self._factory.done:

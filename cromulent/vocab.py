@@ -76,6 +76,7 @@ ext_classes = {
 	"PaginationStatement": {"parent": LinguisticObject, "id":"300200294", "label": "Pagination Statement", "brief": True},
 	"FoliationStatement": {"parent": LinguisticObject, "id":"300200662", "label": "Foliation Statement", "brief": True},
 	"Abstract": {"parent": LinguisticObject, "id":"300026032", "label": "Abstract", "brief": True},
+	"Note": {"parent": LinguisticObject, "id":"300027200", "label": "Note", "brief": True},
 
 	"CatalogueRaisonne": {"parent": LinguisticObject, "id":"300026061", "label": "Catalogue Raisonne"},
 	"AuctionCatalog": {"parent": LinguisticObject, "id":"300026068", "label": "Auction Catalog"},
@@ -87,6 +88,7 @@ ext_classes = {
 	"Page": {"parent": LinguisticObject, "id":"300194222", "label": "Page"},
 	"Folio": {"parent": LinguisticObject, "id":"300189604", "label": "Folio"},
 	"DataRecord": {"parent": LinguisticObject, "id":"300026685", "label": "Data Record"}, # Not sure about this one
+	"Heading": {"parent": LinguisticObject, "id": "300200862", "label": "Heading"},
 
 	"Journal": {"parent": LinguisticObject, "id":"300215390", "label": "Journal"},
 	"Issue": {"parent": LinguisticObject, "id":"300312349", "label": "Issue"},
@@ -160,11 +162,11 @@ ext_classes = {
 	"NameSuffix": {"parent": Name, "id":"300404662", "label": "Name Suffix"},
 	"NamePrefix": {"parent": Name, "id":"300404845", "label": "Name Prefix"},
 
-	"EmailAddress": {"parent": ContactPoint, "id":"300149026", "label": "Email Address"},
-	"StreetAddress": {"parent": ContactPoint, "id":"300386983", "label": "Street Address"},
-	"StreetNumber": {"parent": ContactPoint, "id":"300419272", "label": "Street Number"},
-	"StreetName": {"parent": ContactPoint, "id": "300419273", "label": "Street Name"},
-	"PostalCode": {"parent": ContactPoint, "id": "300419274", "label": "Postal Code"},
+	"EmailAddress": {"parent": Name, "id":"300149026", "label": "Email Address"},
+	"StreetAddress": {"parent": Name, "id":"300386983", "label": "Street Address"},
+	"StreetNumber": {"parent": Name, "id":"300419272", "label": "Street Number"},
+	"StreetName": {"parent": Name, "id": "300419273", "label": "Street Name"},
+	"PostalCode": {"parent": Name, "id": "300419274", "label": "Postal Code"},
 
 	"Painting": {"parent": ManMadeObject, "id": "300033618", "label": "Painting"},
 	"Sculpture": {"parent": ManMadeObject, "id": "300047090", "label": "Sculpture"},
@@ -185,6 +187,9 @@ ext_classes = {
 	"PhotographColor": {"parent": ManMadeObject, "id": "300128347", "label": "Color Photograph"},
 	"PhotographBW": {"parent": ManMadeObject, "id": "300128359", "label": "Black and White Photograph"},
 	"Negative": {"parent": ManMadeObject, "id": "300127173", "label": "Photographic Negative"},
+	"Map": {"parent": ManMadeObject, "id": "300028094", "label": "Map"},
+	"Clothing": {"parent": ManMadeObject, "id": "300266639", 'label': "Clothing"},
+	"Furniture": {"parent": ManMadeObject, "id":"300037680", "label": "Furniture"},
 
 	"Architecture": {"parent": ManMadeObject, "id":"300263552", "label": "Architecture"},
 	"Armor": {"parent": ManMadeObject, "id":"300036745", "label": "Armor"},
@@ -254,6 +259,7 @@ identity_instances = {
 	"ancient greek": {"parent": Language, "id": "300387827", "label": "Ancient Greek"},
 	"latin": {"parent": Language, "id":"300388693", "label":"Latin"},
 	"japanese": {"parent": Language, "id":"300388486", "label":"Japanese"},
+
 	"primary": {"parent": Type, "id": "300404670", "label": "Primary"},
 	"artwork": {"parent": Type, "id": "300133025", "label": "Artwork"},
 	"public collection": {"parent": Type, "id": "300411912", "label": "Public Collection"},
