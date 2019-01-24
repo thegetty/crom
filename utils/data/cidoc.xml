@@ -626,20 +626,6 @@ This class specifically excludes features that have no semantic significance, su
 	<rdfs:subClassOf rdf:resource="E36_Visual_Item"/>
 </rdfs:Class>
 
-<rdfs:Class rdf:about="E38_Image">
-<rdfs:label xml:lang="ru">Изображение</rdfs:label>
-  <rdfs:label xml:lang="el">Εικόνα</rdfs:label>
-    <rdfs:label xml:lang="de">Bild</rdfs:label>
-   <rdfs:label xml:lang="fr">Image</rdfs:label>
-    <rdfs:label xml:lang="en">Image</rdfs:label>
-	<rdfs:label xml:lang="pt">Imagem</rdfs:label>
-	<rdfs:label xml:lang="zh">图像</rdfs:label>
-	<rdfs:comment>This class comprises distributions of form, tone and colour that may be found on surfaces such as photos, paintings, prints and sculptures or directly on electronic media. 
-The degree to which variations in the distribution of form and colour affect the identity of an instance of E38 Image depends on a given purpose. The original painting of the Mona Lisa in the Louvre may be said to bear the same instance of E38 Image as reproductions in the form of transparencies, postcards, posters or T-shirts, even though they may differ in size and carrier and may vary in tone and colour. The images in a “spot the difference” competition are not the same with respect to their context, however similar they may at first appear.
-</rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E36_Visual_Item"/>
-</rdfs:Class>
-
 <rdfs:Class rdf:about="E39_Actor">
 <rdfs:label xml:lang="de">Akteur</rdfs:label>
 <rdfs:label xml:lang="ru">Агент</rdfs:label>
@@ -654,20 +640,6 @@ The CRM does not attempt to model the inadvertent actions of such actors. Indivi
 	<rdfs:subClassOf rdf:resource="E77_Persistent_Item"/>
 </rdfs:Class>
 
-<rdfs:Class rdf:about="E40_Legal_Body">
- <rdfs:label xml:lang="fr">Collectivité</rdfs:label>
-    <rdfs:label xml:lang="de">Juristische Person</rdfs:label>
-     <rdfs:label xml:lang="el">Νομικό Πρόσωπο</rdfs:label>
-    <rdfs:label xml:lang="ru">Юридическое Лицо</rdfs:label>
-    <rdfs:label xml:lang="en">Legal Body</rdfs:label>
-	<rdfs:label xml:lang="pt">Pessoa Jurídica</rdfs:label>
-	<rdfs:label xml:lang="zh">法律组织</rdfs:label>
-	<rdfs:comment>This class comprises institutions or groups of people that have obtained a legal recognition as a group and can act collectively as agents.  
-This means that they can perform actions, own property, create or destroy things and can be held collectively responsible for their actions like individual people. The term 'personne morale' is often used for this in French. 
-</rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E74_Group"/>
-</rdfs:Class>
-
 <rdfs:Class rdf:about="E41_Appellation">
 <rdfs:label xml:lang="de">Benennung</rdfs:label>
     <rdfs:label xml:lang="ru">Обозначение</rdfs:label>
@@ -678,7 +650,7 @@ This means that they can perform actions, own property, create or destroy things
 	<rdfs:label xml:lang="zh">称号</rdfs:label>
 	<rdfs:comment>This class comprises signs, either meaningful or not, or arrangements of signs following a specific syntax, that are used or can be used to refer to and identify a specific instance of some class or category within a certain context.
 Instances of E41 Appellation do not identify things by their meaning, even if they happen to have one, but instead by convention, tradition, or agreement. Instances of E41 Appellation are cultural constructs; as such, they have a context, a history, and a use in time and space by some group of users. A given instance of E41 Appellation can have alternative forms, i.e., other instances of E41 Appellation that are always regarded as equivalent independent from the thing it denotes. 
-Specific subclasses of E41 Appellation should be used when instances of E41 Appellation of a characteristic form are used for particular objects. Instances of E49 Time Appellation, for example, which take the form of instances of E50 Date, can be easily recognised.
+Specific subclasses of E41 Appellation should be used when instances of E41 Appellation of a characteristic form are used for particular objects. 
 E41 Appellation should not be confused with the act of naming something. Cf. E15 Identifier Assignment
 </rdfs:comment>
 	<rdfs:subClassOf rdf:resource="E90_Symbolic_Object"/>
@@ -694,108 +666,7 @@ E41 Appellation should not be confused with the act of naming something. Cf. E15
 	<rdfs:comment>This class comprises strings or codes assigned to instances of E1 CRM Entity in order to identify them uniquely and permanently within the context of one or more organisations. Such codes are often known as inventory numbers, registration codes, etc. and are typically composed of alphanumeric sequences. The class E42 Identifier is not normally used for machine-generated identifiers used for automated processing unless these are also used by human agents.</rdfs:comment>
 	<rdfs:subClassOf rdf:resource="E41_Appellation"/>
 </rdfs:Class>
-<rdfs:Class rdf:about="E44_Place_Appellation">
-<rdfs:label xml:lang="ru">Обозначение Места</rdfs:label>
-     <rdfs:label xml:lang="en">Place Appellation</rdfs:label>
-   <rdfs:label xml:lang="fr">Appellation de lieu</rdfs:label>
-   <rdfs:label xml:lang="de">Ortsbenennung</rdfs:label>
-    <rdfs:label xml:lang="el">Ονομασία Τόπου</rdfs:label>
-	<rdfs:label xml:lang="pt">Designação de Local</rdfs:label>
-	<rdfs:label xml:lang="zh">地点称号</rdfs:label>
-	<rdfs:comment>This class comprises any sort of identifier characteristically used to refer to an E53 Place. 
-Instances of E44 Place Appellation may vary in their degree of precision and their meaning may vary over time - the same instance of E44 Place Appellation may be used to refer to several places, either because of cultural shifts, or because objects used as reference points have moved around. Instances of E44 Place Appellation can be extremely varied in form: postal addresses, instances of E47 Spatial Coordinate, and parts of buildings can all be considered as instances of E44 Place Appellation.
-</rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E41_Appellation"/>
-</rdfs:Class>
-<rdfs:Class rdf:about="E45_Address">
-<rdfs:label xml:lang="fr">Adresse</rdfs:label>
-    <rdfs:label xml:lang="de">Adresse</rdfs:label>
-    <rdfs:label xml:lang="el">Διεύθυνση</rdfs:label>
-  <rdfs:label xml:lang="ru">Адрес</rdfs:label>
-    <rdfs:label xml:lang="en">Address</rdfs:label>
-	<rdfs:label xml:lang="pt">Endereço</rdfs:label>
-	<rdfs:label xml:lang="zh">地址</rdfs:label>
-	<rdfs:comment>This class comprises identifiers expressed in coding systems for places, such as postal addresses used for mailing.
-An E45 Address can be considered both as the name of an E53 Place and as an E51 Contact Point for an E39 Actor. This dual aspect is reflected in the multiple inheritance. However, some forms of mailing addresses, such as a postal box, are only instances of E51 Contact Point, since they do not identify any particular Place. These should not be documented as instances of E45 Address.
-</rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E44_Place_Appellation"/>
-	<rdfs:subClassOf rdf:resource="E51_Contact_Point"/>
-</rdfs:Class>
-<rdfs:Class rdf:about="E46_Section_Definition">
-<rdfs:label xml:lang="fr">Désignation de section</rdfs:label>
-    <rdfs:label xml:lang="ru">Определение Района</rdfs:label>
-  <rdfs:label xml:lang="en">Section Definition</rdfs:label>
-    <rdfs:label xml:lang="de">Abschnittsdefinition</rdfs:label>
-  <rdfs:label xml:lang="el">Ονομασία Τμήματος</rdfs:label>
-  <rdfs:label xml:lang="pt">Designação de Seção</rdfs:label>
-	<rdfs:label xml:lang="zh">区域定义</rdfs:label>
-	<rdfs:comment>This class comprises areas of objects referred to in terms specific to the general geometry or structure of its kind. 
-The 'prow' of the boat, the 'frame' of the picture, the 'front' of the building are all instances of E46 Section Definition. The class highlights the fact that parts of objects can be treated as locations. This holds in particular for features without natural boundaries, such as the “head” of a marble statue made out of one block (cf. E53 Place). In answer to the question 'where is the signature?' one might reply 'on the lower left corner'. (Section Definition is closely related to the term “segment” in Gerstl, P.&amp; Pribbenow, S, 1996 “ A conceptual theory of part – whole relations and its applications”, Data &amp; Knowledge 	Engineering 20 305-322, North Holland- Elsevier ).
-</rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E44_Place_Appellation"/>
-</rdfs:Class>
-<rdfs:Class rdf:about="E47_Spatial_Coordinates">
-<rdfs:label xml:lang="fr">Coordonnées spatiales</rdfs:label>
-  <rdfs:label xml:lang="ru">Пространственные Координаты</rdfs:label>
-  <rdfs:label xml:lang="el">Χωρικές Συντεταγμένες</rdfs:label>
-    <rdfs:label xml:lang="de">Raumkoordinaten</rdfs:label>
-    <rdfs:label xml:lang="en">Spatial Coordinates</rdfs:label>
-	<rdfs:label xml:lang="pt">Coordenadas Espaciais</rdfs:label>
-	<rdfs:label xml:lang="zh">空间坐标</rdfs:label>
-	<rdfs:comment>This class comprises the textual or numeric information required to locate specific instances of E53 Place within schemes of spatial identification. 
 
-Coordinates are a specific form of E44 Place Appellation, that is, a means of referring to a particular E53 Place. Coordinates are not restricted to longitude, latitude and altitude. Any regular system of reference that maps onto an E19 Physical Object can be used to generate coordinates.
-</rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E44_Place_Appellation"/>
-</rdfs:Class>
-<rdfs:Class rdf:about="E48_Place_Name">
-<rdfs:label xml:lang="ru">Название Места</rdfs:label>
-    <rdfs:label xml:lang="fr">Toponyme</rdfs:label>
-     <rdfs:label xml:lang="el">Τοπωνύμιο</rdfs:label>
-    <rdfs:label xml:lang="en">Place Name</rdfs:label>
-    <rdfs:label xml:lang="de">Orts- oder Flurname</rdfs:label>
-	<rdfs:label xml:lang="pt">Nome de Local</rdfs:label>
-	<rdfs:label xml:lang="zh">地名</rdfs:label>
-	<rdfs:comment>This class comprises particular and common forms of E44 Place Appellation. 
-Place Names may change their application over time: the name of an E53 Place may change, and a name may be reused for a different E53 Place. Instances of E48 Place Name are typically subject to place name gazetteers.</rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E44_Place_Appellation"/>
-</rdfs:Class>
-<rdfs:Class rdf:about="E49_Time_Appellation">
-<rdfs:label xml:lang="ru">Обозначение Времени</rdfs:label>
-    <rdfs:label xml:lang="el">Ονομασία Χρόνου</rdfs:label>
-    <rdfs:label xml:lang="de">Zeitbenennung</rdfs:label>
-    <rdfs:label xml:lang="en">Time Appellation</rdfs:label>
-     <rdfs:label xml:lang="fr">Appellation temporelle</rdfs:label>
-	 <rdfs:label xml:lang="pt">Designação de Tempo</rdfs:label>
-	<rdfs:label xml:lang="zh">时间称号</rdfs:label>
-	<rdfs:comment>This class comprises all forms of names or codes, such as historical periods, and dates, which are characteristically used to refer to a specific E52 Time-Span. 
-The instances of E49 Time Appellation may vary in their degree of precision, and they may be relative to other time frames, “Before Christ” for example. Instances of E52 Time-Span are often defined by reference to a cultural period or an event e.g. ‘the duration of the Ming Dynasty’.</rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E41_Appellation"/>
-</rdfs:Class>
-<rdfs:Class rdf:about="E50_Date">
-	<rdfs:label xml:lang="de">Datum</rdfs:label>
-    <rdfs:label xml:lang="el">Ημερομηνία</rdfs:label>
-    <rdfs:label xml:lang="ru">Дата</rdfs:label>
-    <rdfs:label xml:lang="fr">Date</rdfs:label>
-    <rdfs:label xml:lang="en">Date</rdfs:label>
-	<rdfs:label xml:lang="pt">Data</rdfs:label>
-	<rdfs:label xml:lang="zh">日期</rdfs:label>
-	<rdfs:comment>This class comprises specific forms of E49 Time Appellation.</rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E49_Time_Appellation"/>
-</rdfs:Class>
-<rdfs:Class rdf:about="E51_Contact_Point">
-	<rdfs:label xml:lang="de">Kontaktpunkt</rdfs:label>
-    <rdfs:label xml:lang="el">Στοιχείο Επικοινωνίας</rdfs:label>
-    <rdfs:label xml:lang="fr">Coordonnées individuelles</rdfs:label>
-    <rdfs:label xml:lang="en">Contact Point</rdfs:label>
-    <rdfs:label xml:lang="ru">Контакт</rdfs:label>
-	<rdfs:label xml:lang="pt">Ponto de Contato</rdfs:label>
-	<rdfs:label xml:lang="zh">联系方式</rdfs:label>
-	<rdfs:comment>This class comprises identifiers employed, or understood, by communication services to direct communications to an instance of E39 Actor. These include E-mail addresses, telephone numbers, post office boxes, Fax numbers, URLs etc. Most postal addresses can be considered both as instances of E44 Place Appellation and E51 Contact Point. In such cases the subclass E45 Address should be used. 
-URLs are addresses used by machines to access another machine through an http request. Since the accessed machine acts on behalf of the E39 Actor providing the machine, URLs are considered as instances of E51 Contact Point to that E39 Actor.
-</rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E41_Appellation"/>
-</rdfs:Class>
 <rdfs:Class rdf:about="E52_Time-Span">
 	<rdfs:label xml:lang="fr">Durée</rdfs:label>
     <rdfs:label xml:lang="de">Zeitspanne</rdfs:label>
@@ -805,7 +676,7 @@ URLs are addresses used by machines to access another machine through an http re
 	<rdfs:label xml:lang="pt">Período de Tempo</rdfs:label>
 	<rdfs:label xml:lang="zh">时段</rdfs:label>
 	<rdfs:comment>This class comprises abstract temporal extents, in the sense of Galilean physics, having a beginning, an end and a duration. 
-Time Span has no other semantic connotations. Time-Spans are used to define the temporal extent of instances of E4 Period, E5 Event and any other phenomena valid for a certain time. An E52 Time-Span may be identified by one or more instances of E49 Time Appellation. 
+Time Span has no other semantic connotations. Time-Spans are used to define the temporal extent of instances of E4 Period, E5 Event and any other phenomena valid for a certain time.  
 Since our knowledge of history is imperfect, instances of E52 Time-Span can best be considered as approximations of the actual Time-Spans of temporal entities. The properties of E52 Time-Span are intended to allow these approximations to be expressed precisely.  An extreme case of approximation, might, for example, define an E52 Time-Span having unknown beginning, end and duration. Used as a common E52 Time-Span for two events, it would nevertheless define them as being simultaneous, even if nothing else was known. 
 	Automatic processing and querying of instances of E52 Time-Span is facilitated if data can be parsed into an E61 Time Primitive.
 </rdfs:comment>
@@ -820,7 +691,7 @@ Since our knowledge of history is imperfect, instances of E52 Time-Span can best
 	<rdfs:label xml:lang="pt">Local</rdfs:label>
 	<rdfs:label xml:lang="zh">地点</rdfs:label>
 	<rdfs:comment>This class comprises extents in space, in particular on the surface of the earth, in the pure sense of physics: independent from temporal phenomena and matter. 
-The instances of E53 Place are usually determined by reference to the position of “immobile” objects such as buildings, cities, mountains, rivers, or dedicated geodetic marks. A Place can be determined by combining a frame of reference and a location with respect to this frame. It may be identified by one or more instances of E44 Place Appellation.
+The instances of E53 Place are usually determined by reference to the position of “immobile” objects such as buildings, cities, mountains, rivers, or dedicated geodetic marks. A Place can be determined by combining a frame of reference and a location with respect to this frame. It may be identified by one or more instances of E41 Appellation.
  It is sometimes argued that instances of E53 Place are best identified by global coordinates or absolute reference systems. However, relative references are often more relevant in the context of cultural documentation and tend to be more precise. In particular, we are often interested in position in relation to large, mobile objects, such as ships. For example, the Place at which Nelson died is known with reference to a large mobile object – H.M.S Victory. A resolution of this Place in terms of absolute coordinates would require knowledge of the movements of the vessel and the precise time of death, either of which may be revised, and the result would lack historical and cultural relevance.
 Any object can serve as a frame of reference for E53 Place determination. The model foresees the notion of a "section" of an E19 Physical Object as a valid E53 Place determination.</rdfs:comment>
 	<rdfs:subClassOf rdf:resource="E1_CRM_Entity"/>
@@ -1055,17 +926,7 @@ A gathering of people becomes an E74 Group when it exhibits organizational chara
 </rdfs:comment>
 	<rdfs:subClassOf rdf:resource="E39_Actor"/>
 </rdfs:Class>
-<rdfs:Class rdf:about="E75_Conceptual_Object_Appellation">
-	<rdfs:label xml:lang="fr">Appellation d'objet conceptuel</rdfs:label>
-    <rdfs:label xml:lang="ru">Обозначение Концептуального Объекта</rdfs:label>
-    <rdfs:label xml:lang="de">Begriff- oder Konzeptbenennung </rdfs:label>
-    <rdfs:label xml:lang="en">Conceptual Object Appellation</rdfs:label>
-    <rdfs:label xml:lang="el">Ονομασία Νοητικού Αντικειμένου</rdfs:label>
-	<rdfs:label xml:lang="pt">Designação de Objeto Conceitual</rdfs:label>
-	<rdfs:label xml:lang="zh">概念物件称号</rdfs:label>
-	<rdfs:comment>This class comprises appellations that are by their form or syntax specific to identifying instances of E28 Conceptual Object, such as intellectual products, standardized patterns etc.</rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E41_Appellation"/>
-</rdfs:Class>
+
 <rdfs:Class rdf:about="E77_Persistent_Item">
 	<rdfs:label xml:lang="en">Persistent Item</rdfs:label>
     <rdfs:label xml:lang="ru">Постоянная Сущность</rdfs:label>
@@ -1080,9 +941,9 @@ The criteria that determine the identity of an item are often difficult to estab
 The main classes of objects that fall outside the scope the E77 Persistent Item class are temporal objects such as periods, events and acts, and descriptive properties. </rdfs:comment>
 	<rdfs:subClassOf rdf:resource="E1_CRM_Entity"/>
 </rdfs:Class>
-<rdfs:Class rdf:about="E78_Collection">
+<rdfs:Class rdf:about="E78_Curated_Holding">
 	<rdfs:label xml:lang="ru">Коллекция</rdfs:label>
-    <rdfs:label xml:lang="el">Συλλογή</rdfs:label>
+	<rdfs:label xml:lang="el">Συλλογή</rdfs:label>
     <rdfs:label xml:lang="fr">Collection</rdfs:label>
     <rdfs:label xml:lang="en">Collection</rdfs:label>
     <rdfs:label xml:lang="de">Sammlung</rdfs:label>
@@ -1134,19 +995,7 @@ Although the old and the new instances of E77 Persistent Item are treated as dis
 	<rdfs:subClassOf rdf:resource="E63_Beginning_of_Existence"/>
 	<rdfs:subClassOf rdf:resource="E64_End_of_Existence"/>
 </rdfs:Class>
-<rdfs:Class rdf:about="E82_Actor_Appellation">
-	<rdfs:label xml:lang="en">Actor Appellation</rdfs:label>
-	<rdfs:label xml:lang="ru">Обозначение Агента</rdfs:label>
-	<rdfs:label xml:lang="el">Ονομασία Δράστη</rdfs:label>
-    <rdfs:label xml:lang="fr">Appellation d'agent</rdfs:label>
-    <rdfs:label xml:lang="de">Akteurbenennung</rdfs:label>
-	<rdfs:label xml:lang="pt">Designação de Agente</rdfs:label>
-	<rdfs:label xml:lang="zh">角色称号</rdfs:label>
-	<rdfs:comment>This class comprises any sort of name, number, code or symbol characteristically used to identify an E39 Actor. 
-An E39 Actor will typically have more than one E82 Actor Appellation, and instances of E82 Actor Appellation in turn may have alternative representations. The distinction between corporate and personal names, which is particularly important in library applications, should be made by explicitly linking the E82 Actor Appellation to an instance of either E21 Person or E74 Group/E40 Legal Body. If this is not possible, the distinction can be made through the use of the P2 has type mechanism. 
-</rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E41_Appellation"/>
-</rdfs:Class>
+
 <rdfs:Class rdf:about="E83_Type_Creation">
 <rdfs:label xml:lang="de">Typuserfindung</rdfs:label>
     <rdfs:label xml:lang="ru">Создание Типа</rdfs:label>
@@ -1160,19 +1009,7 @@ It is typically a rigorous scholarly or scientific process that ensures a type i
 </rdfs:comment>
 	<rdfs:subClassOf rdf:resource="E65_Creation"/>
 </rdfs:Class>
-<rdfs:Class rdf:about="E84_Information_Carrier">
-<rdfs:label xml:lang="el">Φορέας Πληροφορίας</rdfs:label>
-   <rdfs:label xml:lang="en">Information Carrier</rdfs:label>
-   <rdfs:label xml:lang="ru">Носитель Информации</rdfs:label>
-    <rdfs:label xml:lang="fr">Support d'information</rdfs:label>
-    <rdfs:label xml:lang="de">Informationsträger</rdfs:label>
-	<rdfs:label xml:lang="pt">Suporte de Informação</rdfs:label>
-	<rdfs:label xml:lang="zh">信息载体</rdfs:label>
-	<rdfs:comment>This class comprises all instances of E22 Man-Made Object that are explicitly designed to act as persistent physical carriers for instances of E73 Information Object.
-An E84 Information Carrier may or may not contain information, e.g., a diskette. Note that any E18 Physical Thing may carry information, such as an E34 Inscription. However, unless it was specifically designed for this purpose, it is not an Information Carrier. Therefore the property P128 carries (is carried by) applies to E18 Physical Thing in general.
-	</rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E22_Man-Made_Object"/>
-</rdfs:Class>
+
 <rdfs:Class rdf:about="E85_Joining">
 	<rdfs:label xml:lang="de">Beitritt</rdfs:label>
 	<rdfs:label xml:lang="en">Joining</rdfs:label>
@@ -1243,6 +1080,37 @@ This class can be used to define temporal snapshots at a particular time-span, s
 </rdfs:comment>
 	<rdfs:subClassOf rdf:resource="E92_Spacetime_Volume"/>
 </rdfs:Class>
+
+<!-- 94 and 95 are Literals -->
+
+<rdfs:Class rdf:about="E96_Purchase">
+	<rdfs:label xml:lang="en">Purchase</rdfs:label>
+	<rdfs:comment>This class comprises transfers of legal ownership from one or more instances of E39 Actor to one or more different instances of E39 Actor, where the transferring party is completely compensated by the payment of a monetary amount. In more detail, a purchase agreement establishes a fixed monetary obligation at its initialization on the receiving party, to the giving party. An instance of E96 Purchase begins with the contract or equivalent agreement and ends with the fulfilment of all contractual obligations. In the case that the activity is abandoned before both parties have fulfilled these obligations, the activity is not regarded as an instance of E96 Purchase. This class is a very specific case of the much more complex social business practices of exchange of goods and the creation and satisfaction of related social obligations. Purchase activities which define individual sales prices per object can be modelled by instantiating E96 Purchase for each object individually and as part of an overall E96 Purchase transaction.</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="E8_Acquisition"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:about="E97_Monetary_Amount">
+    <rdfs:label xml:lang="en">Monetary Amount</rdfs:label>
+    <rdfs:comment>This class comprises quantities of monetary possessions or obligations in terms of their nominal value with respect to a particular currency. These quantities may be abstract accounting units, the nominal value of a heap of coins or bank notes at the time of validity of the respective currency, the nominal value of a bill of exchange or other documents expressing monetary claims or obligations.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="E54_Dimension"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:about="E98_Currency">
+    <rdfs:label xml:lang="en">Currency</rdfs:label>
+    <rdfs:comment>This class comprises the units in which a monetary system, supported by an administrative authority or other community, quantifies and arithmetically compares all monetary amounts declared in the unit. The unit of a monetary system must describe a nominal value which is kept constant by its administrative authority and an associated banking system if it exists, and not by market value. For instance, one may pay with grams of gold, but the respective monetary amount would have been agreed as the gold price in US dollars on the day of the payment. Under this definition, British Pounds, U.S. Dollars, and European Euros are examples of currency, but “grams of gold” is not. One monetary system has one and only one currency. Instances of this class must not be confused with coin denominations, such as “Dime” or “Sestertius”. Non-monetary exchange of value in terms of quantities of a particular type of goods, such as cows, do not constitute a currency.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="E55_Type"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:about="E99_Product_Type">
+    <rdfs:label xml:lang="en">Product Type</rdfs:label>
+    <rdfs:comment>This classes comprises types that stand as the models for instances of E22 Man-Made Object that are produced as the result of production activities using plans exact enough to result in one or more series of uniform, functionally and aesthetically identical and interchangeable items. The product type is the intended ideal form of the manufacture process. It is typical of instances of E22 that conform to an instance of E99 Product Type that its component parts are interchangeable with component parts of other instances of E22 made after the model of the same instance of E99. Frequently, the uniform production according to a set E99 Product Type is achieved by creating individual tools, such as moulds or print plates that are themselves carriers of the design of the product type. Modern tools may use the flexibility of electronically controlled devices to achieve such uniformity. The product type itself, i.e., the potentially unlimited series of aesthetically equivalent items, may be the target of artistic design, rather than the individual object. In extreme cases, only one instance of a product type may have been produced, such as in a "print on demand" process which was only triggered once. However, this should not be confused with industrial prototypes, such as car prototypes, which are produced prior to the production line being set up, or test the production line itself.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="E55_Type"/>
+</rdfs:Class>
+
+
+
+
+<!-- Properties -->
 
 <rdf:Property rdf:about="P1_is_identified_by">
 	<rdfs:label xml:lang="el">αναγνωρίζεται ως</rdfs:label>
@@ -2892,14 +2760,13 @@ For a more complete description, objects may be decomposed into their components
 	<rdfs:label xml:lang="pt">tem designação de seção</rdfs:label>
 	<rdfs:label xml:lang="zh">有区域定义</rdfs:label>
 	
-	<rdfs:comment>This property links an area (section) named by a E46 Section Definition to the instance of E18 Physical Thing upon which it is found.
-The CRM handles sections as locations (instances of E53 Place) within or on E18 Physical Thing that are identified by E46 Section Definitions. Sections need not be discrete and separable components or parts of an object.
-This is part of a more developed path from E18 Physical Thing through P58, E46 Section Definition, P87 is identified by (identifies) that allows a more precise definition of a location found on an object than the shortcut P59 has section (is located on or within).
-A particular instance of a Section Definition only applies to one instance of Physical Thing.</rdfs:comment>
+	<rdfs:comment>This property links an area (section) named by a E41 Appellation to the instance of E18 Physical Thing upon which it is found.
+The CRM handles sections as locations (instances of E53 Place) within or on E18 Physical Thing that are identified by E41 Appellations. Sections need not be discrete and separable components or parts of an object.
+This is part of a more developed path from E18 Physical Thing through P58, E41 Appellation, P87 is identified by (identifies) that allows a more precise definition of a location found on an object than the shortcut P59 has section (is located on or within).
+A particular instance of a section definition only applies to one instance of Physical Thing.</rdfs:comment>
 	<rdfs:domain rdf:resource="E18_Physical_Thing"/>
-	<rdfs:range rdf:resource="E46_Section_Definition"/>
+	<rdfs:range rdf:resource="E41_Appellation"/>
 </rdf:Property>
-
 
 <rdf:Property rdf:about="P58i_defines_section">
 	<rdfs:label xml:lang="ru">определяет район</rdfs:label>
@@ -2910,7 +2777,7 @@ A particular instance of a Section Definition only applies to one instance of Ph
 	<rdfs:label xml:lang="pt">define uma seção de</rdfs:label>
 	<rdfs:label xml:lang="zh">界定了区域於</rdfs:label>
 
-	<rdfs:domain rdf:resource="E46_Section_Definition"/>
+	<rdfs:domain rdf:resource="E41_Appellation"/>
 	<rdfs:range rdf:resource="E18_Physical_Thing"/>
 </rdf:Property>
 
@@ -2924,9 +2791,9 @@ A particular instance of a Section Definition only applies to one instance of Ph
 	<rdfs:label xml:lang="pt">tem seção</rdfs:label>
 	<rdfs:label xml:lang="zh">有区域</rdfs:label>
 	<rdfs:comment>This property links an area to the instance of E18 Physical Thing upon which it is found.
-It is typically used when a named E46 Section Definition is not appropriate.
+It is typically used when a named E41 Appellation is not appropriate.
 E18 Physical Thing may be subdivided into arbitrary regions. 
-P59 has section (is located on or within) is a shortcut. If the E53 Place is identified by a Section Definition, a more detailed representation can make use of the fully developed (i.e. indirect) path from E18 Physical Thing through P58 has section definition (defines section), E46 Section Definition, P87 is identified by (identifies) to E53 Place. A Place can only be located on or within one Physical Object.
+P59 has section (is located on or within) is a shortcut. If the E53 Place is identified by a Section Definition, a more detailed representation can make use of the fully developed (i.e. indirect) path from E18 Physical Thing through P58 has section definition (defines section), E41 Appellation, P87 is identified by (identifies) to E53 Place. A Place can only be located on or within one Physical Object.
 </rdfs:comment>
 	<rdfs:domain rdf:resource="E18_Physical_Thing"/>
 	<rdfs:range rdf:resource="E53_Place"/>
@@ -2997,7 +2864,6 @@ This property is part of the fully developed path from E24 Physical Man-Made Thi
 	<rdfs:range rdf:resource="E36_Visual_Item"/>
 	<rdfs:subPropertyOf rdf:resource="P128_carries"/>
 </rdf:Property>
-
 
 <rdf:Property rdf:about="P65i_is_shown_by">
 	<rdfs:label xml:lang="de">wird gezeigt durch</rdfs:label>
@@ -3289,7 +3155,7 @@ The residence may be either the Place where the Actor resides, or a legally regi
 	<rdfs:comment>This property identifies an E51 Contact Point of any type that provides access to an E39 Actor by any communication method, such as e-mail or fax.
 </rdfs:comment>
 	<rdfs:domain rdf:resource="E39_Actor"/>
-	<rdfs:range rdf:resource="E51_Contact_Point"/>
+	<rdfs:range rdf:resource="E41_Appellation"/>
 </rdf:Property>
 
 <rdf:Property rdf:about="P76i_provides_access_to">
@@ -3301,37 +3167,8 @@ The residence may be either the Place where the Actor resides, or a legally regi
 	<rdfs:label xml:lang="pt">é ponto de contado de</rdfs:label>
 	<rdfs:label xml:lang="zh">被用来联系</rdfs:label>
 
-	<rdfs:domain rdf:resource="E51_Contact_Point"/>
+	<rdfs:domain rdf:resource="E41_Appellation"/>
 	<rdfs:range rdf:resource="E39_Actor"/>
-</rdf:Property>
-
-<rdf:Property rdf:about="P78_is_identified_by">
-	<rdfs:label xml:lang="el">αναγνωρίζεται ως</rdfs:label>
-	<rdfs:label xml:lang="fr">est identifiée par</rdfs:label>
-    <rdfs:label xml:lang="en">is identified by</rdfs:label>
-    <rdfs:label xml:lang="ru">идентифицируется посредством</rdfs:label>
-    <rdfs:label xml:lang="de">wird bezeichnet als</rdfs:label>
-	<rdfs:label xml:lang="pt">é identificado por </rdfs:label>
-	<rdfs:label xml:lang="zh">有识别称号</rdfs:label>
-
-	<rdfs:comment>This property identifies an E52 Time-Span using an E49Time Appellation.</rdfs:comment>
-	<rdfs:domain rdf:resource="E52_Time-Span"/>
-	<rdfs:range rdf:resource="E49_Time_Appellation"/>
-	<rdfs:subPropertyOf rdf:resource="P1_is_identified_by"/>
-</rdf:Property>
-
-<rdf:Property rdf:about="P78i_identifies">
-	<rdfs:label xml:lang="en">identifies</rdfs:label>
-	<rdfs:label xml:lang="de">bezeichnet</rdfs:label>
-	<rdfs:label xml:lang="fr">identifie</rdfs:label>
-    <rdfs:label xml:lang="el">είναι αναγνωριστικό</rdfs:label>
-    <rdfs:label xml:lang="ru">идентифицирует</rdfs:label>
-	<rdfs:label xml:lang="pt">identifica</rdfs:label>
-	<rdfs:label xml:lang="zh">被用来识别</rdfs:label>
-
-	<rdfs:domain rdf:resource="E49_Time_Appellation"/>
-	<rdfs:range rdf:resource="E52_Time-Span"/>
-	<rdfs:subPropertyOf rdf:resource="P1i_identifies"/>
 </rdf:Property>
 
 <rdf:Property rdf:about="P79_beginning_is_qualified_by">
@@ -3483,37 +3320,6 @@ This property supports the notion that a Time-Span’s temporal extent falls wit
 	
 	<rdfs:domain rdf:resource="E52_Time-Span"/>
 	<rdfs:range rdf:resource="E52_Time-Span"/>
-</rdf:Property>
-
-<rdf:Property rdf:about="P87_is_identified_by">
-	<rdfs:label xml:lang="el">αναγνωρίζεται ως</rdfs:label>
-	<rdfs:label xml:lang="en">is identified by</rdfs:label>
-	<rdfs:label xml:lang="ru">идентифицируется посредством</rdfs:label>
-    <rdfs:label xml:lang="fr">est identifié par</rdfs:label>
-	<rdfs:label xml:lang="de">wird bezeichnet als</rdfs:label>
-	<rdfs:label xml:lang="pt">é identificado por</rdfs:label>
-	<rdfs:label xml:lang="zh">有辨认码</rdfs:label>
-
-	<rdfs:comment>This property identifies an E53 Place using an E44 Place Appellation. 
-Examples of Place Appellations used to identify Places include instances of E48 Place Name, addresses, E47 Spatial Coordinates etc.
-</rdfs:comment>
-	<rdfs:domain rdf:resource="E53_Place"/>
-	<rdfs:range rdf:resource="E44_Place_Appellation"/>
-	<rdfs:subPropertyOf rdf:resource="P1_is_identified_by"/>
-</rdf:Property>
-
-<rdf:Property rdf:about="P87i_identifies">
-	<rdfs:label xml:lang="de">bezeichnet</rdfs:label>
-    <rdfs:label xml:lang="el">είναι αναγνωριστικό</rdfs:label>
-	<rdfs:label xml:lang="ru">идентифицирует</rdfs:label>
-    <rdfs:label xml:lang="fr">identifie</rdfs:label>
-    <rdfs:label xml:lang="en">identifies</rdfs:label>
-	<rdfs:label xml:lang="pt">identifica</rdfs:label>
-	<rdfs:label xml:lang="zh">被用来辨认</rdfs:label>
-	
-	<rdfs:domain rdf:resource="E44_Place_Appellation"/>
-	<rdfs:range rdf:resource="E53_Place"/>
-	<rdfs:subPropertyOf rdf:resource="P1i_identifies"/>
 </rdf:Property>
 
 <rdf:Property rdf:about="P89_falls_within">
@@ -4114,7 +3920,7 @@ The identity of an instance of E24 Physical Man-Made Thing is not defined by its
 
 It does not allow a history of curation to be recorded. This would require use of an Event  initiating a curator being responsible for  a Collection.
 </rdfs:comment>
-	<rdfs:domain rdf:resource="E78_Collection"/>
+	<rdfs:domain rdf:resource="E78_Curated_Holding"/>
 	<rdfs:range rdf:resource="E39_Actor"/>
 	<rdfs:subPropertyOf rdf:resource="P49_has_former_or_current_keeper"/>
 </rdf:Property>
@@ -4129,7 +3935,7 @@ It does not allow a history of curation to be recorded. This would require use o
 	<rdfs:label xml:lang="zh">目前或曾经典藏管理</rdfs:label>
 
 	<rdfs:domain rdf:resource="E39_Actor"/>
-	<rdfs:range rdf:resource="E78_Collection"/>
+	<rdfs:range rdf:resource="E78_Curated_Holding"/>
 	<rdfs:subPropertyOf rdf:resource="P49i_is_former_or_current_keeper_of"/>
 </rdf:Property>
 
@@ -4470,6 +4276,8 @@ This property is purely spatial, in contrast to Allen operators, which are purel
 	<rdfs:range rdf:resource="E53_Place"/>
 </rdf:Property>
 
+<!-- Updated to use E18 Physical Thing, not E77 -->
+
 <rdf:Property rdf:about="P123_resulted_in">
 	<rdfs:label xml:lang="fr">a eu pour résultat</rdfs:label>
 	<rdfs:label xml:lang="de">ergab</rdfs:label>
@@ -4482,7 +4290,7 @@ This property is purely spatial, in contrast to Allen operators, which are purel
 New items replace the transformed item or items, which cease to exist as units of documentation. The physical continuity between the old and the new is expressed by the link to the common Transformation.
 </rdfs:comment>
 	<rdfs:domain rdf:resource="E81_Transformation"/>
-	<rdfs:range rdf:resource="E77_Persistent_Item"/>
+	<rdfs:range rdf:resource="E18_Physical_Thing"/>
 	<rdfs:subPropertyOf rdf:resource="P92_brought_into_existence"/>
 </rdf:Property>
 
@@ -4494,7 +4302,7 @@ New items replace the transformed item or items, which cease to exist as units o
 	<rdfs:label xml:lang="en">resulted from</rdfs:label>
 	<rdfs:label xml:lang="pt">resultado de</rdfs:label>
 	<rdfs:label xml:lang="zh">肇因於</rdfs:label>
-	<rdfs:domain rdf:resource="E77_Persistent_Item"/>
+	<rdfs:domain rdf:resource="E18_Physical_Thing"/>
 	<rdfs:range rdf:resource="E81_Transformation"/>
 	<rdfs:subPropertyOf rdf:resource="P92i_was_brought_into_existence_by"/>
 </rdf:Property>
@@ -4511,7 +4319,7 @@ New items replace the transformed item or items, which cease to exist as units o
 It is replaced by the result of the Transformation, which becomes a new unit of documentation. The continuity between both items, the new and the old, is expressed by the link to the common Transformation.
 </rdfs:comment>
 	<rdfs:domain rdf:resource="E81_Transformation"/>
-	<rdfs:range rdf:resource="E77_Persistent_Item"/>
+	<rdfs:range rdf:resource="E18_Physical_Thing"/>
 	<rdfs:subPropertyOf rdf:resource="P93_took_out_of_existence"/>
 </rdf:Property>
 
@@ -4524,7 +4332,7 @@ It is replaced by the result of the Transformation, which becomes a new unit of 
 	<rdfs:label xml:lang="pt">foi transformado por</rdfs:label>
 	<rdfs:label xml:lang="zh">被转变於</rdfs:label>
 	
-	<rdfs:domain rdf:resource="E77_Persistent_Item"/>
+	<rdfs:domain rdf:resource="E18_Physical_Thing"/>
 	<rdfs:range rdf:resource="E81_Transformation"/>
 	<rdfs:subPropertyOf rdf:resource="P93i_was_taken_out_of_existence_by"/>
 </rdf:Property>
@@ -4697,34 +4505,7 @@ between two objects only, without historical knowledge about its reasons.
 	<rdfs:range rdf:resource="E70_Thing"/>
 </rdf:Property>
 
-<rdf:Property rdf:about="P131_is_identified_by">
-	<rdfs:label xml:lang="el">αναγνωρίζεται ως</rdfs:label>
-	<rdfs:label xml:lang="de">wird identifziert durch</rdfs:label>
-	<rdfs:label xml:lang="en">is identified by</rdfs:label>
-	<rdfs:label xml:lang="fr">est identifié par</rdfs:label>
-	<rdfs:label xml:lang="ru">идентифицируется посредством</rdfs:label>
-	<rdfs:label xml:lang="pt">é identificado por</rdfs:label>
-	<rdfs:label xml:lang="zh">有称号</rdfs:label>
-	<rdfs:comment>This property identifies a name used specifically to identify an E39 Actor. 
-This property is a specialisation of P1 is identified by (identifies) is identified by.
-</rdfs:comment>
-	<rdfs:domain rdf:resource="E39_Actor"/>
-	<rdfs:range rdf:resource="E82_Actor_Appellation"/>
-	<rdfs:subPropertyOf rdf:resource="P1_is_identified_by"/>
-</rdf:Property>
 
-<rdf:Property rdf:about="P131i_identifies">
-	<rdfs:label xml:lang="fr">identifie</rdfs:label>
-	<rdfs:label xml:lang="en">identifies</rdfs:label>
-	<rdfs:label xml:lang="el">είναι αναγνωριστικό</rdfs:label>
-	<rdfs:label xml:lang="ru">идентифицирует</rdfs:label>
-	<rdfs:label xml:lang="de">identifiziert</rdfs:label>
-	<rdfs:label xml:lang="pt">identifica</rdfs:label>
-	<rdfs:label xml:lang="zh">被用来识别</rdfs:label>
-	<rdfs:domain rdf:resource="E82_Actor_Appellation"/>
-	<rdfs:range rdf:resource="E39_Actor"/>
-	<rdfs:subPropertyOf rdf:resource="P1i_identifies"/>
-</rdf:Property>
 
 <rdf:Property rdf:about="P132_overlaps_with">
 	<rdfs:label xml:lang="el">επικαλύπτεται με</rdfs:label>
@@ -5077,14 +4858,14 @@ Although a Leaving activity normally concerns only one instance of E74 Group, it
 	<rdfs:comment>This property associates an instance of E87 Curation Activity with the instance of E78 Collection that is subject of that  curation activity.
 </rdfs:comment>
 	<rdfs:domain rdf:resource="E87_Curation_Activity"/>
-	<rdfs:range rdf:resource="E78_Collection"/>
+	<rdfs:range rdf:resource="E78_Curated_Holding"/>
 </rdf:Property>
 
 <rdf:Property rdf:about="P147i_was_curated_by">
 	<rdfs:label xml:lang="en">was curated by</rdfs:label>
 	<rdfs:label xml:lang="de">wurde kuratorisch betreut durch</rdfs:label>
 	<rdfs:label xml:lang="zh">被典藏管理於</rdfs:label>
-	<rdfs:domain rdf:resource="E78_Collection"/>
+	<rdfs:domain rdf:resource="E78_Curated_Holding"/>
 	<rdfs:range rdf:resource="E87_Curation_Activity"/>
 </rdf:Property>
 
@@ -5103,21 +4884,6 @@ Although a Leaving activity normally concerns only one instance of E74 Group, it
 	<rdfs:label xml:lang="zh">被用来组成</rdfs:label>
 	<rdfs:domain rdf:resource="E89_Propositional_Object"/>
 	<rdfs:range rdf:resource="E89_Propositional_Object"/>
-</rdf:Property>
-
-<rdf:Property rdf:about="P149_is_identified_by">
-	<rdfs:label xml:lang="en">is identified by</rdfs:label>
-	<rdfs:comment>This property identifies an instance of E28 Conceptual Object using an instance of E75 Conceptual Object Appellation.</rdfs:comment>
-	<rdfs:domain rdf:resource="E28_Conceptual_Object"/>
-	<rdfs:range rdf:resource="E75_Conceptual_Object_Appellation"/>
-	<rdfs:subPropertyOf rdf:resource="P1_is_identified_by"/>
-</rdf:Property>
-
-<rdf:Property rdf:about="P149i_identifies">
-	<rdfs:label xml:lang="en">identifies</rdfs:label>
-	<rdfs:domain rdf:resource="E75_Conceptual_Object_Appellation"/>
-	<rdfs:range rdf:resource="E28_Conceptual_Object"/>
-	<rdfs:subPropertyOf rdf:resource="P1i_identifies"/>
 </rdf:Property>
 
 <rdf:Property rdf:about="P150_defines_typical_parts_of">
@@ -5301,6 +5067,283 @@ A digital photograph of a manuscript page incorporates the text of the manuscrip
 	<rdfs:domain rdf:resource="E92_Spacetime_Volume"/>
 	<rdfs:range rdf:resource="E53_Place"/>
 </rdf:Property>
+
+
+<!-- 6.2.4 Properties -->
+
+<rdf:Property rdf:about="P169i_spacetime_volume_is_defined_by">
+    <rdfs:label xml:lang="en">spacetime volume is defined by</rdfs:label>
+    <rdfs:comment>This property associates an instance of E95 Spacetime Primitive with the instance of E92 Spacetime Volume it defines.</rdfs:comment>
+    <rdfs:domain rdf:resource="E92_Spacetime_Volume"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P170i_time_is_defined_by">
+    <rdfs:label xml:lang="en">time is defined by</rdfs:label>
+    <rdfs:comment>This property associates an instance of E61 Time Primitive with the instance of E52 Time Span it defines.</rdfs:comment>
+    <rdfs:domain rdf:resource="E52_Time-Span"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P171_at_some_place_within">
+    <rdfs:label xml:lang="en">at some place within</rdfs:label>
+    <rdfs:comment>This property describes the maximum spatial extent within which an E53 Place falls. Since instances of E53 Places may not have precisely known spatial extents, the CRM supports statements about maximum spatial extents of E53 Places . This property allows an instance of an E53 Places’s maximum spatial extent (i.e. its outer boundary) to be assigned an E94 Space Primitive value. P171 at some place within is a shortcut of the fully developed path E53 Place, P89 falls within, E53 Place, P168 place is defined by, E94 Space Primitive through a not represented declarative Place as defined in CRMgeo (Doerr and Hiebel 2013) to a Space Primitive.</rdfs:comment>
+    <rdfs:domain rdf:resource="E53_Place"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P172_contains">
+    <rdfs:label xml:lang="en">contains</rdfs:label>
+    <rdfs:comment>This property describes a minimum spatial extent which is contained within an E53 Place. Since instances of E53 Place may not have precisely known spatial extents, the CRM supports statements about minimum spatial extents of instances of E53 Place. This property allows an instance of E53 Places’s minimum spatial extent (i.e. its inner boundary or a point being within a Place) to be as signed an E94 Space Primitive value. This property is a shortcut of the fully developed path: E53 Place, P89i contains, E53 Place, P168 place is defined by, E94 Space Primitive.</rdfs:comment>
+    <rdfs:domain rdf:resource="E53_Place"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P173_starts_before_or_with_the_end_of">
+    <rdfs:label xml:lang="en">starts before or with the end of</rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity starts before or simultaneously with the end of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Astart ≤ Bend is true.
+ This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to the disjunction (logical OR) of the following Allen temporal relations [Allen, 1983]: {before, meets, met-by, overlaps, starts, started-by, contains, finishes, finished-by, equals, during, overlapped by}</rdfs:comment>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P173i_ends_after_or_with_the_start_of">
+    <rdfs:label xml:lang="en">ends after or with the start of</rdfs:label>
+    <rdfs:comment>The inverse relationship of P173</rdfs:comment>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P174_starts_before_the_end_of">
+    <rdfs:label xml:lang="en">starts before the end of</rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity starts definitely before the end of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Astart &lt; Bend is true. This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to a disjunction (logical OR) of the following Allen temporal relations [Allen, 1983] :{before, meets, overlaps, starts, started-by, contains, finishes, finished-by, equals, during, overlapped by} Typically, this property is a consequence of a known influence of some event on another event or activity, such as a novel written by someone being continued by someone else, or the knowledge of a defeat on a distant battlefield causing people to end their ongoing activities</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P173_starts_before_or_with_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P174i_ends_after_the_start_of">
+    <rdfs:label xml:lang="en">ends after the start of</rdfs:label>
+    <rdfs:comment>The inverse relationship of P174</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P173i_ends_after_or_with_the_start_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P175_starts_before_or_with_the_start_of">
+    <rdfs:label xml:lang="en">starts before or with the start of</rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity starts before or simultaneously with the start of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Astart ≤ Bstart is true. This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to a disjunction (logical OR) of the following Allen temporal relations [Allen, 1983]: {before, meets, overlaps, starts, started-by, contains, finished-by, equals}</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P174_starts_before_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P175i_starts_with_or_after_the_start_of">
+    <rdfs:label xml:lang="en">starts with or after the start of</rdfs:label>
+    <rdfs:comment>The inverse relationship of P175</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P174i_ends_after_the_start_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P176_starts_before_the_start_of">
+    <rdfs:label xml:lang="en">starts before the start of</rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity starts definitely before the start of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Astart &lt; Bstart is true. This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to a disjunction (logical OR) of the following Allen temporal relations [Allen, 1983]: {before, meets, overlaps, contains, finished-by}</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P175_starts_before_of_with_the_start_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P176i_starts_after_the_start_of">
+    <rdfs:label xml:lang="en">starts after the start of</rdfs:label>
+    <rdfs:comment>The inverse relationship of P176</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P175i_starts_with_or_after_the_start_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P179_had_sales_price">
+    <rdfs:label xml:lang="en">had sales price</rdfs:label>
+    <rdfs:comment>This property establishes the relationship between an instance of E96 Purchase and the instance of E97 Monetary Amount that forms the compensation for the transaction.</rdfs:comment>
+    <rdfs:domain rdf:resource="E96_Purchase"/>
+    <rdfs:range rdf:resource="E97_Monetary_Amount"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P179i_was_sales_price_of">
+    <rdfs:label xml:lang="en">was sales price of</rdfs:label>
+    <rdfs:comment>The inverse relationship of P179</rdfs:comment>
+    <rdfs:domain rdf:resource="E97_Monetary_Amount"/>
+    <rdfs:range rdf:resource="E96_Purchase"/>
+</rdf:Property>
+
+
+<rdf:Property rdf:about="P180_has_currency">
+    <rdfs:label xml:lang="en">has currency</rdfs:label>
+    <rdfs:comment xml:lang="en">This property establishes the relationship between an instance of E97 Monetary Amount and the currency that it is measured in.</rdfs:comment>
+    <rdfs:domain rdf:resource="E97_Monetary_Amount"/>
+    <rdfs:range rdf:resource="E98_Currency"/>
+    <rdfs:subPropertyOf rdf:resource="P91_has_unit"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P180i_was_currency_of">
+    <rdfs:label xml:lang="en">was currency of</rdfs:label>
+    <rdfs:comment>Inverse of P180</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P91i_is_unit_of"/>
+    <rdfs:domain rdf:resource="E98_Currency"/>
+    <rdfs:range rdf:resource="E97_Monetary_Amount"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P181_has_amount">
+    <rdfs:label xml:lang="en">has amount</rdfs:label>
+    <rdfs:comment xml:lang="en">This property establishes the relationship between an instance of E97 Monetary Amount and the amount of currency that it consists of.</rdfs:comment>
+    <rdfs:domain rdf:resource="E97_Monetary_Amount"/>   
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <rdfs:subPropertyOf rdf:resource="P90_has_value"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P182_ends_before_of_at_the_start_of">
+    <rdfs:label xml:lang="en">ends before or at the start of</rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity ends before or simultaneously with the start of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Aend ≤ Bstart is true. This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to a disjunction (logical OR) of the following Allen temporal relations [Allen, 1983]: {before, meets}</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P176_starts_before_the_start_of"/>
+    <rdfs:subPropertyOf rdf:resource="P185_ends_before_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P182i_starts_with_or_after_the_end_of">
+    <rdfs:label xml:lang="en">starts with or after the end of</rdfs:label>
+    <rdfs:comment>Inverse of P182</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P176i_starts_after_the_start_of"/>
+    <rdfs:subPropertyOf rdf:resource="P185i_ends_after_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P183_ends_before_the_start_of">
+    <rdfs:label xml:lang="en">ends before the start of</rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity ends definitely before
+the start of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Aend &lt; Bstart is true. This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to a disjunction (logical OR) of the following Allen temporal relations [Allen, 1983]: {before}</rdfs:comment>
+	<rdfs:subPropertyOf rdf:resource="P182_ends_before_of_at_the_start_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P183i_starts_after_the_end_of">
+    <rdfs:label xml:lang="en">starts after the end of</rdfs:label>
+    <rdfs:comment>Inverse of P183</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P182i_starts_with_or_after_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property> 
+
+<rdf:Property rdf:about="P184_ends_before_or_with_the_end_of">
+    <rdfs:label xml:lang="en">ends before or with the end of</rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity ends before or simultaneously with the end of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Aend ≤ Bend is true. This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to a disjunction (logical OR) of the following Allen temporal relations [Allen, 1983]: {before, meets, overlaps, finished by, start, equals, during, finishes}</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P174_starts_before_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P184i_ends_with_or_after_the_end_of">
+    <rdfs:label xml:lang="en">ends with or after the end of</rdfs:label>
+    <rdfs:comment>Inverse of P184</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P174i_ends_after_the_start_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P185_ends_before_the_end_of">
+    <rdfs:label xml:lang="en">ends before the end of</rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity ends definitely before the end of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Aend &lt; Bend is true. This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to a disjunction (logical OR) of the following Allen temporal relations [Allen, 1983]: {before, meets, overlaps, starts, during}</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P184_ends_before_or_with_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P185i_ends_after_the_end_of">
+    <rdfs:label xml:lang="en">ends after the end of</rdfs:label>
+    <rdfs:comment>Inverse of P185</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P184i_ends_with_or_after_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P186_produced_thing_of_product_type">
+    <rdfs:label xml:lang="en">produced thing of product type</rdfs:label>
+    <rdfs:comment>This property associates an instance of E12 Production with the instance of E99 Production Type,
+that is, the type of the things it produces.</rdfs:comment>
+    <rdfs:domain rdf:resource="E12_Production"/>
+    <rdfs:range rdf:resource="E99_Product_Type"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P186i_is_produced_by">
+    <rdfs:label xml:lang="en">is produced by</rdfs:label>
+    <rdfs:comment>Inverse of P186</rdfs:comment>
+    <rdfs:domain rdf:resource="E99_Product_Type"/>
+    <rdfs:range rdf:resource="E12_Production"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P187_has_production_plan">
+    <rdfs:label xml:lang="en">has production plan</rdfs:label>
+    <rdfs:comment>This property associates an instance of E99 Product Type with an instance of E29 Design or Procedure that completely determines the production of instances of E18 Physical Thing. The resulting instances of E18 Physical Thing are considered exemplars of this instance of E99 Product Type when the process specified is correctly executed. Note that the respective instance of E29 Design or Procedure may not necessarily be fixed in a written/graphical form, and may require the use of tools or models unique to the product type. The same E99 Product Type may be associated with several variant plans.</rdfs:comment>
+    <rdfs:domain rdf:resource="E99_Product_Type"/>
+    <rdfs:range rdf:resource="E29_Design_or_Procedure"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P187i_is_production_plan_for">
+    <rdfs:label xml:lang="en">is production plan for</rdfs:label>
+    <rdfs:comment>Inverse of P187</rdfs:comment>
+    <rdfs:domain rdf:resource="E29_Design_or_Procedure"/>
+    <rdfs:range rdf:resource="E99_Product_Type"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P188_requires_production_tool">
+    <rdfs:label xml:lang="en">requires production tool</rdfs:label>
+    <rdfs:comment>This property associates an instance of E99 Product Type with an instance of E19 Physical Object that is needed for the production of an instance of E18 Physical Thing. When the process of production is correctly executed in accordance with the plan and using the specified instance of E19 Physical Object, the resulting instance of E18 Physical Thing is considered an exemplar of this instance of E99 Product Type. The instance of E19 Physical Object may bear distinct features that are transformed into characteristic features of the resulting instance of E18 Physical Thing. Examples include models and moulds.</rdfs:comment>
+    <rdfs:domain rdf:resource="E99_Product_Type"/>
+    <rdfs:range rdf:resource="E19_Physical_Object"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P188i_is_production_tool_for">
+    <rdfs:label xml:lang="en">is production tool for</rdfs:label>
+    <rdfs:comment>Inverse of P188</rdfs:comment>
+    <rdfs:domain rdf:resource="E19_Physical_Object"/>
+    <rdfs:range rdf:resource="E99_Product_Type"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P189_approximates">
+    <rdfs:label xml:lang="en">approximates</rdfs:label>
+    <rdfs:comment>This property associates an instance of E53 Place with another instance of E53 Place, which is defined in the same reference space, and which is used to approximate the former. The property does not necessarily state the quality or accuracy of this approximation, but rather indicates the use of the first instance of place to approximate the second.
+In common documentation practice, find or encounter spots e.g. in archaeology, botany or zoology are often related to the closest village, river or other named place without detailing the relation, e.g. if it is located within the village or in a certain distance of the specified place. In this case the stated “phenomenal” place found in the documentation can be seen as approximation of the actual encounter spot without more specific knowledge.
+In more recent documentation often point coordinate information is provided that originates from GPS measurements or georeferencing from a map. This point coordinate information does not state the actual place of the encounter s pot but tries to approximate it with a “declarative” place. The accuracy depends on the methodology used when creating the coordinates. It may be dependent on technical limitations like GPS accuracy but also on the method where the GPS location is taken in relation to the measured feature. If the methodology is known a maximum deviation from the measured point can be calculated and the encounter or feature may be related to the resulting circle using the P171 at some place within property.</rdfs:comment>
+    <rdfs:domain rdf:resource="E53_Place"/>
+    <rdfs:range rdf:resource="E53_Place"/>
+</rdf:Property>
+
+<!-- 190-194 were temporarily filled by stuff moved out to CRMSoc -->
+
+<rdf:Property rdf:about="P190_has_symbolic_content">
+    <rdfs:label xml:lang="en">has symbolic content</rdfs:label>
+    <rdfs:comment>This property associates  an instance of E90 Symbolic Object with a complete, identifying representation of its content in the form of an instance of E62 String. This property only applies to instances of E90 Symbolic Object that can be represented completely in this form. The representation may be more specific than the symbolic level defining the identity condition of the represented. This depends on the type of the symbolic object represented. For instance, if a name has type "Modern Greek character sequence", it may be represented in a loss-free Latin transcription, meaning however the sequence of Greek letters. As another example, if the represented object has type "English words sequence", American English or British English spelling variants may be chosen to represent the English word "colour" without defining a different symbolic object. If a name has type "European traditional name", no particular string may define its content.</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P3_has_note"/>
+    <rdfs:domain rdf:resource="E90_Symbolic_Object"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</rdf:Property>
+
+
+<!-- RDF Specific terms beyond the scope of the CRM -->
+
+<!-- RDF Merge class for Linguistic Object and Appellation -->
+
+<rdfs:Class rdf:about="E33_E41_Linguistic_Appellation">
+  <rdfs:label xml:lang="en">Linguistic Appellation</rdfs:label>
+  <rdfs:comment>A merge class for situations beyond Title where both language and appellation are required.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="E33_Linguistic_Object"/>
+  <rdfs:subClassOf rdf:resource="E41_Appellation"/>
+</rdfs:Class>
+
+
+<!-- RDF DateTime Properties -->
 
 <rdf:Property rdf:about="P81a_end_of_the_begin">
 	<rdfs:label xml:lang="en">end of the begin</rdfs:label>

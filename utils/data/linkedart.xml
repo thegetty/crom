@@ -2,6 +2,8 @@
 
 <rdf:RDF xml:lang="en" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.cidoc-crm.org/cidoc-crm/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:la="https://linked.art/ns/" xmlns:schema="http://schema.org/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:ore="http://www.openarchives.org/ore/terms/">
 
+<!-- Many of these will go to CRM SOC in the future -->
+
 <rdfs:Class rdf:about="https://linked.art/ns/terms/Payment">
     <rdfs:label xml:lang="en">Payment</rdfs:label>
     <rdfs:comment>Payment of Money</rdfs:comment>
@@ -181,15 +183,5 @@
         <rdfs:domain rdf:resource="https://linked.art/ns/terms/Relationship"/>
         <rdfs:range rdf:resource="E1_CRM_Entity"/>
 </rdf:Property>
-
-<!-- Merge Classes -->
-
-<rdfs:Class rdf:about="https://linked.art/ns/terms/Name">
-    <rdfs:label xml:lang="en">Name</rdfs:label>
-    <rdfs:comment></rdfs:comment>
-    <rdfs:subClassOf rdf:resource="E41_Appellation"/>
-    <rdfs:subClassOf rdf:resource="E33_Linguistic_Object"/>
-</rdfs:Class>
-
 
 </rdf:RDF>

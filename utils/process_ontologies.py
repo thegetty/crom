@@ -95,6 +95,8 @@ def process_classes(dom):
 			ccname = "Geometry"
 		elif name == "geo:SP6_Declarative_Place":
 			ccname = "DeclarativePlace"
+		elif name == "E33_E41_Linguistic_Appellation":
+			ccname = "Name"
 		else:
 			# Assume that we've done our job okay and put in overrides for NSS
 			cidx = name.find(":")
@@ -121,7 +123,12 @@ def process_props(dom):
 		useflags = profile_flags.get(name, [0,0]) or [0,0]
 		propXHash[name] = [p, useflags[0]]
 
-		label = p.xpath('./rdfs:label[@xml:lang="en"]/text()', namespaces=NS)[0]
+		try:
+			label = p.xpath('./rdfs:label[@xml:lang="en"]/text()', namespaces=NS)[0]
+		except:
+			print p.xpath('./@rdf:about', namespaces=NS)
+			print p.xpath('./rdfs:label/text()', namespaces=NS)
+			raise ValueError
 		try:
 			comment = p.xpath('./rdfs:comment/text()', namespaces=NS)[0]
 			comment = comment.strip()

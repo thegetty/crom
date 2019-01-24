@@ -797,6 +797,32 @@
   <rdf:Property rdf:about="P168i_defines_place">
     <owl:inverseOf rdf:resource="P168_place_is_defined_by"/>
   </rdf:Property>
+  <rdf:Property rdf:about="P173_starts_before_or_with_the_end_of">
+    <owl:inverseOf rdf:resource="P173i_ends_after_or_with_the_start_of"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P173i_ends_after_or_with_the_start_of">
+    <owl:inverseOf rdf:resource="P173_starts_before_or_with_the_end_of"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="P174_starts_before_the_end_of">
+    <owl:inverseOf rdf:resource="P174i_ends_after_the_start_of"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P174i_ends_after_the_start_of">
+    <owl:inverseOf rdf:resource="P174_starts_before_the_end_of"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P175_starts_before_or_with_the_start_of">
+    <owl:inverseOf rdf:resource="P175i_starts_with_or_after_the_start_of"/>
+  </rdf:Property>
+    <rdf:Property rdf:about="P175i_starts_with_or_after_the_start_of">
+    <owl:inverseOf rdf:resource="P175_starts_before_or_with_the_start_of"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P176_starts_before_the_start_of">
+    <owl:inverseOf rdf:resource="P176i_starts_after_the_start_of"/>
+  </rdf:Property>
+    <rdf:Property rdf:about="P176i_starts_after_the_start_of">
+    <owl:inverseOf rdf:resource="P176_starts_before_the_start_of"/>
+  </rdf:Property>
+
   <rdf:Property rdf:about="P179_had_sales_price">
     <owl:inverseOf rdf:resource="P179i_was_sales_price_of"/>
   </rdf:Property>
@@ -809,4 +835,48 @@
   <rdf:Property rdf:about="P180i_was_currency_of">
     <owl:inverseOf rdf:resource="P180_has_currency"/>
   </rdf:Property>
+
+  <rdf:Property rdf:about="P182_ends_before_of_at_the_start_of">
+    <owl:inverseOf rdf:resource="P182i_starts_with_or_after_the_end_of"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P182i_starts_with_or_after_the_end_of">
+    <owl:inverseOf rdf:resource="P182_ends_before_of_at_the_start_of"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P183_ends_before_the_start_of">
+    <owl:inverseOf rdf:resource="P183i_starts_after_the_end_of"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P183i_starts_after_the_end_of">
+    <owl:inverseOf rdf:resource="P183_ends_before_the_start_of"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P184_ends_before_or_with_the_end_of">
+    <owl:inverseOf rdf:resource="P184i_ends_with_or_after_the_end_of"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P184i_ends_with_or_after_the_end_of">
+    <owl:inverseOf rdf:resource="P184_ends_before_or_with_the_end_of"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P185_ends_before_the_end_of">
+    <owl:inverseOf rdf:resource="P185i_ends_after_the_end_of"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P185i_ends_after_the_end_of">
+    <owl:inverseOf rdf:resource="P185_ends_before_the_end_of"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P186_produced_thing_of_product_type">
+    <owl:inverseOf rdf:resource="P186i_is_produced_by"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P186i_is_produced_by">
+    <owl:inverseOf rdf:resource="P186_produced_thing_of_product_type"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P187_has_production_plan">
+    <owl:inverseOf rdf:resource="P187i_is_production_plan_for"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P187i_is_production_plan_for">
+    <owl:inverseOf rdf:resource="P187_has_production_plan"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P188_requires_production_tool">
+    <owl:inverseOf rdf:resource="P188i_is_production_tool_for"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="P188i_is_production_tool_for">
+    <owl:inverseOf rdf:resource="P188_requires_production_tool"/>
+  </rdf:Property>
+
 </rdf:RDF>

@@ -28,9 +28,6 @@ context['skos'] = "http://www.w3.org/2004/02/skos/core#"
 context['foaf'] = 'http://xmlns.com/foaf/0.1/'
 context['xsd'] = "http://www.w3.org/2001/XMLSchema#"
 context["la"] = "https://linked.art/ns/terms/"
-context["aat"]  = "http://vocab.getty.edu/aat/"
-context["ulan"] = "http://vocab.getty.edu/ulan/"
-context["tgn"] = "http://vocab.getty.edu/tgn/"
 
 ## These are only aliases. The processing is defined by the spec.
 context['id'] = "@id"
@@ -40,6 +37,73 @@ extension = OrderedDict()
 extension['@version'] = 1.1
 extension['crm'] = "http://www.cidoc-crm.org/cidoc-crm/"
 
+
+parts = {
+	"P9": ["crm:P9_consists_of", "crm:P9i_forms_part_of"],
+	"P46": ["crm:P46_is_composed_of", "crm:P46i_forms_part_of"],
+	"P106": ["crm:P106_is_composed_of", "crm:P106i_forms_part_of"],
+	"P86": ["crm:P86i_contains", "crm:P86_falls_within"],
+	"P89": ["crm:P89i_contains", "crm:P89_falls_within"],
+	"skos": ["skos:narrower", "skos:broader"],
+	"P148": ["crm:P148_has_component", "crm:P148i_is_component_of"],
+	"interest": ["la:interest_part", "la:interest_part_of"]
+}
+
+scoped_classes = {
+	"Activity": "P9",
+	"Acquisition": "P9",
+	"TransferOfCustody": "P9",
+	"Production": "P9",
+	"AttributeAssignment": "P9",		
+	"ManMadeObject": "P46",
+	"LinguisticObject": "P106",
+	"VisualItem": "P106", # XXX This is the symbolic partitioning, not the conceptual partitioning of P149
+	"Identifier": "P106",
+	"TimeSpan": "P86",
+	"Place": "P89",
+	"Type": "skos",
+	"Language": "skos",
+	"Material": "skos",
+	"MeasurementUnit": "skos",
+	"BeginningOfExistence": "P9",
+	"EndOfExistence": "P9",
+	"Creation": "P9",
+	"Formation": "P9",
+	"InformationObject": "P106",
+	"Transformation": "P9",
+	"Joining": "P9",
+	"Leaving": "P9",
+	"PropositionalObject": "P148",
+	"Currency": "skos",
+	"Payment": "P9",
+	"PropertyInterest": "interest",
+	"Name": "P106",
+	"Birth": "P9",
+	"Death": "P9",
+	"Event": "P9",
+	"Destruction": "P9",
+	"Move": "P9",
+	"Modification": "P9",
+	"Dissolution": "P9",
+	"Period": "P9",
+	"PhysicalThing": "P46",
+	"PhysicalObject": "P46",
+	"PhysicalFeature": "P46",
+	"BiologicalObject": "P46",
+	"Site": "P46",
+	"PhysicalManMadeThing": "P46",
+	"ManMadeFeature": "P46",
+	"Title": "P106",
+	"Inscription": "P106",
+	"Mark": "P106",
+	"Appellation": "P106",
+	"PartAddition": "P9",
+	"PartRemoval": "P9",
+	"SymbolicObject": "P106",
+	"Purchase": "P9"
+}
+
+
 for l in lines:
 	l = l[:-1] # chomp
 	info= l.split('\t')
@@ -47,26 +111,26 @@ for l in lines:
 	if info[1] == "class":
 		# map json key to ontology for @type:@vocab
 		ctname = info[2]
-		used = info[-1]
 		if name.startswith("E"):
-			name = "crm:%s" % name
-		# split into used and other
-		if used == "1":			
-			context[ctname] = {"@id": name, "@context": {}}
-		else:
-			extension[ctname] = {"@id": name, "@context": {}}
+			name = "crm:%s" % name		
+		context[ctname] = {"@id": name}
+		if ctname in scoped_classes:
+			part = parts[scoped_classes[ctname]][0]
+			part_of = parts[scoped_classes[ctname]][1]
+			context[ctname]['@context'] = {
+				"part": {"@id": part, "@type": "@id", "@container": "@set"},
+				"part_of": {"@id": part_of, "@type": "@id", "@container": "@set"}
+			}
 	else:
 		ctname = info[2]
-
 		write = not ctname in ['part', 'part_of']
 		# These need to be added correctly to all parents in the ontology
+		# And not at the main level.
 
 		dmn = info[6]
 		rng = info[7]
-		used = info[-2]
 		mult = info[11] or '1'
-		which = context if used == "1" else extension
-		if which.has_key(ctname):
+		if context.has_key(ctname):
 			print "Already found: %s   (%s vs %s)" % (ctname, context[ctname]['@id'], name)
 		else:
 			if rng:
@@ -82,23 +146,18 @@ for l in lines:
 
 			if write:
 				if typ in ["rdfs:Literal", "xsd:dateTime", "xsd:string"]:
-					which[ctname] = {"@id": name}
+					context[ctname] = {"@id": name}
 				elif mult == '1':
-					which[ctname] = {"@id": name, "@type": typ, "@container":"@set"}
+					context[ctname] = {"@id": name, "@type": typ, "@container":"@set"}
 				else:
-					which[ctname] = {"@id": name, "@type": typ}
-			else:
-				print "scoped context: %s: %s on %s" % (ctname, name, dmn)
+					context[ctname] = {"@id": name, "@type": typ}
+
+			# Otherwise, we're part / part_of, so ignore
+			# print "scoped context: %s: %s on %s" % (ctname, name, dmn)
 
 ctxt = {"@context": context}
-xctxt = {"@context": extension}
 
 outstr = json.dumps(ctxt, indent=2)
 fh = file("../cromulent/data/linked-art.json", 'w')
-fh.write(outstr)
-fh.close()
-
-outstr = json.dumps(xctxt, indent=2)
-fh = file("../cromulent/data/cidoc-extension.json", 'w')
 fh.write(outstr)
 fh.close()
