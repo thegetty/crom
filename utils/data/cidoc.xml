@@ -1244,6 +1244,37 @@ This class can be used to define temporal snapshots at a particular time-span, s
 	<rdfs:subClassOf rdf:resource="E92_Spacetime_Volume"/>
 </rdfs:Class>
 
+<!-- 94 and 95 are Literals -->
+
+<rdfs:Class rdf:about="E96_Purchase">
+	<rdfs:label xml:lang="en">Purchase</rdfs:label>
+	<rdfs:comment>This class comprises transfers of legal ownership from one or more instances of E39 Actor to one or more different instances of E39 Actor, where the transferring party is completely compensated by the payment of a monetary amount. In more detail, a purchase agreement establishes a fixed monetary obligation at its initialization on the receiving party, to the giving party. An instance of E96 Purchase begins with the contract or equivalent agreement and ends with the fulfilment of all contractual obligations. In the case that the activity is abandoned before both parties have fulfilled these obligations, the activity is not regarded as an instance of E96 Purchase. This class is a very specific case of the much more complex social business practices of exchange of goods and the creation and satisfaction of related social obligations. Purchase activities which define individual sales prices per object can be modelled by instantiating E96 Purchase for each object individually and as part of an overall E96 Purchase transaction.</rdfs:comment>
+	<rdfs:subClassOf rdf:resource="E8_Acquisition"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:about="E97_Monetary_Amount">
+    <rdfs:label xml:lang="en">Monetary Amount</rdfs:label>
+    <rdfs:comment>This class comprises quantities of monetary possessions or obligations in terms of their nominal value with respect to a particular currency. These quantities may be abstract accounting units, the nominal value of a heap of coins or bank notes at the time of validity of the respective currency, the nominal value of a bill of exchange or other documents expressing monetary claims or obligations.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="E54_Dimension"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:about="E98_Currency">
+    <rdfs:label xml:lang="en">Currency</rdfs:label>
+    <rdfs:comment>This class comprises the units in which a monetary system, supported by an administrative authority or other community, quantifies and arithmetically compares all monetary amounts declared in the unit. The unit of a monetary system must describe a nominal value which is kept constant by its administrative authority and an associated banking system if it exists, and not by market value. For instance, one may pay with grams of gold, but the respective monetary amount would have been agreed as the gold price in US dollars on the day of the payment. Under this definition, British Pounds, U.S. Dollars, and European Euros are examples of currency, but “grams of gold” is not. One monetary system has one and only one currency. Instances of this class must not be confused with coin denominations, such as “Dime” or “Sestertius”. Non-monetary exchange of value in terms of quantities of a particular type of goods, such as cows, do not constitute a currency.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="E55_Type"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:about="E99_Product_Type">
+    <rdfs:label xml:lang="en">Product Type</rdfs:label>
+    <rdfs:comment>This classes comprises types that stand as the models for instances of E22 Man-Made Object that are produced as the result of production activities using plans exact enough to result in one or more series of uniform, functionally and aesthetically identical and interchangeable items. The product type is the intended ideal form of the manufacture process. It is typical of instances of E22 that conform to an instance of E99 Product Type that its component parts are interchangeable with component parts of other instances of E22 made after the model of the same instance of E99. Frequently, the uniform production according to a set E99 Product Type is achieved by creating individual tools, such as moulds or print plates that are themselves carriers of the design of the product type. Modern tools may use the flexibility of electronically controlled devices to achieve such uniformity. The product type itself, i.e., the potentially unlimited series of aesthetically equivalent items, may be the target of artistic design, rather than the individual object. In extreme cases, only one instance of a product type may have been produced, such as in a "print on demand" process which was only triggered once. However, this should not be confused with industrial prototypes, such as car prototypes, which are produced prior to the production line being set up, or test the production line itself.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="E55_Type"/>
+</rdfs:Class>
+
+
+
+
+<!-- Properties -->
+
 <rdf:Property rdf:about="P1_is_identified_by">
 	<rdfs:label xml:lang="el">αναγνωρίζεται ως</rdfs:label>
     <rdfs:label xml:lang="de">wird bezeichnet als</rdfs:label>
@@ -5301,6 +5332,283 @@ A digital photograph of a manuscript page incorporates the text of the manuscrip
 	<rdfs:domain rdf:resource="E92_Spacetime_Volume"/>
 	<rdfs:range rdf:resource="E53_Place"/>
 </rdf:Property>
+
+
+<!-- 6.2.4 Properties -->
+
+<rdf:Property rdf:about="P169i_spacetime_volume_is_defined_by">
+    <rdfs:label xml:lang="en">spacetime volume is defined by</rdfs:label>
+    <rdfs:comment>This property associates an instance of E95 Spacetime Primitive with the instance of E92 Spacetime Volume it defines.</rdfs:comment>
+    <rdfs:domain rdf:resource="E92_Spacetime_Volume"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P170i_time_is_defined_by">
+    <rdfs:label xml:lang="en">time is defined by</rdfs:label>
+    <rdfs:comment>This property associates an instance of E61 Time Primitive with the instance of E52 Time Span it defines.</rdfs:comment>
+    <rdfs:domain rdf:resource="E52_Time-Span"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P171_at_some_place_within">
+    <rdfs:label xml:lang="en">at some place within</rdfs:label>
+    <rdfs:comment>This property describes the maximum spatial extent within which an E53 Place falls. Since instances of E53 Places may not have precisely known spatial extents, the CRM supports statements about maximum spatial extents of E53 Places . This property allows an instance of an E53 Places’s maximum spatial extent (i.e. its outer boundary) to be assigned an E94 Space Primitive value. P171 at some place within is a shortcut of the fully developed path E53 Place, P89 falls within, E53 Place, P168 place is defined by, E94 Space Primitive through a not represented declarative Place as defined in CRMgeo (Doerr and Hiebel 2013) to a Space Primitive.</rdfs:comment>
+    <rdfs:domain rdf:resource="E53_Place"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P172_contains">
+    <rdfs:label xml:lang="en">contains</rdfs:label>
+    <rdfs:comment>This property describes a minimum spatial extent which is contained within an E53 Place. Since instances of E53 Place may not have precisely known spatial extents, the CRM supports statements about minimum spatial extents of instances of E53 Place. This property allows an instance of E53 Places’s minimum spatial extent (i.e. its inner boundary or a point being within a Place) to be as signed an E94 Space Primitive value. This property is a shortcut of the fully developed path: E53 Place, P89i contains, E53 Place, P168 place is defined by, E94 Space Primitive</rdfs:comment>
+    <rdfs:domain rdf:resource="E53_Place"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P173_starts_before_or_with_the_end_of">
+    <rdfs:label xml:lang="en">starts before or with the end of</rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity starts before or simultaneously with the end of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Astart ≤ Bend is true.
+ This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to the disjunction (logical OR) of the following Allen temporal relations [Allen, 1983]: {before, meets, met-by, overlaps, starts, started-by, contains, finishes, finished-by, equals, during, overlapped by}</rdfs:comment>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P173i_ends_after_or_with_the_start_of">
+    <rdfs:label xml:lang="en">ends after or with the start of</rdfs:label>
+    <rdfs:comment>The inverse relationship of P173</rdfs:comment>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P174_starts_before_the_end_of">
+    <rdfs:label xml:lang="en"></rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity starts definitely before the end of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Astart &lt; Bend is true. This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to a disjunction (logical OR) of the following Allen temporal relations [Allen, 1983] :{before, meets, overlaps, starts, started-by, contains, finishes, finished-by, equals, during, overlapped by} Typically, this property is a consequence of a known influence of some event on another event or activity, such as a novel written by someone being continued by someone else, or the knowledge of a defeat on a distant battlefield causing people to end their ongoing activities</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P173_starts_before_or_with_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P174i_ends_after_the_start_of">
+    <rdfs:label xml:lang="en"></rdfs:label>
+    <rdfs:comment>The inverse relationship of P174</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P173i_ends_after_or_with_the_start_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P175_starts_before_of_with_the_start_of">
+    <rdfs:label xml:lang="en"></rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity starts before or simultaneously with the start of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Astart ≤ Bstart is true. This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to a disjunction (logical OR) of the following Allen temporal relations [Allen, 1983]: {before, meets, overlaps, starts, started-by, contains, finished-by, equals}</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P174_starts_before_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P175i_starts_with_or_after_the_start_of">
+    <rdfs:label xml:lang="en"></rdfs:label>
+    <rdfs:comment>The inverse relationship of P175</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P174i_ends_after_the_start_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P176_starts_before_the_start_of">
+    <rdfs:label xml:lang="en"></rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity starts definitely before the start of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Astart &lt; Bstart is true. This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to a disjunction (logical OR) of the following Allen temporal relations [Allen, 1983]: {before, meets, overlaps, contains, finished-by}</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P175_starts_before_of_with_the_start_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P176i_starts_after_the_start_of">
+    <rdfs:label xml:lang="en"></rdfs:label>
+    <rdfs:comment>The inverse relationship of P176</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P175i_starts_with_or_after_the_start_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P179_had_sales_price">
+    <rdfs:label xml:lang="en"></rdfs:label>
+    <rdfs:comment>This property establishes the relationship between an instance of E96 Purchase and the instance of E97 Monetary Amount that forms the compensation for the transaction.</rdfs:comment>
+    <rdfs:domain rdf:resource="E96_Purchase"/>
+    <rdfs:range rdf:resource="E97_Monetary_Amount"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P179i_was_sales_price_of">
+    <rdfs:label xml:lang="en"></rdfs:label>
+    <rdfs:comment>The inverse relationship of P179</rdfs:comment>
+    <rdfs:domain rdf:resource="E97_Monetary_Amount"/>
+    <rdfs:range rdf:resource="E96_Purchase"/>
+</rdf:Property>
+
+
+<rdf:Property rdf:about="P180_has_currency">
+    <rdfs:label xml:lang="en">has currency</rdfs:label>
+    <rdfs:comment xml:lang="en">This property establishes the relationship between an instance of E97 Monetary Amount and the currency that it is measured in.</rdfs:comment>
+    <rdfs:domain rdf:resource="E97_Monetary_Amount"/>
+    <rdfs:range rdf:resource="E98_Currency"/>
+    <rdfs:subPropertyOf rdf:resource="P91_has_unit"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P180i_was_currency_of">
+    <rdfs:label xml:lang="en">was currency of</rdfs:label>
+    <rdfs:comment>Inverse of P180</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P91i_is_unit_of"/>
+    <rdfs:domain rdf:resource="E98_Currency"/>
+    <rdfs:range rdf:resource="E97_Monetary_Amount"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P181_has_amount">
+    <rdfs:label xml:lang="en">has amount</rdfs:label>
+    <rdfs:comment xml:lang="en">This property establishes the relationship between an instance of E97 Monetary Amount and the amount of currency that it consists of.</rdfs:comment>
+    <rdfs:domain rdf:resource="E97_Monetary_Amount"/>   
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <rdfs:subPropertyOf rdf:resource="P90_has_value"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P182_ends_before_of_at_the_start_of">
+    <rdfs:label xml:lang="en">ends before or at the start of</rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity ends before or simultaneously with the start of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Aend ≤ Bstart is true. This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to a disjunction (logical OR) of the following Allen temporal relations [Allen, 1983]: {before, meets}</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P176_starts_before_the_start_of"/>
+    <rdfs:subPropertyOf rdf:resource="P185_ends_before_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P182i_starts_with_or_after_the_end_of">
+    <rdfs:label xml:lang="en">starts with or after the end of</rdfs:label>
+    <rdfs:comment>Inverse of P182</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P176i_starts_after_the_start_of"/>
+    <rdfs:subPropertyOf rdf:resource="P185i_ends_after_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P183_ends_before_the_start_of">
+    <rdfs:label xml:lang="en">ends before the start of</rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity ends definitely before
+the start of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Aend &lt; Bstart is true. This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to a disjunction (logical OR) of the following Allen temporal relations [Allen, 1983]: {before}</rdfs:comment>
+	<rdfs:subPropertyOf rdf:resource="P182_ends_before_of_at_the_start_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P183i_starts_after_the_end_of">
+    <rdfs:label xml:lang="en"></rdfs:label>
+    <rdfs:comment>Inverse of P183</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P182i_starts_with_or_after_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property> 
+
+<rdf:Property rdf:about="P184_ends_before_or_with_the_end_of">
+    <rdfs:label xml:lang="en">ends before or with the end of</rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity ends before or simultaneously with the end of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Aend ≤ Bend is true. This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to a disjunction (logical OR) of the following Allen temporal relations [Allen, 1983]: {before, meets, overlaps, finished by, start, equals, during, finishes}</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P174_starts_before_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P184i_ends_with_or_after_the_end_of">
+    <rdfs:label xml:lang="en">ends with or after the end of</rdfs:label>
+    <rdfs:comment>Inverse of P184</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P174i_ends_after_the_start_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P185_ends_before_the_end_of">
+    <rdfs:label xml:lang="en">ends before the end of</rdfs:label>
+    <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity ends definitely before the end of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Aend &lt; Bend is true. This property is part of the set of temporal primitives P173 – P176, P182 – P185. This property corresponds to a disjunction (logical OR) of the following Allen temporal relations [Allen, 1983]: {before, meets, overlaps, starts, during}</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P184_ends_before_or_with_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P185i_ends_after_the_end_of">
+    <rdfs:label xml:lang="en">ends after the end of</rdfs:label>
+    <rdfs:comment>Inverse of P185</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P184i_ends_with_or_after_the_end_of"/>
+    <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
+    <rdfs:range rdf:resource="E2_Temporal_Entity"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P186_produced_thing_of_product_type">
+    <rdfs:label xml:lang="en">produced thing of product type</rdfs:label>
+    <rdfs:comment>This property associates an instance of E12 Production with the instance of E99 Production Type,
+that is, the type of the things it produces.</rdfs:comment>
+    <rdfs:domain rdf:resource="E12_Production"/>
+    <rdfs:range rdf:resource="E99_Product_Type"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P186i_is_produced_by">
+    <rdfs:label xml:lang="en">is produced by</rdfs:label>
+    <rdfs:comment>Inverse of P186</rdfs:comment>
+    <rdfs:domain rdf:resource="E99_Product_Type"/>
+    <rdfs:range rdf:resource="E12_Production"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P187_has_production_plan">
+    <rdfs:label xml:lang="en">has production plan</rdfs:label>
+    <rdfs:comment>This property associates an instance of E99 Product Type with an instance of E29 Design or Procedure that completely determines the production of instances of E18 Physical Thing. The resulting instances of E18 Physical Thing are considered exemplars of this instance of E99 Product Type when the process specified is correctly executed. Note that the respective instance of E29 Design or Procedure may not necessarily be fixed in a written/graphical form, and may require the use of tools or models unique to the product type. The same E99 Product Type may be associated with several variant plans.</rdfs:comment>
+    <rdfs:domain rdf:resource="E99_Product_Type"/>
+    <rdfs:range rdf:resource="E29_Design_or_Procedure"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P187i_is_production_plan_for">
+    <rdfs:label xml:lang="en">is production plan for</rdfs:label>
+    <rdfs:comment>Inverse of P187</rdfs:comment>
+    <rdfs:domain rdf:resource="E29_Design_or_Procedure"/>
+    <rdfs:range rdf:resource="E99_Product_Type"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P188_requires_production_tool">
+    <rdfs:label xml:lang="en">requires production tool</rdfs:label>
+    <rdfs:comment>This property associates an instance of E99 Product Type with an instance of E19 Physical Object that is needed for the production of an instance of E18 Physical Thing. When the process of production is correctly executed in accordance with the plan and using the specified instance of E19 Physical Object, the resulting instance of E18 Physical Thing is considered an exemplar of this instance of E99 Product Type. The instance of E19 Physical Object may bear distinct features that are transformed into characteristic features of the resulting instance of E18 Physical Thing. Examples include models and moulds.</rdfs:comment>
+    <rdfs:domain rdf:resource="E99_Product_Type"/>
+    <rdfs:range rdf:resource="E19_Physical_Object"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P188i_is_production_tool_for">
+    <rdfs:label xml:lang="en">is production tool for</rdfs:label>
+    <rdfs:comment>Inverse of P188</rdfs:comment>
+    <rdfs:domain rdf:resource="E19_Physical_Object"/>
+    <rdfs:range rdf:resource="E99_Product_Type"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P189_approximates">
+    <rdfs:label xml:lang="en">approximates</rdfs:label>
+    <rdfs:comment>This property associates an instance of E53 Place with another instance of E53 Place, which is defined in the same reference space, and which is used to approximate the former. The property does not necessarily state the quality or accuracy of this approximation, but rather indicates the use of the first instance of place to approximate the second.
+In common documentation practice, find or encounter spots e.g. in archaeology, botany or zoology are often related to the closest village, river or other named place without detailing the relation, e.g. if it is located within the village or in a certain distance of the specified place. In this case the stated “phenomenal” place found in the documentation can be seen as approximation of the actual encounter spot without more specific knowledge.
+In more recent documentation often point coordinate information is provided that originates from GPS measurements or georeferencing from a map. This point coordinate information does not state the actual place of the encounter s pot but tries to approximate it with a “declarative” place. The accuracy depends on the methodology used when creating the coordinates. It may be dependent on technical limitations like GPS accuracy but also on the method where the GPS location is taken in relation to the measured feature. If the methodology is known a maximum deviation from the measured point can be calculated and the encounter or feature may be related to the resulting circle using the P171 at some place within property.</rdfs:comment>
+    <rdfs:domain rdf:resource="E53_Place"/>
+    <rdfs:range rdf:resource="E53_Place"/>
+</rdf:Property>
+
+<!-- 190-194 were temporarily filled by stuff moved out to CRMSoc -->
+
+<rdf:Property rdf:about="P190_has_symbolic_content">
+    <rdfs:label xml:lang="en">has symbolic content</rdfs:label>
+    <rdfs:comment>This property associates  an instance of E90 Symbolic Object with a complete, identifying representation of its content in the form of an instance of E62 String. This property only applies to instances of E90 Symbolic Object that can be represented completely in this form. The representation may be more specific than the symbolic level defining the identity condition of the represented. This depends on the type of the symbolic object represented. For instance, if a name has type "Modern Greek character sequence", it may be represented in a loss-free Latin transcription, meaning however the sequence of Greek letters. As another example, if the represented object has type "English words sequence", American English or British English spelling variants may be chosen to represent the English word "colour" without defining a different symbolic object. If a name has type "European traditional name", no particular string may define its content.</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P3_has_note"/>
+    <rdfs:domain rdf:resource="E90_Symbolic_Object"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</rdf:Property>
+
+
+<!-- RDF Specific terms beyond the scope of the CRM -->
+
+<!-- RDF Merge class for Linguistic Object and Appellation -->
+
+<rdfs:Class rdf:about="E33_E41_Linguistic_Appellation">
+  <rdfs:label xml:lang="en">Linguistic Appellation</rdfs:label>
+  <rdfs:comment>A merge class for situations beyond Title where both language and appellation are required.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="E33_Linguistic_Object"/>
+  <rdfs:subClassOf rdf:resource="E41_Appellation"/>
+</rdfs:Class>
+
+
+<!-- RDF DateTime Properties -->
 
 <rdf:Property rdf:about="P81a_end_of_the_begin">
 	<rdfs:label xml:lang="en">end of the begin</rdfs:label>
