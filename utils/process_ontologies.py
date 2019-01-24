@@ -95,6 +95,8 @@ def process_classes(dom):
 			ccname = "Geometry"
 		elif name == "geo:SP6_Declarative_Place":
 			ccname = "DeclarativePlace"
+		elif name == "E33_E41_Linguistic_Appellation":
+			ccname = "Name"
 		else:
 			# Assume that we've done our job okay and put in overrides for NSS
 			cidx = name.find(":")

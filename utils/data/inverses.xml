@@ -810,11 +810,11 @@
   <rdf:Property rdf:about="P174i_ends_after_the_start_of">
     <owl:inverseOf rdf:resource="P174_starts_before_the_end_of"/>
   </rdf:Property>
-  <rdf:Property rdf:about="P175_starts_before_of_with_the_start_of">
+  <rdf:Property rdf:about="P175_starts_before_or_with_the_start_of">
     <owl:inverseOf rdf:resource="P175i_starts_with_or_after_the_start_of"/>
   </rdf:Property>
     <rdf:Property rdf:about="P175i_starts_with_or_after_the_start_of">
-    <owl:inverseOf rdf:resource="P175_starts_before_of_with_the_start_of"/>
+    <owl:inverseOf rdf:resource="P175_starts_before_or_with_the_start_of"/>
   </rdf:Property>
   <rdf:Property rdf:about="P176_starts_before_the_start_of">
     <owl:inverseOf rdf:resource="P176i_starts_after_the_start_of"/>
