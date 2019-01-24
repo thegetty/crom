@@ -104,12 +104,6 @@ class TestFactorySerialization(unittest.TestCase):
 		model.factory.full_names = False
 		model.factory.context_uri = ""
 
-	def test_only_type(self):	
-		what = model.InformationObject('collection')		
-		expect = '"http://lod.example.org/museum/InformationObject/collection"'
-		outs = model.factory.toString(what)
-		self.assertEqual(expect, outs)
-
 	def test_toString(self):
 		expect = u'{"id":"http://lod.example.org/museum/InformationObject/collection","type":"InformationObject","label":"Test Object"}'
 		outs = model.factory.toString(self.collection)
@@ -175,7 +169,7 @@ class TestProcessTSV(unittest.TestCase):
 		try:
 			self.assertEqual(expect, man_made)
 		except:
-			expect[u'subs'] = [u'ore:Proxy', u'E84_Information_Carrier']
+			expect[u'subs'] = []
 			self.assertEqual(expect, man_made)
 
 class TestBuildClasses(unittest.TestCase):
@@ -240,13 +234,6 @@ class TestAutoIdentifiers(unittest.TestCase):
 		self.assertTrue(p.id.startswith('urn:uuid:'))		
 
 	def test_prefixes(self):
-		p = model.Person("ulan:1")
-		self.assertEqual(p.id, "ulan:1")
-		self.assertEqual(p._full_id, "http://vocab.getty.edu/ulan/1")
-
-		p2 = model.Person('http://vocab.getty.edu/ulan/2')
-		self.assertEqual(p2.id, 'ulan:2')
-		self.assertEqual(p2._full_id, 'http://vocab.getty.edu/ulan/2')
 
 		model.factory.prefixes = {'fish':'http://example.org/ns/'}
 		p3 = model.Person('fish:3')

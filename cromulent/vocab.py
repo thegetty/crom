@@ -5,11 +5,11 @@
 from .model import Identifier, Mark, ManMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, Currency, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, Language, \
-	LinguisticObject, InformationObject, SpatialCoordinates, \
+	LinguisticObject, InformationObject, \
 	Activity, Group, Name, MonetaryAmount, PropertyInterest, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
 	Acquisition, ManMadeFeature, VisualItem, Aggregation, Proxy, \
-	PropositionalObject, Payment, Creation, ContactPoint, Phase, \
+	PropositionalObject, Payment, Creation, Phase, \
 	STR_TYPES, factory
 
 # Add classified_as initialization hack for all resources
