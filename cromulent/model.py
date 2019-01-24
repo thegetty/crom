@@ -4,6 +4,7 @@ import os, sys, re
 import codecs
 import inspect
 import uuid
+import datetime
 
 ### Mappings for duplicate properties ###
 ### See build_tsv/vocab_reader
@@ -109,9 +110,10 @@ class CromulentFactory(object):
 
 		self.elasticsearch_compatible = False
 		self.serialize_all_resources = False
+		self.id_type_label = True
 
 		self.json_indent = 2
-
+		self.order_json = True
 		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, 
 			"label": 5, "value": 6}
 		self.full_key_order_hash = {"@context": 0, "@id": 1, "rdf:type": 2, "@type": 2,
@@ -274,6 +276,7 @@ class CromulentFactory(object):
 		except:
 			out = ""
 			self.maybe_warn("Can't decode %r" % js)
+			raise
 		if collapse:
 			out = self.collapse_json(out, collapse)
 		return out 		
@@ -329,11 +332,14 @@ class ExternalResource(object):
 	_properties = {}
 	_type = ""
 	_niceType = ""
+	_embed = True
 
 	def __init__(self, ident=""):
 		self._factory = factory
 		if ident:
-			if ident.startswith('http') or ident.startswith('urn:uuid'):
+			if ident.startswith('urn:uuid'):
+				self.id = ident
+			elif ident.startswith('http'):
 				# Try to find prefixable term
 				hashed = ident.rsplit('#', 1)
 				if len(hashed) == 1:
@@ -580,7 +586,7 @@ class BaseResource(ExternalResource):
 		d = self.__dict__.copy()
 		del d['_factory']
 
-		if self.id in self._factory.done or set(d.keys()) == set(['id', 'type']):
+		if not factory.id_type_label and (self.id in self._factory.done or set(d.keys()) == set(['id', 'type'])):
 			if self._factory.elasticsearch_compatible:
 				return {'id': self.id}
 			else:
@@ -603,6 +609,21 @@ class BaseResource(ExternalResource):
 		if top and self._factory.context_uri: 
 			d['@context'] = self._factory.context_uri
 
+
+		if (self._factory.id_type_label and self.id in self._factory.done) or (not top and not self._embed):
+			# limit to only id, type, label
+			nd = {}
+			nd['id'] = d['id']
+			try:
+				nd['type'] = d['type']
+			except:
+				pass
+			try:
+				nd['label'] = d['label']
+			except:
+				pass
+			d = nd
+
 		# Need to do in order now to get done correctly ordered
 		KOH = self._factory.key_order_hash
 		kodflt = self._factory.key_order_default
@@ -622,6 +643,9 @@ class BaseResource(ExternalResource):
 					for ni in v:
 						if isinstance(ni, ExternalResource):
 							tbd.append(ni.id)
+				elif isinstance(v, datetime.datetime):
+					# replace with string
+					kvs[k] = v.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 		for t in tbd:
 			if not t in self._factory.done:
@@ -710,8 +734,10 @@ class BaseResource(ExternalResource):
 							del d['part_of']
 							break
 
-
-		return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
+		if self._factory.order_json:
+			return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
+		else:
+			return d
 
 # Ensure everything can have id, type, label and description
 BaseResource._properties = {'id': {"rdf": "@id", "range": str, "okayToUse": 1}, 

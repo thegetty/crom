@@ -3,7 +3,7 @@
 # can generate classes for any ontology
 
 from .model import Identifier, Mark, ManMadeObject, Type, \
-	Person, Material, MeasurementUnit, Place, Dimension, \
+	Person, Material, MeasurementUnit, Place, Dimension, Currency, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, Language, \
 	LinguisticObject, InformationObject, SpatialCoordinates, \
 	Activity, Group, Name, MonetaryAmount, PropertyInterest, \
@@ -15,23 +15,35 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 # Add classified_as initialization hack for all resources
 def post_init(self, **kw):
 	if self.__class__._classification:
-		self.classified_as = self._classification
+		for t in self._classification:
+			self.classified_as = t
 BaseResource._post_init = post_init
 
-def register_aat_class(name, parent, id, label):
+def register_aat_class(name, data):
+	parent = data['parent']
+	id = data['id']
+	label = data['label']
+
 	c = type(name, (parent,), {})
 	if id.startswith('http'):
 		t = Type(id)
 	else:
 		t = Type("http://vocab.getty.edu/aat/%s" % id)
 	t.label = label
-	c._classification = t
+	if parent == LinguisticObject and "brief" in data:
+		c._classification = [t, instances["brief text"]]
+	else:	
+		c._classification = [t]		
 	c._type = None # To avoid conflicting with parent class
 	globals()[name] = c	
 
 instances = {}
 
-def register_instance(name, parent, id, label):
+def register_instance(name, data):
+	parent = data['parent']
+	id = data['id']
+	label = data['label']
+
 	if id.startswith('http'):
 		t = parent(id)
 	else:
@@ -51,19 +63,20 @@ ext_classes = {
 	"CustodyRight": {"parent": PropertyInterest, "id":"300411616", "label": "Custody Right"},
 	"CopyrightRight": {"parent": PropertyInterest, "id":"300055598", "label": "Copyright"},
 
-	"Inscription": {"parent": LinguisticObject, "id": "300028702", "label": "Inscription"},
-	"Signature": {"parent": LinguisticObject, "id": "300028705", "label": "Signature"},
-	"MaterialStatement": {"parent": LinguisticObject, "id": "300010358", "label": "Material Statement"},
-	"DimensionStatement": {"parent": LinguisticObject, "id": "300266036", "label": "Dimension Statement"},
-	"CreditStatement": {"parent": LinguisticObject, "id": "300026687", "label": "Credit Statement"},
-	"RightsStatement": {"parent": LinguisticObject, "id": "300055547", "label": "Rights Statement"},
-	"EditionStatement": {"parent": LinguisticObject, "id":"300121294", "label": "Edition Statement"},
-	"BiographyStatement": {"parent": LinguisticObject, "id":"300080102", "label": "Biography Statement"},
-	"ProvenanceStatement": {"parent": LinguisticObject, "id":"300055863", "label": "Provenance Statement"},
-	"Description": {"parent": LinguisticObject, "id":"300080091", "label": "Description"},
-	"PaginationStatement": {"parent": LinguisticObject, "id":"300200294", "label": "Pagination Statement"},
-	"FoliationStatement": {"parent": LinguisticObject, "id":"300200662", "label": "Foliation Statement"},
-	"Abstract": {"parent": LinguisticObject, "id":"300026032", "label": "Abstract"},
+	"Inscription": {"parent": LinguisticObject, "id": "300028702", "label": "Inscription", "brief": True},
+	"Signature": {"parent": LinguisticObject, "id": "300028705", "label": "Signature", "brief": True},
+	"MaterialStatement": {"parent": LinguisticObject, "id": "300010358", "label": "Material Statement", "brief": True},
+	"DimensionStatement": {"parent": LinguisticObject, "id": "300266036", "label": "Dimension Statement", "brief": True},
+	"CreditStatement": {"parent": LinguisticObject, "id": "300026687", "label": "Credit Statement", "brief": True},
+	"RightsStatement": {"parent": LinguisticObject, "id": "300055547", "label": "Rights Statement", "brief": True},
+	"EditionStatement": {"parent": LinguisticObject, "id":"300121294", "label": "Edition Statement", "brief": True},
+	"BiographyStatement": {"parent": LinguisticObject, "id":"300080102", "label": "Biography Statement", "brief": True},
+	"ProvenanceStatement": {"parent": LinguisticObject, "id":"300055863", "label": "Provenance Statement", "brief": True},
+	"Description": {"parent": LinguisticObject, "id":"300080091", "label": "Description", "brief": True},
+	"PaginationStatement": {"parent": LinguisticObject, "id":"300200294", "label": "Pagination Statement", "brief": True},
+	"FoliationStatement": {"parent": LinguisticObject, "id":"300200662", "label": "Foliation Statement", "brief": True},
+	"Abstract": {"parent": LinguisticObject, "id":"300026032", "label": "Abstract", "brief": True},
+	"Note": {"parent": LinguisticObject, "id":"300027200", "label": "Note", "brief": True},
 
 	"CatalogueRaisonne": {"parent": LinguisticObject, "id":"300026061", "label": "Catalogue Raisonne"},
 	"AuctionCatalog": {"parent": LinguisticObject, "id":"300026068", "label": "Auction Catalog"},
@@ -72,10 +85,10 @@ ext_classes = {
 	"AccountBook": {"parent": LinguisticObject, "id": "300027483", "label": "Account Book"},
 	"WebPage": {"parent": LinguisticObject, "id":"300264578", "label": "Web Page"},
 	"Register": {"parent": LinguisticObject, "id":"300027168", "label": "Register"},
-
 	"Page": {"parent": LinguisticObject, "id":"300194222", "label": "Page"},
 	"Folio": {"parent": LinguisticObject, "id":"300189604", "label": "Folio"},
-	"DataRecord": {"parent": LinguisticObject, "id":"300026685", "label": "Data Record"},
+	"DataRecord": {"parent": LinguisticObject, "id":"300026685", "label": "Data Record"}, # Not sure about this one
+	"Heading": {"parent": LinguisticObject, "id": "300200862", "label": "Heading"},
 
 	"Journal": {"parent": LinguisticObject, "id":"300215390", "label": "Journal"},
 	"Issue": {"parent": LinguisticObject, "id":"300312349", "label": "Issue"},
@@ -105,9 +118,10 @@ ext_classes = {
 
 	"MuseumOrg":   {"parent": Group, "id":"300312281", "label": "Museum"},
 	"Department":  {"parent": Group, "id":"300263534", "label": "Department"},
-	"Nationality": {"parent": Aggregation, "id":"300379842", "label": "Nationality"},
-	"Gender":      {"parent": Aggregation, "id":"300055147", "label": "Gender"},
 
+
+	"Nationality": {"parent": Type, "id":"300379842", "label": "Nationality"},
+	"Gender":      {"parent": Type, "id":"300055147", "label": "Gender"},
 	"Auctioneer":  {"parent": Person, "id":"300025208", "label": "Auctioneer"}, # is this useful?
 
 	"Auction":     {"parent": Activity, "id":"300054751", "label": "Auctioning"},
@@ -148,11 +162,11 @@ ext_classes = {
 	"NameSuffix": {"parent": Name, "id":"300404662", "label": "Name Suffix"},
 	"NamePrefix": {"parent": Name, "id":"300404845", "label": "Name Prefix"},
 
-	"EmailAddress": {"parent": ContactPoint, "id":"300149026", "label": "Email Address"},
-	"StreetAddress": {"parent": ContactPoint, "id":"300386983", "label": "Street Address"},
-	"StreetNumber": {"parent": ContactPoint, "id":"300419272", "label": "Street Number"},
-	"StreetName": {"parent": ContactPoint, "id": "300419273", "label": "Street Name"},
-	"PostalCode": {"parent": ContactPoint, "id": "300419274", "label": "Postal Code"},
+	"EmailAddress": {"parent": Name, "id":"300149026", "label": "Email Address"},
+	"StreetAddress": {"parent": Name, "id":"300386983", "label": "Street Address"},
+	"StreetNumber": {"parent": Name, "id":"300419272", "label": "Street Number"},
+	"StreetName": {"parent": Name, "id": "300419273", "label": "Street Name"},
+	"PostalCode": {"parent": Name, "id": "300419274", "label": "Postal Code"},
 
 	"Painting": {"parent": ManMadeObject, "id": "300033618", "label": "Painting"},
 	"Sculpture": {"parent": ManMadeObject, "id": "300047090", "label": "Sculpture"},
@@ -173,6 +187,9 @@ ext_classes = {
 	"PhotographColor": {"parent": ManMadeObject, "id": "300128347", "label": "Color Photograph"},
 	"PhotographBW": {"parent": ManMadeObject, "id": "300128359", "label": "Black and White Photograph"},
 	"Negative": {"parent": ManMadeObject, "id": "300127173", "label": "Photographic Negative"},
+	"Map": {"parent": ManMadeObject, "id": "300028094", "label": "Map"},
+	"Clothing": {"parent": ManMadeObject, "id": "300266639", 'label': "Clothing"},
+	"Furniture": {"parent": ManMadeObject, "id":"300037680", "label": "Furniture"},
 
 	"Architecture": {"parent": ManMadeObject, "id":"300263552", "label": "Architecture"},
 	"Armor": {"parent": ManMadeObject, "id":"300036745", "label": "Armor"},
@@ -200,8 +217,6 @@ ext_classes = {
 
 }
  
-for (name,v) in ext_classes.items():
-	register_aat_class(name, v['parent'], v['id'], v['label'])
 
 identity_instances = {
 	"watercolor": {"parent": Material, "id": "300015045", "label": "watercolors"},	
@@ -220,9 +235,14 @@ identity_instances = {
 	"albumen silver print": {"parent": Material, "id": "300127121", "label": "albumen silver print"},
 	"gelatin silver print": {"parent": Material, "id": "300128695", "label": "gelatin silver print"},
 	"silver": {"parent": Material, "id": "300011029", "label": "silver"},
+
+	"synthetic": {"parent": Type, "id": "xxx", "label": "Synthetic Material"},
+
 	"inches": {"parent": MeasurementUnit, "id": "300379100", "label": "inches"},
 	"feet": {"parent": MeasurementUnit, "id":"300379101", "label": "feet"},
-	"cm": {"parent": MeasurementUnit, "id": "300379098", "label": "centimetres"},
+	"cm": {"parent": MeasurementUnit, "id": "300379098", "label": "centimeters"},
+	"meters": {"parent": MeasurementUnit, "id": "300379099", "label": "meters"},
+
 	"english": {"parent": Language, "id": "300388277", "label": "English"},
 	"french": {"parent": Language, "id":"300388306","label": "French"},
 	"german": {"parent": Language, "id":"300388344","label": "German"},
@@ -239,9 +259,9 @@ identity_instances = {
 	"ancient greek": {"parent": Language, "id": "300387827", "label": "Ancient Greek"},
 	"latin": {"parent": Language, "id":"300388693", "label":"Latin"},
 	"japanese": {"parent": Language, "id":"300388486", "label":"Japanese"},
+
 	"primary": {"parent": Type, "id": "300404670", "label": "Primary"},
 	"artwork": {"parent": Type, "id": "300133025", "label": "Artwork"},
-	"french nationality": {"parent": Aggregation, "id": "300111188", "label": "French"},
 	"public collection": {"parent": Type, "id": "300411912", "label": "Public Collection"},
 	"style of": {"parent": Type, "id": "300404285", "label": "Style Of"},
 	"computer generated": {"parent": Type, "id": "300202389", "label": "Computer Generated"},
@@ -260,11 +280,65 @@ identity_instances = {
 	"sculpting": {"parent": Type, "id":"300264383", "label": "Sculpting"},
 	"painting": {"parent": Type, "id":"300161986", "label": "Painting"},
 	"first": {"parent": Type, "id":"300404050", "label": "First"},
-	"last": {"parent": Type, "id": "XXX", "label": "Last"}
+	"last": {"parent": Type, "id": "XXX", "label": "Last"},
+
+	"french nationality": {"parent": Type, "id": "300111188", "label": "French"},
+	"american nationality": {"parent": Type, "id": "300107956", "label": "American"},
+	"italian nationality": {"parent": Type, "id": "300111198", "label": "Italian"},
+	"dutch nationality": {"parent": Type, "id": "300111175", "label": "Dutch"},
+	"belgian nationality": {"parent": Type, "id": "300111156", "label": "Belgian"},
+	"british nationality": {"parent": Type, "id": "300111159", "label": "British"},	
+	"flemish nationality": {"parent": Type, "id": "300111184", "label": "Flemish"},
+	"german nationality": {"parent": Type, "id": "300111192", "label": "German"},
+	"austrian nationality": {"parent": Type, "id": "300111153", "label": "Austrian"},
+	"spanish nationality": {"parent": Type, "id": "300111215", "label": "Spanish"},
+	"swiss nationality": {"parent": Type, "id": "300111221", "label": "Swiss"},
+	"irish nationality": {"parent": Type, "id": "300111259", "label": "Irish"},
+	"hungarian nationality": {"parent": Type, "id": "300111195", "label": "Hungarian"},
+	"swedish nationality": {"parent": Type, "id": "300111218", "label": "Swedish"},
+	"czech nationality": {"parent": Type, "id": "300111166", "label": "Czech"},
+	"russian nationality": {"parent": Type, "id": "300111276", "label": "Russian"},
+	"polish nationality": {"parent": Type, "id": "300111204", "label": "Polish"},
+	"norwegian nationality": {"parent": Type, "id": "300111201", "label": "Norwegian"},
+	"danish nationality": {"parent": Type, "id": "300111172", "label": "Danish"},
+	"chinese nationality": {"parent": Type, "id": "300018322", "label": "Chinese"},
+	"egyptian nationality": {"parent": Type, "id": "300020251", "label": "Egyptian"},
+	"greek nationality": {"parent": Type, "id": "300264816", "label": "Greek"},
+	"canadian nationality": {"parent": Type, "id": "300107962", "label": "Canadian"},
+	"mexican nationality": {"parent": Type, "id": "300107963", "label": "Mexican"},
+	"portuguese nationality": {"parent": Type, "id": "300111207", "label": "Portuguese"},
+	"japanese nationality": {"parent": Type, "id": "300018519", "label": "Japanese"},
+
+	"style genre": {"parent": Type, "id":"300139140", "label": "Genre"},
+	"style landscape": {"parent": Type, "id":"300015636", "label": "Landscape"},
+	"style portrait": {"parent": Type, "id":"300015637", "label": "Portrait"},
+	"style still life": {"parent": Type, "id":"300015638", "label": "Still Life"},
+
+	"brief text": {"parent": Type, "id": "300418049", "label":"Brief Text"},
+
+	"us dollars": {"parent": Currency, "id":"300411994", "label": "US Dollars"},
+	"gb pounds": {"parent": Currency, "id":"300411998", "label": "British Pounds"},
+	"dutch guilder": {"parent": Currency, "id":"300412019", "label": "Dutch Guilder"},
+	"fr assignats": {"parent": Currency, "id":"300412157", "label": "French Assignats"},
+	"at shillings": {"parent": Currency, "id":"300412158", "label": "Austrian Shillings"},
+	"fr ecus": {"parent": Currency, "id":"300412159", "label": "French Ecus"},
+	"de florins": {"parent": Currency, "id":"300412160", "label": "German Florins"},
+	"gb guineas": {"parent": Currency, "id":"300412163", "label": "British Guineas"},
+	"dk kroner": {"parent": Currency, "id":"300412164", "label": "Danish Kroner"},
+	"fr livres": {"parent": Currency, "id":"300412165", "label": "French Livres"},
+	"fr louis": {"parent": Currency, "id":"300412166", "label": "French Louis coins"},
+	"de reichsmarks": {"parent": Currency, "id":"300412169", "label": "German Reichsmarks"},
+	"reichsthalers": {"parent": Currency, "id":"300412170", "label": "Reichsthalers"},
+	"ch francs": {"parent": Currency, "id":"300412001", "label": "Swiss Francs"},
+	"fr francs": {"parent": Currency, "id":"300412016", "label": "French Francs"},
+	"it lira": {"parent": Currency, "id":"300412015", "label": "Italian Lira"}
 }
 
 for (name,v) in identity_instances.items():
-	register_instance(name, v['parent'], v['id'], v['label'])
+	register_instance(name, v)
+
+for (name,v) in ext_classes.items():
+	register_aat_class(name, v)
 
 # pen, pencil, card, cardboard, porcelain, wax, ceramic, plaster
 # crayon, millboard, gouache, brass, stone, lead, iron, clay,

@@ -35,6 +35,8 @@
 	"P32":  "technique",
 	"P33":  "specific_technique",
 	"P12":  "involved",
+	"P101": "general_use",
+	"P100i": "died",
 
 	"P65": "shows",
 	"P2":    "classified_as", 

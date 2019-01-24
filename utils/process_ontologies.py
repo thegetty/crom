@@ -26,25 +26,25 @@ NS = {'rdf':"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 # @context = 0, id = 1, rdf:type = 2
 # rdfs:label = 5, rdf:value = 6, dc:description = 7
 
-fh = file('../cromulent/data/key_order.json')
+fh = open('../cromulent/data/key_order.json')
 data = fh.read()
 fh.close()
 key_order_hash = json.loads(data)
 
 # Allow configuration of overrides for the mapping of ontology to python/json
-fh = file('../cromulent/data/overrides.json')
+fh = open('../cromulent/data/overrides.json')
 data = fh.read()
 fh.close()
 property_overrides = json.loads(data)
 
 # Allow subsetting of CRM into in-use / not-in-use to enable the library
 # to warn on instantiation of not-in-use properties or classes
-fh = file('../cromulent/data/crm-profile.json')
+fh = open('../cromulent/data/crm-profile.json')
 data = fh.read()
 fh.close()
 profile_flags = json.loads(data)
 
-fh = file('data/inverses.xml')
+fh = open('data/inverses.xml')
 data = fh.read()
 fh.close()
 invdom = etree.XML(data)
@@ -63,7 +63,7 @@ def process_classes(dom):
 				break
 
 		useflag = str(profile_flags.get(name, 0))
-		if classXHash.has_key(name):
+		if name in classXHash:
 			classXHash[name][0] = c
 		else:
 			classXHash[name] = [c, useflag]
@@ -166,14 +166,14 @@ def process_props(dom):
 			inverse = ""
 
 		cidx = name.find(":")
-		if property_overrides.has_key(name):
+		if name in property_overrides:
 			ccname = property_overrides[name]
 		elif cidx > -1:
 			ccname = name[cidx+1:]
 		else:
 			uc1 = name.find("_")
 			pno = name[:uc1]
-			if property_overrides.has_key(pno):
+			if pno in property_overrides:
 				ccname = property_overrides[pno]
 			else:
 				ccname = name[uc1+1:]
@@ -193,11 +193,14 @@ def process_props(dom):
 files = ['cidoc.xml', 'linkedart.xml', 'linkedart_crm_enhancements.xml']
 
 for fn in files:
-	print "processing: %s" % fn
-	fh = file('data/%s' % fn)
+	print("processing: %s" % fn)
+	fh = open('data/%s' % fn)
 	data = fh.read()
 	fh.close()
-	dom = etree.XML(data)
+	try:
+		dom = etree.XML(data.encode('utf-8'))
+	except:
+		dom = etree.XML(data)
 	process_classes(dom)
 	process_props(dom)
 
@@ -207,13 +210,13 @@ fh = codecs.open('../cromulent/data/crm_vocab.tsv', 'w', 'utf-8')
 for l in stuff:
 	name = l[0]
 	line = '\t'.join(l) + "\n"	
-	if classXHash.has_key(name):
+	if name in classXHash:
 		okay = classXHash[name][1]
-	elif propXHash.has_key(name):
+	elif name in propXHash:
 		okay = propXHash[name][1]
 	else:
 		okay = 0
-		print "Could not find %s" % name
+		print("Could not find %s" % name)
 	if not PROFILE_ONLY or okay:
 		fh.write(line)
 fh.close()
