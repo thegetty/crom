@@ -1363,16 +1363,17 @@
     }, 
     "current_or_former_residence": {
       "@id": "crm:P74_has_current_or_former_residence", 
-      "@type": "@id"
+      "@type": "@id", 
+      "@container": "@set"
     }, 
     "current_or_former_residence_of": {
       "@id": "crm:P74i_is_current_or_former_residence_of", 
-      "@type": "@id"
+      "@type": "@id", 
+      "@container": "@set"
     }, 
     "possesses": {
       "@id": "crm:P75_possesses", 
-      "@type": "@id", 
-      "@container": "@set"
+      "@type": "@id"
     }, 
     "possessed_by": {
       "@id": "crm:P75i_is_possessed_by", 
@@ -1499,13 +1500,14 @@
       "@id": "crm:P100_was_death_of", 
       "@type": "@id"
     }, 
-    "died_in": {
+    "died": {
       "@id": "crm:P100i_died_in", 
       "@type": "@id"
     }, 
-    "as_general_use": {
+    "general_use": {
       "@id": "crm:P101_had_as_general_use", 
-      "@type": "@id"
+      "@type": "@id", 
+      "@container": "@set"
     }, 
     "use_of": {
       "@id": "crm:P101i_was_use_of", 

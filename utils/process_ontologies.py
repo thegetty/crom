@@ -44,11 +44,6 @@ data = fh.read()
 fh.close()
 profile_flags = json.loads(data)
 
-fh = open('data/inverses.xml')
-data = fh.read()
-fh.close()
-invdom = etree.XML(data)
-
 stuff = []
 propXHash = {}
 classXHash = {}
@@ -157,9 +152,7 @@ def process_props(dom):
 		else:
 			subProp = ""
 
-		inverse = dom.xpath('./owl:inverseOf/@rdf:resource', namespaces=NS)
-		if not inverse:
-			inverse = invdom.xpath('//rdf:Property[@rdf:about="%s"]/owl:inverseOf/@rdf:resource' % name, namespaces=NS)
+		inverse = p.xpath('./owl:inverseOf/@rdf:resource', namespaces=NS)
 		if inverse:
 			inverse = inverse[0]
 		else:

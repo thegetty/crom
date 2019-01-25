@@ -113,36 +113,12 @@ Instances of SP6 Declarative Places may be used to approximate instances of E53 
 </rdf:Property>
 
 
-<!-- This is truly, truly horrible :(  -->
+<!-- Proxies are very magical -->
 
 <rdfs:Class rdf:about="http://www.openarchives.org/ore/terms/Proxy">
     <rdfs:label xml:lang="en">Proxy</rdfs:label>
     <rdfs:comment>Proxy for a resource within the context of an Aggregation.</rdfs:comment>
-    <rdfs:subClassOf rdf:resource="E36_Visual_Item"/>
-<!--
-    <rdfs:subClassOf rdf:resource="https://linked.art/ns/terms/Payment"/>
-    <rdfs:subClassOf rdf:resource="https://linked.art/ns/terms/PropertyInterest"/>
-    <rdfs:subClassOf rdf:resource="https://linked.art/ns/terms/Relationship"/>
-    <rdfs:subClassOf rdf:resource="https://linked.art/ns/terms/Name"/>
-    <rdfs:subClassOf rdf:resource="https://linked.art/ns/terms/EndingActivity"/>
-    <rdfs:subClassOf rdf:resource="https://linked.art/ns/terms/TransformingActivity"/>
-    <rdfs:subClassOf rdf:resource="E8_Acquisition"/>
-    <rdfs:subClassOf rdf:resource="E13_Attribute_Assignment"/>
-    <rdfs:subClassOf rdf:resource="E65_Creation"/>
-    <rdfs:subClassOf rdf:resource="E66_Formation"/>
-    <rdfs:subClassOf rdf:resource="E74_Group"/>
-    <rdfs:subClassOf rdf:resource="E42_Identifier"/>
-    <rdfs:subClassOf rdf:resource="E56_Language"/>
-    <rdfs:subClassOf rdf:resource="E22_Man-Made_Object"/>
-    <rdfs:subClassOf rdf:resource="E57_Material"/>
-    <rdfs:subClassOf rdf:resource="E97_Monetary_Amount"/>
-    <rdfs:subClassOf rdf:resource="E21_Person"/>
-    <rdfs:subClassOf rdf:resource="E53_Place"/>
-    <rdfs:subClassOf rdf:resource="E12_Production"/>
-    <rdfs:subClassOf rdf:resource="E10_Transfer_of_Custody"/>
-    <rdfs:subClassOf rdf:resource="http://www.openarchives.org/ore/terms/Aggregation"/>
--->
-
+    <rdfs:subClassOf rdf:resource="E71_Man-Made_Thing"/>
 </rdfs:Class>
 
 <rdf:Property rdf:about="http://www.openarchives.org/ore/terms/proxyIn">
@@ -158,6 +134,9 @@ Instances of SP6 Declarative Places may be used to approximate instances of E53 
         <rdfs:domain rdf:resource="http://www.openarchives.org/ore/terms/Proxy"/>
         <rdfs:range rdf:resource="E1_CRM_Entity"/>
 </rdf:Property>
+
+
+
 
 <!-- Similarity of resources -->
 <!-- E1: owl:sameAs, skos:exactMatch, skos:closeMatch, dct:relation -->
