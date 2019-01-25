@@ -2081,7 +2081,7 @@
       "@id": "crm:P189_approximates", 
       "@type": "@id"
     }, 
-    "contents": {
+    "content": {
       "@id": "crm:P190_has_symbolic_content"
     }, 
     "end_of_the_begin": {
