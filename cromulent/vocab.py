@@ -63,6 +63,8 @@ ext_classes = {
 	"CustodyRight": {"parent": PropertyInterest, "id":"300411616", "label": "Custody Right"},
 	"CopyrightRight": {"parent": PropertyInterest, "id":"300055598", "label": "Copyright"},
 
+	"OwnershipPhase": {"parent": Phase, "id": "300055603", "label": "Ownership Phase"},
+
 	"Inscription": {"parent": LinguisticObject, "id": "300028702", "label": "Inscription", "brief": True},
 	"Signature": {"parent": LinguisticObject, "id": "300028705", "label": "Signature", "brief": True},
 	"MaterialStatement": {"parent": LinguisticObject, "id": "300010358", "label": "Material Statement", "brief": True},
