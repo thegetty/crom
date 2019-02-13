@@ -145,7 +145,7 @@ for l in lines:
 				name = "crm:%s" % name
 
 			if write:
-				if typ in ["rdfs:Literal", "xsd:dateTime", "xsd:string"]:
+				if typ in ["rdfs:Literal", "xsd:string"]:
 					context[ctname] = {"@id": name}
 				elif mult == '1':
 					context[ctname] = {"@id": name, "@type": typ, "@container":"@set"}
