@@ -280,7 +280,7 @@ identity_instances = {
 	"crime": {"parent": Type, "id": "300055289", "label": "Crime"},
 	"glassblowing": {"parent": Type, "id":"300053932", "label":"Glassblowing"},
 	"sculpting": {"parent": Type, "id":"300264383", "label": "Sculpting"},
-	"painting": {"parent": Type, "id":"300161986", "label": "Painting"},
+	"painting": {"parent": Type, "id":"300054216", "label": "Painting"},
 	"first": {"parent": Type, "id":"300404050", "label": "First"},
 	"last": {"parent": Type, "id": "XXX", "label": "Last"},
 
