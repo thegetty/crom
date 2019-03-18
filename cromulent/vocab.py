@@ -244,6 +244,7 @@ identity_instances = {
 	"feet": {"parent": MeasurementUnit, "id":"300379101", "label": "feet"},
 	"cm": {"parent": MeasurementUnit, "id": "300379098", "label": "centimeters"},
 	"meters": {"parent": MeasurementUnit, "id": "300379099", "label": "meters"},
+	"percent": {"parent": MeasurementUnit, "id": "300417377", "label": "percent"},
 
 	"english": {"parent": Language, "id": "300388277", "label": "English"},
 	"french": {"parent": Language, "id":"300388306","label": "French"},
