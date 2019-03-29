@@ -2265,7 +2265,7 @@
       "@type": "@id", 
       "@container": "@set"
     }, 
-    "label": {
+    "_label": {
       "@id": "rdfs:label"
     }, 
     "aggregates": {

@@ -9,7 +9,6 @@ import datetime
 ### Mappings for duplicate properties ###
 ### See build_tsv/vocab_reader
 
-KEY_ORDER_HASH = {}
 KEY_ORDER_DEFAULT = 10000
 LINKED_ART_CONTEXT_URI = "https://linked.art/ns/v1/linked-art.json"
 CRM_EXT_CONTEXT_URI = "https://linked.art/ns/v1/cidoc-extension.json"
@@ -115,10 +114,12 @@ class CromulentFactory(object):
 		self.json_indent = 2
 		self.order_json = True
 		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, 
-			"label": 5, "value": 6}
+			"_label": 5, "value": 6}
 		self.full_key_order_hash = {"@context": 0, "@id": 1, "rdf:type": 2, "@type": 2,
 			"rdfs:label": 5, "rdf:value": 6}
 		self.key_order_default = 10000
+
+		self.underscore_properties = ["_label"]
 
 		self._auto_id_types = {}
 		self._auto_id_segments = {}
@@ -420,6 +421,7 @@ class BaseResource(ExternalResource):
 		if which == 'context':
 			raise DataError("Must not set the JSON LD context directly", self)
 		elif which[0] == "_" or not value:
+			# _label goes through here, but it would below anyway, as it takes a Literal
 			object.__setattr__(self, which, value)			
 		else:
 			# Allow per-class setters
@@ -634,7 +636,8 @@ class BaseResource(ExternalResource):
 		tbd = []
 
 		for (k, v) in kvs:
-			if not v or k[0] == "_":
+			# some _foo might be carried through, eg _label or _comment
+			if not v or (k[0] == "_" and not k in self._factory.underscore_properties):
 				del d[k]
 			else:
 				if isinstance(v, ExternalResource):
@@ -774,8 +777,8 @@ def process_tsv(fn):
 
 			koh = int(info[9])
 			if koh != KEY_ORDER_DEFAULT:
-				KEY_ORDER_HASH[data['propName']] = koh
-				KEY_ORDER_HASH[data['name']] = koh
+				factory.full_key_order_hash[data['propName']] = koh
+				factory.key_order_hash[data['name']] = koh
 
 	# invert subclass hierarchy
 	for k, v in vocabData.items():

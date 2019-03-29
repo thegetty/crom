@@ -2,6 +2,8 @@
 	"classified_as": 3,  
 	"identified_by": 10,
 
+	"referred_to_by" : 15,
+
 	"timespan": 20, 
 	"begin_of_the_begin": 21, 
 	"end_of_the_begin": 22, 
@@ -19,6 +21,12 @@
 	"brought_into_existence_by": 33,
 	"destroyed": 34,
 	"taken_out_of_existence_by": 34,
+	"born": 33,
+	"died": 34,
+
+	"carried_out": 40,
+	"dimension": 41,
+	"made_of": 42,
 
 	"sales_price": 49,
 	"estimated_price": 48,
@@ -30,6 +38,9 @@
 	"transferred_custody_of": 53,
 	"transferred_custody_from": 54,
 	"transferred_custody_to": 55,
+
+	"shows": 60,
+	"carries": 61,
 
 	"consists_of": 100, 
 	"composed_of": 101,

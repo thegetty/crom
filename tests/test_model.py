@@ -266,8 +266,11 @@ class TestBaseResource(unittest.TestCase):
 		self.assertEqual(parent, 2)
 
 	def test_list_all_props(self):
-		props = self.artist._list_all_props()
-		(lbl, cl) = sorted(props.items())[0]
+		props = list(self.artist._list_all_props().items())
+		props.sort()
+		if props[0][0] == "_label":
+			props = props[1:]
+		(lbl, cl) = props[0]
 		self.assertEqual('acquired_custody_through', lbl)
 		self.assertEqual(model.TransferOfCustody, cl)
 

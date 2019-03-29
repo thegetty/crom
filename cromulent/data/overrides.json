@@ -61,6 +61,7 @@
 	"schema:genre": "style",
 	"ore:isAggregatedBy": "aggregated_by",
 	"rdfs:seeAlso": "see_also",
+	"rdfs:label": "_label",
 	"sci:O13_triggers": "caused",
 	"sci:O13i_is_triggered_by": "caused_by"
 }
