@@ -29,7 +29,7 @@ def register_aat_class(name, data):
 		t = Type(id)
 	else:
 		t = Type("http://vocab.getty.edu/aat/%s" % id)
-	t.label = label
+	t._label = label
 	if parent == LinguisticObject and "brief" in data:
 		c._classification = [t, instances["brief text"]]
 	else:	
@@ -48,7 +48,7 @@ def register_instance(name, data):
 		t = parent(id)
 	else:
 		t = parent("http://vocab.getty.edu/aat/%s" % id)
-	t.label = label
+	t._label = label
 	instances[name] = t
 
 # Meta meta
@@ -121,9 +121,10 @@ ext_classes = {
 	"MuseumOrg":   {"parent": Group, "id":"300312281", "label": "Museum"},
 	"Department":  {"parent": Group, "id":"300263534", "label": "Department"},
 
-
 	"Nationality": {"parent": Type, "id":"300379842", "label": "Nationality"},
 	"Gender":      {"parent": Type, "id":"300055147", "label": "Gender"},
+	"Occupation":  {"parent": Type, "id":"300263369", "label": "Occupation"},
+
 	"Auctioneer":  {"parent": Person, "id":"300025208", "label": "Auctioneer"}, # is this useful?
 
 	"Auction":     {"parent": Activity, "id":"300054751", "label": "Auctioning"},

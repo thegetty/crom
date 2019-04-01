@@ -1,5 +1,5 @@
 from cromulent import model
-from cromulent.model import factory, DataError, OrderedDict, BaseResource, KEY_ORDER_HASH as koh
+from cromulent.model import factory, DataError, OrderedDict, BaseResource
 from cromulent.model import STR_TYPES
 from cromulent.multiple_instantiation import EoEActivity
 import json
@@ -82,7 +82,7 @@ class Reader(object):
 
 		# sort data by KOH to minimize chance of bad backrefs
 		itms = list(js.items())
-		itms.sort(key=lambda x: koh.get(x[0], 10000))
+		itms.sort(key=lambda x: factory.key_order_hash.get(x[0], 10000))
 
 		for (prop, value) in itms:
 			# Make everything a list, even if it can't be one

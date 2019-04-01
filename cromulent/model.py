@@ -9,7 +9,6 @@ import datetime
 ### Mappings for duplicate properties ###
 ### See build_tsv/vocab_reader
 
-KEY_ORDER_HASH = {}
 KEY_ORDER_DEFAULT = 10000
 LINKED_ART_CONTEXT_URI = "https://linked.art/ns/v1/linked-art.json"
 CRM_EXT_CONTEXT_URI = "https://linked.art/ns/v1/cidoc-extension.json"
@@ -115,10 +114,12 @@ class CromulentFactory(object):
 		self.json_indent = 2
 		self.order_json = True
 		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, 
-			"label": 5, "value": 6}
+			"_label": 5, "value": 6}
 		self.full_key_order_hash = {"@context": 0, "@id": 1, "rdf:type": 2, "@type": 2,
 			"rdfs:label": 5, "rdf:value": 6}
 		self.key_order_default = 10000
+
+		self.underscore_properties = ["_label"]
 
 		self._auto_id_types = {}
 		self._auto_id_segments = {}
@@ -379,7 +380,6 @@ class BaseResource(ExternalResource):
 
 	_integer_properties = []
 	_object_properties = []
-	_lang_properties = []
 	_required_properties = []
 	_warn_properties = []
 	_classification = ""
@@ -398,11 +398,17 @@ class BaseResource(ExternalResource):
 		# Set info other than identifier
 		self.type = self.__class__._type
 		if label:
-			self.label = label
+			self._label = label
 		# this might raise an exception if value is not allowed on the object
 		# but easier to do it in the main init than on generated subclasses
 		if value:
-			self.value = value
+			try:
+				self.value = value
+			except:
+				try:
+					self.content = value
+				except:
+					raise ProfileError("Class '%s' does not hold values" % self.__class__._type)
 		# Custom post initialization function for autoconstructed classes
 		self._post_init(**kw)
 
@@ -420,6 +426,7 @@ class BaseResource(ExternalResource):
 		if which == 'context':
 			raise DataError("Must not set the JSON LD context directly", self)
 		elif which[0] == "_" or not value:
+			# _label goes through here, but it would below anyway, as it takes a Literal
 			object.__setattr__(self, which, value)			
 		else:
 			# Allow per-class setters
@@ -434,9 +441,7 @@ class BaseResource(ExternalResource):
 			else:
 				ok = 1
 
-			if which in self._lang_properties:
-				self._set_magic_lang(which, value)
-			elif ok == 2:
+			if ok == 2:
 				self._set_magic_resource(which, value)
 			else:			
 				object.__setattr__(self, which, value)				
@@ -521,6 +526,9 @@ class BaseResource(ExternalResource):
 		# Input:  string, and use "" or default_lang
 		#         dict of lang: value
 		# Merge with existing values
+
+		# N.B. This function is never used, but retained in case we somehow need language setting
+		# in the future
 
 		try:
 			current = getattr(self, which)
@@ -619,7 +627,7 @@ class BaseResource(ExternalResource):
 			except:
 				pass
 			try:
-				nd['label'] = d['label']
+				nd['_label'] = d['_label']
 			except:
 				pass
 			d = nd
@@ -634,7 +642,8 @@ class BaseResource(ExternalResource):
 		tbd = []
 
 		for (k, v) in kvs:
-			if not v or k[0] == "_":
+			# some _foo might be carried through, eg _label or _comment
+			if not v or (k[0] == "_" and not k in self._factory.underscore_properties):
 				del d[k]
 			else:
 				if isinstance(v, ExternalResource):
@@ -652,7 +661,7 @@ class BaseResource(ExternalResource):
 				self._factory.done[t] = self.id
 			
 		for (k,v) in kvs:
-			if v and k[0] != "_":
+			if v and (k[0] != "_" and not k in self._factory.underscore_properties):
 				if isinstance(v, ExternalResource):
 					if self._factory.done[v.id] == self.id:
 						del self._factory.done[v.id]
@@ -742,7 +751,7 @@ class BaseResource(ExternalResource):
 # Ensure everything can have id, type, label and description
 BaseResource._properties = {'id': {"rdf": "@id", "range": str, "okayToUse": 1}, 
 	'type': {"rdf": "rdf:type", "range": str, "okayToUse": 1}, 
-	'label': {"rdf": "rdfs:label", "range": str, "okayToUse": 1}
+	'_label': {"rdf": "rdfs:label", "range": str, "okayToUse": 1}
 }
 BaseResource._classhier = (BaseResource, ExternalResource)
 
@@ -774,8 +783,8 @@ def process_tsv(fn):
 
 			koh = int(info[9])
 			if koh != KEY_ORDER_DEFAULT:
-				KEY_ORDER_HASH[data['propName']] = koh
-				KEY_ORDER_HASH[data['name']] = koh
+				factory.full_key_order_hash[data['propName']] = koh
+				factory.key_order_hash[data['name']] = koh
 
 	# invert subclass hierarchy
 	for k, v in vocabData.items():

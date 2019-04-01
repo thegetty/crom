@@ -69,7 +69,7 @@ class TestFactorySerialization(unittest.TestCase):
 
 	def setUp(self):
 		self.collection = model.InformationObject('collection')
-		self.collection.label = "Test Object"
+		self.collection._label = "Test Object"
 
 	def test_broken_unicode(self):
 		model.factory.debug_level = "error_on_warning"
@@ -77,7 +77,7 @@ class TestFactorySerialization(unittest.TestCase):
 			badval = b"\xFF\xFE\x02"
 		except:
 			badval = "\xFF\xFE\x02"
-		badjs = {"label": badval}
+		badjs = {"_label": badval}
 		self.assertRaises(model.MetadataError, model.factory._buildString,
 			js=badjs)
 
@@ -86,7 +86,7 @@ class TestFactorySerialization(unittest.TestCase):
 		expect = OrderedDict([
 			('@context', model.factory.context_uri),
 			('id', u'http://lod.example.org/museum/InformationObject/collection'), 
-			('type', 'InformationObject'), ('label', 'Test Object')])
+			('type', 'InformationObject'), ('_label', 'Test Object')])
 		outj = model.factory.toJSON(self.collection)
 		self.assertEqual(expect, outj)
 
@@ -97,7 +97,7 @@ class TestFactorySerialization(unittest.TestCase):
 		model.factory.context_uri = 'http://lod.getty.edu/context.json'
 		model.factory.full_names = True
 		p = model.Person("1")
-		p.label = "Test Person"
+		p._label = "Test Person"
 		outj = model.factory.toJSON(p)
 		self.assertEqual(expect, outj)
 		# reset
@@ -105,7 +105,7 @@ class TestFactorySerialization(unittest.TestCase):
 		model.factory.context_uri = ""
 
 	def test_toString(self):
-		expect = u'{"id":"http://lod.example.org/museum/InformationObject/collection","type":"InformationObject","label":"Test Object"}'
+		expect = u'{"id":"http://lod.example.org/museum/InformationObject/collection","type":"InformationObject","_label":"Test Object"}'
 		outs = model.factory.toString(self.collection)
 		self.assertEqual(expect, outs)
 
@@ -127,8 +127,8 @@ class TestFactorySerialization(unittest.TestCase):
 		fr = model.Group()
 		to = model.Group()
 		w = model.ManMadeObject()
-		fr.label = "From"
-		to.label = "To"
+		fr._label = "From"
+		to._label = "To"
 		x.transferred_custody_of = w
 		x.transferred_custody_from = fr
 		x.transferred_custody_to = to
@@ -143,9 +143,9 @@ class TestFactorySerialization(unittest.TestCase):
 
 	def test_string_list(self):
 		x = model.Activity()
-		x.label = ["Label 1", "Label 2"]
+		x._label = ["Label 1", "Label 2"]
 		js = model.factory.toJSON(x)
-		self.assertTrue(js['label'] == x.label)
+		self.assertTrue(js['_label'] == x._label)
 
 	def test_external(self):
 		x = model.ExternalResource(ident="1")
@@ -255,19 +255,22 @@ class TestBaseResource(unittest.TestCase):
 	def test_init(self):
 		self.assertEqual(self.artist.id, 'http://lod.example.org/museum/Person/00001')
 		self.assertEqual(self.artist.type, 'crm:E21_Person')
-		self.assertEqual(self.artist.label, 'Jane Doe')
+		self.assertEqual(self.artist._label, 'Jane Doe')
 		self.assertFalse(hasattr(self.artist, 'value'))
 		self.assertFalse(hasattr(self.artist, 'has_type'))
 
 	def test_check_prop(self):
-		desc = self.artist._check_prop('label', 'Jane Doe\'s Bio')
+		desc = self.artist._check_prop('_label', 'Jane Doe\'s Bio')
 		self.assertEqual(desc, 1)
 		parent = self.artist._check_prop('parent_of', self.son)
 		self.assertEqual(parent, 2)
 
 	def test_list_all_props(self):
-		props = self.artist._list_all_props()
-		(lbl, cl) = sorted(props.items())[0]
+		props = list(self.artist._list_all_props().items())
+		props.sort()
+		if props[0][0] == "_label":
+			props = props[1:]
+		(lbl, cl) = props[0]
 		self.assertEqual('acquired_custody_through', lbl)
 		self.assertEqual(model.TransferOfCustody, cl)
 
@@ -297,14 +300,17 @@ class TestMagicMethods(unittest.TestCase):
 		model.Person._properties['parent_of']['okayToUse'] = 1
 		model.Person._lang_properties = ['label', 'description']
 
-	def test_set_magic_lang(self):
-		model.factory.default_lang = 'en'
-		artist = model.Person('00001', 'Jane Doe')
-		self.assertEqual(artist.label, {'en': 'Jane Doe'})
-		artist._set_magic_lang('label', 'Janey')
-		self.assertEqual(artist.label, {'en': ['Jane Doe', 'Janey']})
-		son = model.Person('00002', 'John Doe')
-		self.assertRaises(model.DataError, artist._set_magic_lang, 'parent_of', son)
+	# Commented out as we don't actually use magic_lang ever
+	# It's always a LinguisticObject with .language Type
+
+	# def test_set_magic_lang(self):
+	# 	model.factory.default_lang = 'en'
+	# 	artist = model.LinguisticObject('00001', value='Jane Doe')
+	# 	self.assertEqual(artist.content, {'en': 'Jane Doe'})
+	# 	artist._set_magic_lang('content', 'Janey')
+	# 	self.assertEqual(artist.content, {'en': ['Jane Doe', 'Janey']})
+	# 	son = model.Person('00002', 'John Doe')
+	# 	self.assertRaises(model.DataError, artist._set_magic_lang, 'parent_of', son)
 
 	def test_set_magic_resource(self):
 		artist = model.Person('00001', 'Jane Doe')
