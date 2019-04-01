@@ -380,7 +380,6 @@ class BaseResource(ExternalResource):
 
 	_integer_properties = []
 	_object_properties = []
-	_lang_properties = []
 	_required_properties = []
 	_warn_properties = []
 	_classification = ""
@@ -442,9 +441,7 @@ class BaseResource(ExternalResource):
 			else:
 				ok = 1
 
-			if which in self._lang_properties:
-				self._set_magic_lang(which, value)
-			elif ok == 2:
+			if ok == 2:
 				self._set_magic_resource(which, value)
 			else:			
 				object.__setattr__(self, which, value)				
@@ -529,6 +526,9 @@ class BaseResource(ExternalResource):
 		# Input:  string, and use "" or default_lang
 		#         dict of lang: value
 		# Merge with existing values
+
+		# N.B. This function is never used, but retained in case we somehow need language setting
+		# in the future
 
 		try:
 			current = getattr(self, which)

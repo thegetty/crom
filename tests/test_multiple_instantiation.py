@@ -15,10 +15,10 @@ class TestMIClasses(unittest.TestCase):
 
 	def test_destruction(self):
 		expect = OrderedDict([('id', u'http://lod.example.org/museum/Activity/1'), 
-			('type', ['Destruction', 'Activity']), ('label', "Test Destruction")])
+			('type', ['Destruction', 'Activity']), ('_label', "Test Destruction")])
 		mi.DestructionActivity._okayToUse = 1
 		da = mi.DestructionActivity("1")
-		da.label = "Test Destruction"
+		da._label = "Test Destruction"
 		factory.context_uri = ""
 		dajs = factory.toJSON(da)
 		self.assertEqual(dajs, expect)

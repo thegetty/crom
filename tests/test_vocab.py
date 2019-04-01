@@ -25,7 +25,7 @@ class TestClassBuilder(unittest.TestCase):
 
 	def test_art_setter(self):
 		p = model.ManMadeObject("a", art=1)
-		p.label = "a"
+		p._label = "a"
 		pj = p._toJSON()
 		self.assertFalse(pj.get('classified_as', None))
 		vocab.add_art_setter()
