@@ -399,11 +399,17 @@ class BaseResource(ExternalResource):
 		# Set info other than identifier
 		self.type = self.__class__._type
 		if label:
-			self.label = label
+			self._label = label
 		# this might raise an exception if value is not allowed on the object
 		# but easier to do it in the main init than on generated subclasses
 		if value:
-			self.value = value
+			try:
+				self.value = value
+			except:
+				try:
+					self.content = value
+				except:
+					raise ProfileError("Class '%s' does not hold values" % self.__class__._type)
 		# Custom post initialization function for autoconstructed classes
 		self._post_init(**kw)
 
@@ -621,7 +627,7 @@ class BaseResource(ExternalResource):
 			except:
 				pass
 			try:
-				nd['label'] = d['label']
+				nd['_label'] = d['_label']
 			except:
 				pass
 			d = nd
@@ -745,7 +751,7 @@ class BaseResource(ExternalResource):
 # Ensure everything can have id, type, label and description
 BaseResource._properties = {'id': {"rdf": "@id", "range": str, "okayToUse": 1}, 
 	'type': {"rdf": "rdf:type", "range": str, "okayToUse": 1}, 
-	'label': {"rdf": "rdfs:label", "range": str, "okayToUse": 1}
+	'_label': {"rdf": "rdfs:label", "range": str, "okayToUse": 1}
 }
 BaseResource._classhier = (BaseResource, ExternalResource)
 
