@@ -661,7 +661,7 @@ class BaseResource(ExternalResource):
 				self._factory.done[t] = self.id
 			
 		for (k,v) in kvs:
-			if v and k[0] != "_":
+			if v and (k[0] != "_" and not k in self._factory.underscore_properties):
 				if isinstance(v, ExternalResource):
 					if self._factory.done[v.id] == self.id:
 						del self._factory.done[v.id]
