@@ -32,6 +32,7 @@
 </rdf:Property>
 
 <!-- Legal Claim / Property Interest -->
+<!-- This might go to a reformulation of Right -->
 
 <rdfs:Class rdf:about="https://linked.art/ns/terms/PropertyInterest">
     <rdfs:label xml:lang="en">Property Interest</rdfs:label>
@@ -121,7 +122,7 @@
 <rdf:Property rdf:about="https://linked.art/ns/terms/has_phase">
     <rdfs:label xml:lang="en">has phase</rdfs:label>
     <rdfs:comment xml:lang="en"> The relationship between an E1 Entity and one of its Phases. A painting that had two sizes, 16 feet and 14 feet wide, would have two Phases, one for each width. </rdfs:comment>
-    <rdfs:domain rdf:resource="E1_Entity"/>
+    <rdfs:domain rdf:resource="E1_CRM_Entity"/>
     <rdfs:range rdf:resource="https://linked.art/ns/terms/Phase"/>
     <owl:inverseOf rdf:resource="https://linked.art/ns/terms/phase_of"/>
 </rdf:Property>
@@ -130,7 +131,7 @@
     <rdfs:label xml:lang="en">phase of</rdfs:label>
     <rdfs:comment xml:lang="en"> The inverse of la:has_phase.</rdfs:comment>
     <rdfs:domain rdf:resource="https://linked.art/ns/terms/Phase"/>
-    <rdfs:range rdf:resource="E1_Entity"/>
+    <rdfs:range rdf:resource="E1_CRM_Entity"/>
     <owl:inverseOf rdf:resource="https://linked.art/ns/terms/has_state"/>
 </rdf:Property>
 
@@ -138,14 +139,14 @@
     <rdfs:label xml:lang="en">related entity</rdfs:label>
     <rdfs:comment xml:lang="en"> An E1 Entity that defines the nature of the Phase. For an ownership phase, this would be the owning E39 Actor. For the size of painting phase, this would be the E54 Dimension that describes the size.</rdfs:comment>
     <rdfs:domain rdf:resource="https://linked.art/ns/terms/Phase"/>
-    <rdfs:range rdf:resource="E1_Entity"/>
+    <rdfs:range rdf:resource="E1_CRM_Entity"/>
     <owl:inverseOf rdf:resource="https://linked.art/ns/terms/terminated"/>
 </rdf:Property>
 
 <rdf:Property rdf:about="https://linked.art/ns/terms/related_entity_of">
     <rdfs:label xml:lang="en">related entity of</rdfs:label>
     <rdfs:comment xml:lang="en"> The inverse of la:related_entity.</rdfs:comment>
-    <rdfs:domain rdf:resource="E1_Entity"/>
+    <rdfs:domain rdf:resource="E1_CRM_Entity"/>
     <rdfs:range rdf:resource="https://linked.art/ns/terms/Phase"/>
     <owl:inverseOf rdf:resource="https://linked.art/ns/terms/related_entity"/>
 </rdf:Property>
@@ -159,6 +160,31 @@
 </rdf:Property>
 
 <!-- caused / caused_by is O13_triggered / O13i_triggered_by -->
+
+<!-- Set of Things, as potential superclass of Group and Collection -->
+<!-- e.g. an auction lot is not a curated holding, but we need a class for its membership -->
+
+<rdfs:Class rdf:about="https://linked.art/ns/terms/Set">
+    <rdfs:label xml:lang="en">Set</rdfs:label>
+    <rdfs:comment></rdfs:comment>
+    <rdfs:subClassOf rdf:resource="E28_Conceptual_Object"/>
+</rdfs:Class>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/has_member">
+    <rdfs:label xml:lang="en">has member</rdfs:label>
+    <rdfs:comment xml:lang="en"></rdfs:comment>
+    <rdfs:domain rdf:resource="https://linked.art/ns/terms/Set"/>
+    <rdfs:range rdf:resource="E1_CRM_Entity"/>
+    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/member_of"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/member_of">
+    <rdfs:label xml:lang="en">member of</rdfs:label>
+    <rdfs:comment xml:lang="en"></rdfs:comment>
+    <rdfs:domain rdf:resource="E1_CRM_Entity"/>
+    <rdfs:range rdf:resource="https://linked.art/ns/terms/Set"/>
+    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/has_member"/>
+</rdf:Property>
 
 
 

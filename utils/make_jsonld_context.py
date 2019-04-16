@@ -46,7 +46,9 @@ parts = {
 	"P89": ["crm:P89i_contains", "crm:P89_falls_within"],
 	"skos": ["skos:narrower", "skos:broader"],
 	"P148": ["crm:P148_has_component", "crm:P148i_is_component_of"],
-	"interest": ["la:interest_part", "la:interest_part_of"]
+	"interest": ["la:interest_part", "la:interest_part_of"],
+	"set": ["la:has_member", "la:member_of"],
+	"P107": ["crm:P107_has_current_or_former_member", "crm:P107i_is_current_or_former_member_of"]
 }
 
 scoped_classes = {
@@ -100,7 +102,9 @@ scoped_classes = {
 	"PartAddition": "P9",
 	"PartRemoval": "P9",
 	"SymbolicObject": "P106",
-	"Purchase": "P9"
+	"Purchase": "P9",
+	"Set": "set",
+	"Group": "P107"
 }
 
 
@@ -117,15 +121,21 @@ for l in lines:
 		if ctname in scoped_classes:
 			part = parts[scoped_classes[ctname]][0]
 			part_of = parts[scoped_classes[ctname]][1]
-			context[ctname]['@context'] = {
-				"part": {"@id": part, "@type": "@id", "@container": "@set"},
-				"part_of": {"@id": part_of, "@type": "@id", "@container": "@set"}
-			}
+			if scoped_classes[ctname] in ['set', 'P107']:
+				context[ctname]['@context'] = {
+					"member": {"@id": part, "@type": "@id", "@container": "@set"},
+					"member_of": {"@id": part_of, "@type": "@id", "@container": "@set"}
+				}
+			else:
+				context[ctname]['@context'] = {
+					"part": {"@id": part, "@type": "@id", "@container": "@set"},
+					"part_of": {"@id": part_of, "@type": "@id", "@container": "@set"}
+				}
 	else:
 		ctname = info[2]
-		write = not ctname in ['part', 'part_of']
+		write = not ctname in ['part', 'part_of', 'member', 'member_of']
 		# These need to be added correctly to all parents in the ontology
-		# And not at the main level.
+		# ... as above
 
 		dmn = info[6]
 		rng = info[7]

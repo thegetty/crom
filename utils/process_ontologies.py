@@ -198,8 +198,16 @@ for fn in files:
 	process_props(dom)
 
 
+
+headers = ["term", "term type", "json-ld key", "label", "scope note", "subPropertyOf", "domain", \
+		"range", "inverse", "key order", "okay to use?", "okay for multiple?"]
+
 # outdata = '\n'.join(['\t'.join(x) for x in stuff])
 fh = codecs.open('../cromulent/data/crm_vocab.tsv', 'w', 'utf-8')
+# write header
+line = '\t'.join(headers) + '\n'
+fh.write(line)
+
 for l in stuff:
 	name = l[0]
 	line = '\t'.join(l) + "\n"	
