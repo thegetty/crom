@@ -8,7 +8,7 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	LinguisticObject, InformationObject, \
 	Activity, Group, Name, MonetaryAmount, PropertyInterest, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
-	Acquisition, ManMadeFeature, VisualItem, Aggregation, Proxy, \
+	Acquisition, ManMadeFeature, VisualItem, Set, \
 	PropositionalObject, Payment, Creation, Phase, \
 	STR_TYPES, factory
 
@@ -147,8 +147,8 @@ ext_classes = {
 	"Theft": {"parent": Acquisition, "id": "300055292", "label": "Theft"},
 	"Looting": {"parent": Acquisition, "id":"300379554", "label": "Looting"},
 
-	"AuctionLotSet": {"parent": Aggregation, "id":"300411307", "label": "Auction Lot"},
-	"CollectionSet": {"parent": Aggregation, "id":"300025976", "label": "Collection"},
+	"AuctionLotSet": {"parent": Set, "id":"300411307", "label": "Auction Lot"},
+	"CollectionSet": {"parent": Set, "id":"300025976", "label": "Collection"},
 
 	"PrimaryName": {"parent": Name, "id":"300404670", "label": "Primary Name"},
 	"SortName": {"parent": Name, "id":"300404672", "label": "Sorting Name"},
