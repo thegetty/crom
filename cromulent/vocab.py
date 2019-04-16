@@ -119,8 +119,7 @@ ext_classes = {
 	"MuseumPlace":  {"parent": Place, "id":"300005768", "label": "Museum (place)"},
 	"ExhibitionPlace": {"parent": Place, "id":"300005748", "label": "Exhibition (place)"},
 
-	"AuctionHouseOrg": {"parent": Group, "id": "300417515", "label": "Auction House (organization)"}
-
+	"AuctionHouseOrg": {"parent": Group, "id": "300417515", "label": "Auction House (organization)"},
 	"MuseumOrg":   {"parent": Group, "id":"300312281", "label": "Museum"},
 	"Department":  {"parent": Group, "id":"300263534", "label": "Department"},
 
