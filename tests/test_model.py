@@ -175,7 +175,7 @@ class TestProcessTSV(unittest.TestCase):
 class TestBuildClasses(unittest.TestCase):
 
 	def test_build_classes(self):
-		tsv = "ClassName_full\tclass\tClassName_py\tClass Label\tClass Description\t\t1\t\n"
+		tsv = "\nClassName_full\tclass\tClassName_py\tClass Label\tClass Description\t\t1\t\n"
 		fh = open('tests/temp.tsv', 'w')
 		fh.write(tsv)
 		fh.close()
@@ -187,7 +187,7 @@ class TestBuildClasses(unittest.TestCase):
 class TestBuildClass(unittest.TestCase):
 
 	def test_build_class(self):
-		tsv = "ClassName_full\tclass\tClassName_py2\tClass Label\tClass Description\t\t1\t\n"
+		tsv = "\nClassName_full\tclass\tClassName_py2\tClass Label\tClass Description\t\t1\t\n"
 		fh = open('tests/temp.tsv', 'w')
 		fh.write(tsv)
 		fh.close()
