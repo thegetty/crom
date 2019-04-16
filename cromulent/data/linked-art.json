@@ -13,10 +13,6 @@
     "la": "https://linked.art/ns/terms/", 
     "id": "@id", 
     "type": "@type", 
-    "json-ld key": {
-      "@id": "term", 
-      "@type": "range"
-    }, 
     "CRMEntity": {
       "@id": "crm:E1_CRM_Entity"
     }, 

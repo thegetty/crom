@@ -13,7 +13,7 @@ except:
 
 fn = '../cromulent/data/crm_vocab.tsv'
 fh = codecs.open(fn, 'r', 'utf-8')
-lines = fh.readlines()
+lines = fh.readlines()[1:] # Chomp header line
 fh.close()
 
 context = OrderedDict()
