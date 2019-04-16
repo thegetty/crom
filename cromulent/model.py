@@ -757,7 +757,7 @@ BaseResource._classhier = (BaseResource, ExternalResource)
 
 def process_tsv(fn):
 	fh = codecs.open(fn, 'r', 'utf-8')
-	lines = fh.readlines()
+	lines = fh.readlines()[1:] # chomp header line
 	fh.close()
 	vocabData = {"rdf:Resource": 
 		{"props": [], "label": "Resource", "className": "Resource", 

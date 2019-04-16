@@ -8,7 +8,7 @@ from .model import Identifier, Mark, ManMadeObject, Type, \
 	LinguisticObject, InformationObject, \
 	Activity, Group, Name, MonetaryAmount, PropertyInterest, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
-	Acquisition, ManMadeFeature, VisualItem, Aggregation, Proxy, \
+	Acquisition, ManMadeFeature, VisualItem, Set, \
 	PropositionalObject, Payment, Creation, Phase, \
 	STR_TYPES, factory
 
@@ -91,6 +91,7 @@ ext_classes = {
 	"Folio": {"parent": LinguisticObject, "id":"300189604", "label": "Folio"},
 	"DataRecord": {"parent": LinguisticObject, "id":"300026685", "label": "Data Record"}, # Not sure about this one
 	"Heading": {"parent": LinguisticObject, "id": "300200862", "label": "Heading"},
+	"SubHeading": {"parent": LinguisticObject, "id": "300419992", "label": "Heading"},
 
 	"Journal": {"parent": LinguisticObject, "id":"300215390", "label": "Journal"},
 	"Issue": {"parent": LinguisticObject, "id":"300312349", "label": "Issue"},
@@ -113,11 +114,12 @@ ext_classes = {
 	"Weight":     {"parent": Dimension, "id":"300056240", "label": "Weight"},
 	"Color":      {"parent": Dimension, "id":"300056130", "label": "Color"},
 
-	"Gallery":      {"parent": Place, "id":"300240057", "label": "Gallery"},
-	"AuctionHouse": {"parent": Place, "id":"300005234", "label": "Auction House"},
-	"MuseumPlace":  {"parent": Place, "id":"300005768", "label": "Museum"},
-	"ExhibitionPlace": {"parent": Place, "id":"300005748", "label": "Exhibition"},
+	"Gallery":      {"parent": Place, "id":"300240057", "label": "Gallery (place)"},
+	"AuctionHouse": {"parent": Place, "id":"300005234", "label": "Auction House (place)"},
+	"MuseumPlace":  {"parent": Place, "id":"300005768", "label": "Museum (place)"},
+	"ExhibitionPlace": {"parent": Place, "id":"300005748", "label": "Exhibition (place)"},
 
+	"AuctionHouseOrg": {"parent": Group, "id": "300417515", "label": "Auction House (organization)"},
 	"MuseumOrg":   {"parent": Group, "id":"300312281", "label": "Museum"},
 	"Department":  {"parent": Group, "id":"300263534", "label": "Department"},
 
@@ -127,7 +129,9 @@ ext_classes = {
 
 	"Auctioneer":  {"parent": Person, "id":"300025208", "label": "Auctioneer"}, # is this useful?
 
-	"Auction":     {"parent": Activity, "id":"300054751", "label": "Auctioning"},
+
+	"AuctionEvent": {"parent": Activity, "id":"300xxxxxx", "label": "Auction Event"},
+	"Auction":     {"parent": Activity, "id":"300054751", "label": "Auction of Lot"}, # Individual auction-of-lot
 	"Bidding":     {"parent": Creation, "id":"300054602", "label": "Bidding"}, # individual bid
 	"Curating":    {"parent": Activity, "id":"300054277", "label": "Curating"},
 	"Inventorying": {"parent": Activity, "id":"300077506", "label": "Inventorying"},
@@ -143,13 +147,8 @@ ext_classes = {
 	"Theft": {"parent": Acquisition, "id": "300055292", "label": "Theft"},
 	"Looting": {"parent": Acquisition, "id":"300379554", "label": "Looting"},
 
-	"SupportPart": {"parent": ManMadeObject, "id":"300014844", "label": "Support"},
-	"FramePart": {"parent": ManMadeObject, "id":"300404391", "label": "Frame"},
-	"MountPart": {"parent": ManMadeObject, "id":"300131087", "label": "Mount"},
-	"PanelPart": {"parent": ManMadeObject, "id":"300014657", "label": "Panel"},
-
-	"AuctionLotSet": {"parent": Aggregation, "id":"300411307", "label": "Auction Lot"},
-	"CollectionSet": {"parent": Aggregation, "id":"300025976", "label": "Collection"},
+	"AuctionLotSet": {"parent": Set, "id":"300411307", "label": "Auction Lot"},
+	"CollectionSet": {"parent": Set, "id":"300025976", "label": "Collection"},
 
 	"PrimaryName": {"parent": Name, "id":"300404670", "label": "Primary Name"},
 	"SortName": {"parent": Name, "id":"300404672", "label": "Sorting Name"},
@@ -211,6 +210,12 @@ ext_classes = {
 	"TopPart": {"parent": ManMadeObject, "id":"300190710", "label": "Top Part"},
 	"BottomPart": {"parent": ManMadeObject, "id":"300190695", "label": "Bottom Part"},
 	"SidePart": {"parent": ManMadeObject, "id":"300190706", "label": "Side Part"},
+
+	"SupportPart": {"parent": ManMadeObject, "id":"300014844", "label": "Support"},
+	"FramePart": {"parent": ManMadeObject, "id":"300404391", "label": "Frame"},
+	"MountPart": {"parent": ManMadeObject, "id":"300131087", "label": "Mount"},
+	"PanelPart": {"parent": ManMadeObject, "id":"300014657", "label": "Panel"},
+	"BasePart": {"parent": ManMadeObject, "id":"300001656", "label": "Base"},
 
 	"StartingPrice": {"parent": MonetaryAmount, "id": "300417242", "label": "Starting Price"},
 	"ReservePrice": {"parent": MonetaryAmount, "id": "300417243", "label": "Reserve Price"},
