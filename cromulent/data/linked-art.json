@@ -2245,12 +2245,6 @@
     "CoordinateSystem": {
       "@id": "geo:SP4_Spatial_Coordinate_Reference_System"
     }, 
-    "Aggregation": {
-      "@id": "ore:Aggregation"
-    }, 
-    "Proxy": {
-      "@id": "ore:Proxy"
-    }, 
     "Q9_is_expressed_in_terms_of": {
       "@id": "geo:Q9_is_expressed_in_terms_of", 
       "@type": "geo:SP4_Spatial_Coordinate_Reference_System"
@@ -2271,22 +2265,6 @@
     }, 
     "_label": {
       "@id": "rdfs:label"
-    }, 
-    "aggregates": {
-      "@id": "ore:aggregates", 
-      "@type": "@id"
-    }, 
-    "isAggregatedBy": {
-      "@id": "ore:isAggregatedBy", 
-      "@type": "ore:Aggregation"
-    }, 
-    "proxyIn": {
-      "@id": "ore:proxyIn", 
-      "@type": "ore:Aggregation"
-    }, 
-    "proxyFor": {
-      "@id": "ore:proxyFor", 
-      "@type": "@id"
     }, 
     "sameAs": {
       "@id": "owl:sameAs", 

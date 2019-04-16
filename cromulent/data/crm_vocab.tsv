@@ -414,17 +414,11 @@ la:related_to	property	related_to	related to			la:Relationship	E1_CRM_Entity		10
 la:related_from	property	related_from	related from			la:Relationship	E1_CRM_Entity		10000	1	0
 geo:SP5_Geometric_Place_Expression	class	Geometry	Geometry	Scope note: This class comprises definitions of places by quantitative expressions. An instance of SP5 Geometric Place Expression can be seen as a prescription of how to find the location meant by this expression in the real world (S), which is based on measuring where the quantities referred to in the expression lead to, beginning from the reference points of the respective reference system.	E73_Information_Object|E47_Spatial_Coordinates	1
 geo:SP4_Spatial_Coordinate_Reference_System	class	CoordinateSystem	Spatial Coordinate Reference System	Scope note: This class compromises systems that are used to describe locations in a SP3 Reference Space (S). An instance of SP4 Spatial Coordinate Reference System is composed of two parts: The first is a Coordinate System which is a set of coordinate axes with specified units of measurement and axis directions. The second part is a set of reference features at rest in the Reference Space it describes in the real world that relate the Coordinate System to real world locations (U) and fix it with respect to the reference object of its Reference Space.	E29_Design_or_Procedure	1
-ore:Aggregation	class	Aggregation	Aggregation	ORE Aggregation is a conceptual collection of resources.	E89_Propositional_Object	0
-ore:Proxy	class	Proxy	Proxy	Proxy for a resource within the context of an Aggregation.	E71_Man-Made_Thing	0
 geo:Q9_is_expressed_in_terms_of	property	Q9_is_expressed_in_terms_of	expressed in terms of	Scope note:        This property defines the coordinate reference system in terms of which a geometric place expression is formulated.		geo:SP5_Geometric_Place_Expression	geo:SP4_Spatial_Coordinate_Reference_System	http://www.ics.forth.gr/isl/CRMgeo/Q9i_terms_express	10000	1	0
 geo:Q9i_terms_express	property	Q9i_terms_express	terms express			geo:SP4_Spatial_Coordinate_Reference_System	geo:SP5_Geometric_Place_Expression	http://www.ics.forth.gr/isl/CRMgeo/Q9_is_expressed_in_terms_of	10000	1	0
 sci:O13_triggers	property	caused	triggers			E5_Event	E5_Event	http://www.ics.forth.gr/isl/CRMsci/O13i_is_triggered_by	10000	1	1
 sci:O13i_is_triggered_by	property	caused_by	triggered by			E5_Event	E5_Event	http://www.ics.forth.gr/isl/CRMsci/O13_triggers	10000	1	1
 rdfs:label	property	_label	label	A human-readable name for the subject.		E1_CRM_Entity	xsd:string		10000	1	0
-ore:aggregates	property	aggregates	aggregates	has member	P67_refers_to	ore:Aggregation	E1_CRM_Entity	http://www.openarchives.org/ore/terms/isAggregatedBy	10000	0	0
-ore:isAggregatedBy	property	isAggregatedBy	aggregated by	member of	P67i_is_referred_to_by	E1_CRM_Entity	ore:Aggregation	http://www.openarchives.org/ore/terms/aggregates	10000	0	0
-ore:proxyIn	property	proxyIn	proxy in	proxy in		ore:Proxy	ore:Aggregation		10000	0	0
-ore:proxyFor	property	proxyFor	proxy for	proxy for		ore:Proxy	E1_CRM_Entity		10000	0	0
 owl:sameAs	property	sameAs	sameAs	Exactly the same entity		E1_CRM_Entity	E1_CRM_Entity		10000	0	0
 skos:exactMatch	property	exact_match	exactMatch	Exact Match, not quite sameAs, good for most uses		E1_CRM_Entity	E1_CRM_Entity		10000	1	1
 skos:closeMatch	property	close_match	closeMatch	Close Match, good for some uses		E1_CRM_Entity	E1_CRM_Entity		10000	0	0
