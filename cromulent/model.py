@@ -222,7 +222,7 @@ class CromulentFactory(object):
 
 		return self.base_url + what.__class__._uri_segment + "/" + str(slug)		
 
-	def toJSON(self, what, done={}):
+	def toJSON(self, what, done=None):
 		""" Serialize what, making sure of no infinite loops """
 		if not done:
 			done = {}
@@ -281,14 +281,14 @@ class CromulentFactory(object):
 			out = self.collapse_json(out, collapse)
 		return out 		
 
-	def toString(self, what, compact=True, collapse=0, done={}):
+	def toString(self, what, compact=True, collapse=0, done=None):
 		"""Return JSON setialization as string."""
 		if not done:
 			done = {}
 		js = self.toJSON(what, done=done)
 		return self._buildString(js, compact, collapse)
 
-	def toFile(self, what, compact=True, filename="", done={}):
+	def toFile(self, what, compact=True, filename="", done=None):
 		"""Write to local file.
 
 		Creates directories as necessary
@@ -371,7 +371,7 @@ class ExternalResource(object):
 		else:
 			self.id = ""
 
-	def _toJSON(self, top=False, done={}):
+	def _toJSON(self, done, top=False):
 		if self._factory.elasticsearch_compatible:
 			return {'id': self.id}
 		else:

@@ -377,24 +377,6 @@ def add_art_setter():
 		super(InformationObject, self)._post_init(**kw)
 	InformationObject._post_init = art2_post_init
 
-# def add_proxy_wrapper():
-# 	# There isn't an inverse of proxyFor / proxyIn.
-# 	# So we need to use a JSON-LD @reverse property `proxies`
-# 	# This adds it, as it's not part of the ontology proper.
-
-# 	Aggregation.proxies = []
-# 	def aggr_post_init(self, **kw):
-# 		self.proxies = []
-# 	Aggregation._post_init = aggr_post_init
-
-# 	def proxy_set_magic_resource(self, which, value, inversed=False):
-# 		super(Proxy, self)._set_magic_resource(which, value, inversed)
-# 		# Look up what the context maps ore:proxyIn to
-# 		pin = factory.context_rev.get('ore:proxyIn', 'proxyIn')
-# 		if which == 'proxyIn':
-# 			value.proxies.append(self)
-# 	Proxy._set_magic_resource = proxy_set_magic_resource
-
 def add_attribute_assignment_check():
 	# Allow references to properties in p2 on AttrAssign
 	# Validate that the property is allowed in assigned
