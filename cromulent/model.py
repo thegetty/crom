@@ -371,7 +371,7 @@ class ExternalResource(object):
 		else:
 			self.id = ""
 
-	def _toJSON(self, top=False):
+	def _toJSON(self, top=False, done={}):
 		if self._factory.elasticsearch_compatible:
 			return {'id': self.id}
 		else:
@@ -588,7 +588,7 @@ class BaseResource(ExternalResource):
 			if type(current) != list and multiple and self._factory.process_multiplicity:
 				object.__setattr__(self, which, [getattr(self, which)])
 
-	def _toJSON(self, top=False, done={}):
+	def _toJSON(self, done, top=False):
 		"""Serialize as JSON."""
 		# If we're already in the graph, return our URI only
 		# This should only be called from the factory!
