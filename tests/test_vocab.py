@@ -26,11 +26,11 @@ class TestClassBuilder(unittest.TestCase):
 	def test_art_setter(self):
 		p = model.ManMadeObject("a", art=1)
 		p._label = "a"
-		pj = p._toJSON()
+		pj = p._toJSON(done={})
 		self.assertFalse(pj.get('classified_as', None))
 		vocab.add_art_setter()
 		p2 = vocab.Painting("b", art=1)
-		p2j = p2._toJSON()
+		p2j = p2._toJSON(done={})
 		# self.assertTrue("aat:300133025" in p2j['classified_as'])
 		# no idea why the aat:1234 pattern doesn't work here
 		# something to do with failing to set up the factory?

@@ -4,9 +4,9 @@
 
 A Python library to make creation of CIDOC CRM easier by mapping classes/predicates to python objects/properties, thereby making the CRM "CRoMulent", a Simpsons neologism for "acceptable" or "fine".  
 
-## Status: Alpha
+## Status: Beta
 
-The core vocabulary loading functionality is reasonably stable. The vocabulary section is expanding as we find new, useful terms to include and will likely change to instead be loaded separately from configurations.
+The core vocabulary loading functionality is reasonably stable. The vocabulary section is expanding as we find new, useful terms to include and will likely constantly change.
 
 The code is actively being developed and compability breaking changes are thus to be expected as we use it in various projects across The J Paul Getty Trust, and beyond.
 
@@ -76,7 +76,6 @@ Internal:
 * `debug_level` Settings for debugging errors and warnings, defaults to "warn"
 * `log_stream` An object implementing the stream API to write log messages to, defaults to sys.stderr
 
-Note that factories are NOT thread safe during serialization. A property on the factory is used to maintain which objects have been serialized already, to avoid infinite recursion in a cyclic graph. Create a new factory object per thread if necessary.
 
 
 ## How it Works

@@ -150,12 +150,20 @@ class TestFactorySerialization(unittest.TestCase):
 	def test_external(self):
 		x = model.ExternalResource(ident="1")
 		model.factory.elasticsearch_compatible = 1
-		js = x._toJSON()
+		js = x._toJSON(done=None)
 		self.assertTrue(type(js) == dict)
 		model.factory.elasticsearch_compatible = 0
-		js = x._toJSON()
+		js = x._toJSON(done=None)
 		# testing unicode in 2, str in 3 :(
 		self.assertTrue(type(js) != dict)		
+
+	def test_recursion(self):
+		x = model.Activity()
+		x.part = x
+		js = model.factory.toJSON(x)
+		# If our recursion checks have regressed, this will barf right here
+		self.assertTrue(1)
+
 
 class TestProcessTSV(unittest.TestCase):
 
