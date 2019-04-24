@@ -75,7 +75,6 @@ class CromulentFactory(object):
 
 		self.debug_level = "warn"
 		self.log_stream = sys.stderr
-		self.done = {}
 
 		self.materialize_inverses = False
 		self.full_names = False
@@ -223,11 +222,11 @@ class CromulentFactory(object):
 
 		return self.base_url + what.__class__._uri_segment + "/" + str(slug)		
 
-	def toJSON(self, what):
+	def toJSON(self, what, done={}):
 		""" Serialize what, making sure of no infinite loops """
-		self.done = {}
-		out = what._toJSON(top=True)
-		self.done = {}
+		if not done:
+			done = {}
+		out = what._toJSON(top=True, done=done)
 		return out
 
 	def _collapse_json(self, text, collapse):
@@ -282,20 +281,23 @@ class CromulentFactory(object):
 			out = self.collapse_json(out, collapse)
 		return out 		
 
-	def toString(self, what, compact=True, collapse=0):
+	def toString(self, what, compact=True, collapse=0, done={}):
 		"""Return JSON setialization as string."""
-		js = self.toJSON(what)
+		if not done:
+			done = {}
+		js = self.toJSON(what, done=done)
 		return self._buildString(js, compact, collapse)
 
-	def toFile(self, what, compact=True, filename=""):
+	def toFile(self, what, compact=True, filename="", done={}):
 		"""Write to local file.
 
 		Creates directories as necessary
 		"""
 		# TODO:  if self.serialize_all_resources:
 		# then create separate files for every object, not just top level
-
-		js = self.toJSON(what)
+		if not done:
+			done = {}
+		js = self.toJSON(what, done=done)
 
 		if not filename:
 			myid = js['id']
@@ -586,7 +588,7 @@ class BaseResource(ExternalResource):
 			if type(current) != list and multiple and self._factory.process_multiplicity:
 				object.__setattr__(self, which, [getattr(self, which)])
 
-	def _toJSON(self, top=False):
+	def _toJSON(self, top=False, done={}):
 		"""Serialize as JSON."""
 		# If we're already in the graph, return our URI only
 		# This should only be called from the factory!
@@ -594,7 +596,7 @@ class BaseResource(ExternalResource):
 		d = self.__dict__.copy()
 		del d['_factory']
 
-		if not factory.id_type_label and (self.id in self._factory.done or set(d.keys()) == set(['id', 'type'])):
+		if not factory.id_type_label and (self.id in done or set(d.keys()) == set(['id', 'type'])):
 			if self._factory.elasticsearch_compatible:
 				return {'id': self.id}
 			else:
@@ -618,7 +620,7 @@ class BaseResource(ExternalResource):
 			d['@context'] = self._factory.context_uri
 
 
-		if (self._factory.id_type_label and self.id in self._factory.done) or (not top and not self._embed):
+		if (self._factory.id_type_label and self.id in done) or (not top and not self._embed):
 			# limit to only id, type, label
 			nd = {}
 			nd['id'] = d['id']
@@ -637,8 +639,7 @@ class BaseResource(ExternalResource):
 		kodflt = self._factory.key_order_default
 		kvs = sorted(d.items(), key=lambda x: KOH.get(x[0], kodflt))
 
-		# WARNING:  This means that individual factories are NOT thread safe
-		self._factory.done[self.id] = 1
+		done[self.id] = 1
 		tbd = []
 
 		for (k, v) in kvs:
@@ -657,22 +658,22 @@ class BaseResource(ExternalResource):
 					kvs[k] = v.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 		for t in tbd:
-			if not t in self._factory.done:
-				self._factory.done[t] = self.id
+			if not t in done:
+				done[t] = self.id
 			
 		for (k,v) in kvs:
 			if v and (k[0] != "_" and not k in self._factory.underscore_properties):
 				if isinstance(v, ExternalResource):
-					if self._factory.done[v.id] == self.id:
+					if done[v.id] == self.id:
 						del self._factory.done[v.id]
-					d[k] = v._toJSON()
+					d[k] = v._toJSON(done=done)
 				elif type(v) == list:
 					newl = []
 					for ni in v:
 						if isinstance(ni, ExternalResource):
-							if self._factory.done[ni.id] == self.id:
-								del self._factory.done[ni.id]
-							newl.append(ni._toJSON())
+							if done[ni.id] == self.id:
+								del done[ni.id]
+							newl.append(ni._toJSON(done=done))
 						else:
 							# A number or string
 							newl.append(ni)
@@ -726,6 +727,7 @@ class BaseResource(ExternalResource):
 				raise ConfigurationError("Class is badly configured for type")
 
 			if self._factory.pipe_scoped_contexts:
+				# XXX TODO This should be configurable not hard coded
 				if 'part' in d:
 					# Calculate which part
 					for c in reversed(self._classhier):
