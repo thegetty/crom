@@ -157,6 +157,14 @@ class TestFactorySerialization(unittest.TestCase):
 		# testing unicode in 2, str in 3 :(
 		self.assertTrue(type(js) != dict)		
 
+	def test_recursion(self):
+		x = model.Activity()
+		x.part = x
+		js = model.factory.toJSON(x)
+		# If our recursion checks have regressed, this will barf right here
+		self.assertTrue(1)
+
+
 class TestProcessTSV(unittest.TestCase):
 
 	def test_process_tsv(self):
