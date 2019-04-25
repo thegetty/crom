@@ -609,16 +609,17 @@ class BaseResource(ExternalResource):
 		for e in self._required_properties:
 			if e not in d:
 				raise RequirementError("Resource type '%s' requires '%s' to be set" % (self._type, e), self)
+
 		debug = self._factory.debug_level
 		if debug.find("warn") > -1:
 			for e in self._warn_properties:
 				if e not in d:
 					msg = "Resource type '%s' should have '%s' set" % (self._type, e)
 					self.maybe_warn(msg)
+
 		# Add back context at the top, if set
 		if top and self._factory.context_uri: 
 			d['@context'] = self._factory.context_uri
-
 
 		if (self._factory.id_type_label and self.id in done) or (not top and not self._embed):
 			# limit to only id, type, label
@@ -633,15 +634,16 @@ class BaseResource(ExternalResource):
 			except:
 				pass
 			d = nd
+		else:	
+			# otherwise, we're about to serialize the resource completely
+			done[self.id] = 1			
 
 		# Need to do in order now to get done correctly ordered
 		KOH = self._factory.key_order_hash
 		kodflt = self._factory.key_order_default
 		kvs = sorted(d.items(), key=lambda x: KOH.get(x[0], kodflt))
 
-		done[self.id] = 1
 		tbd = []
-
 		for (k, v) in kvs:
 			# some _foo might be carried through, eg _label or _comment
 			if not v or (k[0] == "_" and not k in self._factory.underscore_properties):
@@ -653,6 +655,7 @@ class BaseResource(ExternalResource):
 					for ni in v:
 						if isinstance(ni, ExternalResource):
 							tbd.append(ni.id)
+						# For completeness should check datetime here too
 				elif isinstance(v, datetime.datetime):
 					# replace with string
 					kvs[k] = v.strftime("%Y-%m-%dT%H:%M:%SZ")
