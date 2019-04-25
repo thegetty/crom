@@ -665,7 +665,7 @@ class BaseResource(ExternalResource):
 			if v and (k[0] != "_" and not k in self._factory.underscore_properties):
 				if isinstance(v, ExternalResource):
 					if done[v.id] == self.id:
-						del self._factory.done[v.id]
+						del done[v.id]
 					d[k] = v._toJSON(done=done)
 				elif type(v) == list:
 					newl = []
