@@ -623,7 +623,6 @@ class BaseResource(ExternalResource):
 
 		if (self._factory.id_type_label and self.id in done) or (not top and not self._embed):
 			# limit to only id, type, label
-			print("Already seen %s; generating ref" % self.id)
 			nd = {}
 			nd['id'] = d['id']
 			try:
@@ -663,24 +662,19 @@ class BaseResource(ExternalResource):
 
 		for t in tbd:
 			if not t in done:
-				print("Setting %s to be done by %s" % (t, self.id))
 				done[t] = self.id
 			
 		for (k,v) in kvs:
 			if v and (k[0] != "_" and not k in self._factory.underscore_properties):
 				if isinstance(v, ExternalResource):
-					print("Checking %s in done: %s" % (ni.id, done[ni.id]))
 					if done[v.id] == self.id:
-						print("Doing %s (no list)" % v.id)
 						del done[v.id]
 					d[k] = v._toJSON(done=done)
 				elif type(v) == list:
 					newl = []
 					for ni in v:
 						if isinstance(ni, ExternalResource):
-							print("Checking %s in done: %s" % (ni.id, done[ni.id]))
 							if done[ni.id] == self.id:
-								print("Doing %s (in list)" % ni.id)
 								del done[ni.id]
 							newl.append(ni._toJSON(done=done))
 						else:
