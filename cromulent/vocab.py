@@ -114,6 +114,7 @@ ext_classes = {
 	"Diameter":   {"parent": Dimension, "id":"300055624", "label": "Diameter"},
 	"Weight":     {"parent": Dimension, "id":"300056240", "label": "Weight"},
 	"Color":      {"parent": Dimension, "id":"300056130", "label": "Color"},
+	"SequencePosition": {"parent": Dimension, "id":"300010269", "label":"Sequence Position"},
 
 	"Gallery":      {"parent": Place, "id":"300240057", "label": "Gallery (place)"},
 	"AuctionHouse": {"parent": Place, "id":"300005234", "label": "Auction House (place)"},
@@ -252,6 +253,7 @@ identity_instances = {
 	"cm": {"parent": MeasurementUnit, "id": "300379098", "label": "centimeters"},
 	"meters": {"parent": MeasurementUnit, "id": "300379099", "label": "meters"},
 	"percent": {"parent": MeasurementUnit, "id": "300417377", "label": "percent"},
+	"numbers": {"parent": MeasurementUnit, "id": "300055665", "label": "numbers"},
 
 	"english": {"parent": Language, "id": "300388277", "label": "English"},
 	"french": {"parent": Language, "id":"300388306","label": "French"},
