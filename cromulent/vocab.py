@@ -5,11 +5,12 @@
 from .model import Identifier, Mark, ManMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, Currency, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, Language, \
-	LinguisticObject, InformationObject, \
+	LinguisticObject, InformationObject, Formation, Dissolution, \
 	Activity, Group, Name, MonetaryAmount, PropertyInterest, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
-	Acquisition, ManMadeFeature, VisualItem, Set, \
-	PropositionalObject, Payment, Creation, Phase, \
+	Acquisition, ManMadeFeature, VisualItem, Set, Birth, Death, \
+	PropositionalObject, Payment, Creation, Phase, Period, \
+	Production, \
 	STR_TYPES, factory
 
 # Add classified_as initialization hack for all resources
@@ -429,4 +430,33 @@ def add_attribute_assignment_check():
 		object.__setattr__(self, phase_rel, value)
 	setattr(Phase, "set_%s" % phase_rel, phase_set_relationship)		
 
+def add_linked_art_boundary_check():
 
+	boundary_classes = [Actor, ManMadeObject, Person, Group, VisualItem, \
+		Place, Acquisition, Period, LinguisticObject, Phase, Set]
+	embed_classes = [Type, Name, Identifier, Dimension, Birth, Creation, \
+		Currency, Death, Destruction, Dissolution, Formation, Language, \
+		Material, MeasurementUnit, \
+		MonetaryAmount, Payment, Production, TimeSpan]
+
+	# Activity, AttributeAssignment, InformationObject, TransferOfCustody, Move
+
+	def my_linked_art_boundary_check(self, top, rel, value):
+		if isinstance(value, LinguisticObject) and instances['brief text'] in value.classified_as:
+			# linguistic objects and * can be described by embedded linguistic objects
+			return True
+		elif type(value) == type(self) and rel in ["part", "member"]:
+			# Internal simple partition
+			return True
+		elif rel in ["part_of", 'member_of']:
+			# upwards partition refs are inclusion, and always boundary crossing
+			return False
+		elif type(value) in boundary_classes:
+			return False
+		elif type(value) in embed_classes:
+			return True
+		else:
+			print("Falling through to default of embed for class %s" % type(self))
+			return True
+
+	setattr(BaseResource, "_linked_art_boundary_okay", my_linked_art_boundary_check)

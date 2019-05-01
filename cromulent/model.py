@@ -108,6 +108,7 @@ class CromulentFactory(object):
 
 		self.elasticsearch_compatible = False
 		self.serialize_all_resources = False
+		self.linked_art_boundaries = False
 		self.id_type_label = True
 
 		self.json_indent = 2
@@ -226,7 +227,7 @@ class CromulentFactory(object):
 		""" Serialize what, making sure of no infinite loops """
 		if not done:
 			done = {}
-		out = what._toJSON(top=True, done=done)
+		out = what._toJSON(top=what, done=done)
 		return out
 
 	def _collapse_json(self, text, collapse):
@@ -371,7 +372,7 @@ class ExternalResource(object):
 		else:
 			self.id = ""
 
-	def _toJSON(self, done, top=False):
+	def _toJSON(self, done, top=None):
 		if self._factory.elasticsearch_compatible:
 			return {'id': self.id}
 		else:
@@ -387,9 +388,13 @@ class BaseResource(ExternalResource):
 	_classification = ""
 	_classhier = []
 
-	def __init__(self, ident="", label="", value="", **kw):
+	def __init__(self, ident="", label="", value="", content="", **kw):
 		"""Initialize BaseObject."""
 		super(BaseResource, self).__init__(ident)
+
+		# Alias value and content together
+		if value and not content:
+			value = content
 
 		if self._factory.validate_profile and hasattr(self, '_okayToUse'): 
 			if not self._okayToUse:
@@ -413,6 +418,11 @@ class BaseResource(ExternalResource):
 					raise ProfileError("Class '%s' does not hold values" % self.__class__._type)
 		# Custom post initialization function for autoconstructed classes
 		self._post_init(**kw)
+
+	def __dir__(self):
+		d = dir(self.__class__)
+		d.extend(list(self._list_all_props().keys()))
+		return sorted(d)
 
 	def _post_init(self, **kw):
 		# Expect this to be overridden / replaced
@@ -588,13 +598,17 @@ class BaseResource(ExternalResource):
 			if type(current) != list and multiple and self._factory.process_multiplicity:
 				object.__setattr__(self, which, [getattr(self, which)])
 
-	def _toJSON(self, done, top=False):
+	def _toJSON(self, done, top=None):
 		"""Serialize as JSON."""
 		# If we're already in the graph, return our URI only
 		# This should only be called from the factory!
 
 		d = self.__dict__.copy()
 		del d['_factory']
+
+		# Can't pass in self as a param
+		if top is None:
+			top = self
 
 		if not factory.id_type_label and (self.id in done or set(d.keys()) == set(['id', 'type'])):
 			if self._factory.elasticsearch_compatible:
@@ -618,10 +632,10 @@ class BaseResource(ExternalResource):
 					self.maybe_warn(msg)
 
 		# Add back context at the top, if set
-		if top and self._factory.context_uri: 
+		if top == self and self._factory.context_uri: 
 			d['@context'] = self._factory.context_uri
 
-		if (self._factory.id_type_label and self.id in done) or (not top and not self._embed):
+		if (self._factory.id_type_label and self.id in done) or (top is not self and not self._embed):
 			# limit to only id, type, label
 			nd = {}
 			nd['id'] = d['id']
@@ -649,13 +663,25 @@ class BaseResource(ExternalResource):
 			if not v or (k[0] == "_" and not k in self._factory.underscore_properties):
 				del d[k]
 			else:
+
+				# Should we do this at all? Could be outside of our API serialization scope
 				if isinstance(v, ExternalResource):
-					tbd.append(v.id)
+					if self._factory.linked_art_boundaries and \
+						not self._linked_art_boundary_okay(top, k, v):
+						# never follow, so just add to done
+						done[v.id] = 1
+					else:
+						tbd.append(v.id)
 				elif type(v) == list:
 					for ni in v:
 						if isinstance(ni, ExternalResource):
-							tbd.append(ni.id)
-						# For completeness should check datetime here too
+							if self._factory.linked_art_boundaries and \
+								not self._linked_art_boundary_okay(top, k, ni):
+								# never follow, so just add to done
+								done[ni.id] = 1							
+							else:
+								tbd.append(ni.id)
+					# For completeness should check list-of-datetime here too
 				elif isinstance(v, datetime.datetime):
 					# replace with string
 					kvs[k] = v.strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -669,14 +695,14 @@ class BaseResource(ExternalResource):
 				if isinstance(v, ExternalResource):
 					if done[v.id] == self.id:
 						del done[v.id]
-					d[k] = v._toJSON(done=done)
+					d[k] = v._toJSON(done=done, top=top)
 				elif type(v) == list:
 					newl = []
 					for ni in v:
 						if isinstance(ni, ExternalResource):
 							if done[ni.id] == self.id:
 								del done[ni.id]
-							newl.append(ni._toJSON(done=done))
+							newl.append(ni._toJSON(done=done, top=top))
 						else:
 							# A number or string
 							newl.append(ni)
@@ -686,7 +712,7 @@ class BaseResource(ExternalResource):
 			nd = {}
 			# @context gets ganked by this renaming
 			# so add it back in first.
-			if top:
+			if top is self:
 				nd['@context'] = self._factory.context_uri
 
 			for (k,v) in d.items():
@@ -752,6 +778,11 @@ class BaseResource(ExternalResource):
 			return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
 		else:
 			return d
+
+	def _linked_art_boundary_okay(self, top, prop, value):
+		# Return false to say do not cross this boundary
+		# Without replacement, just return True always
+		return True
 
 # Ensure everything can have id, type, label and description
 BaseResource._properties = {'id': {"rdf": "@id", "range": str, "okayToUse": 1}, 
@@ -862,17 +893,17 @@ def build_class(crmName, parent, vocabData):
 	for s in data['subs']:
 		build_class(s, c, vocabData)
 
-def build_classes(fn=None, top=None):
+def build_classes(fn=None, topClass=None):
 	# Default to building our core dataset
 	if not fn:
 		dd = os.path.join(os.path.dirname(__file__), 'data')
 		fn = os.path.join(dd, 'crm_vocab.tsv')
-		top = 'E1_CRM_Entity'
+		topClass = 'E1_CRM_Entity'
 
 	vocabData = process_tsv(fn)
 
 	# Everything can have an id, a type, a label, a description
-	build_class(top, BaseResource, vocabData)
+	build_class(topClass, BaseResource, vocabData)
 
 	# And add property definitions now we have class objects
 	for v in vocabData.values():
@@ -905,4 +936,7 @@ def build_classes(fn=None, top=None):
 # Build the factory first, so properties can be added to key_order
 factory = CromulentFactory("http://lod.example.org/museum/", context="https://linked.art/ns/v1/linked-art.json")
 build_classes()
+# Need to then configure the boundary classes after they're created
+
+
 
