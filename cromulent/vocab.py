@@ -1,4 +1,4 @@
- 
+
 # This assumes the default CIDOC-CRM, even though the model code 
 # can generate classes for any ontology
 
@@ -36,6 +36,7 @@ def register_aat_class(name, data):
 		c._classification = [t]		
 	c._type = None # To avoid conflicting with parent class
 	globals()[name] = c	
+	return c
 
 instances = {}
 
@@ -50,12 +51,16 @@ def register_instance(name, data):
 		t = parent("http://vocab.getty.edu/aat/%s" % id)
 	t._label = label
 	instances[name] = t
+	return t
 
 # Meta meta
 ext_classes = {
 	"LocalNumber": {"parent":Identifier, "id":"300404621", "label": "Local Number"},	
 	"AccessionNumber": {"parent":Identifier, "id":"300312355", "label": "Accession Number"},
 	"LotNumber": {"parent": Identifier, "id": "300404628", "label": "Lot Number"},
+	"IsbnIdentifier": {"parent": Identifier, "id": "300417443", "label": "ISBN Identifier"},
+	"IssnIdentifier": {"parent": Identifier, "id": "300417443", "label": "ISSN Identifier"},
+	"DoiIdentifier": {"parent": Identifier, "id": "300417432", "label": "DOI Identifer"},
 
 	"DigitalImage": {"parent": VisualItem, "id": "300215302", "label": "Digital Image"},
 
