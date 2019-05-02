@@ -73,8 +73,8 @@ class CromulentFactory(object):
 
 		self.auto_id_type = "int-per-segment" #  "int", "int-per-type", "int-per-segment", "uuid"
 		self.default_lang = lang
-		self.filename_extension = ".json"
-		# context_uri might actually be a list of URIs, and/or dicts
+		self.filename_extension = ".json"  # some people like .jsonld
+		# N.B. context_uri might actually be a list of URIs, and/or dicts
 		self.context_uri = context
 		self.context_json = {}
 

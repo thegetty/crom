@@ -138,8 +138,8 @@ ext_classes = {
 	"Auctioneer":  {"parent": Person, "id":"300025208", "label": "Auctioneer"}, # is this useful?
 
 
-	"AuctionEvent": {"parent": Activity, "id":"300xxxxxx", "label": "Auction Event"},
-	"Auction":     {"parent": Activity, "id":"300054751", "label": "Auction of Lot"}, # Individual auction-of-lot
+	"AuctionEvent": {"parent": Activity, "id":"300054751", "label": "Auction Event"},
+	"Auction":     {"parent": Activity, "id":"300420001", "label": "Auction of Lot"}, # Individual auction-of-lot
 	"Bidding":     {"parent": Creation, "id":"300054602", "label": "Bidding"}, # individual bid
 	"Curating":    {"parent": Activity, "id":"300054277", "label": "Curating"},
 	"Inventorying": {"parent": Activity, "id":"300077506", "label": "Inventorying"},
