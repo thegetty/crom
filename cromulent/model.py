@@ -11,25 +11,11 @@ import datetime
 
 KEY_ORDER_DEFAULT = 10000
 LINKED_ART_CONTEXT_URI = "https://linked.art/ns/v1/linked-art.json"
-CRM_EXT_CONTEXT_URI = "https://linked.art/ns/v1/cidoc-extension.json"
 
-try:
-    import json
-except:
-    # Fallback for 2.5
-    import simplejson as json
 
-try:
-    # Only available in 2.7+
-    # This makes the code a bit messy, but eliminates the need
-    # for the locally hacked ordered json encoder
-    from collections import OrderedDict
-except:
-    # Backported...
-    try:
-        from ordereddict import OrderedDict
-    except:
-        raise Exception("To run with old pythons you must: easy_install ordereddict")
+# 2.5 and 2.6 are very out of date. Assume 2.7 or better
+import json
+from collections import OrderedDict
 
 try:
 	STR_TYPES = [str, unicode] #Py2
@@ -87,8 +73,8 @@ class CromulentFactory(object):
 
 		self.auto_id_type = "int-per-segment" #  "int", "int-per-type", "int-per-segment", "uuid"
 		self.default_lang = lang
-		self.filename_extension = ".json"
-		# context_uri might actually be a list of URIs, and/or dicts
+		self.filename_extension = ".json"  # some people like .jsonld
+		# N.B. context_uri might actually be a list of URIs, and/or dicts
 		self.context_uri = context
 		self.context_json = {}
 
@@ -97,17 +83,17 @@ class CromulentFactory(object):
 		self.context_rev = {}
 		# Maybe load it up for prefixes
 		if load_context:
+			# Leave this as a map for future extensions
 			context_filemap = {
 				LINKED_ART_CONTEXT_URI: 
-					os.path.join(os.path.dirname(__file__), 'data', 'linked-art.json'),
-				CRM_EXT_CONTEXT_URI:
-					os.path.join(os.path.dirname(__file__), 'data', 'cidoc-extension.json')
+					os.path.join(os.path.dirname(__file__), 'data', 'linked-art.json')
 			}
 			context_filemap.update(context_file)
 			self.load_context(context, context_filemap)
 
 		self.elasticsearch_compatible = False
 		self.serialize_all_resources = False
+		self.linked_art_boundaries = False
 		self.id_type_label = True
 
 		self.json_indent = 2
@@ -226,7 +212,7 @@ class CromulentFactory(object):
 		""" Serialize what, making sure of no infinite loops """
 		if not done:
 			done = {}
-		out = what._toJSON(top=True, done=done)
+		out = what._toJSON(top=what, done=done)
 		return out
 
 	def _collapse_json(self, text, collapse):
@@ -334,7 +320,6 @@ class ExternalResource(object):
 	_full_id = ""
 	_properties = {}
 	_type = ""
-	_niceType = ""
 	_embed = True
 
 	def __init__(self, ident=""):
@@ -371,7 +356,7 @@ class ExternalResource(object):
 		else:
 			self.id = ""
 
-	def _toJSON(self, done, top=False):
+	def _toJSON(self, done, top=None):
 		if self._factory.elasticsearch_compatible:
 			return {'id': self.id}
 		else:
@@ -387,9 +372,13 @@ class BaseResource(ExternalResource):
 	_classification = ""
 	_classhier = []
 
-	def __init__(self, ident="", label="", value="", **kw):
+	def __init__(self, ident="", label="", value="", content="", **kw):
 		"""Initialize BaseObject."""
 		super(BaseResource, self).__init__(ident)
+
+		# Alias value and content together
+		if content and not value:
+			value = content
 
 		if self._factory.validate_profile and hasattr(self, '_okayToUse'): 
 			if not self._okayToUse:
@@ -397,12 +386,11 @@ class BaseResource(ExternalResource):
 			elif self._okayToUse == 2:
 				self.maybe_warn("Class '%s' is configured to warn on use" % self.__class__._type)
 
-		# Set info other than identifier
-		self.type = self.__class__._type
+		# Set label and value/content
 		if label:
 			self._label = label
 		# this might raise an exception if value is not allowed on the object
-		# but easier to do it in the main init than on generated subclasses
+		# but easier to do it in the main init than on many generated subclasses
 		if value:
 			try:
 				self.value = value
@@ -413,6 +401,22 @@ class BaseResource(ExternalResource):
 					raise ProfileError("Class '%s' does not hold values" % self.__class__._type)
 		# Custom post initialization function for autoconstructed classes
 		self._post_init(**kw)
+
+	def __dir__(self):
+		d = dir(self.__class__)
+		d.extend(list(self._list_all_props().keys()))
+		return sorted(d)
+
+	@property
+	def type(self):
+		for c in self._classhier:
+			if c._type:
+				return c.__name__
+
+	@type.setter
+	def type(self, value):
+		raise AttributeError("Must not set 'type' on resources directly")
+
 
 	def _post_init(self, **kw):
 		# Expect this to be overridden / replaced
@@ -471,7 +475,7 @@ class BaseResource(ExternalResource):
 					rng = c._properties[which]['range']
 					if rng == str:					
 						return 1
-					elif type(value) == BaseResource:
+					elif type(value) is BaseResource:
 						# Allow direct instances of base resource anywhere
 						# this is an override for external URIs
 						return 2
@@ -565,7 +569,7 @@ class BaseResource(ExternalResource):
 			current = None
 		if not current:
 			object.__setattr__(self, which, value)
-		elif type(current) == list:
+		elif type(current) is list:
 			current.append(value)
 		else:
 			value = [current, value]
@@ -588,7 +592,7 @@ class BaseResource(ExternalResource):
 			if type(current) != list and multiple and self._factory.process_multiplicity:
 				object.__setattr__(self, which, [getattr(self, which)])
 
-	def _toJSON(self, done, top=False):
+	def _toJSON(self, done, top=None):
 		"""Serialize as JSON."""
 		# If we're already in the graph, return our URI only
 		# This should only be called from the factory!
@@ -596,16 +600,24 @@ class BaseResource(ExternalResource):
 		d = self.__dict__.copy()
 		del d['_factory']
 
-		if not factory.id_type_label and (self.id in done or set(d.keys()) == set(['id', 'type'])):
+		# Can't pass in self as a param
+		if top is None:
+			top = self
+
+		# id, type, _label is the default.
+		if not factory.id_type_label and self.id in done:
 			if self._factory.elasticsearch_compatible:
 				return {'id': self.id}
 			else:
 				return self.id
 
 		# In case of local contexts, not at the root
+		# Shouldn't ever happen, but worth testing for
 		if 'context' in d:
 			d['@context'] = d['context']
 			del d['context']
+
+		# Check mandatory properties
 		for e in self._required_properties:
 			if e not in d:
 				raise RequirementError("Resource type '%s' requires '%s' to be set" % (self._type, e), self)
@@ -618,15 +630,15 @@ class BaseResource(ExternalResource):
 					self.maybe_warn(msg)
 
 		# Add back context at the top, if set
-		if top and self._factory.context_uri: 
+		if top is self and self._factory.context_uri: 
 			d['@context'] = self._factory.context_uri
 
-		if (self._factory.id_type_label and self.id in done) or (not top and not self._embed):
+		if (self._factory.id_type_label and self.id in done) or (top is not self and not self._embed):
 			# limit to only id, type, label
 			nd = {}
 			nd['id'] = d['id']
 			try:
-				nd['type'] = d['type']
+				nd['type'] = self.type
 			except:
 				pass
 			try:
@@ -649,13 +661,25 @@ class BaseResource(ExternalResource):
 			if not v or (k[0] == "_" and not k in self._factory.underscore_properties):
 				del d[k]
 			else:
+
+				# Should we do this at all? Could be outside of our API serialization scope
 				if isinstance(v, ExternalResource):
-					tbd.append(v.id)
-				elif type(v) == list:
+					if self._factory.linked_art_boundaries and \
+						not self._linked_art_boundary_okay(top, k, v):
+						# never follow, so just add to done
+						done[v.id] = 1
+					else:
+						tbd.append(v.id)
+				elif type(v) is list:
 					for ni in v:
 						if isinstance(ni, ExternalResource):
-							tbd.append(ni.id)
-						# For completeness should check datetime here too
+							if self._factory.linked_art_boundaries and \
+								not self._linked_art_boundary_okay(top, k, ni):
+								# never follow, so just add to done
+								done[ni.id] = 1							
+							else:
+								tbd.append(ni.id)
+					# For completeness should check list-of-datetime here too
 				elif isinstance(v, datetime.datetime):
 					# replace with string
 					kvs[k] = v.strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -669,14 +693,14 @@ class BaseResource(ExternalResource):
 				if isinstance(v, ExternalResource):
 					if done[v.id] == self.id:
 						del done[v.id]
-					d[k] = v._toJSON(done=done)
-				elif type(v) == list:
+					d[k] = v._toJSON(done=done, top=top)
+				elif type(v) is list:
 					newl = []
 					for ni in v:
 						if isinstance(ni, ExternalResource):
 							if done[ni.id] == self.id:
 								del done[ni.id]
-							newl.append(ni._toJSON(done=done))
+							newl.append(ni._toJSON(done=done, top=top))
 						else:
 							# A number or string
 							newl.append(ni)
@@ -686,7 +710,7 @@ class BaseResource(ExternalResource):
 			nd = {}
 			# @context gets ganked by this renaming
 			# so add it back in first.
-			if top:
+			if top is self:
 				nd['@context'] = self._factory.context_uri
 
 			for (k,v) in d.items():
@@ -715,19 +739,9 @@ class BaseResource(ExternalResource):
 			KOH = self._factory.full_key_order_hash
 		else:
 			# Use existing programmer-friendly names for classes too
-			if not 'type' in d:
-				# find class up that has a type and use its name
-				for c in self._classhier:
-					if c._type:
-						d['type'] = c.__name__
-						break
-			elif self.__class__._niceType:
-				d['type'] = self.__class__._niceType
-			elif d['type'] == self.__class__._type:
-				d['type'] = self.__class__.__name__
-			else:
-				# ??!!
-				raise ConfigurationError("Class is badly configured for type")
+			# find class up that has a type and use its name
+			# almost certainly the first one
+			d['type'] = self.type
 
 			if self._factory.pipe_scoped_contexts:
 				# XXX TODO This should be configurable not hard coded
@@ -752,6 +766,11 @@ class BaseResource(ExternalResource):
 			return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
 		else:
 			return d
+
+	def _linked_art_boundary_okay(self, top, prop, value):
+		# Return false to say do not cross this boundary
+		# Without replacement, just return True always
+		return True
 
 # Ensure everything can have id, type, label and description
 BaseResource._properties = {'id': {"rdf": "@id", "range": str, "okayToUse": 1}, 
@@ -862,17 +881,17 @@ def build_class(crmName, parent, vocabData):
 	for s in data['subs']:
 		build_class(s, c, vocabData)
 
-def build_classes(fn=None, top=None):
+def build_classes(fn=None, topClass=None):
 	# Default to building our core dataset
 	if not fn:
 		dd = os.path.join(os.path.dirname(__file__), 'data')
 		fn = os.path.join(dd, 'crm_vocab.tsv')
-		top = 'E1_CRM_Entity'
+		topClass = 'E1_CRM_Entity'
 
 	vocabData = process_tsv(fn)
 
 	# Everything can have an id, a type, a label, a description
-	build_class(top, BaseResource, vocabData)
+	build_class(topClass, BaseResource, vocabData)
 
 	# And add property definitions now we have class objects
 	for v in vocabData.values():
@@ -905,4 +924,7 @@ def build_classes(fn=None, top=None):
 # Build the factory first, so properties can be added to key_order
 factory = CromulentFactory("http://lod.example.org/museum/", context="https://linked.art/ns/v1/linked-art.json")
 build_classes()
+# Need to then configure the boundary classes after they're created
+
+
 

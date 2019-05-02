@@ -34,3 +34,19 @@ class TestClassBuilder(unittest.TestCase):
 		# self.assertTrue("aat:300133025" in p2j['classified_as'])
 		# no idea why the aat:1234 pattern doesn't work here
 		# something to do with failing to set up the factory?
+
+	def test_boundary_setter(self):
+		vocab.add_linked_art_boundary_check()
+		p = model.Person()
+		p2 = model.Person()
+		n = model.Name()
+		n.content = "Test"
+		p2.identified_by = n
+		p.related = p2
+		# Now, Test should not appear in the resulting JSON of p
+		factory.linked_art_boundaries = True
+		js = factory.toJSON(p)
+		self.assertTrue(not 'identified_by' in js['related'][0])
+		factory.linked_art_boundaries = False
+		js = factory.toJSON(p)
+		self.assertTrue('identified_by' in js['related'][0])		

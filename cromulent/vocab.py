@@ -5,11 +5,12 @@
 from .model import Identifier, Mark, ManMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, Currency, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, Language, \
-	LinguisticObject, InformationObject, \
+	LinguisticObject, InformationObject, Formation, Dissolution, \
 	Activity, Group, Name, MonetaryAmount, PropertyInterest, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
-	Acquisition, ManMadeFeature, VisualItem, Set, \
-	PropositionalObject, Payment, Creation, Phase, \
+	Acquisition, ManMadeFeature, VisualItem, Set, Birth, Death, \
+	PropositionalObject, Payment, Creation, Phase, Period, \
+	Production, \
 	STR_TYPES, factory
 
 # Add classified_as initialization hack for all resources
@@ -137,8 +138,8 @@ ext_classes = {
 	"Auctioneer":  {"parent": Person, "id":"300025208", "label": "Auctioneer"}, # is this useful?
 
 
-	"AuctionEvent": {"parent": Activity, "id":"300xxxxxx", "label": "Auction Event"},
-	"Auction":     {"parent": Activity, "id":"300054751", "label": "Auction of Lot"}, # Individual auction-of-lot
+	"AuctionEvent": {"parent": Activity, "id":"300054751", "label": "Auction Event"},
+	"Auction":     {"parent": Activity, "id":"300420001", "label": "Auction of Lot"}, # Individual auction-of-lot
 	"Bidding":     {"parent": Creation, "id":"300054602", "label": "Bidding"}, # individual bid
 	"Curating":    {"parent": Activity, "id":"300054277", "label": "Curating"},
 	"Inventorying": {"parent": Activity, "id":"300077506", "label": "Inventorying"},
@@ -429,4 +430,33 @@ def add_attribute_assignment_check():
 		object.__setattr__(self, phase_rel, value)
 	setattr(Phase, "set_%s" % phase_rel, phase_set_relationship)		
 
+def add_linked_art_boundary_check():
 
+	boundary_classes = [x.__name__ for x in [Actor, ManMadeObject, Person, Group, VisualItem, \
+		Place, Acquisition, Period, LinguisticObject, Phase, Set]]
+	embed_classes = [x.__name__ for x in [Type, Name, Identifier, Dimension, Birth, Creation, \
+		Currency, Death, Destruction, Dissolution, Formation, Language, \
+		Material, MeasurementUnit, MonetaryAmount, Payment, Production, TimeSpan]]
+
+	# Activity, AttributeAssignment, InformationObject, TransferOfCustody, Move
+	# Propositional Object
+
+	def my_linked_art_boundary_check(self, top, rel, value):
+		if isinstance(value, LinguisticObject) and hasattr(value, 'classified_as') and instances['brief text'] in value.classified_as:
+			# linguistic objects and * can be described by embedded linguistic objects
+			return True
+		elif rel in ["part", "member"]:
+			# Downwards, internal simple partitioning 
+			return True
+		elif rel in ["part_of", 'member_of']:
+			# upwards partition refs are inclusion, and always boundary crossing
+			return False
+		elif value.type in boundary_classes:
+			return False
+		elif value.type in embed_classes:
+			return True
+		else:
+			# Default to embedding to avoid data loss
+			return True
+
+	setattr(BaseResource, "_linked_art_boundary_okay", my_linked_art_boundary_check)
