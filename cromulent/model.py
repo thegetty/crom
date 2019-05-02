@@ -12,23 +12,10 @@ import datetime
 KEY_ORDER_DEFAULT = 10000
 LINKED_ART_CONTEXT_URI = "https://linked.art/ns/v1/linked-art.json"
 
-try:
-    import json
-except:
-    # Fallback for 2.5
-    import simplejson as json
 
-try:
-    # Only available in 2.7+
-    # This makes the code a bit messy, but eliminates the need
-    # for the locally hacked ordered json encoder
-    from collections import OrderedDict
-except:
-    # Backported...
-    try:
-        from ordereddict import OrderedDict
-    except:
-        raise Exception("To run with old pythons you must: easy_install ordereddict")
+# 2.5 and 2.6 are very out of date. Assume 2.7 or better
+import json
+from collections import OrderedDict
 
 try:
 	STR_TYPES = [str, unicode] #Py2
