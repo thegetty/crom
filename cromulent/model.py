@@ -401,12 +401,11 @@ class BaseResource(ExternalResource):
 			elif self._okayToUse == 2:
 				self.maybe_warn("Class '%s' is configured to warn on use" % self.__class__._type)
 
-		# Set info other than identifier
-		# self.type = self.__class__._type
+		# Set label and value/content
 		if label:
 			self._label = label
 		# this might raise an exception if value is not allowed on the object
-		# but easier to do it in the main init than on generated subclasses
+		# but easier to do it in the main init than on many generated subclasses
 		if value:
 			try:
 				self.value = value
