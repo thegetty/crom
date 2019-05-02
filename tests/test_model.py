@@ -262,7 +262,8 @@ class TestBaseResource(unittest.TestCase):
 
 	def test_init(self):
 		self.assertEqual(self.artist.id, 'http://lod.example.org/museum/Person/00001')
-		self.assertEqual(self.artist.type, 'crm:E21_Person')
+		self.assertEqual(self.artist._type, 'crm:E21_Person')
+		self.assertEqual(self.artist.type, 'Person')
 		self.assertEqual(self.artist._label, 'Jane Doe')
 		self.assertFalse(hasattr(self.artist, 'value'))
 		self.assertFalse(hasattr(self.artist, 'has_type'))

@@ -335,7 +335,6 @@ class ExternalResource(object):
 	_full_id = ""
 	_properties = {}
 	_type = ""
-	_niceType = ""
 	_embed = True
 
 	def __init__(self, ident=""):
@@ -393,7 +392,7 @@ class BaseResource(ExternalResource):
 		super(BaseResource, self).__init__(ident)
 
 		# Alias value and content together
-		if value and not content:
+		if content and not value:
 			value = content
 
 		if self._factory.validate_profile and hasattr(self, '_okayToUse'): 
@@ -403,7 +402,7 @@ class BaseResource(ExternalResource):
 				self.maybe_warn("Class '%s' is configured to warn on use" % self.__class__._type)
 
 		# Set info other than identifier
-		self.type = self.__class__._type
+		# self.type = self.__class__._type
 		if label:
 			self._label = label
 		# this might raise an exception if value is not allowed on the object
@@ -423,6 +422,17 @@ class BaseResource(ExternalResource):
 		d = dir(self.__class__)
 		d.extend(list(self._list_all_props().keys()))
 		return sorted(d)
+
+	@property
+	def type(self):
+		for c in self._classhier:
+			if c._type:
+				return c.__name__
+
+	@type.setter
+	def type(self, value):
+		raise RequirementError("Must not set 'type' on resources directly")
+
 
 	def _post_init(self, **kw):
 		# Expect this to be overridden / replaced
@@ -610,16 +620,20 @@ class BaseResource(ExternalResource):
 		if top is None:
 			top = self
 
-		if not factory.id_type_label and (self.id in done or set(d.keys()) == set(['id', 'type'])):
+		# id, type, _label is the default.
+		if not factory.id_type_label and self.id in done:
 			if self._factory.elasticsearch_compatible:
 				return {'id': self.id}
 			else:
 				return self.id
 
 		# In case of local contexts, not at the root
+		# Shouldn't ever happen, but worth testing for
 		if 'context' in d:
 			d['@context'] = d['context']
 			del d['context']
+
+		# Check mandatory properties
 		for e in self._required_properties:
 			if e not in d:
 				raise RequirementError("Resource type '%s' requires '%s' to be set" % (self._type, e), self)
@@ -640,7 +654,7 @@ class BaseResource(ExternalResource):
 			nd = {}
 			nd['id'] = d['id']
 			try:
-				nd['type'] = d['type']
+				nd['type'] = self.type
 			except:
 				pass
 			try:
@@ -741,19 +755,9 @@ class BaseResource(ExternalResource):
 			KOH = self._factory.full_key_order_hash
 		else:
 			# Use existing programmer-friendly names for classes too
-			if not 'type' in d:
-				# find class up that has a type and use its name
-				for c in self._classhier:
-					if c._type:
-						d['type'] = c.__name__
-						break
-			elif self.__class__._niceType:
-				d['type'] = self.__class__._niceType
-			elif d['type'] == self.__class__._type:
-				d['type'] = self.__class__.__name__
-			else:
-				# ??!!
-				raise ConfigurationError("Class is badly configured for type")
+			# find class up that has a type and use its name
+			# almost certainly the first one
+			d['type'] = self.type
 
 			if self._factory.pipe_scoped_contexts:
 				# XXX TODO This should be configurable not hard coded

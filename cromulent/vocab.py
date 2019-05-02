@@ -432,31 +432,31 @@ def add_attribute_assignment_check():
 
 def add_linked_art_boundary_check():
 
-	boundary_classes = [Actor, ManMadeObject, Person, Group, VisualItem, \
-		Place, Acquisition, Period, LinguisticObject, Phase, Set]
-	embed_classes = [Type, Name, Identifier, Dimension, Birth, Creation, \
+	boundary_classes = [x.__name__ for x in [Actor, ManMadeObject, Person, Group, VisualItem, \
+		Place, Acquisition, Period, LinguisticObject, Phase, Set]]
+	embed_classes = [x.__name__ for x in [Type, Name, Identifier, Dimension, Birth, Creation, \
 		Currency, Death, Destruction, Dissolution, Formation, Language, \
-		Material, MeasurementUnit, \
-		MonetaryAmount, Payment, Production, TimeSpan]
+		Material, MeasurementUnit, MonetaryAmount, Payment, Production, TimeSpan]]
 
 	# Activity, AttributeAssignment, InformationObject, TransferOfCustody, Move
+	# Propositional Object
 
 	def my_linked_art_boundary_check(self, top, rel, value):
-		if isinstance(value, LinguisticObject) and instances['brief text'] in value.classified_as:
+		if isinstance(value, LinguisticObject) and hasattr(value, 'classified_as') and instances['brief text'] in value.classified_as:
 			# linguistic objects and * can be described by embedded linguistic objects
 			return True
-		elif type(value) == type(self) and rel in ["part", "member"]:
-			# Internal simple partition
+		elif rel in ["part", "member"]:
+			# Downwards, internal simple partitioning 
 			return True
 		elif rel in ["part_of", 'member_of']:
 			# upwards partition refs are inclusion, and always boundary crossing
 			return False
-		elif type(value) in boundary_classes:
+		elif value.type in boundary_classes:
 			return False
-		elif type(value) in embed_classes:
+		elif value.type in embed_classes:
 			return True
 		else:
-			print("Falling through to default of embed for class %s" % type(self))
+			# Default to embedding to avoid data loss
 			return True
 
 	setattr(BaseResource, "_linked_art_boundary_okay", my_linked_art_boundary_check)
