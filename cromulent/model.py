@@ -6,12 +6,8 @@ import inspect
 import uuid
 import datetime
 
-### Mappings for duplicate properties ###
-### See build_tsv/vocab_reader
-
 KEY_ORDER_DEFAULT = 10000
 LINKED_ART_CONTEXT_URI = "https://linked.art/ns/v1/linked-art.json"
-
 
 # 2.5 and 2.6 are very out of date. Assume 2.7 or better
 import json
@@ -62,20 +58,20 @@ class CromulentFactory(object):
 		self.debug_level = "warn"
 		self.log_stream = sys.stderr
 
-		self.materialize_inverses = False
-		self.full_names = False
-		self.pipe_scoped_contexts = False
-		self.validate_properties = True
-		self.validate_profile = True
-		self.validate_range = True
-		self.auto_assign_id = True
-		self.process_multiplicity = True
+		self.materialize_inverses = False # Create the inverse relationship on the object to the subject
+		self.full_names = False # Use full property and class names in output
+		self.pipe_scoped_contexts = False # Serialize to "name|Pnn_x_y" for scoped properties (documentation)
+		self.validate_properties = True # validate properties are even CRM
+		self.validate_profile = True # Validate linked_art specific stuff
+		self.validate_range = True # Raise if attempt to set prop to invalid class
+		self.validate_multiplicity = True  # Raise if attempt to set n:1 to []
+		self.auto_assign_id = True # Automatially assign a URI
+		self.process_multiplicity = True # Return multiple with single value as [value]
 
 		self.auto_id_type = "int-per-segment" #  "int", "int-per-type", "int-per-segment", "uuid"
-		self.default_lang = lang
+		# self.default_lang = lang  # NOT USED
 		self.filename_extension = ".json"  # some people like .jsonld
-		# N.B. context_uri might actually be a list of URIs, and/or dicts
-		self.context_uri = context
+		self.context_uri = context # Might be a list, or a context value as a dict
 		self.context_json = {}
 
 		self.prefixes = {}
@@ -91,10 +87,9 @@ class CromulentFactory(object):
 			context_filemap.update(context_file)
 			self.load_context(context, context_filemap)
 
-		self.elasticsearch_compatible = False
-		self.serialize_all_resources = False
-		self.linked_art_boundaries = False
-		self.id_type_label = True
+		self.elasticsearch_compatible = False # return {'id': 'uri'} instead of string
+		self.linked_art_boundaries = False # break on linked art API boundaries between classes
+		self.id_type_label = True # references are id, type and _label, not just id.
 
 		self.json_indent = 2
 		self.order_json = True
@@ -115,7 +110,7 @@ class CromulentFactory(object):
 		if not context or not context_filemap:
 			raise ConfigurationError("No context provided, and load_context not False")
 
-		if type(context) != list:
+		if type(context) is not list:
 			context = [context]
 
 		js = {'@context': {}}
@@ -144,6 +139,7 @@ class CromulentFactory(object):
 	def process_context(self):
 		# Filter context looking for prefixes
 		# And make reverse mapping
+		# Note that this does not process scoped contexts for member_of / part_of
 		for (k,v) in self.context_json['@context'].items():
 			if type(v) in STR_TYPES and v[-1] in ['/', '#']:
 				self.prefixes[k] = v
@@ -279,8 +275,7 @@ class CromulentFactory(object):
 
 		Creates directories as necessary
 		"""
-		# TODO:  if self.serialize_all_resources:
-		# then create separate files for every object, not just top level
+
 		if not done:
 			done = {}
 		js = self.toJSON(what, done=done)
@@ -384,7 +379,7 @@ class BaseResource(ExternalResource):
 			if not self._okayToUse:
 				raise ProfileError("Class '%s' is configured to not be used" % self.__class__._type)
 			elif self._okayToUse == 2:
-				self.maybe_warn("Class '%s' is configured to warn on use" % self.__class__._type)
+				self._factory.maybe_warn("Class '%s' is configured to warn on use" % self.__class__._type)
 
 		# Set label and value/content
 		if label:
@@ -440,7 +435,7 @@ class BaseResource(ExternalResource):
 				fn = getattr(self, 'set_%s' % which)
 				return fn(value)
 
-			if self._factory.validate_properties or self._factory.validate_profile or self._factory_validate_range:
+			if self._factory.validate_properties or self._factory.validate_profile or self._factory.validate_range:
 				ok = self._check_prop(which, value)
 			elif isinstance(value, ExternalResource):
 				ok = 2
@@ -469,11 +464,11 @@ class BaseResource(ExternalResource):
 					if not okay:
 						raise ProfileError("Property '%s' / '%s' is configured to not be used" % (which, rdf), self)
 					elif okay == 2:
-						self.maybe_warn("Property '%s' / '%s' is configured to warn on use" % (which, rdf))
+						self._factory.maybe_warn("Property '%s' / '%s' is configured to warn on use" % (which, rdf))
 
 				if val_range:
 					rng = c._properties[which]['range']
-					if rng == str:					
+					if rng is str:					
 						return 1
 					elif type(value) is BaseResource:
 						# Allow direct instances of base resource anywhere
@@ -507,26 +502,21 @@ class BaseResource(ExternalResource):
 		# or list of above
 		if type(data) in STR_TYPES:
 			return data.startswith('http')
-		elif type(data) == dict:
+		elif type(data) is dict:
 			return 'id' in data
 		elif isinstance(data, BaseResource):
 			return True
-		elif type(data) == list:
+		elif type(data) is list:
 			for d in data:
 				if type(d) in STR_TYPES and not d.startswith('http'):
 					return False
-				elif type(d) == dict and not 'id' in d:
+				elif type(d) is dict and not 'id' in d:
 					return False
 			return True
 		else:
 			self._factory.maybe_warn("expecing a resource, got: %r" % (data))
 			return True
 			
-	def maybe_warn(self, msg):
-		"""warn that respects debug settings."""
-		msg = "WARNING: " + msg
-		self._factory.maybe_warn(msg)
-
 	def _set_magic_lang(self, which, value):
 		"""Magical handling of languages for string properties."""
 		# Input:  string, and use "" or default_lang
@@ -543,14 +533,14 @@ class BaseResource(ExternalResource):
 		if type(value) in STR_TYPES:
 			# use default language from factory
 			value = {self._factory.default_lang: value}
-		if type(value) != dict:
+		if type(value) is not dict:
 			raise DataError("Should be a dict or a string when setting %s" % which, self)
 		for k,v in value.items():
 			if k in current:
 				cv = current[k]
-				if type(cv) != list:
+				if type(cv) is not list:
 					cv = [cv]
-				if type(v) != list:
+				if type(v) is not list:
 					v = [v]
 				for vi in v:	
 					cv.append(vi)
@@ -563,19 +553,10 @@ class BaseResource(ExternalResource):
 		"""Set resource property.
 		allow: string/object/dict, and magically generate list thereof
 		"""
-		try:
-			current = getattr(self, which)
-		except:
-			current = None
-		if not current:
-			object.__setattr__(self, which, value)
-		elif type(current) is list:
-			current.append(value)
-		else:
-			value = [current, value]
-			object.__setattr__(self, which, value)
 
-		if self._factory.materialize_inverses or self._factory.process_multiplicity:
+
+		if self._factory.materialize_inverses or self._factory.process_multiplicity or \
+			self._factory.validate_multiplicity:
 			inverse = None
 			multiple = 1
 			for c in self._classhier:
@@ -586,10 +567,26 @@ class BaseResource(ExternalResource):
 					if 'inverse' in v and v['inverse']:
 						inverse = v['inverse']
 						break
+
+		try:
+			current = getattr(self, which)
+		except:
+			current = None
+		if not current:
+			object.__setattr__(self, which, value)
+		elif type(current) is list:
+			current.append(value)
+		else:
+			if self._factory.validate_multiplicity and not multiple:
+				raise ProfileError("Cannot append to %s on %s as multiplicity is 1" % (which, self._type))
+			value = [current, value]
+			object.__setattr__(self, which, value)
+
+		if self._factory.materialize_inverses or self._factory.process_multiplicity:
 			if not inversed and self._factory.materialize_inverses and inverse:
 				# set the backwards ref		
 				value._set_magic_resource(inverse, self, True)
-			if type(current) != list and multiple and self._factory.process_multiplicity:
+			if type(current) is not list and multiple and self._factory.process_multiplicity:
 				object.__setattr__(self, which, [getattr(self, which)])
 
 	def _toJSON(self, done, top=None):
@@ -627,7 +624,7 @@ class BaseResource(ExternalResource):
 			for e in self._warn_properties:
 				if e not in d:
 					msg = "Resource type '%s' should have '%s' set" % (self._type, e)
-					self.maybe_warn(msg)
+					self._factory.maybe_warn(msg)
 
 		# Add back context at the top, if set
 		if top is self and self._factory.context_uri: 
@@ -637,10 +634,8 @@ class BaseResource(ExternalResource):
 			# limit to only id, type, label
 			nd = {}
 			nd['id'] = d['id']
-			try:
+			if self.type:
 				nd['type'] = self.type
-			except:
-				pass
 			try:
 				nd['_label'] = d['_label']
 			except:
@@ -741,7 +736,8 @@ class BaseResource(ExternalResource):
 			# Use existing programmer-friendly names for classes too
 			# find class up that has a type and use its name
 			# almost certainly the first one
-			d['type'] = self.type
+			if self.type:
+				d['type'] = self.type
 
 			if self._factory.pipe_scoped_contexts:
 				# XXX TODO This should be configurable not hard coded

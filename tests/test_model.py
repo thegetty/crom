@@ -12,16 +12,6 @@ except:
 
 from cromulent import model
 
-class TestFactorySetupDefaults(unittest.TestCase):
-
-	def test_init_defaults(self):
-		self.assertEqual(model.factory.base_url, 'http://lod.example.org/museum/')
-		self.assertEqual(model.factory.debug_level, 'warn')
-		self.assertEqual(model.factory.log_stream, sys.stderr)
-		self.assertFalse(model.factory.materialize_inverses)
-		self.assertFalse(model.factory.full_names)
-		# Don't test orders, as these will change repeatedly
-
 class TestFactorySetup(unittest.TestCase):
 
 	def setUp(self):
@@ -43,9 +33,6 @@ class TestFactorySetup(unittest.TestCase):
 
 	def test_default_lang(self):
 		self.assertEqual(model.factory.default_lang, 'en')
-
-	#def test_context_uri(self):
-	#	self.assertEqual(model.factory.context_uri, 'http://www.cidoc-crm.org/cidoc-crm/')
 
 	def test_set_debug_stream(self):
 		strm = open('err_output', 'w')
@@ -164,6 +151,17 @@ class TestFactorySerialization(unittest.TestCase):
 		# If our recursion checks have regressed, this will barf right here
 		self.assertTrue(1)
 
+	def test_pipe_scoped(self):
+		x = model.Activity()
+		y = model.Activity()
+		x.part = y
+		model.factory.pipe_scoped_contexts = True
+		js = model.factory.toJSON(x)
+		self.assertTrue('part|crm:P9_consists_of' in js)
+		model.factory.pipe_scoped_contexts = False
+		js = model.factory.toJSON(x)		
+		self.assertTrue('part|crm:P9_consists_of' not in js)		
+		self.assertTrue('part' in js)
 
 class TestProcessTSV(unittest.TestCase):
 
@@ -294,7 +292,7 @@ class TestBaseResource(unittest.TestCase):
 		self.assertTrue(self.artist._check_reference(model.Person))
 
 	def test_multiplicity(self):
-		model.factory.process_multiplicity = 1
+		model.factory.process_multiplicity = True
 		who = model.Actor()
 		mmo = model.ManMadeObject()
 		who.current_owner_of = mmo
@@ -303,23 +301,13 @@ class TestBaseResource(unittest.TestCase):
 		self.assertEqual(who.current_owner_of, [mmo])		
 
 
+
+
 class TestMagicMethods(unittest.TestCase):
 
 	def setUp(self):
 		model.Person._properties['parent_of']['okayToUse'] = 1
-		model.Person._lang_properties = ['label', 'description']
-
-	# Commented out as we don't actually use magic_lang ever
-	# It's always a LinguisticObject with .language Type
-
-	# def test_set_magic_lang(self):
-	# 	model.factory.default_lang = 'en'
-	# 	artist = model.LinguisticObject('00001', value='Jane Doe')
-	# 	self.assertEqual(artist.content, {'en': 'Jane Doe'})
-	# 	artist._set_magic_lang('content', 'Janey')
-	# 	self.assertEqual(artist.content, {'en': ['Jane Doe', 'Janey']})
-	# 	son = model.Person('00002', 'John Doe')
-	# 	self.assertRaises(model.DataError, artist._set_magic_lang, 'parent_of', son)
+		model.Person._properties['parent_of']['multiple'] = 1
 
 	def test_set_magic_resource(self):
 		artist = model.Person('00001', 'Jane Doe')
@@ -327,7 +315,7 @@ class TestMagicMethods(unittest.TestCase):
 		daughter = model.Person('00002', 'Jenny Doe')
 		son2 = model.Person('00002', 'Jim Doe')
 		artist._set_magic_resource('parent_of', son)
-		self.assertEqual(artist.parent_of, son)
+		self.assertEqual(artist.parent_of, [son])
 		artist._set_magic_resource('parent_of', daughter)
 		try:
 			self.assertIn(son, artist.parent_of)
@@ -353,6 +341,14 @@ class TestMagicMethods(unittest.TestCase):
 		son = model.Person('00002', 'John Doe')
 		artist._set_magic_resource('parent_of', son)
 		self.assertEqual(son.parent, artist)
+		model.factory.materialize_inverses = False
+
+	def test_validate_profile_off(self):
+		model.factory.validate_profile = False
+		ia = model.IdentifierAssignment()
+		# If it's not turned off this should raise
+		model.factory.validate_profile = True
+		self.assertRaises(model.ProfileError, model.IdentifierAssignment)		
 
 	def test_validation_unknown(self):
 		model.factory.validate_properties = True
@@ -369,6 +365,19 @@ class TestMagicMethods(unittest.TestCase):
 		artist = model.Person('00001', 'Jane Doe')		
 		artist.unknown_property = 1
 		self.assertEqual(artist.unknown_property, 1)
+		model.factory.validate_properties = True
+
+	def test_validate_multiplicity(self):
+		model.factory.validate_multiplicity = True
+		who = model.Person()
+		b1 = model.Birth()
+		who.born = b1
+		b2 = model.Birth()
+		self.assertRaises(model.ProfileError, who.__setattr__, 'born', b2)
+		model.factory.validate_multiplicity = False
+		who.born = b2
+		self.assertEqual(who.born, [b1, b2])
+
 
 
 if __name__ == '__main__':
