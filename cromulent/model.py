@@ -11,7 +11,6 @@ import datetime
 
 KEY_ORDER_DEFAULT = 10000
 LINKED_ART_CONTEXT_URI = "https://linked.art/ns/v1/linked-art.json"
-CRM_EXT_CONTEXT_URI = "https://linked.art/ns/v1/cidoc-extension.json"
 
 try:
     import json
@@ -97,11 +96,10 @@ class CromulentFactory(object):
 		self.context_rev = {}
 		# Maybe load it up for prefixes
 		if load_context:
+			# Leave this as a map for future extensions
 			context_filemap = {
 				LINKED_ART_CONTEXT_URI: 
-					os.path.join(os.path.dirname(__file__), 'data', 'linked-art.json'),
-				CRM_EXT_CONTEXT_URI:
-					os.path.join(os.path.dirname(__file__), 'data', 'cidoc-extension.json')
+					os.path.join(os.path.dirname(__file__), 'data', 'linked-art.json')
 			}
 			context_filemap.update(context_file)
 			self.load_context(context, context_filemap)
