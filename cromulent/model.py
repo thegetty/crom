@@ -430,7 +430,7 @@ class BaseResource(ExternalResource):
 
 	@type.setter
 	def type(self, value):
-		raise RequirementError("Must not set 'type' on resources directly")
+		raise AttributeError("Must not set 'type' on resources directly")
 
 
 	def _post_init(self, **kw):
@@ -490,7 +490,7 @@ class BaseResource(ExternalResource):
 					rng = c._properties[which]['range']
 					if rng == str:					
 						return 1
-					elif type(value) == BaseResource:
+					elif type(value) is BaseResource:
 						# Allow direct instances of base resource anywhere
 						# this is an override for external URIs
 						return 2
@@ -584,7 +584,7 @@ class BaseResource(ExternalResource):
 			current = None
 		if not current:
 			object.__setattr__(self, which, value)
-		elif type(current) == list:
+		elif type(current) is list:
 			current.append(value)
 		else:
 			value = [current, value]
@@ -645,7 +645,7 @@ class BaseResource(ExternalResource):
 					self.maybe_warn(msg)
 
 		# Add back context at the top, if set
-		if top == self and self._factory.context_uri: 
+		if top is self and self._factory.context_uri: 
 			d['@context'] = self._factory.context_uri
 
 		if (self._factory.id_type_label and self.id in done) or (top is not self and not self._embed):
@@ -685,7 +685,7 @@ class BaseResource(ExternalResource):
 						done[v.id] = 1
 					else:
 						tbd.append(v.id)
-				elif type(v) == list:
+				elif type(v) is list:
 					for ni in v:
 						if isinstance(ni, ExternalResource):
 							if self._factory.linked_art_boundaries and \
@@ -709,7 +709,7 @@ class BaseResource(ExternalResource):
 					if done[v.id] == self.id:
 						del done[v.id]
 					d[k] = v._toJSON(done=done, top=top)
-				elif type(v) == list:
+				elif type(v) is list:
 					newl = []
 					for ni in v:
 						if isinstance(ni, ExternalResource):
