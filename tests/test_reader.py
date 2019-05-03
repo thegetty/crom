@@ -16,6 +16,7 @@ class TestReader(unittest.TestCase):
 		self.reader = reader.Reader()
 		# ensure we can use parent_of
 		Person._properties['parent_of']['okayToUse'] = 1
+		Person._properties['parent_of']['multiple'] = 1
 
 	def test_read(self):
 		self.assertRaises(DataError, self.reader.read, "")
@@ -29,7 +30,7 @@ class TestReader(unittest.TestCase):
 		self.assertTrue(isinstance(self.reader.read(whostr), Person))
 
 		levelstr = '{"type": "Person", "parent_of": {"type": "Person", "_label": "child"}}'
-		self.assertTrue(isinstance(self.reader.read(levelstr).parent_of, Person))
+		self.assertTrue(isinstance(self.reader.read(levelstr).parent_of[0], Person))
 
 		basestr = '{"_label": "base"}'
 		self.assertTrue(isinstance(self.reader.read(basestr), BaseResource))
