@@ -17,9 +17,9 @@ try:
 	STR_TYPES = [str, unicode] #Py2.7
 	FILE_STREAM_CLASS = file
 except:
-	import _io
+	import io
 	STR_TYPES = [bytes, str] #Py3.x
-	FILE_STREAM_CLASS = _io.TextIOWrapper
+	FILE_STREAM_CLASS = io.TextIOBase
 
 
 class CromulentError(Exception):
