@@ -3,14 +3,10 @@ import sys
 import os
 import shutil
 import json
-
-try:
-	from collections import OrderedDict
-except:
-	# 2.6
-	from ordereddict import OrderedDict
-
+import pickle
+from collections import OrderedDict
 from cromulent import model
+
 
 class TestFactorySetup(unittest.TestCase):
 
@@ -51,6 +47,14 @@ class TestFactorySetup(unittest.TestCase):
 		model.factory.load_context("foo", {"foo":"tests/test_context.json"})
 		self.assertEqual(model.factory.context_json, {"@context":{"id":"@id"}})
 		self.assertRaises(model.ConfigurationError, model.factory.load_context, "", {})
+
+	def test_pickle(self):
+		model.factory.log_stream = sys.stderr
+		srlz = pickle.dumps(model.factory)
+		newfac = pickle.loads(srlz)
+		self.assertTrue(model.factory.log_stream is newfac.log_stream)
+
+
 
 class TestFactorySerialization(unittest.TestCase):
 

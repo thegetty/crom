@@ -14,9 +14,13 @@ import json
 from collections import OrderedDict
 
 try:
-	STR_TYPES = [str, unicode] #Py2
+	STR_TYPES = [str, unicode] #Py2.7
+	FILE_STREAM_CLASS = file
 except:
-	STR_TYPES = [bytes, str] #Py3
+	import _io
+	STR_TYPES = [bytes, str] #Py3.x
+	FILE_STREAM_CLASS = _io.TextIOWrapper
+
 
 class CromulentError(Exception):
 	"""Base exception class"""
@@ -168,7 +172,7 @@ class CromulentFactory(object):
 			d['log_stream'] = ("sys.stdout", "stream")
 		elif strm is sys.stderr:
 			d['log_stream'] = ("sys.stderr", "stream")
-		elif isinstance(strm, file):
+		elif isinstance(strm, FILE_STREAM_CLASS):
 			d['log_stream'] = (strm.name, "file")
 		else:
 			d['log_stream'] = None
@@ -177,20 +181,17 @@ class CromulentFactory(object):
 	def __setstate__(self, state):
 		# State is __dict__ with a reified log_stream as above
 		self.__dict__.update(state)
-		if self.log_stream[1] == "stream":
-			if self.log_stream[0] == "sys.stdout":
-				self.log_stream = sys.stdout
-			elif self.log_stream[0] == "sys.stderr":
-				self.log_stream = sys.stderr
-		elif self.log_stream[1] == "file":
-			try:
-				self.log_stream = open(self.log_stream[0], 'a') 
-			except:
-				self.log_stream = None
-		else:
-			# don't know what to do, and no log to record to...
-			# sorry!
-			pass
+		if self.log_stream:
+			if self.log_stream[1] == "stream":
+				if self.log_stream[0] == "sys.stdout":
+					self.log_stream = sys.stdout
+				elif self.log_stream[0] == "sys.stderr":
+					self.log_stream = sys.stderr
+			elif self.log_stream[1] == "file":
+				try:
+					self.log_stream = open(self.log_stream[0], 'a') 
+				except:
+					self.log_stream = None
 
 
 	def set_debug_stream(self, strm):
