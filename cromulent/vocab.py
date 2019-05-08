@@ -73,6 +73,9 @@ ext_classes = {
 
 	"Inscription": {"parent": LinguisticObject, "id": "300028702", "label": "Inscription", "brief": True},
 	"Signature": {"parent": LinguisticObject, "id": "300028705", "label": "Signature", "brief": True},
+	"Markings": {"parent": LinguisticObject, "id": "300028744", "label": "Markings", "brief": True},
+	"Watermarks": {"parent": LinguisticObject, "id": "300028749", "label": "Watermarks", "brief": True},
+
 	"MaterialStatement": {"parent": LinguisticObject, "id": "300010358", "label": "Material Statement", "brief": True},
 	"DimensionStatement": {"parent": LinguisticObject, "id": "300266036", "label": "Dimension Statement", "brief": True},
 	"CreditStatement": {"parent": LinguisticObject, "id": "300026687", "label": "Credit Statement", "brief": True},
@@ -83,6 +86,8 @@ ext_classes = {
 	"Description": {"parent": LinguisticObject, "id":"300080091", "label": "Description", "brief": True},
 	"PaginationStatement": {"parent": LinguisticObject, "id":"300200294", "label": "Pagination Statement", "brief": True},
 	"FoliationStatement": {"parent": LinguisticObject, "id":"300200662", "label": "Foliation Statement", "brief": True},
+	"CultureStatement": {"parent": LinguisticObject, "id": "300055768", "label": "Culture Statement", "brief": True},
+
 	"Abstract": {"parent": LinguisticObject, "id":"300026032", "label": "Abstract", "brief": True},
 	"Note": {"parent": LinguisticObject, "id":"300027200", "label": "Note", "brief": True},
 	"Annotation": {"parent": LinguisticObject, "id":"300026100", "label":"Annotation"},
