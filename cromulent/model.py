@@ -153,6 +153,46 @@ class CromulentFactory(object):
 					rdf = v['@id']
 				self.context_rev[rdf] = k
 
+	def __getstate__(self):
+		# Make a copy of current object state
+		d = self.__dict__.copy()
+		# try to flush the stream
+		try:
+			self.log_stream.flush()
+		except:
+			# stream instance may not support flush()
+			pass
+		# Now reify the log stream
+		strm = d['log_stream']
+		if strm is sys.stdout:
+			d['log_stream'] = ("sys.stdout", "stream")
+		elif strm is sys.stderr:
+			d['log_stream'] = ("sys.stderr", "stream")
+		elif isinstance(strm, file):
+			d['log_stream'] = (strm.name, "file")
+		else:
+			d['log_stream'] = None
+		return d
+
+	def __setstate__(self, state):
+		# State is __dict__ with a reified log_stream as above
+		self.__dict__.update(state)
+		if self.log_stream[1] == "stream":
+			if self.log_stream[0] == "sys.stdout":
+				self.log_stream = sys.stdout
+			elif self.log_stream[0] == "sys.stderr":
+				self.log_stream = sys.stderr
+		elif self.log_stream[1] == "file":
+			try:
+				self.log_stream = open(self.log_stream[0], 'a') 
+			except:
+				self.log_stream = None
+		else:
+			# don't know what to do, and no log to record to...
+			# sorry!
+			pass
+
+
 	def set_debug_stream(self, strm):
 		"""Set debug level."""
 		self.log_stream = strm
