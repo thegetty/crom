@@ -299,10 +299,14 @@ class TestBaseResource(unittest.TestCase):
 		model.factory.process_multiplicity = True
 		who = model.Actor()
 		mmo = model.ManMadeObject()
+		prod = model.Production()
+		mmo.produced_by = prod
 		who.current_owner_of = mmo
 		mmo.current_owner = who
-		self.assertEqual(mmo.current_owner, who)
+		self.assertEqual(mmo.current_owner, [who])
 		self.assertEqual(who.current_owner_of, [mmo])		
+		self.assertEqual(mmo.produced_by, prod)
+
 
 
 
