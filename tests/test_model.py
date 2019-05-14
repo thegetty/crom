@@ -383,6 +383,5 @@ class TestMagicMethods(unittest.TestCase):
 		self.assertEqual(who.born, [b1, b2])
 
 
-
 if __name__ == '__main__':
 	unittest.main()
