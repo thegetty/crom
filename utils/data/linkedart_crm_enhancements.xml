@@ -6,8 +6,10 @@
   <rdfs:Class rdf:about="http://www.ics.forth.gr/isl/CRMgeo/SP5_Geometric_Place_Expression">
     <rdfs:label xml:lang="en">Geometry</rdfs:label>
     <rdfs:comment>Scope note: This class comprises definitions of places by quantitative expressions. An instance of SP5 Geometric Place Expression can be seen as a prescription of how to find the location meant by this expression in the real world (S), which is based on measuring where the quantities referred to in the expression lead to, beginning from the reference points of the respective reference system.</rdfs:comment>
-    <rdfs:subClassOf rdf:resource="E73_Information_Object"/>
-    <rdfs:subClassOf rdf:resource="E47_Spatial_Coordinates"/>
+    <!-- This subclass is derived from P168 being a subProperty of P1 -->
+    <!-- Thus, for P168 to refer to an SP5, it must at least be an E41 -->
+    <!-- Decision in Berlin, Nov 2018, 42nd Mtg of SIG -->
+    <rdfs:subClassOf rdf:resource="E41_Appellation"/>
   </rdfs:Class>
 
   <rdfs:Class rdf:about="http://www.ics.forth.gr/isl/CRMgeo/SP4_Spatial_Coordinate_Reference_System">
