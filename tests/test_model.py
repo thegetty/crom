@@ -210,17 +210,20 @@ class TestBuildClass(unittest.TestCase):
 class TestAutoIdentifiers(unittest.TestCase):
 
 	def test_bad_autoid(self):
+		model.factory.auto_assign_id = True
 		model.factory.auto_id_type = "broken"
 		self.assertRaises(model.ConfigurationError, model.factory.generate_id,
 			"irrelevant")
 
 	def test_int(self):
+		model.factory.auto_assign_id = True
 		model.factory.auto_id_type = "int"
 		p = model.Person()
 		p2 = model.Activity()
 		self.assertEqual(int(p.id[-1]), int(p2.id[-1])-1)
 
 	def test_int_per_type(self):
+		model.factory.auto_assign_id = True
 		model.factory.auto_id_type = "int-per-type"
 		p = model.Person()
 		p2 = model.Person()
@@ -229,6 +232,7 @@ class TestAutoIdentifiers(unittest.TestCase):
 		self.assertEqual(int(p.id[-1]), int(p3.id[-1]))		
 
 	def test_int_per_segment(self):
+		model.factory.auto_assign_id = True
 		model.factory._auto_id_segments = {}
 		model.factory.auto_id_type = "int-per-segment"
 		model.Activity._uri_segment = model.Person._uri_segment
@@ -239,6 +243,7 @@ class TestAutoIdentifiers(unittest.TestCase):
 		self.assertEqual(int(p.id[-1]), int(p3.id[-1]))		
 			
 	def test_uuid(self):
+		model.factory.auto_assign_id = True
 		model.factory.auto_id_type = "uuid"
 		p = model.Person()
 		self.assertTrue(p.id.startswith('urn:uuid:'))		
@@ -253,6 +258,31 @@ class TestAutoIdentifiers(unittest.TestCase):
 		model.factory.prefixes = {}
 		p4 = model.Person('fish:4')
 		self.assertTrue(p4.id.startswith(model.factory.base_url))
+
+	def test_no_ident(self):
+
+		model.factory.auto_assign_id = True
+		p1 = model.Person()	# auto assigned	 
+		p2 = model.Person(ident=None) # auto assigned
+		p3 = model.Person(ident="") # bnode explicitly
+
+		self.assertTrue(p1.id.startswith('http'))
+		self.assertTrue(p2.id.startswith('http'))
+		self.assertEqual(p3.id, '')
+
+		model.factory.auto_assign_id = False
+		p4 = model.Person() # bnode is default
+		p5 = model.Person(ident=None) # bnode is default
+		p6 = model.Person(ident="") # bnode explicitly
+
+		self.assertEqual(p4.id, '')
+		self.assertEqual(p5.id, '')
+		self.assertEqual(p6.id, '')
+
+
+
+
+
 
 		
 class TestBaseResource(unittest.TestCase):
