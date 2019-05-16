@@ -358,9 +358,9 @@ class ExternalResource(object):
 	_type = ""
 	_embed = True
 
-	def __init__(self, ident=""):
+	def __init__(self, ident=None):
 		self._factory = factory
-		if ident:
+		if ident is not None:
 			if ident.startswith('urn:uuid'):
 				self.id = ident
 			elif ident.startswith('http'):
@@ -378,6 +378,9 @@ class ExternalResource(object):
 					ident = "%s:%s" % (self._factory.prefixes_rev[pref], rest)
 
 				self.id = ident
+			elif ident == "":
+				# Allow explicit setting of empty string
+				self.id = ""
 			else:
 				# Allow for prefixed term
 				curied = ident.split(':', 1)
@@ -386,10 +389,10 @@ class ExternalResource(object):
 					self._full_id = self._factory.prefixes[curied[0]] + curied[1]	
 				else:
 					self.id = factory.base_url + self.__class__._uri_segment + "/" + ident
-
 		elif factory.auto_assign_id:
 			self.id = factory.generate_id(self)
 		else:
+			# Not auto assigning, and not submitted = blank node
 			self.id = ""
 
 	def _toJSON(self, done, top=None):
@@ -408,7 +411,7 @@ class BaseResource(ExternalResource):
 	_classification = ""
 	_classhier = []
 
-	def __init__(self, ident="", label="", value="", content="", **kw):
+	def __init__(self, ident=None, label="", value="", content="", **kw):
 		"""Initialize BaseObject."""
 		super(BaseResource, self).__init__(ident)
 
