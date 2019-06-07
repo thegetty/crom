@@ -322,6 +322,15 @@ class TestBaseResource(unittest.TestCase):
 		p1.classified_as = model.Type()
 		props = p1.list_my_props()
 		self.assertEqual(set(props), set(['classified_as', 'id']))
+		props = p1.list_my_props(filter=model.Type)
+		self.assertEqual(props, ['classified_as'])
+
+	def test_allows_multiple(self):
+		p = model.Person()
+		self.assertTrue(p.allows_multiple('classified_as'))
+		self.assertFalse(p.allows_multiple('born'))
+		self.assertRaises(model.DataError, p.allows_multiple, 'fish')
+
 
 	def test_check_reference(self):
 		self.assertTrue(self.artist._check_reference('http'))
