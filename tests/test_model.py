@@ -167,6 +167,15 @@ class TestFactorySerialization(unittest.TestCase):
 		self.assertTrue('part|crm:P9_consists_of' not in js)		
 		self.assertTrue('part' in js)
 
+	def test_collapse_json(self):
+		p = model.Person()
+		p.classified_as = model.Type(ident="http://example.org/Type", label="Test")
+		res1 = model.factory.toString(p, compact=False, collapse=60) # all new lines
+		res2 = model.factory.toString(p, compact=False, collapse=120) # compact list of type
+		self.assertEqual(len(res1.splitlines()), 12)
+		self.assertEqual(len(res2.splitlines()), 6)
+
+
 class TestProcessTSV(unittest.TestCase):
 
 	def test_process_tsv(self):
@@ -308,6 +317,12 @@ class TestBaseResource(unittest.TestCase):
 		self.assertTrue('_label' in props)
 		self.assertTrue('identified_by' in props)
 
+	def test_list_my_props(self):
+		p1 = model.Person()
+		p1.classified_as = model.Type()
+		props = p1.list_my_props()
+		self.assertEqual(set(props), set(['classified_as', 'id']))
+
 	def test_check_reference(self):
 		self.assertTrue(self.artist._check_reference('http'))
 		self.assertFalse(self.artist._check_reference('xxx'))
@@ -330,8 +345,17 @@ class TestBaseResource(unittest.TestCase):
 		self.assertEqual(who.current_owner_of, [mmo])		
 		self.assertEqual(mmo.produced_by, prod)
 
+	def test_init_params(self):
+		p1 = model.Person(ident="urn:uuid:1234")
+		self.assertEqual(p1.id, "urn:uuid:1234")
+		p2 = model.Person(ident="http://schema.org/Foo")
+		self.assertEqual(p2.id, "schema:Foo")
+		p3 = model.Name(content="Test")
+		self.assertEqual(p3.content, "Test")
 
-
+	def test_dir(self):
+		props = dir(self.artist)
+		self.assertTrue('identified_by' in props)
 
 
 class TestMagicMethods(unittest.TestCase):
@@ -380,6 +404,8 @@ class TestMagicMethods(unittest.TestCase):
 		# If it's not turned off this should raise
 		model.factory.validate_profile = True
 		self.assertRaises(model.ProfileError, model.IdentifierAssignment)		
+		p1 = model.Person()
+		self.assertRaises(model.ProfileError, p1.__setattr__, 'documented_in', "foo")
 
 	def test_validation_unknown(self):
 		model.factory.validate_properties = True
