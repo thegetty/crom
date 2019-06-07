@@ -6,7 +6,7 @@ import json
 import pickle
 from collections import OrderedDict
 from cromulent import model
-
+from cromulent.model import override_okay
 
 class TestFactorySetup(unittest.TestCase):
 
@@ -279,18 +279,13 @@ class TestAutoIdentifiers(unittest.TestCase):
 		self.assertEqual(p5.id, '')
 		self.assertEqual(p6.id, '')
 
-
-
-
-
-
 		
 class TestBaseResource(unittest.TestCase):
 
 	def setUp(self):
+		override_okay(model.Person, 'parent_of')
 		self.artist = model.Person('00001', 'Jane Doe')
 		self.son = model.Person('00002', 'John Doe')
-		model.Person._properties['parent_of']['okayToUse'] = 1
 
 	def test_init(self):
 		self.assertEqual(self.artist.id, 'http://lod.example.org/museum/Person/00001')
@@ -307,13 +302,11 @@ class TestBaseResource(unittest.TestCase):
 		self.assertEqual(parent, 2)
 
 	def test_list_all_props(self):
-		props = list(self.artist._list_all_props().items())
+		props = self.artist.list_all_props()
 		props.sort()
-		if props[0][0] == "_label":
-			props = props[1:]
-		(lbl, cl) = props[0]
-		self.assertEqual('acquired_custody_through', lbl)
-		self.assertEqual(model.TransferOfCustody, cl)
+		self.assertEqual(props[-1], 'witnessed')
+		self.assertTrue('_label' in props)
+		self.assertTrue('identified_by' in props)
 
 	def test_check_reference(self):
 		self.assertTrue(self.artist._check_reference('http'))
@@ -344,8 +337,8 @@ class TestBaseResource(unittest.TestCase):
 class TestMagicMethods(unittest.TestCase):
 
 	def setUp(self):
-		model.Person._properties['parent_of']['okayToUse'] = 1
-		model.Person._properties['parent_of']['multiple'] = 1
+		override_okay(model.Person, 'parent_of')
+		# model.Person._properties['parent_of']['multiple'] = 1
 
 	def test_set_magic_resource(self):
 		artist = model.Person('00001', 'Jane Doe')
@@ -378,7 +371,7 @@ class TestMagicMethods(unittest.TestCase):
 		artist = model.Person('00001', 'Jane Doe')
 		son = model.Person('00002', 'John Doe')
 		artist._set_magic_resource('parent_of', son)
-		self.assertEqual(son.parent, artist)
+		self.assertEqual(son.parent, [artist])
 		model.factory.materialize_inverses = False
 
 	def test_validate_profile_off(self):

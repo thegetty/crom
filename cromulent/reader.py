@@ -1,7 +1,6 @@
 from cromulent import model
 from cromulent.model import factory, DataError, OrderedDict, BaseResource
 from cromulent.model import STR_TYPES
-from cromulent.multiple_instantiation import EoEActivity
 import json
 
 class Reader(object):
@@ -58,38 +57,32 @@ class Reader(object):
 
 		if typ == None:
 			clx = BaseResource
-		elif type(typ) == list:
-			if set(typ) == set(["EndOfExistence", "Activity"]):
-				clx = EoEActivity
-			else:
-				raise NotImplementedError("Not sure which of multiple classes to use!")
 		else:
 			# Get class based on name
-			# Not bothering with vocab based classes (yet)
-			if typ == "Payment":
-				clx = Payment
-			else:
-				try:
-					clx = getattr(model, typ)
-				except AttributeError:
-					# No such class
-					raise DataError("Resource %s has unknown class %s" % (ident, typ) )
+			try:
+				clx = getattr(model, typ)
+			except AttributeError:
+				# No such class
+				raise DataError("Resource %s has unknown class %s" % (ident, typ) )
 
-		classified = js.get('classfied_as', [])
 		what = clx(ident=ident)
 		self.uri_object_map[ident] = what
-		propInfo = what._list_all_props()
+		propList = what.list_all_props()
 
 		# sort data by KOH to minimize chance of bad backrefs
 		itms = list(js.items())
 		itms.sort(key=lambda x: factory.key_order_hash.get(x[0], 10000))
 
 		for (prop, value) in itms:
-			# Make everything a list, even if it can't be one
-			rng = propInfo.get(prop, None)
-			if not rng:
-				raise DataError("Unknown property %s" % prop)
-	 
+			if not prop in propList:
+				raise DataError("Unknown property %s on %s" % (prop, clx.__name__))
+
+			# Climb looking for range
+			for c in what._classhier:		
+				if prop in c._all_properties:
+					rng = c._all_properties[prop].range
+					break
+
 			if type(value) != list:
 				value = [value]
 			for subvalue in value:
