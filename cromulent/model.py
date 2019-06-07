@@ -119,6 +119,7 @@ class CromulentFactory(object):
 		self._auto_id_types = {}
 		self._auto_id_segments = {}
 		self._auto_id_int = -1
+		self._all_classes = {}
 
 	def load_context(self, context, context_filemap):
 
@@ -139,7 +140,7 @@ class CromulentFactory(object):
 				except IOError:
 					raise ConfigurationError("Provided context file does not exist")
 			else:
-				# Fetch from web
+				# XXX Fetch from web
 				data = "{}"
 
 			try:
@@ -857,6 +858,21 @@ def override_okay(clss, propName):
 		raise DataError("%s does not have a %s property to allow" % 
 			(clss.__name__, propName))
 
+def cache_hierarchy():
+	""" For each class, walk up the hierarchy and cache the terms """
+
+	# This will work with the existing code, as it will find it in the first
+	# test of props on classhier[0], the loop will just terminate straight away
+
+	for c in factory._all_classes.values():
+		new_hash = c._all_properties.copy()
+		if len(c._classhier) > 1:
+			for p in c._classhier[1:]:
+				for (prop, info) in p._all_properties.items():
+					if not prop in new_hash:
+						new_hash[prop] = info
+		c._all_properties = new_hash
+
 # Ensure everything can have id, type, label and description
 BaseResource._properties = {'id': {"rdf": "@id", "range": str, "okayToUse": 1}, 
 	'type': {"rdf": "rdf:type", "range": str, "rangeStr": "rdfs:Class", "okayToUse": 1}, 
@@ -937,6 +953,8 @@ def build_class(crmName, parent, vocabData):
 	c._properties = {}
 	c._all_properties = {}
 	c._okayToUse = int(data['okay'])
+
+	factory._all_classes[name] = c
 
 	# Set up real properties
 	for p in data['props']:
@@ -1028,6 +1046,9 @@ def build_classes(fn=None, topClass=None):
 		except:
 			# Never had it set?
 			pass
+
+
+
 
 # XXX This should be invoked rather than inline so the module can be loaded
 # and a different context used. But for now ...
