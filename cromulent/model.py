@@ -1029,9 +1029,7 @@ def build_classes(fn=None, topClass=None):
 						break
 
 			c._all_properties[name] = PropInfo(name,
-				value['rdf'],
-				rng,
-				inverse,
+				value['rdf'], rng, inverse,
 				value.get('inverseRdf', None),
 				value.get('multiple', 1),
 				value.get('okayToUse', 0)
