@@ -1014,10 +1014,10 @@ def build_classes(fn=None, topClass=None):
 				# Precomputed ones like rdf:type
 				continue
 
+			inverse = None
 			rngd = vocabData.get(value['rangeStr'], None)
 			if rngs in ['rdfs:Literal', 'xsd:dateTime', 'xsd:string', 'rdfs:Class']:
 					rng = str 
-					inverse = None
 			elif not rngd:
 				raise ConfigurationError("Failed to get range for %s property %s - %s" % (c, name, rngs))
 			else:
