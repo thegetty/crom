@@ -120,6 +120,7 @@ class CromulentFactory(object):
 		self._auto_id_segments = {}
 		self._auto_id_int = -1
 		self._all_classes = {}
+		self._property_types = {}
 
 	def load_context(self, context, context_filemap):
 
@@ -1034,6 +1035,9 @@ def build_classes(fn=None, topClass=None):
 				value.get('multiple', 1),
 				value.get('okayToUse', 0)
 			)
+			# Add to factory._property_types
+			
+
 
 	# set all of the classhiers
 	for v in vocabData.values():

@@ -37,6 +37,7 @@ extension = OrderedDict()
 extension['@version'] = 1.1
 extension['crm'] = "http://www.cidoc-crm.org/cidoc-crm/"
 
+vocab_properties = ["assigned_property_type"]
 
 parts = {
 	"P9": ["crm:P9_consists_of", "crm:P9i_forms_part_of"],
@@ -57,7 +58,7 @@ scoped_classes = {
 	"TransferOfCustody": "P9",
 	"Production": "P9",
 	"AttributeAssignment": "P9",		
-	"ManMadeObject": "P46",
+	"HumanMadeObject": "P46",
 	"LinguisticObject": "P106",
 	"VisualItem": "P106", # XXX This is the symbolic partitioning, not the conceptual partitioning of P149
 	"Identifier": "P106",
@@ -93,8 +94,8 @@ scoped_classes = {
 	"PhysicalFeature": "P46",
 	"BiologicalObject": "P46",
 	"Site": "P46",
-	"PhysicalManMadeThing": "P46",
-	"ManMadeFeature": "P46",
+	"PhysicalHumanMadeThing": "P46",
+	"HumanMadeFeature": "P46",
 	"Title": "P106",
 	"Inscription": "P106",
 	"Mark": "P106",
@@ -146,6 +147,8 @@ for l in lines:
 			if rng:
 				if rng[0] == "E":
 					typ = "@id"
+					if ctname in vocab_properties:
+						typ = "@vocab"
 				else:
 					typ = rng
 			else:

@@ -426,5 +426,5 @@ skos:closeMatch	property	close_match	closeMatch	Close Match, good for some uses	
 rdfs:seeAlso	property	see_also	seeAlso	A related resource, that is machine readable and related to the current resource.		E1_CRM_Entity	E73_Information_Object		10000	1	1
 dcterms:relation	property	related	relation	Related resources, with no further similarity semantics defined		E1_CRM_Entity	E1_CRM_Entity		10000	1	1
 schema:genre	property	style	genre	Shortcut for Genre or Style		E73_Information_Object	E55_Type		10000	1	1
-dcterms:conformsTo	property	conforms_to	conformsTo	Some thing conforms to some standard		E71_Human-Made_Thing	E73_Information_Object		10000	1	1
+dcterms:conformsTo	property	conforms_to	conforms to	Some thing conforms to some standard		E71_Human-Made_Thing	E73_Information_Object		10000	1	1
 dc:format	property	format	format	The media type of the information object		E73_Information_Object	xsd:string		10000	1	0
