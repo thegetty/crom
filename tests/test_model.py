@@ -8,6 +8,7 @@ from collections import OrderedDict
 from cromulent import model
 from cromulent.model import override_okay
 
+
 class TestFactorySetup(unittest.TestCase):
 
 	def setUp(self):
@@ -117,7 +118,7 @@ class TestFactorySerialization(unittest.TestCase):
 		e = model.Activity()
 		fr = model.Group()
 		to = model.Group()
-		w = model.ManMadeObject()
+		w = model.HumanMadeObject()
 		fr._label = "From"
 		to._label = "To"
 		x.transferred_custody_of = w
@@ -179,11 +180,11 @@ class TestFactorySerialization(unittest.TestCase):
 class TestProcessTSV(unittest.TestCase):
 
 	def test_process_tsv(self):
-		expect = {u'subs': [u'E84_Information_Carrier'], u'label': u'Man-Made Object', u'className': u'ManMadeObject', 
-		u'subOf': u'E19_Physical_Object|E24_Physical_Man-Made_Thing', u'props': [], u'class': None, u'okay': u'1'}
+		expect = {u'subs': [u'E84_Information_Carrier'], u'label': u'Human-Made Object', u'className': u'HumanMadeObject', 
+		u'subOf': u'E19_Physical_Object|E24_Physical_Human-Made_Thing', u'props': [], u'class': None, u'okay': u'1'}
 		fn = 'cromulent/data/crm_vocab.tsv'
 		vocabData = model.process_tsv(fn)
-		man_made = vocabData['E22_Man-Made_Object']
+		man_made = vocabData['E22_Human-Made_Object']
 		del man_made['desc']  # too long and volatile
 		try:
 			self.assertEqual(expect, man_made)
@@ -344,7 +345,7 @@ class TestBaseResource(unittest.TestCase):
 	def test_multiplicity(self):
 		model.factory.process_multiplicity = True
 		who = model.Actor()
-		mmo = model.ManMadeObject()
+		mmo = model.HumanMadeObject()
 		prod = model.Production()
 		mmo.produced_by = prod
 		who.current_owner_of = mmo
@@ -369,7 +370,7 @@ class TestBaseResource(unittest.TestCase):
 class TestPropertyCache(unittest.TestCase):
 
 	def test_cache_hierarchy(self):
-		o = model.ManMadeObject()
+		o = model.HumanMadeObject()
 		self.assertEqual(o._all_properties, {})
 		model.cache_hierarchy()
 		self.assertTrue(len(o._all_properties) > 50)

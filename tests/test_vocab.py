@@ -13,7 +13,7 @@ class TestClassBuilder(unittest.TestCase):
 		pass
 
 	def test_class(self):
-		vocab.register_aat_class("TestObject1", {"parent": model.ManMadeObject, "id": "1", "label": "example 1"})
+		vocab.register_aat_class("TestObject1", {"parent": model.HumanMadeObject, "id": "1", "label": "example 1"})
 		from cromulent.vocab import TestObject1
 		self.assertEqual(TestObject1._classification[0].id, 'http://vocab.getty.edu/aat/1')
 
@@ -24,7 +24,7 @@ class TestClassBuilder(unittest.TestCase):
 		self.assertEqual(tm2.id, "http://vocab.getty.edu/aat/2")
 
 	def test_art_setter(self):
-		p = model.ManMadeObject("a", art=1)
+		p = model.HumanMadeObject("a", art=1)
 		p._label = "a"
 		pj = p._toJSON(done={})
 		self.assertFalse(pj.get('classified_as', None))
