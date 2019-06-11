@@ -8,15 +8,16 @@ except:
 	from ordereddict import OrderedDict
 
 from cromulent import reader
-from cromulent.model import factory, Person, DataError, BaseResource, Dimension
+from cromulent.model import factory, Person, DataError, BaseResource, \
+	Dimension, override_okay
 
 class TestReader(unittest.TestCase):
 
 	def setUp(self):
 		self.reader = reader.Reader()
 		# ensure we can use parent_of
-		Person._properties['parent_of']['okayToUse'] = 1
-		Person._properties['parent_of']['multiple'] = 1
+		override_okay(Person, 'parent_of')
+		# Person._properties['parent_of']['multiple'] = 1
 
 	def test_read(self):
 		self.assertRaises(DataError, self.reader.read, "")
@@ -40,11 +41,3 @@ class TestReader(unittest.TestCase):
 
 		unknown2 = '{"type":"Person", "fishbat": "bob"}'
 		self.assertRaises(DataError, self.reader.read, unknown)
-
-		# somewhere else, rdf_value has been added
-		try:
-			del Dimension._properties['value']
-		except:
-			# maybe not?
-			pass
-

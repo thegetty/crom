@@ -35,6 +35,33 @@ class TestClassBuilder(unittest.TestCase):
 		# no idea why the aat:1234 pattern doesn't work here
 		# something to do with failing to set up the factory?
 
+	def test_aa_check(self):
+		t = model.Type()
+		aa = model.AttributeAssignment()
+		# First check that aa accepts a type
+		aa.classified_as = t
+		# And will not accept a string
+		self.assertRaises(model.DataError, aa.__setattr__, "classified_as", "classified_as")
+
+		# Check we can set anything to assigned / assigned_to
+		aa.classified_as = None
+		aa.assigned = aa
+		aa.assigned_to = aa
+		self.assertEqual(aa.assigned, aa)
+		self.assertEqual(aa.assigned_to, aa)
+
+		vocab.add_attribute_assignment_check()
+
+		# This should fail right now as can't classify as an AA
+		self.assertRaises(model.DataError, aa.__setattr__, "classified_as", "classified_as")
+		aa.assigned = None
+		aa.assigned_to = None
+		aa.assigned = t
+		aa.assigned_to = t
+		aa.classified_as = "classified_as"
+		self.assertEqual(aa.classified_as, 'classified_as')
+
+
 	def test_boundary_setter(self):
 		vocab.add_linked_art_boundary_check()
 		p = model.Person()

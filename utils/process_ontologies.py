@@ -178,7 +178,7 @@ def process_props(dom):
 
 		koi = str(key_order_hash.get(ccname, default_key_order))
 
-		# either 0, or [1/2, 0/1] for okay/warn, single/multiple
+		# [0/1/2, 0/1] for [no/okay/warn, single/multiple]
 		stuff.append([name, "property", ccname, label, comment, subProp, domn, rang, inverse, koi, 
 			str(useflags[0]), str(useflags[1])])
 

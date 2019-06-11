@@ -6,7 +6,7 @@ import json
 import pickle
 from collections import OrderedDict
 from cromulent import model
-
+from cromulent.model import override_okay
 
 class TestFactorySetup(unittest.TestCase):
 
@@ -167,6 +167,15 @@ class TestFactorySerialization(unittest.TestCase):
 		self.assertTrue('part|crm:P9_consists_of' not in js)		
 		self.assertTrue('part' in js)
 
+	def test_collapse_json(self):
+		p = model.Person()
+		p.classified_as = model.Type(ident="http://example.org/Type", label="Test")
+		res1 = model.factory.toString(p, compact=False, collapse=60) # all new lines
+		res2 = model.factory.toString(p, compact=False, collapse=120) # compact list of type
+		self.assertEqual(len(res1.splitlines()), 12)
+		self.assertEqual(len(res2.splitlines()), 6)
+
+
 class TestProcessTSV(unittest.TestCase):
 
 	def test_process_tsv(self):
@@ -279,18 +288,13 @@ class TestAutoIdentifiers(unittest.TestCase):
 		self.assertEqual(p5.id, '')
 		self.assertEqual(p6.id, '')
 
-
-
-
-
-
 		
 class TestBaseResource(unittest.TestCase):
 
 	def setUp(self):
+		override_okay(model.Person, 'parent_of')
 		self.artist = model.Person('00001', 'Jane Doe')
 		self.son = model.Person('00002', 'John Doe')
-		model.Person._properties['parent_of']['okayToUse'] = 1
 
 	def test_init(self):
 		self.assertEqual(self.artist.id, 'http://lod.example.org/museum/Person/00001')
@@ -307,13 +311,25 @@ class TestBaseResource(unittest.TestCase):
 		self.assertEqual(parent, 2)
 
 	def test_list_all_props(self):
-		props = list(self.artist._list_all_props().items())
+		props = self.artist.list_all_props()
 		props.sort()
-		if props[0][0] == "_label":
-			props = props[1:]
-		(lbl, cl) = props[0]
-		self.assertEqual('acquired_custody_through', lbl)
-		self.assertEqual(model.TransferOfCustody, cl)
+		self.assertEqual(props[-1], 'witnessed')
+		self.assertTrue('_label' in props)
+		self.assertTrue('identified_by' in props)
+
+	def test_list_my_props(self):
+		p1 = model.Person()
+		p1.classified_as = model.Type()
+		props = p1.list_my_props()
+		self.assertEqual(set(props), set(['classified_as', 'id']))
+		props = p1.list_my_props(filter=model.Type)
+		self.assertEqual(props, ['classified_as'])
+
+	def test_allows_multiple(self):
+		p = model.Person()
+		self.assertTrue(p.allows_multiple('classified_as'))
+		self.assertFalse(p.allows_multiple('born'))
+		self.assertRaises(model.DataError, p.allows_multiple, 'fish')
 
 	def test_check_reference(self):
 		self.assertTrue(self.artist._check_reference('http'))
@@ -337,15 +353,33 @@ class TestBaseResource(unittest.TestCase):
 		self.assertEqual(who.current_owner_of, [mmo])		
 		self.assertEqual(mmo.produced_by, prod)
 
+	def test_init_params(self):
+		p1 = model.Person(ident="urn:uuid:1234")
+		self.assertEqual(p1.id, "urn:uuid:1234")
+		p2 = model.Person(ident="http://schema.org/Foo")
+		self.assertEqual(p2.id, "schema:Foo")
+		p3 = model.Name(content="Test")
+		self.assertEqual(p3.content, "Test")
+
+	def test_dir(self):
+		props = dir(self.artist)
+		self.assertTrue('identified_by' in props)
 
 
+class TestPropertyCache(unittest.TestCase):
 
+	def test_cache_hierarchy(self):
+		o = model.ManMadeObject()
+		self.assertEqual(o._all_properties, {})
+		model.cache_hierarchy()
+		self.assertTrue(len(o._all_properties) > 50)
+		
 
 class TestMagicMethods(unittest.TestCase):
 
 	def setUp(self):
-		model.Person._properties['parent_of']['okayToUse'] = 1
-		model.Person._properties['parent_of']['multiple'] = 1
+		override_okay(model.Person, 'parent_of')
+		# model.Person._properties['parent_of']['multiple'] = 1
 
 	def test_set_magic_resource(self):
 		artist = model.Person('00001', 'Jane Doe')
@@ -378,7 +412,7 @@ class TestMagicMethods(unittest.TestCase):
 		artist = model.Person('00001', 'Jane Doe')
 		son = model.Person('00002', 'John Doe')
 		artist._set_magic_resource('parent_of', son)
-		self.assertEqual(son.parent, artist)
+		self.assertEqual(son.parent, [artist])
 		model.factory.materialize_inverses = False
 
 	def test_validate_profile_off(self):
@@ -387,6 +421,8 @@ class TestMagicMethods(unittest.TestCase):
 		# If it's not turned off this should raise
 		model.factory.validate_profile = True
 		self.assertRaises(model.ProfileError, model.IdentifierAssignment)		
+		p1 = model.Person()
+		self.assertRaises(model.ProfileError, p1.__setattr__, 'documented_in', "foo")
 
 	def test_validation_unknown(self):
 		model.factory.validate_properties = True

@@ -11,7 +11,7 @@ LINKED_ART_CONTEXT_URI = "https://linked.art/ns/v1/linked-art.json"
 
 # 2.5 and 2.6 are very out of date. Assume 2.7 or better
 import json
-from collections import OrderedDict
+from collections import OrderedDict, namedtuple
 
 try:
 	STR_TYPES = [str, unicode] #Py2.7
@@ -20,6 +20,17 @@ except:
 	import io
 	STR_TYPES = [bytes, str] #Py3.x
 	FILE_STREAM_CLASS = io.TextIOBase
+
+
+PropInfo = namedtuple("PropInfo", [
+	'property', # the name of the property, eg 'identified_by'
+	'predicate', # the name from the ontology, eg 'crm:P1_is_identified_by'
+	'range', # the class which is the range of this predicate, eg model.Identifier
+	'inverse_property', # the name of the property which is the inverse of this one, eg 'identifies'
+	'inverse_predicate', # the predicate for the inverse of this one, eg 'crm:P1i_idenfifies'
+	'multiple_okay', # can there be multiple values, eg True
+	'profile_okay' # is this property okay according to the profile, eg 0 (no), 1 (yes), 2 (warn)
+	])
 
 
 class CromulentError(Exception):
@@ -108,6 +119,7 @@ class CromulentFactory(object):
 		self._auto_id_types = {}
 		self._auto_id_segments = {}
 		self._auto_id_int = -1
+		self._all_classes = {}
 
 	def load_context(self, context, context_filemap):
 
@@ -128,7 +140,7 @@ class CromulentFactory(object):
 				except IOError:
 					raise ConfigurationError("Provided context file does not exist")
 			else:
-				# Fetch from web
+				# XXX Fetch from web
 				data = "{}"
 
 			try:
@@ -354,7 +366,7 @@ class ExternalResource(object):
 	_uri_segment = ""
 	id = ""
 	_full_id = ""
-	_properties = {}
+	_all_properties = {}
 	_type = ""
 	_embed = True
 
@@ -443,7 +455,7 @@ class BaseResource(ExternalResource):
 
 	def __dir__(self):
 		d = dir(self.__class__)
-		d.extend(list(self._list_all_props().keys()))
+		d.extend(self.list_all_props())
 		return sorted(d)
 
 	@property
@@ -490,28 +502,25 @@ class BaseResource(ExternalResource):
 				self._set_magic_resource(which, value)
 			else:			
 				object.__setattr__(self, which, value)				
-
-	def _prop_okay(self, which):
-		for c in self._classhier:
-			if which in c._properties:
-				return c._properties[which]['okayToUse']		 
-
+		 
 	def _check_prop(self, which, value):
 		val_props = self._factory.validate_properties
 		val_profile = self._factory.validate_profile
 		val_range = self._factory.validate_range
 		for c in self._classhier:
-			if which in c._properties:
+			if which in c._all_properties:
+				pinfo = c._all_properties[which]
+
 				if val_profile:
-					okay = c._properties[which]['okayToUse']					
-					rdf = c._properties[which]['rdf']
+					okay = pinfo.profile_okay					
+					rdf = pinfo.predicate
 					if not okay:
 						raise ProfileError("Property '%s' / '%s' is configured to not be used" % (which, rdf), self)
 					elif okay == 2:
 						self._factory.maybe_warn("Property '%s' / '%s' is configured to warn on use" % (which, rdf))
 
 				if val_range:
-					rng = c._properties[which]['range']
+					rng = pinfo.range
 					if rng is str:					
 						return 1
 					elif type(value) is BaseResource:
@@ -529,15 +538,6 @@ class BaseResource(ExternalResource):
 		else:
 			# Not validating ANYTHING
 			return 1
-
-
-	def _list_all_props(self):
-		props = {}
-		for c in self._classhier:		
-			for k,v in c._properties.items():
-				if not k in props:
-					props[k] = v['range']
-		return props
 
 	def _check_reference(self, data):
 		"""True if data is a resource or reference to a resource"""
@@ -598,18 +598,16 @@ class BaseResource(ExternalResource):
 		allow: string/object/dict, and magically generate list thereof
 		"""
 
-
 		if self._factory.materialize_inverses or self._factory.process_multiplicity or \
 			self._factory.validate_multiplicity:
 			inverse = None
 			multiple = 1
 			for c in self._classhier:
-				if which in c._properties:
-					v = c._properties[which]
-					if 'multiple' in v:
-						multiple = v['multiple']
-					if 'inverse' in v and v['inverse']:
-						inverse = v['inverse']
+				if which in c._all_properties:
+					v = c._all_properties[which]
+					multiple = v.multiple_okay
+					if v.inverse_property:
+						inverse = v.inverse_property
 						break
 
 		try:
@@ -623,8 +621,8 @@ class BaseResource(ExternalResource):
 		else:
 			if self._factory.validate_multiplicity and not multiple:
 				raise ProfileError("Cannot append to %s on %s as multiplicity is 1" % (which, self._type))
-			value = [current, value]
-			object.__setattr__(self, which, value)
+			nvalue = [current, value]
+			object.__setattr__(self, which, nvalue)
 
 		if self._factory.materialize_inverses or self._factory.process_multiplicity:
 			if not inversed and self._factory.materialize_inverses and inverse:
@@ -646,7 +644,7 @@ class BaseResource(ExternalResource):
 			top = self
 
 		# id, type, _label is the default.
-		if not factory.id_type_label and self.id in done:
+		if not factory.id_type_label and id(self) in done:
 			if self._factory.elasticsearch_compatible:
 				return {'id': self.id}
 			else:
@@ -674,7 +672,7 @@ class BaseResource(ExternalResource):
 		if top is self and self._factory.context_uri: 
 			d['@context'] = self._factory.context_uri
 
-		if (self._factory.id_type_label and self.id in done) or (top is not self and not self._embed):
+		if (self._factory.id_type_label and id(self) in done) or (top is not self and not self._embed):
 			# limit to only id, type, label
 			nd = {}
 			nd['id'] = d['id']
@@ -687,7 +685,7 @@ class BaseResource(ExternalResource):
 			d = nd
 		else:	
 			# otherwise, we're about to serialize the resource completely
-			done[self.id] = 1			
+			done[id(self)] = 1			
 
 		# Need to do in order now to get done correctly ordered
 		KOH = self._factory.key_order_hash
@@ -706,18 +704,18 @@ class BaseResource(ExternalResource):
 					if self._factory.linked_art_boundaries and \
 						not self._linked_art_boundary_okay(top, k, v):
 						# never follow, so just add to done
-						done[v.id] = 1
+						done[id(v)] = 1
 					else:
-						tbd.append(v.id)
+						tbd.append(id(v))
 				elif type(v) is list:
 					for ni in v:
 						if isinstance(ni, ExternalResource):
 							if self._factory.linked_art_boundaries and \
 								not self._linked_art_boundary_okay(top, k, ni):
 								# never follow, so just add to done
-								done[ni.id] = 1							
+								done[id(ni)] = 1							
 							else:
-								tbd.append(ni.id)
+								tbd.append(id(ni))
 					# For completeness should check list-of-datetime here too
 				elif isinstance(v, datetime.datetime):
 					# replace with string
@@ -725,20 +723,20 @@ class BaseResource(ExternalResource):
 
 		for t in tbd:
 			if not t in done:
-				done[t] = self.id
+				done[t] = id(self)
 			
 		for (k,v) in kvs:
 			if v and (k[0] != "_" and not k in self._factory.underscore_properties):
 				if isinstance(v, ExternalResource):
-					if done[v.id] == self.id:
-						del done[v.id]
+					if done[id(v)] == id(self):
+						del done[id(v)]
 					d[k] = v._toJSON(done=done, top=top)
 				elif type(v) is list:
 					newl = []
 					for ni in v:
 						if isinstance(ni, ExternalResource):
-							if done[ni.id] == self.id:
-								del done[ni.id]
+							if done[id(ni)] == id(self):
+								del done[id(ni)]
 							newl.append(ni._toJSON(done=done, top=top))
 						else:
 							# A number or string
@@ -755,8 +753,8 @@ class BaseResource(ExternalResource):
 			for (k,v) in d.items():
 				# look up the rdf predicate in _properties
 				for c in reversed(self._classhier):
-					if k in c._properties:
-						nk = c._properties[k]['rdf']
+					if k in c._all_properties:
+						nk = c._all_properties[k].predicate
 						nd[nk] = v
 						break
 
@@ -788,16 +786,16 @@ class BaseResource(ExternalResource):
 				if 'part' in d:
 					# Calculate which part
 					for c in reversed(self._classhier):
-						if 'part' in c._properties:
-							nk = c._properties['part']['rdf']
+						if 'part' in c._all_properties:
+							nk = c._all_properties['part'].predicate
 							d['part|%s' % nk]  = d['part']
 							del d['part']
 							break
 				if 'part_of' in d:
 					# Calculate which part
 					for c in reversed(self._classhier):
-						if 'part_of' in c._properties:
-							nk = c._properties['part_of']['rdf']
+						if 'part_of' in c._all_properties:
+							nk = c._all_properties['part_of'].predicate
 							d['part_of|%s' % nk]  = d['part_of']
 							del d['part_of']
 							break
@@ -812,10 +810,78 @@ class BaseResource(ExternalResource):
 		# Without replacement, just return True always
 		return True
 
+	def list_all_props(self, filter=None):
+		props = []
+		for c in self._classhier:		
+			for k,v in c._all_properties.items():
+				if not k in props and (filter is None or isinstance(filter, v.range) or filter is v.range):
+					props.append(k)
+		return props
+
+	def list_my_props(self, filter=None):
+		d = self.__dict__.copy()		
+		props = []
+		for (k,v) in d.items():
+			if k[0] != "_" or k in self._factory.underscore_properties:
+				# real property
+				if filter:
+					if isinstance(v, filter):
+						props.append(k)
+					elif isinstance(v, list):
+						for i in v:
+							if isinstance(i, filter):
+								props.append(k)
+								break
+				else:
+					props.append(k)		
+		return props
+
+	def allows_multiple(self, propName):
+		""" Does propName allow multiple values on this class """
+		for c in self._classhier:
+			if propName in c._all_properties:
+				v = c._all_properties[propName]
+				return bool(v.multiple_okay)
+		raise DataError("Cannot set '%s' on '%s'" % (propName, self.__class__.__name__))
+
+# Ontology / Profile manipulation
+
+def override_okay(clss, propName):
+	""" set particular property on the class to be okay to use """
+	pinfo = clss._all_properties.get(propName, None)
+	if pinfo:
+		npinfo = PropInfo(pinfo.property, pinfo.predicate, pinfo.range,
+			pinfo.inverse_property, pinfo.inverse_predicate, 
+			pinfo.multiple_okay, 1)
+		clss._all_properties[propName] = npinfo
+	else:
+		raise DataError("%s does not have a %s property to allow" % 
+			(clss.__name__, propName))
+
+def cache_hierarchy():
+	""" For each class, walk up the hierarchy and cache the terms """
+
+	# This will work with the existing code, as it will find it in the first
+	# test of props on classhier[0], the loop will just terminate straight away
+
+	for c in factory._all_classes.values():
+		new_hash = c._all_properties.copy()
+		if len(c._classhier) > 1:
+			for p in c._classhier[1:]:
+				for (prop, info) in p._all_properties.items():
+					if not prop in new_hash:
+						new_hash[prop] = info
+		c._all_properties = new_hash
+
 # Ensure everything can have id, type, label and description
 BaseResource._properties = {'id': {"rdf": "@id", "range": str, "okayToUse": 1}, 
-	'type': {"rdf": "rdf:type", "range": str, "okayToUse": 1}, 
-	'_label': {"rdf": "rdfs:label", "range": str, "okayToUse": 1}
+	'type': {"rdf": "rdf:type", "range": str, "rangeStr": "rdfs:Class", "okayToUse": 1}, 
+	'_label': {"rdf": "rdfs:label", "range": str, "rangeStr": "xsd:string", "okayToUse": 1}
+}
+BaseResource._all_properties = {
+	'id': PropInfo('id', '@id', str, None, None, 0, 1),
+	'type': PropInfo('type', 'rdf:type', str, None, None, 0, 1),
+	'_label': PropInfo('_label', 'rdfs:label', str, None, None, 0, 1)
 }
 BaseResource._classhier = (BaseResource, ExternalResource)
 
@@ -885,7 +951,10 @@ def build_class(crmName, parent, vocabData):
 	c._type = "crm:%s" % crmName
 	c._uri_segment = name
 	c._properties = {}
+	c._all_properties = {}
 	c._okayToUse = int(data['okay'])
+
+	factory._all_classes[name] = c
 
 	# Set up real properties
 	for p in data['props']:
@@ -910,7 +979,7 @@ def build_class(crmName, parent, vocabData):
 			mult = '0'
 		mult = int(mult)
 
-		# can't guarantee classes have been built yet :(
+		# can't guarantee all classes have been built at this stage :(
 		c._properties[ccname] = {"rdf": "crm:%s" % name, 
 			"rangeStr": rng,
 			"inverseRdf": invRdf,
@@ -933,29 +1002,50 @@ def build_classes(fn=None, topClass=None):
 	# Everything can have an id, a type, a label, a description
 	build_class(topClass, BaseResource, vocabData)
 
-	# And add property definitions now we have class objects
+	# And reset definitions now we have class objects
 	for v in vocabData.values():
 		c = v['class']
-		for p in c._properties.values():
-			try:	
-				rng = vocabData[p['rangeStr']]['class']
+		if c is BaseResource:
+			continue
+		for (name, value) in c._properties.items():
+			# recreate with namedtuple
+			rngs = value.get('rangeStr', None)
+			if not rngs:
+				# Precomputed ones like rdf:type
+				continue
+
+			inverse = None
+			rngd = vocabData.get(value['rangeStr'], None)
+			if rngs in ['rdfs:Literal', 'xsd:dateTime', 'xsd:string', 'rdfs:Class']:
+					rng = str 
+			elif not rngd:
+				raise ConfigurationError("Failed to get range for %s property %s - %s" % (c, name, rngs))
+			else:
+				rng = rngd['class']
 				# and add inverse prop name from range
-				p['range'] = rng
 				for (ik, iv) in rng._properties.items():
-					if iv['inverseRdf'] == p['rdf']:
-						p['inverse'] = ik
+					if iv['inverseRdf'] == value['rdf']:
+						inverse = ik
 						break
-			except:
-				p['range'] = str
-			try:
-				del p['rangeStr']
-			except:
-				pass
+
+			c._all_properties[name] = PropInfo(name,
+				value['rdf'], rng, inverse,
+				value.get('inverseRdf', None),
+				value.get('multiple', 1),
+				value.get('okayToUse', 0)
+			)
 
 	# set all of the classhiers
 	for v in vocabData.values():
 		c = v['class']
 		c._classhier = inspect.getmro(c)[:-1]
+		try:
+			del c._properties
+		except:
+			# Never had it set?
+			pass
+
+
 
 
 # XXX This should be invoked rather than inline so the module can be loaded
@@ -965,6 +1055,3 @@ def build_classes(fn=None, topClass=None):
 factory = CromulentFactory("http://lod.example.org/museum/", context="https://linked.art/ns/v1/linked-art.json")
 build_classes()
 # Need to then configure the boundary classes after they're created
-
-
-
