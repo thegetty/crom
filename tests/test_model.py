@@ -331,7 +331,6 @@ class TestBaseResource(unittest.TestCase):
 		self.assertFalse(p.allows_multiple('born'))
 		self.assertRaises(model.DataError, p.allows_multiple, 'fish')
 
-
 	def test_check_reference(self):
 		self.assertTrue(self.artist._check_reference('http'))
 		self.assertFalse(self.artist._check_reference('xxx'))
@@ -366,6 +365,15 @@ class TestBaseResource(unittest.TestCase):
 		props = dir(self.artist)
 		self.assertTrue('identified_by' in props)
 
+
+class TestPropertyCache(unittest.TestCase):
+
+	def test_cache_hierarchy(self):
+		o = model.ManMadeObject()
+		self.assertEqual(o._all_properties, {})
+		model.cache_hierarchy()
+		self.assertTrue(len(o._all_properties) > 50)
+		
 
 class TestMagicMethods(unittest.TestCase):
 
