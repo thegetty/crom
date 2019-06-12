@@ -5615,15 +5615,15 @@ In more recent documentation often point coordinate information is provided that
 	<rdfs:subPropertyOf rdf:resource="P82_at_some_time_within"/>	
 </rdf:Property>
 
-<rdf:Property rdf:about="P90a_has_minimum_value">
-    <rdfs:label xml:lang="en">has minimum value</rdfs:label>
+<rdf:Property rdf:about="P90a_has_lower_value_limit">
+    <rdfs:label xml:lang="en">has lower value limit</rdfs:label>
 	<rdfs:comment>This property allows the lowest possible value of an E54 Dimension to be approximated by an E60 Number primitive.</rdfs:comment>
 	<rdfs:domain rdf:resource="E54_Dimension"/>
 	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
 </rdf:Property>
 
-<rdf:Property rdf:about="P90b_has_maximum_value">
-    <rdfs:label xml:lang="en">has maximum value</rdfs:label>
+<rdf:Property rdf:about="P90b_has_upper_value_limit">
+    <rdfs:label xml:lang="en">has upper value limit</rdfs:label>
 	<rdfs:comment>This property allows the greatest possible value of an E54 Dimension to be approximated by an E60 Number primitive.</rdfs:comment>
 	<rdfs:domain rdf:resource="E54_Dimension"/>
 	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
