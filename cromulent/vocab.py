@@ -395,9 +395,10 @@ def add_attribute_assignment_check():
 	# Validate that the property is allowed in assigned
 	# either on set, or when assigned is set
 		
-	p2 = factory.context_rev.get('crm:P2_has_type', 'classified_as')
+	p177 = factory.context_rev.get('crm:P177_assigned_property_type', 'assigned_property_type')
 	ass = factory.context_rev.get('crm:P141_assigned', 'assigned')
 	assto = factory.context_rev.get('crm:P140:assigned_attribute_to', 'assigned_to')
+
 	phase_rel = factory.context_rev.get('la:relationship', 'relationship')
 	phase_of = factory.context_rev.get('la:phase_of', 'phase_of')
 	phase_entity = factory.context_rev.get('la:related_entity', 'related_entity')
@@ -405,21 +406,21 @@ def add_attribute_assignment_check():
 	def aa_set_assigned(self, value):
 		assto_res = getattr(self, assto, None)
 		if assto_res:
-			p2_res = getattr(self, p2, None)
-			assto_res._check_prop(p2_res, value)
+			p177_res = getattr(self, p177, None)
+			assto_res._check_prop(p177_res, value)
 		object.__setattr__(self, ass, value)
 	setattr(AttributeAssignment, "set_%s" % ass, aa_set_assigned)
 
 	def aa_set_assigned_to(self, value):
 		ass_res = getattr(self, ass, None)
-		p2_res = getattr(self, p2, None)		
-		if ass_res and p2_res:
+		p177_res = getattr(self, p177, None)		
+		if ass_res and p177_res:
 			# unmap the URI to property name
-			value._check_prop(p2_res, ass_res)
+			value._check_prop(p177_res, ass_res)
 		object.__setattr__(self, assto, value)
 	setattr(AttributeAssignment, "set_%s" % assto, aa_set_assigned_to)
 
-	def aa_set_classified_as(self, value):
+	def aa_set_assigned_property_type(self, value):
 		ass_res = getattr(self, ass, None)
 		assto_res = getattr(self, assto, None)
 		if not assto_res:
@@ -427,8 +428,9 @@ def add_attribute_assignment_check():
 			assto_res = BaseResource()
 		if ass_res:
 			assto_res._check_prop(value, ass_res)
-		object.__setattr__(self, p2, value)
-	setattr(AttributeAssignment, "set_%s" % p2, aa_set_classified_as)
+		object.__setattr__(self, p177, value)
+	setattr(AttributeAssignment, "set_%s" % p177, aa_set_assigned_property_type)
+
 
 	def phase_set_relationship(self, value):
 		# XXX do same checking as above

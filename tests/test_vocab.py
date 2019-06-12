@@ -39,12 +39,12 @@ class TestClassBuilder(unittest.TestCase):
 		t = model.Type()
 		aa = model.AttributeAssignment()
 		# First check that aa accepts a type
-		aa.classified_as = t
+		aa.assigned_property_type = t
 		# And will not accept a string
-		self.assertRaises(model.DataError, aa.__setattr__, "classified_as", "classified_as")
+		self.assertRaises(model.DataError, aa.__setattr__, "assigned_property_type", "classified_as")
 
 		# Check we can set anything to assigned / assigned_to
-		aa.classified_as = None
+		aa.assigned_property_type = None
 		aa.assigned = aa
 		aa.assigned_to = aa
 		self.assertEqual(aa.assigned, aa)
@@ -53,13 +53,13 @@ class TestClassBuilder(unittest.TestCase):
 		vocab.add_attribute_assignment_check()
 
 		# This should fail right now as can't classify as an AA
-		self.assertRaises(model.DataError, aa.__setattr__, "classified_as", "classified_as")
+		self.assertRaises(model.DataError, aa.__setattr__, "assigned_property_type", "classified_as")
 		aa.assigned = None
 		aa.assigned_to = None
 		aa.assigned = t
 		aa.assigned_to = t
-		aa.classified_as = "classified_as"
-		self.assertEqual(aa.classified_as, 'classified_as')
+		aa.assigned_property_type = "classified_as"
+		self.assertEqual(aa.assigned_property_type, 'classified_as')
 
 
 	def test_boundary_setter(self):
