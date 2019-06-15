@@ -41,9 +41,10 @@
 	"P100i": "died",
 	"P74":  "residence",
 
-	"P65": "shows",
+	"P65":   "shows",
 	"P2":    "classified_as", 
 	"P190":  "content",
+	"P177":  "assigned_property",
 
 	"P133":  "distinct_from",
 	"P164i": "timespan_of_presence",

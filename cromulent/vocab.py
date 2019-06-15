@@ -395,7 +395,7 @@ def add_attribute_assignment_check():
 	# Validate that the property is allowed in assigned
 	# either on set, or when assigned is set
 		
-	p177 = factory.context_rev.get('crm:P177_assigned_property_type', 'assigned_property_type')
+	p177 = factory.context_rev.get('crm:P177_assigned_property', 'assigned_property')
 	ass = factory.context_rev.get('crm:P141_assigned', 'assigned')
 	assto = factory.context_rev.get('crm:P140:assigned_attribute_to', 'assigned_to')
 
