@@ -53,24 +53,22 @@ parts = {
 }
 
 p177_context = {
-      "@context": {
-        "part": null,
-        "temporal_part": "crm:P9_consists_of",
-        "physical_part": "crm:P46_is_composed_of",
-        "symbolic_part": "crm:P106_is_composed_of",
-        "propositional_part": "crm:P148_has_component",
-        "timespan_part": "crm:P86i_contains",
-        "location_part": "crm:P89i_contains",
-        "interest_part": "la:interest_part",
-        "part_of": null,
-        "temporal_part_of": "crm:P9i_forms_part_of",
-        "physical_part_of": "crm:P46i_forms_part_of",
-        "symbolic_part_of": "crm:P106i_forms_part_of",
-        "propositional_part_of": "crm:P148i_is_component_of",
-        "timespan_part_of": "crm:P86_falls_within",
-        "location_part_of": "crm:P89_falls_within",
-        "interest_part_of": "la:interest_part_of"
-      }
+    "part": None,
+    "temporal_part": "crm:P9_consists_of",
+    "physical_part": "crm:P46_is_composed_of",
+    "symbolic_part": "crm:P106_is_composed_of",
+    "propositional_part": "crm:P148_has_component",
+    "timespan_part": "crm:P86i_contains",
+    "location_part": "crm:P89i_contains",
+    "interest_part": "la:interest_part",
+    "part_of": None,
+    "temporal_part_of": "crm:P9i_forms_part_of",
+    "physical_part_of": "crm:P46i_forms_part_of",
+    "symbolic_part_of": "crm:P106i_forms_part_of",
+    "propositional_part_of": "crm:P148i_is_component_of",
+    "timespan_part_of": "crm:P86_falls_within",
+    "location_part_of": "crm:P89_falls_within",
+    "interest_part_of": "la:interest_part_of"
 }
 
 scoped_classes = {
@@ -185,6 +183,9 @@ for l in lines:
 					context[ctname] = {"@id": name, "@type": typ, "@container":"@set"}
 				else:
 					context[ctname] = {"@id": name, "@type": typ}
+
+				if ctname == "assigned_property_type":
+					context['assigned_property_type']['@context'] = p177_context
 
 			# Otherwise, we're part / part_of, so ignore
 			# print "scoped context: %s: %s on %s" % (ctname, name, dmn)
