@@ -185,7 +185,7 @@ The interpretation of the museum notion of "accession" differs between instituti
 	<rdfs:label xml:lang="de">Bearbeitung</rdfs:label>
 	<rdfs:label xml:lang="pt">Modifica&#231;&#227;o</rdfs:label>
 	<rdfs:label xml:lang="zh">&#20462;&#25913;</rdfs:label>
-	<rdfs:comment>This class comprises all instances of E7 Activity that create, alter or change E24 Physical Man-Made Thing. 
+	<rdfs:comment>This class comprises all instances of E7 Activity that create, alter or change E24 Physical Human-Made Thing. 
 This class includes the production of an item from raw materials, and other so far undocumented objects, and the preventive treatment or restoration of an object for conservation. 
 Since the distinction between modification and production is not always clear, modification is regarded as the more generally applicable concept. This implies that some items may be consumed or destroyed in a Modification, and that others may be produced as a result of it. An event should also be documented using E81 Transformation if it results in the destruction of one or more objects and the simultaneous production of others using parts or material from the originals. In this case, the new items have separate identities. 
 If the instance of the E29 Design or Procedure utilized for the modification prescribes the use of specific materials, they should be documented using property P68 foresees use of (use foreseen by): E57 Material of E29 Design or Procedure, rather than via P126 employed (was employed in): E57 Material.
@@ -330,7 +330,7 @@ The decision as to what is documented as a complete item, rather than by its par
 	<rdfs:label xml:lang="pt">Objeto Biol&#243;gico</rdfs:label>
 	<rdfs:label xml:lang="zh">&#29983;&#29289;&#20307;</rdfs:label>
 	<rdfs:comment>This class comprises individual items of a material nature, which live, have lived or are natural products of or from living organisms. 
-Artificial objects that incorporate biological elements, such as Victorian butterfly frames, can be documented as both instances of E20 Biological Object and E22 Man-Made Object. 
+Artificial objects that incorporate biological elements, such as Victorian butterfly frames, can be documented as both instances of E20 Biological Object and E22 Human-Made Object. 
 </rdfs:comment>
 	<rdfs:subClassOf rdf:resource="E19_Physical_Object"/>
 </rdfs:Class>
@@ -350,48 +350,48 @@ Legendary figures that may have existed, such as Ulysses and King Arthur, fall i
 	<rdfs:subClassOf rdf:resource="E39_Actor"/>
 </rdfs:Class>
 
-<rdfs:Class rdf:about="E22_Man-Made_Object">
+<rdfs:Class rdf:about="E22_Human-Made_Object">
 	<rdfs:label xml:lang="fr">Objet fabriqu&#233;</rdfs:label>
 	<rdfs:label xml:lang="el">&#913;&#957;&#952;&#961;&#969;&#960;&#959;&#947;&#949;&#957;&#941;&#962; &#913;&#957;&#964;&#953;&#954;&#949;&#943;&#956;&#949;&#957;&#959;</rdfs:label>
 	<rdfs:label xml:lang="de">K&#252;nstlicher Gegenstand</rdfs:label>
 	<rdfs:label xml:lang="ru">&#1056;&#1091;&#1082;&#1086;&#1090;&#1074;&#1086;&#1088;&#1085;&#1099;&#1081; &#1054;&#1073;&#1098;&#1077;&#1082;&#1090;</rdfs:label>
-	<rdfs:label xml:lang="en">Man-Made Object</rdfs:label>
+	<rdfs:label xml:lang="en">Human-Made Object</rdfs:label>
 	<rdfs:label xml:lang="pt">Objeto Fabricado</rdfs:label>
 	<rdfs:label xml:lang="zh">&#20154;&#36896;&#29289;&#20214;</rdfs:label>
 	<rdfs:comment>This class comprises physical objects purposely created by human activity.
-No assumptions are made as to the extent of modification required to justify regarding an object as man-made. For example, an inscribed piece of rock or a preserved butterfly are both regarded as instances of E22 Man-Made Object.
+No assumptions are made as to the extent of modification required to justify regarding an object as man-made. For example, an inscribed piece of rock or a preserved butterfly are both regarded as instances of E22 Human-Made Object.
 </rdfs:comment>
 	<rdfs:subClassOf rdf:resource="E19_Physical_Object"/>
-	<rdfs:subClassOf rdf:resource="E24_Physical_Man-Made_Thing"/>
+	<rdfs:subClassOf rdf:resource="E24_Physical_Human-Made_Thing"/>
 </rdfs:Class>
 
-<rdfs:Class rdf:about="E24_Physical_Man-Made_Thing">
+<rdfs:Class rdf:about="E24_Physical_Human-Made_Thing">
 	<rdfs:label xml:lang="ru">&#1060;&#1080;&#1079;&#1080;&#1095;&#1077;&#1089;&#1082;&#1072;&#1103; &#1056;&#1091;&#1082;&#1086;&#1090;&#1074;&#1086;&#1088;&#1085;&#1072;&#1103; &#1042;&#1077;&#1097;&#1100;</rdfs:label>
-    <rdfs:label xml:lang="en">Physical Man-Made Thing</rdfs:label>
+    <rdfs:label xml:lang="en">Physical Human-Made Thing</rdfs:label>
     <rdfs:label xml:lang="el">&#913;&#957;&#952;&#961;&#969;&#960;&#959;&#947;&#949;&#957;&#941;&#962; &#933;&#955;&#953;&#954;&#972; &#928;&#961;&#940;&#947;&#956;&#945;</rdfs:label>
     <rdfs:label xml:lang="de">Hergestelltes</rdfs:label>
     <rdfs:label xml:lang="fr">Chose mat&#233;rielle fabriqu&#233;e</rdfs:label>
 	<rdfs:label xml:lang="pt">Coisa Material Fabricada</rdfs:label>
 	<rdfs:label xml:lang="zh">&#20154;&#36896;&#23454;&#20307;&#29289;</rdfs:label>
 	<rdfs:comment>This class comprises all persistent physical items that are purposely created by human activity.
-This class comprises man-made objects, such as a swords, and man-made features, such as rock art. No assumptions are made as to the extent of modification required to justify regarding an object as man-made. For example, a &#8220;cup and ring&#8221; carving on bedrock is regarded as instance of E24 Physical Man-Made Thing. 
+This class comprises man-made objects, such as a swords, and man-made features, such as rock art. No assumptions are made as to the extent of modification required to justify regarding an object as man-made. For example, a &#8220;cup and ring&#8221; carving on bedrock is regarded as instance of E24 Physical Human-Made Thing. 
 </rdfs:comment>
 	<rdfs:subClassOf rdf:resource="E18_Physical_Thing"/>
-	<rdfs:subClassOf rdf:resource="E71_Man-Made_Thing"/>
+	<rdfs:subClassOf rdf:resource="E71_Human-Made_Thing"/>
 </rdfs:Class>
 
-<rdfs:Class rdf:about="E25_Man-Made_Feature">
+<rdfs:Class rdf:about="E25_Human-Made_Feature">
 	<rdfs:label xml:lang="fr">Caract&#233;ristique fabriqu&#233;e</rdfs:label>
-    <rdfs:label xml:lang="en">Man-Made Feature</rdfs:label>
+    <rdfs:label xml:lang="en">Human-Made Feature</rdfs:label>
     <rdfs:label xml:lang="ru">&#1048;&#1089;&#1082;&#1091;&#1089;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1081; &#1055;&#1088;&#1080;&#1079;&#1085;&#1072;&#1082;</rdfs:label>
     <rdfs:label xml:lang="el">&#913;&#957;&#952;&#961;&#969;&#960;&#959;&#947;&#949;&#957;&#941;&#962; &#924;&#972;&#961;&#966;&#969;&#956;&#945;</rdfs:label>
     <rdfs:label xml:lang="de">Hergestelltes Merkmal</rdfs:label>
 	<rdfs:label xml:lang="pt">Caracter&#237;stica Fabricada</rdfs:label>
 	<rdfs:label xml:lang="zh">&#20154;&#36896;&#22806;&#35980;&#34920;&#24449;</rdfs:label>
 	<rdfs:comment>This class comprises physical features that are purposely created by human activity, such as scratches, artificial caves, artificial water channels, etc. 
-No assumptions are made as to the extent of modification required to justify regarding a feature as man-made. For example, rock art or even &#8220;cup and ring&#8221; carvings on bedrock a regarded as types of E25 Man-Made Feature.
+No assumptions are made as to the extent of modification required to justify regarding a feature as man-made. For example, rock art or even &#8220;cup and ring&#8221; carvings on bedrock a regarded as types of E25 Human-Made Feature.
 </rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E24_Physical_Man-Made_Thing"/>
+	<rdfs:subClassOf rdf:resource="E24_Physical_Human-Made_Thing"/>
 	<rdfs:subClassOf rdf:resource="E26_Physical_Feature"/>
 </rdfs:Class>
 
@@ -437,7 +437,7 @@ In contrast to the purely geometric notion of E53 Place, this class describes co
 Characteristically, instances of this class are created, invented or thought by someone, and then may be documented or communicated between persons. Instances of E28 Conceptual Object have the ability to exist on more than one particular carrier at the same time, such as paper, electronic signals, marks, audio media, paintings, photos, human memories, etc.
 They cannot be destroyed. They exist as long as they can be found on at least one carrier or in at least one human memory. Their existence ends when the last carrier and the last memory are lost. 
 </rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E71_Man-Made_Thing"/>
+	<rdfs:subClassOf rdf:resource="E71_Human-Made_Thing"/>
 </rdfs:Class>
 
 <rdfs:Class rdf:about="E29_Design_or_Procedure">
@@ -448,7 +448,7 @@ They cannot be destroyed. They exist as long as they can be found on at least on
     <rdfs:label xml:lang="en">Design or Procedure</rdfs:label>
 	<rdfs:label xml:lang="pt">Projeto ou Procedimento</rdfs:label>
 	<rdfs:label xml:lang="zh">&#35774;&#35745;&#25110;&#31243;&#24207;</rdfs:label>
-	<rdfs:comment>This class comprises documented plans for the execution of actions in order to achieve a result of a specific quality, form or contents. In particular it comprises plans for deliberate human activities that may result in the modification or production of instances of E24 Physical Thing. 
+	<rdfs:comment>This class comprises documented plans for the execution of actions in order to achieve a result of a specific quality, form or contents. In particular it comprises plans for deliberate human activities that may result in the modification or production of instances of E71 Human-Made Thing. 
 Instances of E29 Design or Procedure can be structured in parts and sequences or depend on others. This is modelled using P69 has association with (is associated with). 
 Designs or procedures can be seen as one of the following:
 1.	A schema for the activities it describes
@@ -522,8 +522,8 @@ The text of an instance of E33 Linguistic Object can be documented in a note by 
     <rdfs:label xml:lang="de">Inschrift</rdfs:label>
 	<rdfs:label xml:lang="pt">Inscri&#231;&#227;o</rdfs:label>
 	<rdfs:label xml:lang="zh">&#39064;&#23383;</rdfs:label>
-	<rdfs:comment>This class comprises recognisable, short texts attached to instances of E24 Physical Man-Made Thing. 
-The transcription of the text can be documented in a note by P3 has note: E62 String. The alphabet used can be documented by P2 has type: E55 Type. This class does not intend to describe the idiosyncratic characteristics of an individual physical embodiment of an inscription, but the underlying prototype. The physical embodiment is modelled in the CRM as E24 Physical Man-Made Thing.
+	<rdfs:comment>This class comprises recognisable, short texts attached to instances of E24 Physical Human-Made Thing. 
+The transcription of the text can be documented in a note by P3 has note: E62 String. The alphabet used can be documented by P2 has type: E55 Type. This class does not intend to describe the idiosyncratic characteristics of an individual physical embodiment of an inscription, but the underlying prototype. The physical embodiment is modelled in the CRM as E24 Physical Human-Made Thing.
 The relationship of a physical copy of a book to the text it contains is modelled using E84 Information Carrier. P128 carries (is carried by): E33 Linguistic Object. 
 </rdfs:comment>
 	<rdfs:subClassOf rdf:resource="E33_Linguistic_Object"/>
@@ -556,7 +556,7 @@ This class also comprises the translations of titles that are used as surrogates
 	<rdfs:label xml:lang="zh">&#35270;&#35273;&#39033;&#30446;</rdfs:label>
 	<rdfs:comment>This class comprises the intellectual or conceptual aspects of recognisable marks and images.
 This class does not intend to describe the idiosyncratic characteristics of an individual physical embodiment of a visual item, but the underlying prototype. For example, a mark such as the ICOM logo is generally considered to be the same logo when used on any number of publications. The size, orientation and colour may change, but the logo remains uniquely identifiable. The same is true of images that are reproduced many times. This means that visual items are independent of their physical support. 
-The class E36 Visual Item provides a means of identifying and linking together instances of E24 Physical Man-Made Thing that carry the same visual symbols, marks or images etc. The property P62 depicts (is depicted by) between E24 Physical Man-Made Thing and depicted subjects (E1 CRM Entity) can be regarded as a short-cut of the more fully developed path from E24 Physical Man-Made Thing through P65 shows visual item (is shown by), E36 Visual Item, P138 represents (has representation) to E1CRM Entity, which in addition captures the optical features of the depiction.  
+The class E36 Visual Item provides a means of identifying and linking together instances of E24 Physical Human-Made Thing that carry the same visual symbols, marks or images etc. The property P62 depicts (is depicted by) between E24 Physical Human-Made Thing and depicted subjects (E1 CRM Entity) can be regarded as a short-cut of the more fully developed path from E24 Physical Human-Made Thing through P65 shows visual item (is shown by), E36 Visual Item, P138 represents (has representation) to E1CRM Entity, which in addition captures the optical features of the depiction.  
 </rdfs:comment>
 	<rdfs:subClassOf rdf:resource="E73_Information_Object"/>
 </rdfs:Class>
@@ -569,8 +569,8 @@ The class E36 Visual Item provides a means of identifying and linking together i
     <rdfs:label xml:lang="de">Marke</rdfs:label>
 	<rdfs:label xml:lang="pt">Marca</rdfs:label>
 	<rdfs:label xml:lang="zh">&#26631;&#24535;</rdfs:label>
-	<rdfs:comment>This class comprises symbols, signs, signatures or short texts applied to instances of E24 Physical Man-Made Thing by arbitrary techniques in order to indicate the creator, owner, dedications, purpose, etc. 
-This class specifically excludes features that have no semantic significance, such as scratches or tool marks. These should be documented as instances of E25 Man-Made Feature. 
+	<rdfs:comment>This class comprises symbols, signs, signatures or short texts applied to instances of E24 Physical Human-Made Thing by arbitrary techniques in order to indicate the creator, owner, dedications, purpose, etc. 
+This class specifically excludes features that have no semantic significance, such as scratches or tool marks. These should be documented as instances of E25 Human-Made Feature. 
 </rdfs:comment>
 	<rdfs:subClassOf rdf:resource="E36_Visual_Item"/>
 </rdfs:Class>
@@ -604,6 +604,7 @@ E41 Appellation should not be confused with the act of naming something. Cf. E15
 </rdfs:comment>
 	<rdfs:subClassOf rdf:resource="E90_Symbolic_Object"/>
 </rdfs:Class>
+
 <rdfs:Class rdf:about="E42_Identifier">
 <rdfs:label xml:lang="fr">Identificateur d'objet</rdfs:label>
    <rdfs:label xml:lang="el">&#922;&#969;&#948;&#953;&#954;&#972;&#962; &#913;&#957;&#945;&#947;&#957;&#974;&#961;&#953;&#963;&#951;&#962;</rdfs:label>
@@ -821,11 +822,11 @@ They may be intellectual products or physical things. They may for instance have
 	<rdfs:subClassOf rdf:resource="E77_Persistent_Item"/>
 </rdfs:Class>
 
-<rdfs:Class rdf:about="E71_Man-Made_Thing">
+<rdfs:Class rdf:about="E71_Human-Made_Thing">
 <rdfs:label xml:lang="de">K&#252;nstliches</rdfs:label>
   <rdfs:label xml:lang="fr">Chose fabriqu&#233;e</rdfs:label>
    <rdfs:label xml:lang="ru">&#1056;&#1091;&#1082;&#1086;&#1090;&#1074;&#1086;&#1088;&#1085;&#1072;&#1103; &#1042;&#1077;&#1097;&#1100;</rdfs:label>
-    <rdfs:label xml:lang="en">Man-Made Thing</rdfs:label>
+    <rdfs:label xml:lang="en">Human-Made Thing</rdfs:label>
     <rdfs:label xml:lang="el">&#913;&#957;&#952;&#961;&#974;&#960;&#953;&#957;&#959; &#916;&#951;&#956;&#953;&#959;&#973;&#961;&#947;&#951;&#956;&#945;</rdfs:label>
 	<rdfs:label xml:lang="pt">Coisa Fabricada</rdfs:label>
 	<rdfs:label xml:lang="zh">&#20154;&#36896;&#29289;</rdfs:label>
@@ -902,8 +903,9 @@ The main classes of objects that fall outside the scope the E77 Persistent Item 
 Items may be added or removed from an E78 Collection in pursuit of this plan. This class should not be confused with the E39 Actor maintaining the E78 Collection often referred to with the name of the E78 Collection (e.g. &#8220;The Wallace Collection decided&#8230;&#8221;).
 Collective objects in the general sense, like a tomb full of gifts, a folder with stamps or a set of chessmen, should be documented as instances of E19 Physical Object, and not as instances of E78 Collection. This is because they form wholes either because they are physically bound together or because they are kept together for their functionality.
 </rdfs:comment>
-	<rdfs:subClassOf rdf:resource="E24_Physical_Man-Made_Thing"/>
+	<rdfs:subClassOf rdf:resource="E24_Physical_Human-Made_Thing"/>
 </rdfs:Class>
+
 <rdfs:Class rdf:about="E79_Part_Addition">
 	<rdfs:label xml:lang="fr">Addition d'&#233;l&#233;ment</rdfs:label>
     <rdfs:label xml:lang="en">Part Addition</rdfs:label>
@@ -912,7 +914,7 @@ Collective objects in the general sense, like a tomb full of gifts, a folder wit
     <rdfs:label xml:lang="el">&#928;&#961;&#959;&#963;&#952;&#942;&#954;&#951; &#924;&#949;&#961;&#974;&#957;</rdfs:label>
 	<rdfs:label xml:lang="pt">Adi&#231;&#227;o de Parte</rdfs:label>
 	<rdfs:label xml:lang="zh">&#37096;&#20214;&#22686;&#21152;</rdfs:label>
-	<rdfs:comment>This class comprises activities that result in an instance of E24 Physical Man-Made Thing being increased, enlarged or augmented by the addition of a part. 
+	<rdfs:comment>This class comprises activities that result in an instance of E24 Physical Human-Made Thing being increased, enlarged or augmented by the addition of a part. 
 Typical scenarios include the attachment of an accessory, the integration of a component, the addition of an element to an aggregate object, or the accessioning of an object into a curated E78 Collection. Objects to which parts are added are, by definition, man-made, since the addition of a part implies a human activity. Following the addition of parts, the resulting man-made assemblages are treated objectively as single identifiable wholes, made up of constituent or component parts bound together either physically (for example the engine becoming a part of the car), or by sharing a common purpose (such as the 32 chess pieces that make up a chess set). This class of activities forms a basis for reasoning about the history and continuity of identity of objects that are integrated into other objects over time, such as precious gemstones being repeatedly incorporated into different items of jewellery, or cultural artifacts being added to different museum instances of E78 Collection over their lifespan.
 </rdfs:comment>
 	<rdfs:subClassOf rdf:resource="E11_Modification"/>
@@ -1052,7 +1054,7 @@ This class can be used to define temporal snapshots at a particular time-span, s
 
 <rdfs:Class rdf:about="E99_Product_Type">
     <rdfs:label xml:lang="en">Product Type</rdfs:label>
-    <rdfs:comment>This classes comprises types that stand as the models for instances of E22 Man-Made Object that are produced as the result of production activities using plans exact enough to result in one or more series of uniform, functionally and aesthetically identical and interchangeable items. The product type is the intended ideal form of the manufacture process. It is typical of instances of E22 that conform to an instance of E99 Product Type that its component parts are interchangeable with component parts of other instances of E22 made after the model of the same instance of E99. Frequently, the uniform production according to a set E99 Product Type is achieved by creating individual tools, such as moulds or print plates that are themselves carriers of the design of the product type. Modern tools may use the flexibility of electronically controlled devices to achieve such uniformity. The product type itself, i.e., the potentially unlimited series of aesthetically equivalent items, may be the target of artistic design, rather than the individual object. In extreme cases, only one instance of a product type may have been produced, such as in a "print on demand" process which was only triggered once. However, this should not be confused with industrial prototypes, such as car prototypes, which are produced prior to the production line being set up, or test the production line itself.</rdfs:comment>
+    <rdfs:comment>This classes comprises types that stand as the models for instances of E22 Human-Made Object that are produced as the result of production activities using plans exact enough to result in one or more series of uniform, functionally and aesthetically identical and interchangeable items. The product type is the intended ideal form of the manufacture process. It is typical of instances of E22 that conform to an instance of E99 Product Type that its component parts are interchangeable with component parts of other instances of E22 made after the model of the same instance of E99. Frequently, the uniform production according to a set E99 Product Type is achieved by creating individual tools, such as moulds or print plates that are themselves carriers of the design of the product type. Modern tools may use the flexibility of electronically controlled devices to achieve such uniformity. The product type itself, i.e., the potentially unlimited series of aesthetically equivalent items, may be the target of artistic design, rather than the individual object. In extreme cases, only one instance of a product type may have been produced, such as in a "print on demand" process which was only triggered once. However, this should not be confused with industrial prototypes, such as car prototypes, which are produced prior to the production line being set up, or test the production line itself.</rdfs:comment>
     <rdfs:subClassOf rdf:resource="E55_Type"/>
 </rdfs:Class>
 
@@ -1555,7 +1557,7 @@ For example, the discovery of a large hoard of treasure may call for a celebrati
 	<rdfs:comment>This property relates an E7 Activity with objects created specifically for use in the activity. 
 This is distinct from the intended use of an item in some general type of activity such as the book of common prayer which was intended for use in Church of England services (see P101 had as general use (was use of)).</rdfs:comment>
 	<rdfs:domain rdf:resource="E7_Activity"/>
-	<rdfs:range rdf:resource="E71_Man-Made_Thing"/>
+	<rdfs:range rdf:resource="E71_Human-Made_Thing"/>
 <owl:inverseOf rdf:resource="P19i_was_made_for"/>
 </rdf:Property>
 
@@ -1568,7 +1570,7 @@ This is distinct from the intended use of an item in some general type of activi
 	<rdfs:label xml:lang="pt">foi feito para</rdfs:label>
 	<rdfs:label xml:lang="zh">&#34987;&#21046;&#36896;&#26469;&#29992;&#26044;</rdfs:label>
 
-	<rdfs:domain rdf:resource="E71_Man-Made_Thing"/>
+	<rdfs:domain rdf:resource="E71_Human-Made_Thing"/>
 	<rdfs:range rdf:resource="E7_Activity"/>
 <owl:inverseOf rdf:resource="P19_was_intended_use_of"/>
 </rdf:Property>
@@ -1944,11 +1946,11 @@ The property will typically describe the object that is handed over by an E39 Ac
 	<rdfs:label xml:lang="pt">modificou</rdfs:label>
 	<rdfs:label xml:lang="zh">&#20462;&#25913;&#20102;</rdfs:label>
 	
-	<rdfs:comment>This property identifies the E24 Physical Man-Made Thing modified in an E11 Modification.
-If a modification is applied to a non-man-made object, it is regarded as an E22 Man-Made Object from that time onwards. 
+	<rdfs:comment>This property identifies the E24 Physical Human-Made Thing modified in an E11 Modification.
+If a modification is applied to a non-man-made object, it is regarded as an E22 Human-Made Object from that time onwards. 
 </rdfs:comment>
 	<rdfs:domain rdf:resource="E11_Modification"/>
-	<rdfs:range rdf:resource="E24_Physical_Man-Made_Thing"/>
+	<rdfs:range rdf:resource="E24_Physical_Human-Made_Thing"/>
 	<rdfs:subPropertyOf rdf:resource="P12_occurred_in_the_presence_of"/>
 <owl:inverseOf rdf:resource="P31i_was_modified_by"/>
 </rdf:Property>
@@ -1963,7 +1965,7 @@ If a modification is applied to a non-man-made object, it is regarded as an E22 
 	 <rdfs:label xml:lang="pt">foi modificada por</rdfs:label>
 	<rdfs:label xml:lang="zh">&#34987;&#20462;&#25913;&#26044;</rdfs:label>
 
-	<rdfs:domain rdf:resource="E24_Physical_Man-Made_Thing"/>
+	<rdfs:domain rdf:resource="E24_Physical_Human-Made_Thing"/>
 	<rdfs:range rdf:resource="E11_Modification"/>
 	<rdfs:subPropertyOf rdf:resource="P12i_was_present_at"/>
 <owl:inverseOf rdf:resource="P31_has_modified"/>
@@ -2877,11 +2879,11 @@ P59 has section (is located on or within) is a shortcut. If the E53 Place is ide
     <rdfs:label xml:lang="fr">figure</rdfs:label>
 	<rdfs:label xml:lang="pt">retrata</rdfs:label>
 	<rdfs:label xml:lang="zh">&#25551;&#32472;</rdfs:label>
-	<rdfs:comment>This property identifies something that is depicted by an instance of E24 Physical Man-Made Thing. Depicting is meant in the sense that the surface of the E24 Physical Man-Made Thing shows, through its passive optical qualities or form, a representation of the entity depicted. It does not pertain to inscriptions or any other information encoding.
+	<rdfs:comment>This property identifies something that is depicted by an instance of E24 Physical Human-Made Thing. Depicting is meant in the sense that the surface of the E24 Physical Human-Made Thing shows, through its passive optical qualities or form, a representation of the entity depicted. It does not pertain to inscriptions or any other information encoding.
 
 This property is a shortcut of the more fully developed path from E24 Physical Man-Made Thing through P65 shows visual item (is shown by), E36 Visual Item, P138 represents (has representation) to E1 CRM Entity. P62.1 mode of depiction allows the nature of the depiction to be refined.
 </rdfs:comment>
-	<rdfs:domain rdf:resource="E24_Physical_Man-Made_Thing"/>
+	<rdfs:domain rdf:resource="E24_Physical_Human-Made_Thing"/>
 	<rdfs:range rdf:resource="E1_CRM_Entity"/>
 <owl:inverseOf rdf:resource="P62i_is_depicted_by"/>
 </rdf:Property>
@@ -2897,7 +2899,7 @@ This property is a shortcut of the more fully developed path from E24 Physical M
 	<rdfs:label xml:lang="zh">&#34987;&#25551;&#32472;&#26044;</rdfs:label>
 
 	<rdfs:domain rdf:resource="E1_CRM_Entity"/>
-	<rdfs:range rdf:resource="E24_Physical_Man-Made_Thing"/>
+	<rdfs:range rdf:resource="E24_Physical_Human-Made_Thing"/>
 <owl:inverseOf rdf:resource="P62_depicts"/>
 </rdf:Property>
 
@@ -2911,13 +2913,13 @@ This property is a shortcut of the more fully developed path from E24 Physical M
 	<rdfs:label xml:lang="pt">apresenta item visual</rdfs:label>
 	<rdfs:label xml:lang="zh">&#26174;&#31034;&#35270;&#35273;&#39033;&#30446;</rdfs:label>
 
-	<rdfs:comment>This property documents an E36 Visual Item shown by an instance of E24 Physical Man-Made Thing.
-This property is similar to P62 depicts (is depicted by) in that it associates an item of E24 Physical Man-Made Thing with a visual representation. However, P65 shows visual item (is shown by) differs from the P62 depicts (is depicted by) property in that it makes no claims about what the E36 Visual Item is deemed to represent. E36 Visual Item identifies a recognisable image or visual symbol, regardless of what this image may or may not represent.
+	<rdfs:comment>This property documents an E36 Visual Item shown by an instance of E24 Physical Human-Made Thing.
+This property is similar to P62 depicts (is depicted by) in that it associates an item of E24 Physical Human-Made Thing with a visual representation. However, P65 shows visual item (is shown by) differs from the P62 depicts (is depicted by) property in that it makes no claims about what the E36 Visual Item is deemed to represent. E36 Visual Item identifies a recognisable image or visual symbol, regardless of what this image may or may not represent.
 For example, all recent British coins bear a portrait of Queen Elizabeth II, a fact that is correctly documented using P62 depicts (is depicted by). Different portraits have been used at different periods, however. P65 shows visual item (is shown by) can be used to refer to a particular portrait.
 P65 shows visual item (is shown by) may also be used for Visual Items such as signs, marks and symbols, for example the 'Maltese Cross' or the 'copyright symbol&#8217; that have no particular representational content. 
-This property is part of the fully developed path from E24 Physical Man-Made Thing through P65 shows visual item (is shown by), E36 Visual Item, P138 represents (has representation) to E1 CRM Entity which is shortcut by, P62 depicts (is depicted by).
+This property is part of the fully developed path from E24 Physical Human-Made Thing through P65 shows visual item (is shown by), E36 Visual Item, P138 represents (has representation) to E1 CRM Entity which is shortcut by, P62 depicts (is depicted by).
 </rdfs:comment>
-	<rdfs:domain rdf:resource="E24_Physical_Man-Made_Thing"/>
+	<rdfs:domain rdf:resource="E24_Physical_Human-Made_Thing"/>
 	<rdfs:range rdf:resource="E36_Visual_Item"/>
 	<rdfs:subPropertyOf rdf:resource="P128_carries"/>
 <owl:inverseOf rdf:resource="P65i_is_shown_by"/>
@@ -2933,7 +2935,7 @@ This property is part of the fully developed path from E24 Physical Man-Made Thi
 	<rdfs:label xml:lang="zh">&#34987;&#26174;&#31034;&#26044;</rdfs:label>
 
 	<rdfs:domain rdf:resource="E36_Visual_Item"/>
-	<rdfs:range rdf:resource="E24_Physical_Man-Made_Thing"/>
+	<rdfs:range rdf:resource="E24_Physical_Human-Made_Thing"/>
 	<rdfs:subPropertyOf rdf:resource="P128i_is_carried_by"/>
 <owl:inverseOf rdf:resource="P65_shows_visual_item"/>
 </rdf:Property>
@@ -3314,66 +3316,7 @@ Since Time-Spans may not have precisely known temporal extents, the CRM supports
 	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
 </rdf:Property>
 
-<rdf:Property rdf:about="P83_had_at_least_duration">
-	<rdfs:label xml:lang="fr">a dur&#233; au moins</rdfs:label>
-    <rdfs:label xml:lang="el">&#949;&#943;&#967;&#949; &#949;&#955;&#940;&#967;&#953;&#963;&#964;&#951; &#948;&#953;&#940;&#961;&#954;&#949;&#953;&#945;</rdfs:label>
-    <rdfs:label xml:lang="de">hatte Mindestdauer</rdfs:label>
-	<rdfs:label xml:lang="en">had at least duration</rdfs:label>
-	<rdfs:label xml:lang="ru">&#1080;&#1084;&#1077;&#1077;&#1090; &#1076;&#1083;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086;&#1089;&#1090;&#1100; &#1087;&#1086; &#1082;&#1088;&#1072;&#1081;&#1085;&#1077;&#1081; &#1084;&#1077;&#1088;&#1077; &#1073;&#1086;&#1083;&#1100;&#1096;&#1077; &#1095;&#1077;&#1084;</rdfs:label>
-	<rdfs:label xml:lang="pt">durou no m&#237;nimo</rdfs:label>
-	<rdfs:label xml:lang="zh">&#26102;&#38388;&#26368;&#23569;&#25345;&#32493;&#20102;</rdfs:label>
-	
-	<rdfs:comment>This property describes the minimum length of time covered by an E52 Time-Span. 
-It allows an E52 Time-Span to be associated with an E54 Dimension representing it&#8217;s minimum duration (i.e. it&#8217;s inner boundary) independent from the actual beginning and end.
-</rdfs:comment>
-	<rdfs:domain rdf:resource="E52_Time-Span"/>
-	<rdfs:range rdf:resource="E54_Dimension"/>
-<owl:inverseOf rdf:resource="P83i_was_minimum_duration_of"/>
-</rdf:Property>
-
-<rdf:Property rdf:about="P83i_was_minimum_duration_of">
-	<rdfs:label xml:lang="el">&#949;&#943;&#957;&#945;&#953; &#949;&#955;&#940;&#967;&#953;&#963;&#964;&#951; &#948;&#953;&#940;&#961;&#954;&#949;&#953;&#945; &#964;&#959;&#965;/&#964;&#951;&#962;</rdfs:label>
-    <rdfs:label xml:lang="fr">a &#233;t&#233; la dur&#233;e minimum de</rdfs:label>
-    <rdfs:label xml:lang="ru">&#1073;&#1099;&#1083; &#1084;&#1080;&#1085;&#1080;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1081; &#1076;&#1083;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086;&#1089;&#1090;&#1100;&#1102; &#1076;&#1083;&#1103;</rdfs:label>
-    <rdfs:label xml:lang="en">was minimum duration of</rdfs:label>
-    <rdfs:label xml:lang="de">war Mindestdauer von</rdfs:label>
-	<rdfs:label xml:lang="pt">foi a dura&#231;&#227;o m&#237;nima de</rdfs:label>
-
-	<rdfs:domain rdf:resource="E54_Dimension"/>
-	<rdfs:range rdf:resource="E52_Time-Span"/>
-<owl:inverseOf rdf:resource="P83_had_at_least_duration"/>
-</rdf:Property>
-
-<rdf:Property rdf:about="P84_had_at_most_duration">
- <rdfs:label xml:lang="el">&#949;&#943;&#967;&#949; &#956;&#941;&#947;&#953;&#963;&#964;&#951; &#948;&#953;&#940;&#961;&#954;&#949;&#953;&#945;</rdfs:label>
-  <rdfs:label xml:lang="en">had at most duration</rdfs:label>
-    <rdfs:label xml:lang="de">hatte H&#246;chstdauer</rdfs:label>
-    <rdfs:label xml:lang="ru">&#1080;&#1084;&#1077;&#1077;&#1090; &#1076;&#1083;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086;&#1089;&#1090;&#1100; &#1084;&#1077;&#1085;&#1100;&#1096;&#1077; &#1095;&#1077;&#1084;</rdfs:label>
-    <rdfs:label xml:lang="fr">a dur&#233; au plus</rdfs:label>
-	<rdfs:label xml:lang="pt">durou no m&#225;ximo</rdfs:label>
-	<rdfs:label xml:lang="zh">&#26102;&#38388;&#26368;&#22810;&#25345;&#32493;&#20102;</rdfs:label>
-
-	<rdfs:comment>This property describes the maximum length of time covered by an E52 Time-Span. 
-It allows an E52 Time-Span to be associated with an E54 Dimension representing it&#8217;s maximum duration (i.e. it&#8217;s outer boundary) independent from the actual beginning and end.
-</rdfs:comment>
-	<rdfs:domain rdf:resource="E52_Time-Span"/>
-	<rdfs:range rdf:resource="E54_Dimension"/>
-<owl:inverseOf rdf:resource="P84i_was_maximum_duration_of"/>
-</rdf:Property>
-
-<rdf:Property rdf:about="P84i_was_maximum_duration_of">
-	<rdfs:label xml:lang="ru">&#1073;&#1099;&#1083; &#1084;&#1072;&#1082;&#1089;&#1080;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1081; &#1076;&#1083;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086;&#1089;&#1090;&#1100;&#1102; &#1076;&#1083;&#1103;</rdfs:label>
-   <rdfs:label xml:lang="de">war l&#228;ngste Dauer von</rdfs:label>
-    <rdfs:label xml:lang="en">was maximum duration of</rdfs:label>
-    <rdfs:label xml:lang="el">&#949;&#943;&#957;&#945;&#953; &#956;&#941;&#947;&#953;&#963;&#964;&#951; &#948;&#953;&#940;&#961;&#954;&#949;&#953;&#945; &#964;&#959;&#965;/&#964;&#951;&#962;</rdfs:label>
-    <rdfs:label xml:lang="fr">a &#233;t&#233; la dur&#233;e maximum de</rdfs:label>
-	<rdfs:label xml:lang="pt">foi a dura&#231;&#227;o m&#225;xima de</rdfs:label>
-	<rdfs:label xml:lang="zh"/>
-
-	<rdfs:domain rdf:resource="E54_Dimension"/>
-	<rdfs:range rdf:resource="E52_Time-Span"/>
-<owl:inverseOf rdf:resource="P84_had_at_most_duration"/>
-</rdf:Property>
+<!-- P83, P84 deprecated in favor of P191 -->
 
 <rdf:Property rdf:about="P86_falls_within">
 <rdfs:label xml:lang="en">falls within</rdfs:label>
@@ -3812,11 +3755,11 @@ It allows the relationship between particular things, both physical and immateri
     <rdfs:label xml:lang="el">&#941;&#967;&#949;&#953; &#964;&#943;&#964;&#955;&#959;</rdfs:label>
 	<rdfs:label xml:lang="pt">tem t&#237;tulo</rdfs:label>
 	<rdfs:label xml:lang="zh">&#26377;&#26631;&#39064;</rdfs:label>
-	<rdfs:comment>This property describes the E35 Title applied to an instance of E71 Man-Made Thing. The E55 Type of Title is assigned in a sub property.
+	<rdfs:comment>This property describes the E35 Title applied to an instance of E71 Human-Made Thing. The E55 Type of Title is assigned in a sub property.
 The P102.1 has type property of the P102 has title (is title of) property enables the relationship between the Title and the thing to be further clarified, for example, if the Title was a given Title, a supplied Title etc.
 It allows any man-made material or immaterial thing to be given a Title. It is possible to imagine a Title being created without a specific object in mind.
 </rdfs:comment>
-	<rdfs:domain rdf:resource="E71_Man-Made_Thing"/>
+	<rdfs:domain rdf:resource="E71_Human-Made_Thing"/>
 	<rdfs:range rdf:resource="E35_Title"/>
 	<rdfs:subPropertyOf rdf:resource="P1_is_identified_by"/>
 <owl:inverseOf rdf:resource="P102i_is_title_of"/>
@@ -3832,7 +3775,7 @@ It allows any man-made material or immaterial thing to be given a Title. It is p
 	<rdfs:label xml:lang="zh">&#34987;&#29992;&#20026;&#26631;&#39064;&#26469;&#31216;&#21628;</rdfs:label>
 
 	<rdfs:domain rdf:resource="E35_Title"/>
-	<rdfs:range rdf:resource="E71_Man-Made_Thing"/>
+	<rdfs:range rdf:resource="E71_Human-Made_Thing"/>
 	<rdfs:subPropertyOf rdf:resource="P1i_identifies"/>
 <owl:inverseOf rdf:resource="P102_has_title"/>
 </rdf:Property>
@@ -3847,9 +3790,9 @@ It allows any man-made material or immaterial thing to be given a Title. It is p
 	<rdfs:label xml:lang="pt">era destinado &#224;</rdfs:label>
 	<rdfs:label xml:lang="zh">&#34987;&#21046;&#20316;&#26469;&#29992;&#26044;</rdfs:label>
 
-	<rdfs:comment>This property links an instance of E71 Man-Made Thing to an E55 Type of usage. 
+	<rdfs:comment>This property links an instance of E71 Human-Made Thing to an E55 Type of usage. 
 It creates a property between specific man-made things, both physical and immaterial, to Types of intended methods and techniques of use. Note: A link between specific man-made things and a specific use activity should be expressed using P19 was intended use of (was made for).</rdfs:comment>
-	<rdfs:domain rdf:resource="E71_Man-Made_Thing"/>
+	<rdfs:domain rdf:resource="E71_Human-Made_Thing"/>
 	<rdfs:range rdf:resource="E55_Type"/>
 <owl:inverseOf rdf:resource="P103i_was_intention_of"/>
 </rdf:Property>
@@ -3863,7 +3806,7 @@ It creates a property between specific man-made things, both physical and immate
    <rdfs:label xml:lang="pt">era a destina&#231;&#227;o de</rdfs:label>
 
 	<rdfs:domain rdf:resource="E55_Type"/>
-	<rdfs:range rdf:resource="E71_Man-Made_Thing"/>
+	<rdfs:range rdf:resource="E71_Human-Made_Thing"/>
 <owl:inverseOf rdf:resource="P103_was_intended_for"/>
 </rdf:Property>
 
@@ -4002,11 +3945,11 @@ The property P107.1 kind of member can be used to specify the type of membership
 	<rdfs:label xml:lang="pt">produziu</rdfs:label>
 	<rdfs:label xml:lang="zh">&#26377;&#20135;&#20986;&#29289;</rdfs:label>
 
-	<rdfs:comment>This property identifies the E24 Physical Man-Made Thing that came into existence as a result of an E12 Production.
-The identity of an instance of E24 Physical Man-Made Thing is not defined by its matter, but by its existence as a subject of documentation. An E12 Production can result in the creation of multiple instances of E24 Physical Man-Made Thing.
+	<rdfs:comment>This property identifies the E24 Physical Human-Made Thing that came into existence as a result of an E12 Production.
+The identity of an instance of E24 Physical Human-Made Thing is not defined by its matter, but by its existence as a subject of documentation. An E12 Production can result in the creation of multiple instances of E24 Physical Human-Made Thing.
 </rdfs:comment>
 	<rdfs:domain rdf:resource="E12_Production"/>
-	<rdfs:range rdf:resource="E24_Physical_Man-Made_Thing"/>
+	<rdfs:range rdf:resource="E24_Physical_Human-Made_Thing"/>
 	<rdfs:subPropertyOf rdf:resource="P31_has_modified"/>
 	<rdfs:subPropertyOf rdf:resource="P92_brought_into_existence"/>
 <owl:inverseOf rdf:resource="P108i_was_produced_by"/>
@@ -4021,7 +3964,7 @@ The identity of an instance of E24 Physical Man-Made Thing is not defined by its
 	<rdfs:label xml:lang="pt">foi produzido por</rdfs:label>
 	<rdfs:label xml:lang="zh">&#34987;&#21046;&#20316;&#26044;</rdfs:label>
 
-	<rdfs:domain rdf:resource="E24_Physical_Man-Made_Thing"/>
+	<rdfs:domain rdf:resource="E24_Physical_Human-Made_Thing"/>
 	<rdfs:range rdf:resource="E12_Production"/>
 	<rdfs:subPropertyOf rdf:resource="P31i_was_modified_by"/>
 	<rdfs:subPropertyOf rdf:resource="P92i_was_brought_into_existence_by"/>
@@ -4072,11 +4015,11 @@ It does not allow a history of curation to be recorded. This would require use o
 	<rdfs:label xml:lang="pt">aumentou</rdfs:label>
 	<rdfs:label xml:lang="zh">&#25193;&#22686;&#20102;</rdfs:label>
 
-	<rdfs:comment>This property identifies the E24 Physical Man-Made Thing that is added to (augmented) in an E79 Part Addition.
+	<rdfs:comment>This property identifies the E24 Physical Human-Made Thing that is added to (augmented) in an E79 Part Addition.
 Although a Part Addition event normally concerns only one item of Physical Man-Made Thing, it is possible to imagine circumstances under which more than one item might be added to (augmented). For example, the artist Jackson Pollock trailing paint onto multiple canvasses.
 </rdfs:comment>
 	<rdfs:domain rdf:resource="E79_Part_Addition"/>
-	<rdfs:range rdf:resource="E24_Physical_Man-Made_Thing"/>
+	<rdfs:range rdf:resource="E24_Physical_Human-Made_Thing"/>
 	<rdfs:subPropertyOf rdf:resource="P31_has_modified"/>
 <owl:inverseOf rdf:resource="P110i_was_augmented_by"/>
 </rdf:Property>
@@ -4091,7 +4034,7 @@ Although a Part Addition event normally concerns only one item of Physical Man-M
 	<rdfs:label xml:lang="pt">foi aumentada por</rdfs:label>
 	<rdfs:label xml:lang="zh">&#34987;&#25193;&#22686;&#26044;</rdfs:label>
 
-	<rdfs:domain rdf:resource="E24_Physical_Man-Made_Thing"/>
+	<rdfs:domain rdf:resource="E24_Physical_Human-Made_Thing"/>
 	<rdfs:range rdf:resource="E79_Part_Addition"/>
 	<rdfs:subPropertyOf rdf:resource="P31i_was_modified_by"/>
 <owl:inverseOf rdf:resource="P110_augmented"/>
@@ -4139,11 +4082,11 @@ Although a Part Addition event normally concerns only one item of Physical Man-M
 	<rdfs:label xml:lang="el">&#949;&#958;&#940;&#955;&#949;&#953;&#968;&#949;</rdfs:label>
 	<rdfs:label xml:lang="pt">diminuiu</rdfs:label>
 	<rdfs:label xml:lang="zh">&#32553;&#20943;&#20102;</rdfs:label>
-	<rdfs:comment>This property identifies the E24 Physical Man-Made Thing that was diminished by E80 Part Removal.
+	<rdfs:comment>This property identifies the E24 Physical Human-Made Thing that was diminished by E80 Part Removal.
 Although a Part removal activity normally concerns only one item of Physical Man-Made Thing, it is possible to imagine circumstances under which more than one item might be diminished by a single Part Removal activity. 
 </rdfs:comment>
 	<rdfs:domain rdf:resource="E80_Part_Removal"/>
-	<rdfs:range rdf:resource="E24_Physical_Man-Made_Thing"/>
+	<rdfs:range rdf:resource="E24_Physical_Human-Made_Thing"/>
 	<rdfs:subPropertyOf rdf:resource="P31_has_modified"/>
 <owl:inverseOf rdf:resource="P112i_was_diminished_by"/>
 </rdf:Property>
@@ -4157,7 +4100,7 @@ Although a Part removal activity normally concerns only one item of Physical Man
 	<rdfs:label xml:lang="pt">foi diminu&#237;do por</rdfs:label>
 	<rdfs:label xml:lang="zh">&#34987;&#32553;&#20943;&#26044;</rdfs:label>
 
-	<rdfs:domain rdf:resource="E24_Physical_Man-Made_Thing"/>
+	<rdfs:domain rdf:resource="E24_Physical_Human-Made_Thing"/>
 	<rdfs:range rdf:resource="E80_Part_Removal"/>
 	<rdfs:subPropertyOf rdf:resource="P31i_was_modified_by"/>
 <owl:inverseOf rdf:resource="P112_diminished"/>
@@ -4529,7 +4472,7 @@ It is replaced by the result of the Transformation, which becomes a new unit of 
 	<rdfs:label xml:lang="pt">empregou</rdfs:label>
 	<rdfs:label xml:lang="zh">&#37319;&#29992;&#20102;&#26448;&#26009;</rdfs:label>
 	<rdfs:comment>This property identifies E57 Material employed in an E11 Modification.
-The E57 Material used during the E11 Modification does not necessarily become incorporated into the E24 Physical Man-Made Thing that forms the subject of the E11 Modification.
+The E57 Material used during the E11 Modification does not necessarily become incorporated into the E24 Physical Human-Made Thing that forms the subject of the E11 Modification.
 </rdfs:comment>
 	<rdfs:domain rdf:resource="E11_Modification"/>
 	<rdfs:range rdf:resource="E57_Material"/>
@@ -4672,7 +4615,7 @@ between two objects only, without historical knowledge about its reasons.
 <owl:inverseOf rdf:resource="P130_shows_features_of"/>
 </rdf:Property>
 
-
+<!-- P131 deprecated due to class removal -->
 
 <rdf:Property rdf:about="P132_overlaps_with">
 	<rdfs:label xml:lang="el">&#949;&#960;&#953;&#954;&#945;&#955;&#973;&#960;&#964;&#949;&#964;&#945;&#953; &#956;&#949;</rdfs:label>
@@ -4836,7 +4779,7 @@ The examination of these items is often the only objective way to understand the
 	<rdfs:label xml:lang="pt">representa</rdfs:label>
 	<rdfs:label xml:lang="zh">&#25551;&#32472;&#20102;</rdfs:label>
 	<rdfs:comment>This property establishes the relationship between an E36 Visual Item and the entity that it visually represents.
-Any entity may be represented visually. This property is part of the fully developed path from E24 Physical Man-Made Thing through P65 shows visual item (is shown by), E36 Visual Item, P138 represents (has representation) to E1 CRM Entity, which is shortcut by P62depicts (is depicted by). P138.1 mode of representation allows the nature of the representation to be refined.
+Any entity may be represented visually. This property is part of the fully developed path from E24 Physical Human-Made Thing through P65 shows visual item (is shown by), E36 Visual Item, P138 represents (has representation) to E1 CRM Entity, which is shortcut by P62depicts (is depicted by). P138.1 mode of representation allows the nature of the representation to be refined.
 This property is also used for the relationship between an original and a digitisation of the original by the use of techniques such as digital photography, flatbed or infrared scanning. Digitisation is here seen as a process with a mechanical, causal component rendering the spatial distribution of structural and optical properties of the original and does not necessarily include any visual similarity identifiable by human observation.
 </rdfs:comment>
 	<rdfs:domain rdf:resource="E36_Visual_Item"/>
@@ -5380,6 +5323,14 @@ A digital photograph of a manuscript page incorporates the text of the manuscrip
 <owl:inverseOf rdf:resource="P176_starts_before_the_start_of"/>
 </rdf:Property>
 
+<rdf:Property rdf:about="P177_assigned_property_type">
+    <rdfs:label xml:lang="en">assigned property type</rdfs:label>
+    <rdfs:comment>This property associates an instance of E13 Attribute Assignment with the type of property or relation that this assignment maintains to hold between the item to which it assigns an attribute and the attribute itself. Note that the properties defined by the CIDOC CRM also constitute instances of E55 Type themselves. The direction of the assigned property type is understood to be from the attributed item (the range of property P140 assigned attribute to) to the attribute item (the range of the property P141 assigned). More than one property type may be assigned to hold between two items.</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="P2_has_type"/>
+    <rdfs:domain rdf:resource="E13_Attribute_Assignment"/>
+    <rdfs:range rdf:resource="E55_Type"/>
+</rdf:Property>
+
 <rdf:Property rdf:about="P179_had_sales_price">
     <rdfs:label xml:lang="en">had sales price</rdfs:label>
     <rdfs:comment>This property establishes the relationship between an instance of E96 Purchase and the instance of E97 Monetary Amount that forms the compensation for the transaction.</rdfs:comment>
@@ -5395,7 +5346,6 @@ A digital photograph of a manuscript page incorporates the text of the manuscrip
     <rdfs:range rdf:resource="E96_Purchase"/>
 <owl:inverseOf rdf:resource="P179_had_sales_price"/>
 </rdf:Property>
-
 
 <rdf:Property rdf:about="P180_has_currency">
     <rdfs:label xml:lang="en">has currency</rdfs:label>
@@ -5568,6 +5518,7 @@ In more recent documentation often point coordinate information is provided that
 </rdf:Property>
 
 <!-- 190-194 were temporarily filled by stuff moved out to CRMSoc -->
+<!-- Now replaced by the below -->
 
 <rdf:Property rdf:about="P190_has_symbolic_content">
     <rdfs:label xml:lang="en">has symbolic content</rdfs:label>
@@ -5578,7 +5529,27 @@ In more recent documentation often point coordinate information is provided that
 </rdf:Property>
 
 
+<rdf:Property rdf:about="P191_had_duration">
+    <rdfs:label xml:lang="en">had duration</rdfs:label>
+    <rdfs:comment>This property describes the length of time covered by an E52 Time-Span. It allows an E52 Time-Span to be associated with an E54 Dimension representing duration independent from the actual beginning and end.</rdfs:comment>
+    <rdfs:domain rdf:resource="E52_Time-Span"/>
+    <rdfs:range rdf:resource="E54_Dimension"/>
+	<owl:inverseOf rdf:resource="P191i_was_duration_of"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P191i_was_duration_of">
+    <rdfs:label xml:lang="en">was duration of</rdfs:label>
+    <rdfs:comment>Inverse of P191 had duration</rdfs:comment>
+    <rdfs:domain rdf:resource="E54_Dimension"/>
+    <rdfs:range rdf:resource="E52_Time-Span"/>
+	<owl:inverseOf rdf:resource="P191_had_duration"/>
+</rdf:Property>
+
+
+
+<!-- .............................................. -->
 <!-- RDF Specific terms beyond the scope of the CRM -->
+<!-- .............................................. -->
 
 <!-- RDF Merge class for Linguistic Object and Appellation -->
 
@@ -5642,6 +5613,20 @@ In more recent documentation often point coordinate information is provided that
 	<rdfs:domain rdf:resource="E52_Time-Span"/>
 	<rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
 	<rdfs:subPropertyOf rdf:resource="P82_at_some_time_within"/>	
+</rdf:Property>
+
+<rdf:Property rdf:about="P90a_has_lower_value_limit">
+    <rdfs:label xml:lang="en">has lower value limit</rdfs:label>
+	<rdfs:comment>This property allows the lowest possible value of an E54 Dimension to be approximated by an E60 Number primitive.</rdfs:comment>
+	<rdfs:domain rdf:resource="E54_Dimension"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P90b_has_upper_value_limit">
+    <rdfs:label xml:lang="en">has upper value limit</rdfs:label>
+	<rdfs:comment>This property allows the greatest possible value of an E54 Dimension to be approximated by an E60 Number primitive.</rdfs:comment>
+	<rdfs:domain rdf:resource="E54_Dimension"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
 </rdf:Property>
 
 </rdf:RDF>

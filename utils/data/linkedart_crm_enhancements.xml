@@ -112,9 +112,9 @@
 <!-- Conformance of an object to a standard -->
 
 <rdf:Property rdf:about="http://purl.org/dc/terms/conformsTo">
-        <rdfs:label xml:lang="en">conformsTo</rdfs:label>
+        <rdfs:label xml:lang="en">conforms to</rdfs:label>
         <rdfs:comment xml:lang="en">Some thing conforms to some standard</rdfs:comment>
-        <rdfs:domain rdf:resource="E71_Man-Made_Thing"/>
+        <rdfs:domain rdf:resource="E71_Human-Made_Thing"/>
         <rdfs:range rdf:resource="E73_Information_Object"/>
 </rdf:Property>
 

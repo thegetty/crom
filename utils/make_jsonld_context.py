@@ -10,7 +10,6 @@ except:
     except:
         raise Exception("To run with old pythons you must: easy_install ordereddict")
 
-
 fn = '../cromulent/data/crm_vocab.tsv'
 fh = codecs.open(fn, 'r', 'utf-8')
 lines = fh.readlines()[1:] # Chomp header line
@@ -37,6 +36,7 @@ extension = OrderedDict()
 extension['@version'] = 1.1
 extension['crm'] = "http://www.cidoc-crm.org/cidoc-crm/"
 
+vocab_properties = ["assigned_property_type"]
 
 parts = {
 	"P9": ["crm:P9_consists_of", "crm:P9i_forms_part_of"],
@@ -44,11 +44,31 @@ parts = {
 	"P106": ["crm:P106_is_composed_of", "crm:P106i_forms_part_of"],
 	"P86": ["crm:P86i_contains", "crm:P86_falls_within"],
 	"P89": ["crm:P89i_contains", "crm:P89_falls_within"],
-	"skos": ["skos:narrower", "skos:broader"],
 	"P148": ["crm:P148_has_component", "crm:P148i_is_component_of"],
 	"interest": ["la:interest_part", "la:interest_part_of"],
+
+	"skos": ["skos:narrower", "skos:broader"],
 	"set": ["la:has_member", "la:member_of"],
 	"P107": ["crm:P107_has_current_or_former_member", "crm:P107i_is_current_or_former_member_of"]
+}
+
+p177_context = {
+    "part": None,
+    "temporal_part": "crm:P9_consists_of",
+    "physical_part": "crm:P46_is_composed_of",
+    "symbolic_part": "crm:P106_is_composed_of",
+    "propositional_part": "crm:P148_has_component",
+    "timespan_part": "crm:P86i_contains",
+    "location_part": "crm:P89i_contains",
+    "interest_part": "la:interest_part",
+    "part_of": None,
+    "temporal_part_of": "crm:P9i_forms_part_of",
+    "physical_part_of": "crm:P46i_forms_part_of",
+    "symbolic_part_of": "crm:P106i_forms_part_of",
+    "propositional_part_of": "crm:P148i_is_component_of",
+    "timespan_part_of": "crm:P86_falls_within",
+    "location_part_of": "crm:P89_falls_within",
+    "interest_part_of": "la:interest_part_of"
 }
 
 scoped_classes = {
@@ -57,7 +77,7 @@ scoped_classes = {
 	"TransferOfCustody": "P9",
 	"Production": "P9",
 	"AttributeAssignment": "P9",		
-	"ManMadeObject": "P46",
+	"HumanMadeObject": "P46",
 	"LinguisticObject": "P106",
 	"VisualItem": "P106", # XXX This is the symbolic partitioning, not the conceptual partitioning of P149
 	"Identifier": "P106",
@@ -93,8 +113,8 @@ scoped_classes = {
 	"PhysicalFeature": "P46",
 	"BiologicalObject": "P46",
 	"Site": "P46",
-	"PhysicalManMadeThing": "P46",
-	"ManMadeFeature": "P46",
+	"PhysicalHumanMadeThing": "P46",
+	"HumanMadeFeature": "P46",
 	"Title": "P106",
 	"Inscription": "P106",
 	"Mark": "P106",
@@ -146,6 +166,8 @@ for l in lines:
 			if rng:
 				if rng[0] == "E":
 					typ = "@id"
+					if ctname in vocab_properties:
+						typ = "@vocab"
 				else:
 					typ = rng
 			else:
@@ -161,6 +183,9 @@ for l in lines:
 					context[ctname] = {"@id": name, "@type": typ, "@container":"@set"}
 				else:
 					context[ctname] = {"@id": name, "@type": typ}
+
+				if ctname == "assigned_property_type":
+					context['assigned_property_type']['@context'] = p177_context
 
 			# Otherwise, we're part / part_of, so ignore
 			# print "scoped context: %s: %s on %s" % (ctname, name, dmn)

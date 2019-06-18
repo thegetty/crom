@@ -2,13 +2,13 @@
 # This assumes the default CIDOC-CRM, even though the model code 
 # can generate classes for any ontology
 
-from .model import Identifier, Mark, ManMadeObject, Type, \
+from .model import Identifier, Mark, HumanMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, Currency, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, Language, \
 	LinguisticObject, InformationObject, Formation, Dissolution, \
 	Activity, Group, Name, MonetaryAmount, PropertyInterest, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
-	Acquisition, ManMadeFeature, VisualItem, Set, Birth, Death, \
+	Acquisition, HumanMadeFeature, VisualItem, Set, Birth, Death, \
 	PropositionalObject, Payment, Creation, Phase, Period, \
 	Production, \
 	STR_TYPES, factory
@@ -183,52 +183,52 @@ ext_classes = {
 	"StreetName": {"parent": Name, "id": "300419273", "label": "Street Name"},
 	"PostalCode": {"parent": Name, "id": "300419274", "label": "Postal Code"},
 
-	"Painting": {"parent": ManMadeObject, "id": "300033618", "label": "Painting"},
-	"Sculpture": {"parent": ManMadeObject, "id": "300047090", "label": "Sculpture"},
-	"Drawing": {"parent": ManMadeObject, "id": "300033973", "label": "Drawing"},
-	"Miniature": {"parent": ManMadeObject, "id": "300033936", "label": "Miniature"},
-	"Tapestry": {"parent": ManMadeObject, "id": "300205002", "label": "Tapestry"},
-	"Furniture": {"parent": ManMadeObject, "id": "300037680", "label": "Furniture"},
-	"Mosaic": {"parent": ManMadeObject, "id": "300015342", "label": "Mosaic"},
-	"Photograph": {"parent": ManMadeObject, "id": "300046300", "label": "Photograph"},
-	"Coin": {"parent": ManMadeObject, "id": "300037222", "label": "Coin"},
-	"Vessel": {"parent": ManMadeObject, "id": "300193015", "label": "Vessel"},
-	"Graphic": {"parent": ManMadeObject, "id": "300015387", "label": "Graphic Art"},
-	"Enamel": {"parent": ManMadeObject, "id": "300178264", "label": "Enamel"},
-	"Embroidery": {"parent": ManMadeObject, "id": "300264024", "label": "Embroidery"},
-	"PhotographPrint": {"parent": ManMadeObject, "id": "300127104", "label": "Photograph Print"},
-	"PhotographAlbum": {"parent": ManMadeObject, "id": "300026695", "label": "Photograph Album"},
-	"PhotographBook": {"parent": ManMadeObject, "id": "300265728", "label": "Photograph Book"},
-	"PhotographColor": {"parent": ManMadeObject, "id": "300128347", "label": "Color Photograph"},
-	"PhotographBW": {"parent": ManMadeObject, "id": "300128359", "label": "Black and White Photograph"},
-	"Negative": {"parent": ManMadeObject, "id": "300127173", "label": "Photographic Negative"},
-	"Map": {"parent": ManMadeObject, "id": "300028094", "label": "Map"},
-	"Clothing": {"parent": ManMadeObject, "id": "300266639", 'label': "Clothing"},
-	"Furniture": {"parent": ManMadeObject, "id":"300037680", "label": "Furniture"},
+	"Painting": {"parent": HumanMadeObject, "id": "300033618", "label": "Painting"},
+	"Sculpture": {"parent": HumanMadeObject, "id": "300047090", "label": "Sculpture"},
+	"Drawing": {"parent": HumanMadeObject, "id": "300033973", "label": "Drawing"},
+	"Miniature": {"parent": HumanMadeObject, "id": "300033936", "label": "Miniature"},
+	"Tapestry": {"parent": HumanMadeObject, "id": "300205002", "label": "Tapestry"},
+	"Furniture": {"parent": HumanMadeObject, "id": "300037680", "label": "Furniture"},
+	"Mosaic": {"parent": HumanMadeObject, "id": "300015342", "label": "Mosaic"},
+	"Photograph": {"parent": HumanMadeObject, "id": "300046300", "label": "Photograph"},
+	"Coin": {"parent": HumanMadeObject, "id": "300037222", "label": "Coin"},
+	"Vessel": {"parent": HumanMadeObject, "id": "300193015", "label": "Vessel"},
+	"Graphic": {"parent": HumanMadeObject, "id": "300015387", "label": "Graphic Art"},
+	"Enamel": {"parent": HumanMadeObject, "id": "300178264", "label": "Enamel"},
+	"Embroidery": {"parent": HumanMadeObject, "id": "300264024", "label": "Embroidery"},
+	"PhotographPrint": {"parent": HumanMadeObject, "id": "300127104", "label": "Photograph Print"},
+	"PhotographAlbum": {"parent": HumanMadeObject, "id": "300026695", "label": "Photograph Album"},
+	"PhotographBook": {"parent": HumanMadeObject, "id": "300265728", "label": "Photograph Book"},
+	"PhotographColor": {"parent": HumanMadeObject, "id": "300128347", "label": "Color Photograph"},
+	"PhotographBW": {"parent": HumanMadeObject, "id": "300128359", "label": "Black and White Photograph"},
+	"Negative": {"parent": HumanMadeObject, "id": "300127173", "label": "Photographic Negative"},
+	"Map": {"parent": HumanMadeObject, "id": "300028094", "label": "Map"},
+	"Clothing": {"parent": HumanMadeObject, "id": "300266639", 'label': "Clothing"},
+	"Furniture": {"parent": HumanMadeObject, "id":"300037680", "label": "Furniture"},
 
-	"Architecture": {"parent": ManMadeObject, "id":"300263552", "label": "Architecture"},
-	"Armor": {"parent": ManMadeObject, "id":"300036745", "label": "Armor"},
-	"Book": {"parent": ManMadeObject, "id":"300028051", "label": "Book"},
-	"DecArts": {"parent": ManMadeObject, "id":"300054168", "label": "Decorative Arts"},
-	"Implement": {"parent": ManMadeObject, "id":"300024841", "label": "Implement"},
-	"Jewelry": {"parent": ManMadeObject, "id":"300209286", "label": "Jewelry"},
-	"Manuscript": {"parent": ManMadeObject, "id":"300265483", "label": "Manuscript"},
-	"SiteInstallation": {"parent": ManMadeObject, "id":"300047896", "label": "Site Installation"},
-	"Text": {"parent": ManMadeObject, "id":"300263751", "label": "Text"},
-	"Print":  {"parent": ManMadeObject, "id":"300041273", "label": "Print"},
-	"TimeBasedMedia": {"parent": ManMadeObject, "id":"300185191", "label": "Time-based Media"},
+	"Architecture": {"parent": HumanMadeObject, "id":"300263552", "label": "Architecture"},
+	"Armor": {"parent": HumanMadeObject, "id":"300036745", "label": "Armor"},
+	"Book": {"parent": HumanMadeObject, "id":"300028051", "label": "Book"},
+	"DecArts": {"parent": HumanMadeObject, "id":"300054168", "label": "Decorative Arts"},
+	"Implement": {"parent": HumanMadeObject, "id":"300024841", "label": "Implement"},
+	"Jewelry": {"parent": HumanMadeObject, "id":"300209286", "label": "Jewelry"},
+	"Manuscript": {"parent": HumanMadeObject, "id":"300265483", "label": "Manuscript"},
+	"SiteInstallation": {"parent": HumanMadeObject, "id":"300047896", "label": "Site Installation"},
+	"Text": {"parent": HumanMadeObject, "id":"300263751", "label": "Text"},
+	"Print":  {"parent": HumanMadeObject, "id":"300041273", "label": "Print"},
+	"TimeBasedMedia": {"parent": HumanMadeObject, "id":"300185191", "label": "Time-based Media"},
 
-	"FrontPart": {"parent": ManMadeObject, "id":"300190703", "label": "Front Part"},
-	"BackPart": {"parent": ManMadeObject, "id":"300190692", "label": "Back Part"},
-	"TopPart": {"parent": ManMadeObject, "id":"300190710", "label": "Top Part"},
-	"BottomPart": {"parent": ManMadeObject, "id":"300190695", "label": "Bottom Part"},
-	"SidePart": {"parent": ManMadeObject, "id":"300190706", "label": "Side Part"},
+	"FrontPart": {"parent": HumanMadeObject, "id":"300190703", "label": "Front Part"},
+	"BackPart": {"parent": HumanMadeObject, "id":"300190692", "label": "Back Part"},
+	"TopPart": {"parent": HumanMadeObject, "id":"300190710", "label": "Top Part"},
+	"BottomPart": {"parent": HumanMadeObject, "id":"300190695", "label": "Bottom Part"},
+	"SidePart": {"parent": HumanMadeObject, "id":"300190706", "label": "Side Part"},
 
-	"SupportPart": {"parent": ManMadeObject, "id":"300014844", "label": "Support"},
-	"FramePart": {"parent": ManMadeObject, "id":"300404391", "label": "Frame"},
-	"MountPart": {"parent": ManMadeObject, "id":"300131087", "label": "Mount"},
-	"PanelPart": {"parent": ManMadeObject, "id":"300014657", "label": "Panel"},
-	"BasePart": {"parent": ManMadeObject, "id":"300001656", "label": "Base"},
+	"SupportPart": {"parent": HumanMadeObject, "id":"300014844", "label": "Support"},
+	"FramePart": {"parent": HumanMadeObject, "id":"300404391", "label": "Frame"},
+	"MountPart": {"parent": HumanMadeObject, "id":"300131087", "label": "Mount"},
+	"PanelPart": {"parent": HumanMadeObject, "id":"300014657", "label": "Panel"},
+	"BasePart": {"parent": HumanMadeObject, "id":"300001656", "label": "Base"},
 
 	"StartingPrice": {"parent": MonetaryAmount, "id": "300417242", "label": "Starting Price"},
 	"ReservePrice": {"parent": MonetaryAmount, "id": "300417243", "label": "Reserve Price"},
@@ -375,14 +375,14 @@ aat_culture_mapping = {
 
 def add_art_setter():
 	# Linked.Art profile requires aat:300133025 on all artworks
-	# Art can be a ManMadeObject or an InformationObject
+	# Art can be a HumanMadeObject or an InformationObject
 	# set it by adding art=1 to the constructor
 
 	def art_post_init(self, **kw):
-		super(ManMadeObject, self)._post_init(**kw)
+		super(HumanMadeObject, self)._post_init(**kw)
 		if "art" in kw:
 			self.classified_as = instances['artwork']
-	ManMadeObject._post_init = art_post_init
+	HumanMadeObject._post_init = art_post_init
 
 	def art2_post_init(self, **kw):
 		if "art" in kw:
@@ -395,9 +395,10 @@ def add_attribute_assignment_check():
 	# Validate that the property is allowed in assigned
 	# either on set, or when assigned is set
 		
-	p2 = factory.context_rev.get('crm:P2_has_type', 'classified_as')
+	p177 = factory.context_rev.get('crm:P177_assigned_property', 'assigned_property')
 	ass = factory.context_rev.get('crm:P141_assigned', 'assigned')
 	assto = factory.context_rev.get('crm:P140:assigned_attribute_to', 'assigned_to')
+
 	phase_rel = factory.context_rev.get('la:relationship', 'relationship')
 	phase_of = factory.context_rev.get('la:phase_of', 'phase_of')
 	phase_entity = factory.context_rev.get('la:related_entity', 'related_entity')
@@ -405,21 +406,21 @@ def add_attribute_assignment_check():
 	def aa_set_assigned(self, value):
 		assto_res = getattr(self, assto, None)
 		if assto_res:
-			p2_res = getattr(self, p2, None)
-			assto_res._check_prop(p2_res, value)
+			p177_res = getattr(self, p177, None)
+			assto_res._check_prop(p177_res, value)
 		object.__setattr__(self, ass, value)
 	setattr(AttributeAssignment, "set_%s" % ass, aa_set_assigned)
 
 	def aa_set_assigned_to(self, value):
 		ass_res = getattr(self, ass, None)
-		p2_res = getattr(self, p2, None)		
-		if ass_res and p2_res:
+		p177_res = getattr(self, p177, None)		
+		if ass_res and p177_res:
 			# unmap the URI to property name
-			value._check_prop(p2_res, ass_res)
+			value._check_prop(p177_res, ass_res)
 		object.__setattr__(self, assto, value)
 	setattr(AttributeAssignment, "set_%s" % assto, aa_set_assigned_to)
 
-	def aa_set_classified_as(self, value):
+	def aa_set_assigned_property_type(self, value):
 		ass_res = getattr(self, ass, None)
 		assto_res = getattr(self, assto, None)
 		if not assto_res:
@@ -427,8 +428,9 @@ def add_attribute_assignment_check():
 			assto_res = BaseResource()
 		if ass_res:
 			assto_res._check_prop(value, ass_res)
-		object.__setattr__(self, p2, value)
-	setattr(AttributeAssignment, "set_%s" % p2, aa_set_classified_as)
+		object.__setattr__(self, p177, value)
+	setattr(AttributeAssignment, "set_%s" % p177, aa_set_assigned_property_type)
+
 
 	def phase_set_relationship(self, value):
 		# XXX do same checking as above
@@ -437,7 +439,7 @@ def add_attribute_assignment_check():
 
 def add_linked_art_boundary_check():
 
-	boundary_classes = [x.__name__ for x in [Actor, ManMadeObject, Person, Group, VisualItem, \
+	boundary_classes = [x.__name__ for x in [Actor, HumanMadeObject, Person, Group, VisualItem, \
 		Place, Acquisition, Period, LinguisticObject, Phase, Set]]
 	embed_classes = [x.__name__ for x in [Type, Name, Identifier, Dimension, Birth, Creation, \
 		Currency, Death, Destruction, Dissolution, Formation, Language, \

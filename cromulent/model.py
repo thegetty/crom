@@ -121,6 +121,7 @@ class CromulentFactory(object):
 		self._auto_id_int = -1
 		self._all_classes = {}
 
+
 	def load_context(self, context, context_filemap):
 
 		if not context or not context_filemap:

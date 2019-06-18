@@ -13,7 +13,7 @@ class TestClassBuilder(unittest.TestCase):
 		pass
 
 	def test_class(self):
-		vocab.register_aat_class("TestObject1", {"parent": model.ManMadeObject, "id": "1", "label": "example 1"})
+		vocab.register_aat_class("TestObject1", {"parent": model.HumanMadeObject, "id": "1", "label": "example 1"})
 		from cromulent.vocab import TestObject1
 		self.assertEqual(TestObject1._classification[0].id, 'http://vocab.getty.edu/aat/1')
 
@@ -24,7 +24,7 @@ class TestClassBuilder(unittest.TestCase):
 		self.assertEqual(tm2.id, "http://vocab.getty.edu/aat/2")
 
 	def test_art_setter(self):
-		p = model.ManMadeObject("a", art=1)
+		p = model.HumanMadeObject("a", art=1)
 		p._label = "a"
 		pj = p._toJSON(done={})
 		self.assertFalse(pj.get('classified_as', None))
@@ -39,12 +39,12 @@ class TestClassBuilder(unittest.TestCase):
 		t = model.Type()
 		aa = model.AttributeAssignment()
 		# First check that aa accepts a type
-		aa.classified_as = t
+		aa.assigned_property = t
 		# And will not accept a string
-		self.assertRaises(model.DataError, aa.__setattr__, "classified_as", "classified_as")
+		self.assertRaises(model.DataError, aa.__setattr__, "assigned_property", "classified_as")
 
 		# Check we can set anything to assigned / assigned_to
-		aa.classified_as = None
+		aa.assigned_property = None
 		aa.assigned = aa
 		aa.assigned_to = aa
 		self.assertEqual(aa.assigned, aa)
@@ -53,13 +53,13 @@ class TestClassBuilder(unittest.TestCase):
 		vocab.add_attribute_assignment_check()
 
 		# This should fail right now as can't classify as an AA
-		self.assertRaises(model.DataError, aa.__setattr__, "classified_as", "classified_as")
+		self.assertRaises(model.DataError, aa.__setattr__, "assigned_property", "classified_as")
 		aa.assigned = None
 		aa.assigned_to = None
 		aa.assigned = t
 		aa.assigned_to = t
-		aa.classified_as = "classified_as"
-		self.assertEqual(aa.classified_as, 'classified_as')
+		aa.assigned_property = "classified_as"
+		self.assertEqual(aa.assigned_property, 'classified_as')
 
 
 	def test_boundary_setter(self):
