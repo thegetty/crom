@@ -269,6 +269,14 @@ class TestAutoIdentifiers(unittest.TestCase):
 		p4 = model.Person('fish:4')
 		self.assertTrue(p4.id.startswith(model.factory.base_url))
 
+	def test_other_uris(self):
+		p1 = model.Person(ident="tag:some-info-about-person")
+		self.assertEqual(p1.id, "tag:some-info-about-person")
+		p2 = model.Person(ident="info:ulan/500012345")
+		self.assertEqual(p2.id, "info:ulan/500012345")
+		p3 = model.Person(ident="some:random:thing:with:colons")
+		self.assertFalse(p3.id == "some:random:thing:with:colons")
+
 	def test_no_ident(self):
 
 		model.factory.auto_assign_id = True

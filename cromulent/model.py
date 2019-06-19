@@ -371,10 +371,19 @@ class ExternalResource(object):
 	_type = ""
 	_embed = True
 
+
+	def _is_uri(self, what):
+		uri_schemes = ['urn:uuid:', 'tag:', 'data:', 'mailto:', 'info:', 'ftp:/', 'sftp:/'] 
+		for u in uri_schemes:
+			if what.startswith(u):
+				return True
+		return False
+
+
 	def __init__(self, ident=None):
 		self._factory = factory
 		if ident is not None:
-			if ident.startswith('urn:uuid'):
+			if self._is_uri(ident):
 				self.id = ident
 			elif ident.startswith('http'):
 				# Try to find prefixable term
@@ -395,7 +404,7 @@ class ExternalResource(object):
 				# Allow explicit setting of empty string
 				self.id = ""
 			else:
-				# Allow for prefixed term
+				# Allow for prefixed term that isn't ambiguously a URI
 				curied = ident.split(':', 1)
 				if len(curied) == 2 and curied[0] in self._factory.prefixes:
 					self.id = ident
