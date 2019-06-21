@@ -213,7 +213,7 @@
   "P166i_had_presence": [0,1],
   "P167_at": [0,1],
   "P167i_was_place_of": [0,1],
-  "P168_place_is_defined_by": [0,1],
+  "P168_place_is_defined_by": [1,1],
   "P168i_defines_place": [0,1],
   "P16_used_specific_object": [1,1], 
   "P16i_was_used_for": [1,1], 
