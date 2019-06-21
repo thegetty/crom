@@ -826,6 +826,7 @@ class BaseResource(ExternalResource):
 			for k,v in c._all_properties.items():
 				if not k in props and (filter is None or isinstance(filter, v.range) or filter is v.range):
 					props.append(k)
+		props.sort()
 		return props
 
 	def list_my_props(self, filter=None):
