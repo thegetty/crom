@@ -126,6 +126,8 @@ ext_classes = {
 	"Weight":     {"parent": Dimension, "id":"300056240", "label": "Weight"},
 	"Color":      {"parent": Dimension, "id":"300056130", "label": "Color"},
 	"SequencePosition": {"parent": Dimension, "id":"300010269", "label":"Sequence Position"},
+	"PhysicalDimension": {"parent": Dimension, "id":"300055642", "label":"Unknown physical dimension"},
+
 
 	"Gallery":      {"parent": Place, "id":"300240057", "label": "Gallery (place)"},
 	"AuctionHouse": {"parent": Place, "id":"300005234", "label": "Auction House (place)"},
