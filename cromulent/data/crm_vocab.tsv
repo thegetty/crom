@@ -390,7 +390,7 @@ P90b_has_upper_value_limit	property	upper_value_limit	has upper value limit	This
 la:Payment	class	Payment	Payment	Payment of Money	E7_Activity	1
 la:PropertyInterest	class	PropertyInterest	Property Interest	A particular property interest, be it ownership or security, of intellectual or physical property	E71_Human-Made_Thing	1
 la:Phase	class	Phase	Phase	The period of time during which an entity is in a certain phase or state of its existence.  The phase can be physical (the box is open, the painting is 14 ft wide) or social (the sculpture is owned by some Actor, the building is used as a castle).	E4_Period	1
-la:Set	class	Set	Set		E28_Conceptual_Object	1
+la:Set	class	Set	Set		E89_Propositional_Object|E72_Legal_Object	1
 la:Relationship	class	Relationship	Relationship		E28_Conceptual_Object	1
 la:paid_amount	property	paid_amount	Paid Amount	The amount paid.		la:Payment	E97_Monetary_Amount		10000	1	0
 la:paid_from	property	paid_from	Paid From	Who the payment came from		la:Payment	E39_Actor		10000	1	1
