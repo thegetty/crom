@@ -87,10 +87,14 @@ ext_classes = {
 	"PaginationStatement": {"parent": LinguisticObject, "id":"300200294", "label": "Pagination Statement", "brief": True},
 	"FoliationStatement": {"parent": LinguisticObject, "id":"300200662", "label": "Foliation Statement", "brief": True},
 	"CultureStatement": {"parent": LinguisticObject, "id": "300055768", "label": "Culture Statement", "brief": True},
-
+	"BibliographyStatement": {"parent": LinguisticObject, "id": "300026497", "label": "Bibliography Statement", "brief": True},
+	"AcquisitionStatement": {"parent": LinguisticObject, "id": "300157782", "label": "Acquisition Statement", "brief": True},
+	"LanguageStatement": {"parent": LinguisticObject, "id": "300386046", "label": "Language Statement", "brief": True},
+	"AppraisalStatement": {"parent": LinguisticObject, "id": "300027474", "label": "Appraisal Statement", "brief": True},
 	"Abstract": {"parent": LinguisticObject, "id":"300026032", "label": "Abstract", "brief": True},
 	"Note": {"parent": LinguisticObject, "id":"300027200", "label": "Note", "brief": True},
 	"Annotation": {"parent": LinguisticObject, "id":"300026100", "label":"Annotation"},
+
 
 	"CatalogueRaisonne": {"parent": LinguisticObject, "id":"300026061", "label": "Catalogue Raisonne"},
 	"AuctionCatalog": {"parent": LinguisticObject, "id":"300026068", "label": "Auction Catalog"},
@@ -128,7 +132,6 @@ ext_classes = {
 	"SequencePosition": {"parent": Dimension, "id":"300010269", "label":"Sequence Position"},
 	"PhysicalDimension": {"parent": Dimension, "id":"300055642", "label":"Unknown physical dimension"},
 
-
 	"Gallery":      {"parent": Place, "id":"300240057", "label": "Gallery (place)"},
 	"AuctionHouse": {"parent": Place, "id":"300005234", "label": "Auction House (place)"},
 	"MuseumPlace":  {"parent": Place, "id":"300005768", "label": "Museum (place)"},
@@ -143,7 +146,6 @@ ext_classes = {
 	"Occupation":  {"parent": Type, "id":"300263369", "label": "Occupation"},
 
 	"Auctioneer":  {"parent": Person, "id":"300025208", "label": "Auctioneer"}, # is this useful?
-
 
 	"AuctionEvent": {"parent": Activity, "id":"300054751", "label": "Auction Event"},
 	"Auction":     {"parent": Activity, "id":"300420001", "label": "Auction of Lot"}, # Individual auction-of-lot
@@ -164,6 +166,11 @@ ext_classes = {
 
 	"AuctionLotSet": {"parent": Set, "id":"300411307", "label": "Auction Lot"},
 	"CollectionSet": {"parent": Set, "id":"300025976", "label": "Collection"},
+	"ArchiveSet": {"parent": Set, "id":"300375748", "label": "Archive"}, # Maybe 300189759?
+
+	"Collecting": {"parent": Activity, "id":"300077121", "label":"Collecting"},
+	"Curating": {"parent": Activity, "id":"300054277", "label": "Curating"},
+
 
 	"PrimaryName": {"parent": Name, "id":"300404670", "label": "Primary Name"},
 	"SortName": {"parent": Name, "id":"300404672", "label": "Sorting Name"},
@@ -184,6 +191,11 @@ ext_classes = {
 	"StreetNumber": {"parent": Name, "id":"300419272", "label": "Street Number"},
 	"StreetName": {"parent": Name, "id": "300419273", "label": "Street Name"},
 	"PostalCode": {"parent": Name, "id": "300419274", "label": "Postal Code"},
+	"CityName": {"parent": Name, "id": "300008389", "label": "City"},
+	"CountryName": {"parent": Name, "id": "300128207", "label": "Country"},
+
+	"TelephoneNumber": {"parent": Name, "id": "3-x-phone", "label": "Telephone Number"},
+	"FaxNumber": {"parent": Name, "id": "3-x-fax", "label": "Fax Number"},
 
 	"Painting": {"parent": HumanMadeObject, "id": "300033618", "label": "Painting"},
 	"Sculpture": {"parent": HumanMadeObject, "id": "300047090", "label": "Sculpture"},
@@ -240,7 +252,6 @@ ext_classes = {
 
 }
  
-
 identity_instances = {
 	"watercolor": {"parent": Material, "id": "300015045", "label": "watercolors"},	
 	"oil": {"parent": Material, "id": "300015050", "label": "oil"},
@@ -267,6 +278,13 @@ identity_instances = {
 	"meters": {"parent": MeasurementUnit, "id": "300379099", "label": "meters"},
 	"percent": {"parent": MeasurementUnit, "id": "300417377", "label": "percent"},
 	"numbers": {"parent": MeasurementUnit, "id": "300055665", "label": "numbers"},
+
+	"bytes": {"parent": MeasurementUnit, "id": "300265869", "label": "bytes"},
+	"kilobytes": {"parent": MeasurementUnit, "id": "300265870", "label": "kilobytes"},
+	"megabytes": {"parent": MeasurementUnit, "id": "300265873", "label": "megabytes"},
+	"gigabytes": {"parent": MeasurementUnit, "id": "300265874", "label": "gigabytes"},
+	"terabytes": {"parent": MeasurementUnit, "id": "300266477", "label": "terabytes"},
+	"partsUnit": {"parent": MeasurementUnit, "id": "300404159", "label": "parts"},
 
 	"english": {"parent": Language, "id": "300388277", "label": "English"},
 	"french": {"parent": Language, "id":"300388306","label": "French"},
