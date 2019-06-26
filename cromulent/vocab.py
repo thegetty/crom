@@ -159,6 +159,8 @@ ext_classes = {
 	"Publishing":  {"parent": Activity, "id":"300054686", "label": "Publishing"},
 	"Purchase":  {"parent":Acquisition, "id":"300077989", "label": "Puchasing"},
 
+	"Procurement": {"parent": Activity, "id":"300137616", "label": "Procurement"},
+
 	"ExhibitionIdea": {"parent": PropositionalObject, "id":"300417531", "label": "Exhibition"},
 
 	"Theft": {"parent": Acquisition, "id": "300055292", "label": "Theft"},
@@ -167,10 +169,11 @@ ext_classes = {
 	"AuctionLotSet": {"parent": Set, "id":"300411307", "label": "Auction Lot"},
 	"CollectionSet": {"parent": Set, "id":"300025976", "label": "Collection"},
 	"ArchiveSet": {"parent": Set, "id":"300375748", "label": "Archive"}, # Maybe 300189759?
-
+	"ArchiveGroupSet": {"parent": Set, "id":"300404022", "label": "Archival Grouping"},
+	"ArchiveSubGroupSet": {"parent": Set, "id":"300404023", "label": "Archival SubGrouping"},
+	
 	"Collecting": {"parent": Activity, "id":"300077121", "label":"Collecting"},
 	"Curating": {"parent": Activity, "id":"300054277", "label": "Curating"},
-
 
 	"PrimaryName": {"parent": Name, "id":"300404670", "label": "Primary Name"},
 	"SortName": {"parent": Name, "id":"300404672", "label": "Sorting Name"},
@@ -243,6 +246,12 @@ ext_classes = {
 	"MountPart": {"parent": HumanMadeObject, "id":"300131087", "label": "Mount"},
 	"PanelPart": {"parent": HumanMadeObject, "id":"300014657", "label": "Panel"},
 	"BasePart": {"parent": HumanMadeObject, "id":"300001656", "label": "Base"},
+
+	"Folder": {"parent": HumanMadeObject, 'id':"300197602", "label": "Folder"},
+	"Box": {"parent": HumanMadeObject, "id":"300045643", "label": "Box"},
+	"Envelope": {"parent": HumanMadeObject, "id":"300197601", "label": "Envelope"},
+	"Binder": {"parent": HumanMadeObject,"id":"300252990", "label": "Binder"},
+	"Case": {"parent": HumanMadeObject,"id":"300045659", "label": "Case"},
 
 	"StartingPrice": {"parent": MonetaryAmount, "id": "300417242", "label": "Starting Price"},
 	"ReservePrice": {"parent": MonetaryAmount, "id": "300417243", "label": "Reserve Price"},
@@ -487,3 +496,5 @@ def add_linked_art_boundary_check():
 			return True
 
 	setattr(BaseResource, "_linked_art_boundary_okay", my_linked_art_boundary_check)
+	factory.linked_art_boundaries = True	
+
