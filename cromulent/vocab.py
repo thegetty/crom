@@ -157,8 +157,8 @@ ext_classes = {
 	"MultiExhibition": {"parent": Activity, "id":"300054773", "label": "Exhibiting in multiple locations"},
 	"Active":      {"parent": Activity, "id":"300393177", "label": "Professional Activities"},
 	"Publishing":  {"parent": Activity, "id":"300054686", "label": "Publishing"},
-	"Purchase":  {"parent":Acquisition, "id":"300077989", "label": "Puchasing"},
 
+	"Purchase":  {"parent":Acquisition, "id":"300077989", "label": "Purchasing"},
 	"Procurement": {"parent": Activity, "id":"300137616", "label": "Procurement"},
 
 	"ExhibitionIdea": {"parent": PropositionalObject, "id":"300417531", "label": "Exhibition"},
@@ -469,7 +469,7 @@ def add_attribute_assignment_check():
 def add_linked_art_boundary_check():
 
 	boundary_classes = [x.__name__ for x in [Actor, HumanMadeObject, Person, Group, VisualItem, \
-		Place, Acquisition, Period, LinguisticObject, Phase, Set]]
+		Place, Period, LinguisticObject, Phase, Set]]
 	embed_classes = [x.__name__ for x in [Type, Name, Identifier, Dimension, Birth, Creation, \
 		Currency, Death, Destruction, Dissolution, Formation, Language, \
 		Material, MeasurementUnit, MonetaryAmount, Payment, Production, TimeSpan]]
@@ -478,9 +478,12 @@ def add_linked_art_boundary_check():
 	# Propositional Object
 
 	def my_linked_art_boundary_check(self, top, rel, value):
+		# True = Embed ; False = Split
 		if isinstance(value, LinguisticObject) and hasattr(value, 'classified_as') and instances['brief text'] in value.classified_as:
 			# linguistic objects and * can be described by embedded linguistic objects
 			return True
+		elif isinstance(value, Procurement):
+			return False
 		elif rel in ["part", "member"]:
 			# Downwards, internal simple partitioning 
 			return True

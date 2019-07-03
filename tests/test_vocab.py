@@ -77,3 +77,11 @@ class TestClassBuilder(unittest.TestCase):
 		factory.linked_art_boundaries = False
 		js = factory.toJSON(p)
 		self.assertTrue('identified_by' in js['related'][0])		
+
+	def test_procurement_boundary(self):
+		vocab.add_linked_art_boundary_check()
+		a = model.Activity()
+		p = vocab.Procurement()
+		a.caused = p
+		js = factory.toJSON(a)
+		self.assertTrue(not 'classified_as' in js['caused'][0])		
