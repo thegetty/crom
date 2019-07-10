@@ -212,4 +212,14 @@
         <rdfs:range rdf:resource="E1_CRM_Entity"/>
 </rdf:Property>
 
+
+<!-- Experiment with Place/Thing -->
+
+<rdfs:Class rdf:about="https://linked.art/ns/terms/Container">
+    <rdfs:label xml:lang="en">Container</rdfs:label>
+    <rdfs:comment></rdfs:comment>
+    <rdfs:subClassOf rdf:resource="E53_Place"/>
+    <rdfs:subClassOf rdf:resource="E22_Human-Made_Object"/>
+</rdfs:Class>
+
 </rdf:RDF>

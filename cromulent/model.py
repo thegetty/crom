@@ -820,11 +820,14 @@ class BaseResource(ExternalResource):
 		# Without replacement, just return True always
 		return True
 
-	def list_all_props(self, filter=None):
+	def list_all_props(self, filter=None, okay=None):
 		props = []
 		for c in self._classhier:		
 			for k,v in c._all_properties.items():
-				if not k in props and (filter is None or isinstance(filter, v.range) or filter is v.range):
+				if not k in props and \
+					(not okay or okay and v.profile_okay) and \
+					(filter is None or isinstance(filter, v.range) or \
+						filter is v.range):
 					props.append(k)
 		props.sort()
 		return props

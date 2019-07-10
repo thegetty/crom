@@ -94,7 +94,7 @@ ext_classes = {
 	"Abstract": {"parent": LinguisticObject, "id":"300026032", "label": "Abstract", "brief": True},
 	"Note": {"parent": LinguisticObject, "id":"300027200", "label": "Note", "brief": True},
 	"Annotation": {"parent": LinguisticObject, "id":"300026100", "label":"Annotation"},
-
+	"Citation": {"parent": LinguisticObject, "id":"300311705", "label": "Citation", "brief": True},
 
 	"CatalogueRaisonne": {"parent": LinguisticObject, "id":"300026061", "label": "Catalogue Raisonne"},
 	"AuctionCatalog": {"parent": LinguisticObject, "id":"300026068", "label": "Auction Catalog"},
