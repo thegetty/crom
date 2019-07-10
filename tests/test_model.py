@@ -189,7 +189,9 @@ class TestProcessTSV(unittest.TestCase):
 		try:
 			self.assertEqual(expect, man_made)
 		except:
+			# Might have a subclass from an extension
 			expect[u'subs'] = []
+			man_made[u'subs'] = []
 			self.assertEqual(expect, man_made)
 
 class TestBuildClasses(unittest.TestCase):
