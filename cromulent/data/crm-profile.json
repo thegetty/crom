@@ -82,6 +82,7 @@
   "geo:SP4_Spatial_Coordinate_Reference_System": 1,
   "geo:SP6_Declarative_Place": 1,
   "la:Phase": 1, 
+  "la:Container": 1,
   "E33_E41_Linguistic_Appellation": 1,
   "la:PropertyInterest": 1,
   "la:Payment": 1, 
