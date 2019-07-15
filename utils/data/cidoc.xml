@@ -5373,24 +5373,24 @@ A digital photograph of a manuscript page incorporates the text of the manuscrip
     <rdfs:subPropertyOf rdf:resource="P90_has_value"/>
 </rdf:Property>
 
-<rdf:Property rdf:about="P182_ends_before_of_at_the_start_of">
+<rdf:Property rdf:about="P182_ends_before_or_with_the_start_of">
     <rdfs:label xml:lang="en">ends before or at the start of</rdfs:label>
     <rdfs:comment>This property specifies that the temporal extent of the domain instance A of E2 Temporal Entity ends before or simultaneously with the start of the temporal extent of the range instance B of E2 Temporal Entity. In other words, if A = [Astart, Aend] and B = [Bstart, Bend], we mean Aend &#8804; Bstart is true. This property is part of the set of temporal primitives P173 &#8211; P176, P182 &#8211; P185. This property corresponds to a disjunction (logical OR) of the following Allen temporal relations [Allen, 1983]: {before, meets}</rdfs:comment>
     <rdfs:subPropertyOf rdf:resource="P176_starts_before_the_start_of"/>
     <rdfs:subPropertyOf rdf:resource="P185_ends_before_the_end_of"/>
     <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
     <rdfs:range rdf:resource="E2_Temporal_Entity"/>
-<owl:inverseOf rdf:resource="P182i_starts_with_or_after_the_end_of"/>
+	<owl:inverseOf rdf:resource="P182i_starts_after_or_with_the_end_of"/>
 </rdf:Property>
 
-<rdf:Property rdf:about="P182i_starts_with_or_after_the_end_of">
-    <rdfs:label xml:lang="en">starts with or after the end of</rdfs:label>
+<rdf:Property rdf:about="P182i_starts_after_or_with_the_end_of">
+    <rdfs:label xml:lang="en">starts after or with the end of</rdfs:label>
     <rdfs:comment>Inverse of P182</rdfs:comment>
     <rdfs:subPropertyOf rdf:resource="P176i_starts_after_the_start_of"/>
     <rdfs:subPropertyOf rdf:resource="P185i_ends_after_the_end_of"/>
     <rdfs:domain rdf:resource="E2_Temporal_Entity"/>
     <rdfs:range rdf:resource="E2_Temporal_Entity"/>
-<owl:inverseOf rdf:resource="P182_ends_before_of_at_the_start_of"/>
+	<owl:inverseOf rdf:resource="P182_ends_before_or_with_the_start_of"/>
 </rdf:Property>
 
 <rdf:Property rdf:about="P183_ends_before_the_start_of">
