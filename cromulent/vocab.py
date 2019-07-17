@@ -318,7 +318,7 @@ identity_instances = {
 	"public collection": {"parent": Type, "id": "300411912", "label": "Public Collection"},
 	"style of": {"parent": Type, "id": "300404285", "label": "Style Of"},
 	"computer generated": {"parent": Type, "id": "300202389", "label": "Computer Generated"},
-	"gender issues": {"parent": Type, "id": "300233686", "label": "Gender"},
+	"gender issues": {"parent": Type, "id": "300233686", "label": "Gender Issues"},
 	"war": {"parent": Type, "id": "300055314", "label": "War"},
 	"impressionism": {"parent": Type, "id":"300021503", "label": "Impressionism"},
 	"landscapes": {"parent": Type, "id":"300015636", "label": "Landscapes"},
