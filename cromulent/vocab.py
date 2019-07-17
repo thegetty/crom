@@ -287,7 +287,6 @@ identity_instances = {
 	"meters": {"parent": MeasurementUnit, "id": "300379099", "label": "meters"},
 	"percent": {"parent": MeasurementUnit, "id": "300417377", "label": "percent"},
 	"numbers": {"parent": MeasurementUnit, "id": "300055665", "label": "numbers"},
-
 	"bytes": {"parent": MeasurementUnit, "id": "300265869", "label": "bytes"},
 	"kilobytes": {"parent": MeasurementUnit, "id": "300265870", "label": "kilobytes"},
 	"megabytes": {"parent": MeasurementUnit, "id": "300265873", "label": "megabytes"},
@@ -314,6 +313,8 @@ identity_instances = {
 
 	"primary": {"parent": Type, "id": "300404670", "label": "Primary"},
 	"artwork": {"parent": Type, "id": "300133025", "label": "Artwork"},
+
+
 	"public collection": {"parent": Type, "id": "300411912", "label": "Public Collection"},
 	"style of": {"parent": Type, "id": "300404285", "label": "Style Of"},
 	"computer generated": {"parent": Type, "id": "300202389", "label": "Computer Generated"},
@@ -333,33 +334,6 @@ identity_instances = {
 	"painting": {"parent": Type, "id":"300054216", "label": "Painting"},
 	"first": {"parent": Type, "id":"300404050", "label": "First"},
 	"last": {"parent": Type, "id": "XXX", "label": "Last"},
-
-	"french nationality": {"parent": Type, "id": "300111188", "label": "French"},
-	"american nationality": {"parent": Type, "id": "300107956", "label": "American"},
-	"italian nationality": {"parent": Type, "id": "300111198", "label": "Italian"},
-	"dutch nationality": {"parent": Type, "id": "300111175", "label": "Dutch"},
-	"belgian nationality": {"parent": Type, "id": "300111156", "label": "Belgian"},
-	"british nationality": {"parent": Type, "id": "300111159", "label": "British"},	
-	"flemish nationality": {"parent": Type, "id": "300111184", "label": "Flemish"},
-	"german nationality": {"parent": Type, "id": "300111192", "label": "German"},
-	"austrian nationality": {"parent": Type, "id": "300111153", "label": "Austrian"},
-	"spanish nationality": {"parent": Type, "id": "300111215", "label": "Spanish"},
-	"swiss nationality": {"parent": Type, "id": "300111221", "label": "Swiss"},
-	"irish nationality": {"parent": Type, "id": "300111259", "label": "Irish"},
-	"hungarian nationality": {"parent": Type, "id": "300111195", "label": "Hungarian"},
-	"swedish nationality": {"parent": Type, "id": "300111218", "label": "Swedish"},
-	"czech nationality": {"parent": Type, "id": "300111166", "label": "Czech"},
-	"russian nationality": {"parent": Type, "id": "300111276", "label": "Russian"},
-	"polish nationality": {"parent": Type, "id": "300111204", "label": "Polish"},
-	"norwegian nationality": {"parent": Type, "id": "300111201", "label": "Norwegian"},
-	"danish nationality": {"parent": Type, "id": "300111172", "label": "Danish"},
-	"chinese nationality": {"parent": Type, "id": "300018322", "label": "Chinese"},
-	"egyptian nationality": {"parent": Type, "id": "300020251", "label": "Egyptian"},
-	"greek nationality": {"parent": Type, "id": "300264816", "label": "Greek"},
-	"canadian nationality": {"parent": Type, "id": "300107962", "label": "Canadian"},
-	"mexican nationality": {"parent": Type, "id": "300107963", "label": "Mexican"},
-	"portuguese nationality": {"parent": Type, "id": "300111207", "label": "Portuguese"},
-	"japanese nationality": {"parent": Type, "id": "300018519", "label": "Japanese"},
 
 	"style genre": {"parent": Type, "id":"300139140", "label": "Genre"},
 	"style landscape": {"parent": Type, "id":"300015636", "label": "Landscape"},
@@ -388,9 +362,41 @@ identity_instances = {
 
 for (name,v) in identity_instances.items():
 	register_instance(name, v)
-
 for (name,v) in ext_classes.items():
 	register_aat_class(name, v)
+
+
+local_instances = {
+	"french nationality": {"parent": Nationality, "id": "300111188", "label": "French"},
+	"american nationality": {"parent": Nationality, "id": "300107956", "label": "American"},
+	"italian nationality": {"parent": Nationality, "id": "300111198", "label": "Italian"},
+	"dutch nationality": {"parent": Nationality, "id": "300111175", "label": "Dutch"},
+	"belgian nationality": {"parent": Nationality, "id": "300111156", "label": "Belgian"},
+	"british nationality": {"parent": Nationality, "id": "300111159", "label": "British"},	
+	"flemish nationality": {"parent": Nationality, "id": "300111184", "label": "Flemish"},
+	"german nationality": {"parent": Nationality, "id": "300111192", "label": "German"},
+	"austrian nationality": {"parent": Nationality, "id": "300111153", "label": "Austrian"},
+	"spanish nationality": {"parent": Nationality, "id": "300111215", "label": "Spanish"},
+	"swiss nationality": {"parent": Nationality, "id": "300111221", "label": "Swiss"},
+	"irish nationality": {"parent": Nationality, "id": "300111259", "label": "Irish"},
+	"hungarian nationality": {"parent": Nationality, "id": "300111195", "label": "Hungarian"},
+	"swedish nationality": {"parent": Nationality, "id": "300111218", "label": "Swedish"},
+	"czech nationality": {"parent": Nationality, "id": "300111166", "label": "Czech"},
+	"russian nationality": {"parent": Nationality, "id": "300111276", "label": "Russian"},
+	"polish nationality": {"parent": Nationality, "id": "300111204", "label": "Polish"},
+	"norwegian nationality": {"parent": Nationality, "id": "300111201", "label": "Norwegian"},
+	"danish nationality": {"parent": Nationality, "id": "300111172", "label": "Danish"},
+	"chinese nationality": {"parent": Nationality, "id": "300018322", "label": "Chinese"},
+	"egyptian nationality": {"parent": Nationality, "id": "300020251", "label": "Egyptian"},
+	"greek nationality": {"parent": Nationality, "id": "300264816", "label": "Greek"},
+	"canadian nationality": {"parent": Nationality, "id": "300107962", "label": "Canadian"},
+	"mexican nationality": {"parent": Nationality, "id": "300107963", "label": "Mexican"},
+	"portuguese nationality": {"parent": Nationality, "id": "300111207", "label": "Portuguese"},
+	"japanese nationality": {"parent": Nationality, "id": "300018519", "label": "Japanese"},
+}
+
+for (name,v) in local_instances.items():
+	register_instance(name, v)
 
 # pen, pencil, card, cardboard, porcelain, wax, ceramic, plaster
 # crayon, millboard, gouache, brass, stone, lead, iron, clay,
