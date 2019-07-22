@@ -95,6 +95,7 @@ ext_classes = {
 	"Note": {"parent": LinguisticObject, "id":"300027200", "label": "Note", "brief": True},
 	"Annotation": {"parent": LinguisticObject, "id":"300026100", "label":"Annotation"},
 	"Citation": {"parent": LinguisticObject, "id":"300311705", "label": "Citation", "brief": True},
+	"ExhibitionStatement": {"parent": LinguisticObject, "id":"300054766", "label":"Exhibition Statement", "brief": True},
 
 	"CatalogueRaisonne": {"parent": LinguisticObject, "id":"300026061", "label": "Catalogue Raisonne"},
 	"AuctionCatalog": {"parent": LinguisticObject, "id":"300026068", "label": "Auction Catalog"},
@@ -136,6 +137,9 @@ ext_classes = {
 	"AuctionHouse": {"parent": Place, "id":"300005234", "label": "Auction House (place)"},
 	"MuseumPlace":  {"parent": Place, "id":"300005768", "label": "Museum (place)"},
 	"ExhibitionPlace": {"parent": Place, "id":"300005748", "label": "Exhibition (place)"},
+	"City":         {"parent": Place, "id":"300008389", "label": "City"},
+	"Province":     {"parent": Place, "id":"300000774", "label": "Province"},
+	"Nation":       {"parent": Place, "id":"300128207", "label": "Nation"},
 
 	"AuctionHouseOrg": {"parent": Group, "id": "300417515", "label": "Auction House (organization)"},
 	"MuseumOrg":   {"parent": Group, "id":"300312281", "label": "Museum"},
@@ -160,6 +164,10 @@ ext_classes = {
 
 	"Purchase":  {"parent":Acquisition, "id":"300077989", "label": "Purchasing"},
 	"Procurement": {"parent": Activity, "id":"300137616", "label": "Procurement"},
+	"Assembling": {"parent": Activity, "id":"300077121", "label":"Assembling"},
+	"Managing": {"parent": Activity, "id":"300054277", "label": "Managing"},
+	"Storing": {"parent": Activity, "id":"300056390", "label": "Storing"},
+	"Producing": {"parent": Activity, "id":"300054713", "label": "Producing"},
 
 	"ExhibitionIdea": {"parent": PropositionalObject, "id":"300417531", "label": "Exhibition"},
 
@@ -172,9 +180,6 @@ ext_classes = {
 	"ArchiveGroupSet": {"parent": Set, "id":"300404022", "label": "Archival Grouping"},
 	"ArchiveSubGroupSet": {"parent": Set, "id":"300404023", "label": "Archival SubGrouping"},
 	
-	"Collecting": {"parent": Activity, "id":"300077121", "label":"Collecting"},
-	"Curating": {"parent": Activity, "id":"300054277", "label": "Curating"},
-
 	"PrimaryName": {"parent": Name, "id":"300404670", "label": "Primary Name"},
 	"SortName": {"parent": Name, "id":"300404672", "label": "Sorting Name"},
 	"PersonalName": {"parent": Name, "id":"300266386", "label": "Personal Name"},
@@ -196,6 +201,8 @@ ext_classes = {
 	"PostalCode": {"parent": Name, "id": "300419274", "label": "Postal Code"},
 	"CityName": {"parent": Name, "id": "300008389", "label": "City"},
 	"CountryName": {"parent": Name, "id": "300128207", "label": "Country"},
+
+
 
 	"TelephoneNumber": {"parent": Name, "id": "3-x-phone", "label": "Telephone Number"},
 	"FaxNumber": {"parent": Name, "id": "3-x-fax", "label": "Fax Number"},
