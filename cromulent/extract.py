@@ -1,8 +1,6 @@
 import pprint
-import locale
 import re
-from contextlib import contextmanager, suppress
-from collections import defaultdict, namedtuple
+from collections import namedtuple
 from cromulent import model, vocab
 
 number_pattern = r'((?:\d+\s+\d+/\d+)|(?:\d+(?:[.,]\d+)?))'
