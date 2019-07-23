@@ -35,7 +35,7 @@ class TestDateCleaners(unittest.TestCase):
 			dims = cromulent.extract.parse_simple_dimensions(value)
 			if expected is not None:
 				self.assertIsInstance(dims, list)
-				self.assertEqual(dims, expected, msg=f'dimensions: {value!r}')
+				self.assertEqual(dims, expected, msg='dimensions: %r' % (value,))
 			else:
 				self.assertIsNone(dims)
 
@@ -66,7 +66,7 @@ class TestDateCleaners(unittest.TestCase):
 # 				print('----- expected:')
 # 				pprint.pprint(expected)
 # 				print('=====')
-				self.assertEqual(dims, expected, msg=f'dimensions: {value!r}')
+				self.assertEqual(dims, expected, msg='dimensions: %r' % (value,))
 			else:
 				self.assertIsNone(dims)
 

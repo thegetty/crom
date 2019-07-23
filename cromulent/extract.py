@@ -7,28 +7,29 @@ from cromulent import model, vocab
 
 number_pattern = r'((?:\d+\s+\d+/\d+)|(?:\d+(?:[.,]\d+)?))'
 unit_pattern = r'''('|"|d[.]?|duymen|pouces?|inches|inch|in[.]?|pieds?|v[.]?|voeten|feet|foot|ft[.]?|cm)'''
-dimension_pattern = f'({number_pattern}\\s*(?:{unit_pattern})?)'
-dimension_re = re.compile(f'\\s*{dimension_pattern}')
+dimension_pattern = '(%s\\s*(?:%s)?)' % (number_pattern, unit_pattern)
+dimension_re = re.compile(r'\s*%s' % (dimension_pattern,))
 
 simple_width_height_pattern = r'(?:\s*((?<!\w)[wh]|width|height))?'
 simple_dimensions_pattern_x1 = ''\
-	f'(?P<d1>(?:{dimension_pattern}\\s*)+)'\
-	f'(?P<d1w>{simple_width_height_pattern})'
+	r'(?P<d1>(?:%s\s*)+)(?P<d1w>%s)' % (dimension_pattern, simple_width_height_pattern)
 simple_dimensions_re_x1 = re.compile(simple_dimensions_pattern_x1)
 simple_dimensions_pattern_x2 = ''\
-	f'(?P<d1>(?:{dimension_pattern}\\s*)+)'\
-	f'(?P<d1w>{simple_width_height_pattern})'\
+	r'(?P<d1>(?:%s\s*)+)(?P<d1w>%s)'\
 	r'(?:,)?\s*(x|by)'\
-	f'(?P<d2>(?:\\s*{dimension_pattern})+)'\
-	f'(?P<d2w>{simple_width_height_pattern})'
+	r'(?P<d2>(?:\s*%s)+)(?P<d2w>%s)' % (
+		dimension_pattern,
+		simple_width_height_pattern,
+		dimension_pattern,
+		simple_width_height_pattern)
 simple_dimensions_re_x2 = re.compile(simple_dimensions_pattern_x2)
 
 # Haut 14 pouces, large 10 pouces
-french_dimensions_pattern = f'[Hh]aut(?:eur)? (?P<d1>(?:{dimension_pattern}\\s*)+), [Ll]arge(?:ur)? (?P<d2>(?:{dimension_pattern}\\s*)+)'
+french_dimensions_pattern = r'[Hh]aut(?:eur)? (?P<d1>(?:%s\s*)+), [Ll]arge(?:ur)? (?P<d2>(?:%s\s*)+)' % (dimension_pattern, dimension_pattern)
 french_dimensions_re = re.compile(french_dimensions_pattern)
 
 # Hoog. 1 v. 6 d., Breed 2 v. 3 d.
-dutch_dimensions_pattern = f'(?P<d1w>[Hh]oogh?[.]?|[Bb]reedt?) (?P<d1>(?:{dimension_pattern}\\s*)+), (?P<d2w>[Hh]oogh?[.]?|[Bb]reedt?) (?P<d2>(?:{dimension_pattern}\\s*)+)'
+dutch_dimensions_pattern = r'(?P<d1w>[Hh]oogh?[.]?|[Bb]reedt?) (?P<d1>(?:%s\s*)+), (?P<d2w>[Hh]oogh?[.]?|[Bb]reedt?) (?P<d2>(?:%s\s*)+)' % (dimension_pattern, dimension_pattern)
 dutch_dimensions_re = re.compile(dutch_dimensions_pattern)
 
 Dimension = namedtuple("Dimension", [
@@ -45,7 +46,7 @@ def _canonical_value(value):
 	if '/' in value:
 		return None
 	if value.startswith('.'):
-		value = f'0{value}'
+		value = '0' + value
 	return value
 
 def _canonical_unit(value):
@@ -68,7 +69,7 @@ def _canonical_which(value):
 		return 'width'
 	elif value.startswith('h'):
 		return 'height'
-	print(f'*** Unknown which dimension: {value}')
+	print('*** Unknown which dimension: %s' % (value,))
 	return None
 
 def parse_simple_dimensions(value, which=None):
@@ -86,17 +87,17 @@ def parse_simple_dimensions(value, which=None):
 		return None
 	value = value.strip()
 	dims = []
-# 	print(f'DIMENSION: {value}')
+# 	print('DIMENSION: %s' % (value,))
 	for m in re.finditer(dimension_re, value):
-		# print(f'--> match {m}')
+		# print('--> match %s' % (m,))
 		v = _canonical_value(m.group(2))
 		if not v:
-			print(f'*** failed to canonicalize dimension value: {m.group(2)}')
+			print('*** failed to canonicalize dimension value: %s' % (m.group(2),))
 			return None
 		unit_value = m.group(3)
 		u = _canonical_unit(unit_value)
 		if unit_value and not u:
-			print(f'*** not a recognized unit: {unit_value}')
+			print('*** not a recognized unit: %s' % (unit_value,))
 		which = _canonical_which(which)
 		d = Dimension(value=v, unit=u, which=which)
 		dims.append(d)
@@ -131,15 +132,15 @@ def normalized_dimension_object(dimensions):
 	labels = []
 	for d in dimensions:
 		if d.unit == 'inches':
-			labels.append(f'{d.value} inches')
+			labels.append('%s inches' % (d.value,))
 		elif d.unit == 'feet':
-			labels.append(f'{d.value} feet')
+			labels.append('%s feet' % (d.value,))
 		elif d.unit == 'cm':
-			labels.append(f'{d.value} cm')
+			labels.append('%s cm' % (d.value,))
 		elif d.unit is None:
-			labels.append(f'{d.value}')
+			labels.append('%s' % (d.value,))
 		else:
-			print(f'*** unrecognized unit: {d.unit}')
+			print('*** unrecognized unit: {d.unit}')
 			return None
 	label = ', '.join(labels)
 	return nd, label
@@ -166,14 +167,14 @@ def normalize_dimension(dimensions):
 		elif d.unit is None:
 			unknown += float(d.value)
 		else:
-			print(f'*** unrecognized unit: {d.unit}')
+			print('*** unrecognized unit: %s' % (d.unit,))
 			return None
 	used_systems = 0
 	for v in (inches, cm, unknown):
 		if v:
 			used_systems += 1
 	if used_systems != 1:
-		print(f'*** dimension used a mix of unit systems (metric, imperial, and/or unknown): {dimensions}')
+		print('*** dimension used a mix of unit systems (metric, imperial, and/or unknown): %r' % (dimensions,))
 		return None
 	elif inches:
 		return Dimension(value=str(inches), unit='inches', which=which)
@@ -235,9 +236,9 @@ def french_dimensions_cleaner_x2(value):
 		if d1 and d2:
 			return (d1, d2)
 		else:
-			print(f'd1: {d1} {d["d1"]} h')
-			print(f'd2: {d2} {d["d2"]} w')
-			print(f'*** Failed to parse dimensions: {value}')
+			print('d1: %s %s h' % (d1, d['d1']))
+			print('d2: %s %s w' % (d2, d['d2']))
+			print('*** Failed to parse dimensions: %s' % (value,))
 	return None
 
 def dutch_dimensions_cleaner_x2(value):
@@ -258,9 +259,9 @@ def dutch_dimensions_cleaner_x2(value):
 		if d1 and d2:
 			return (d1, d2)
 		else:
-			print(f'd1: {d1} {d["d1"]} h')
-			print(f'd2: {d2} {d["d2"]} w')
-			print(f'*** Failed to parse dimensions: {value}')
+			print('d1: %s %s h' % (d1, d['d1']))
+			print('d2: %s %s w' % (d2, d['d2']))
+			print('*** Failed to parse dimensions: %s' % (value,))
 	return None
 
 def simple_dimensions_cleaner_x1(value):
@@ -291,7 +292,7 @@ def simple_dimensions_cleaner_x2(value):
 		if d1 and d2:
 			return (d1, d2)
 		else:
-			print(f'd1: {d1} {d["d1"]} {d["d1w"]}')
-			print(f'd2: {d2} {d["d2"]} {d["d2w"]}')
-			print(f'*** Failed to parse dimensions: {value}')
+			print('d1: %s %s %s' % (d1, d['d1'], d['d1w']))
+			print('d2: %s %s %s' % (d2, d['d2'], d['d2w']))
+			print('*** Failed to parse dimensions: %s' % (value,))
 	return None
