@@ -1,7 +1,12 @@
+# -*- coding: utf-8 -*-
+
 import pprint
 import re
 from collections import namedtuple
 from cromulent import model, vocab
+import warnings
+
+#mark - Dimensions
 
 number_pattern = r'((?:\d+\s+\d+/\d+)|(?:\d+(?:[.,]\d+)?))'
 unit_pattern = r'''('|"|d[.]?|duymen|pouces?|inches|inch|in[.]?|pieds?|v[.]?|voeten|feet|foot|ft[.]?|cm)'''
@@ -67,7 +72,7 @@ def _canonical_which(value):
 		return 'width'
 	elif value.startswith('h'):
 		return 'height'
-	print('*** Unknown which dimension: %s' % (value,))
+	warnings.warn('*** Unknown which dimension: %s' % (value,))
 	return None
 
 def parse_simple_dimensions(value, which=None):
@@ -85,17 +90,17 @@ def parse_simple_dimensions(value, which=None):
 		return None
 	value = value.strip()
 	dims = []
-# 	print('DIMENSION: %s' % (value,))
+# 	warnings.warn('DIMENSION: %s' % (value,))
 	for m in re.finditer(dimension_re, value):
-		# print('--> match %s' % (m,))
+		# warnings.warn('--> match %s' % (m,))
 		v = _canonical_value(m.group(2))
 		if not v:
-			print('*** failed to canonicalize dimension value: %s' % (m.group(2),))
+			warnings.warn('*** failed to canonicalize dimension value: %s' % (m.group(2),))
 			return None
 		unit_value = m.group(3)
 		u = _canonical_unit(unit_value)
 		if unit_value and not u:
-			print('*** not a recognized unit: %s' % (unit_value,))
+			warnings.warn('*** not a recognized unit: %s' % (unit_value,))
 		which = _canonical_which(which)
 		d = Dimension(value=v, unit=u, which=which)
 		dims.append(d)
@@ -138,7 +143,7 @@ def normalized_dimension_object(dimensions):
 		elif d.unit is None:
 			labels.append('%s' % (d.value,))
 		else:
-			print('*** unrecognized unit: {d.unit}')
+			warnings.warn('*** unrecognized unit: {d.unit}')
 			return None
 	label = ', '.join(labels)
 	return nd, label
@@ -165,14 +170,14 @@ def normalize_dimension(dimensions):
 		elif d.unit is None:
 			unknown += float(d.value)
 		else:
-			print('*** unrecognized unit: %s' % (d.unit,))
+			warnings.warn('*** unrecognized unit: %s' % (d.unit,))
 			return None
 	used_systems = 0
 	for v in (inches, cm, unknown):
 		if v:
 			used_systems += 1
 	if used_systems != 1:
-		print('*** dimension used a mix of unit systems (metric, imperial, and/or unknown): %r' % (dimensions,))
+		warnings.warn('*** dimension used a mix of unit systems (metric, imperial, and/or unknown): %r' % (dimensions,))
 		return None
 	elif inches:
 		return Dimension(value=str(inches), unit='inches', which=which)
@@ -234,9 +239,9 @@ def french_dimensions_cleaner_x2(value):
 		if d1 and d2:
 			return (d1, d2)
 		else:
-			print('d1: %s %s h' % (d1, d['d1']))
-			print('d2: %s %s w' % (d2, d['d2']))
-			print('*** Failed to parse dimensions: %s' % (value,))
+			warnings.warn('d1: %s %s h' % (d1, d['d1']))
+			warnings.warn('d2: %s %s w' % (d2, d['d2']))
+			warnings.warn('*** Failed to parse dimensions: %s' % (value,))
 	return None
 
 def dutch_dimensions_cleaner_x2(value):
@@ -257,9 +262,9 @@ def dutch_dimensions_cleaner_x2(value):
 		if d1 and d2:
 			return (d1, d2)
 		else:
-			print('d1: %s %s h' % (d1, d['d1']))
-			print('d2: %s %s w' % (d2, d['d2']))
-			print('*** Failed to parse dimensions: %s' % (value,))
+			warnings.warn('d1: %s %s h' % (d1, d['d1']))
+			warnings.warn('d2: %s %s w' % (d2, d['d2']))
+			warnings.warn('*** Failed to parse dimensions: %s' % (value,))
 	return None
 
 def simple_dimensions_cleaner_x1(value):
@@ -290,7 +295,102 @@ def simple_dimensions_cleaner_x2(value):
 		if d1 and d2:
 			return (d1, d2)
 		else:
-			print('d1: %s %s %s' % (d1, d['d1'], d['d1w']))
-			print('d2: %s %s %s' % (d2, d['d2'], d['d2w']))
-			print('*** Failed to parse dimensions: %s' % (value,))
+			warnings.warn('d1: %s %s %s' % (d1, d['d1'], d['d1w']))
+			warnings.warn('d2: %s %s %s' % (d2, d['d2'], d['d2w']))
+			warnings.warn('*** Failed to parse dimensions: %s' % (value,))
+	return None
+
+#mark - Monetary Values
+
+def extract_monetary_amount(data):
+	'''
+	Returns a `MonetaryAmount`, `StartingPrice`, or `EstimatedPrice` object
+	based on properties of the supplied `data` dict. If no amount or currency
+	data is found in found, returns `None`.
+
+	For `EstimatedPrice`, values will be accessed from these keys:
+	  - amount: `est_price_amount` or `est_price`
+	  - currency: `est_price_currency` or `est_price_curr`
+	  - note: `est_price_note` or `est_price_desc`
+	  - bibliographic statement: `est_price_citation`
+
+	For `StartingPrice`, values will be accessed from these keys:
+	  - amount: `start_price_amount` or `start_price`
+	  - currency: `start_price_currency` or `start_price_curr`
+	  - note: `start_price_note` or `start_price_desc`
+	  - bibliographic statement: `start_price_citation`
+
+	For `MonetaryAmount` prices, values will be accessed from these keys:
+	  - amount: `price_amount` or `price`
+	  - currency: `price_currency` or `price_curr`
+	  - note: `price_note` or `price_desc`
+	  - bibliographic statement: `price_citation`
+	'''
+
+	MAPPING = { # TODO: can this be refactored somewhere?
+		'österreichische schilling': 'at shillings',
+		'florins': 'de florins',
+		'fl': 'de florins',
+		'fl.': 'de florins',
+		'pounds': 'gb pounds',
+		'livres': 'fr livres',
+		'guineas': 'gb guineas',
+		'reichsmark': 'de reichsmarks'
+	}
+
+	amount_type = 'Price'
+	if 'est_price' in data:
+		amnt = vocab.EstimatedPrice()
+		price_amount = data.get('est_price_amount', data.get('est_price'))
+		price_currency = data.get('est_price_currency', data.get('est_price_curr'))
+		amount_type = 'Estimated Price'
+		note = data.get('est_price_note', data.get('est_price_desc'))
+		cite = data.get('est_price_citation')
+	elif 'start_price' in data:
+		amnt = vocab.StartingPrice()
+		price_amount = data.get('start_price_amount', data.get('start_price'))
+		price_currency = data.get('start_price_currency', data.get('start_price_curr'))
+		amount_type = 'Starting Price'
+		note = data.get('start_price_note', data.get('start_price_desc'))
+		cite = data.get('start_price_citation')
+	else:
+		amnt = model.MonetaryAmount()
+		price_amount = data.get('price_amount', data.get('price'))
+		price_currency = data.get('price_currency', data.get('price_curr'))
+		note = data.get('price_note', data.get('price_desc'))
+		cite = data.get('price_citation')
+
+	if price_amount or price_currency:
+		if cite:
+			amnt.referred_to_by = vocab.BibliographyStatement(content=cite)
+		if note:
+			amnt.referred_to_by = vocab.Note(content=note)
+		
+		if price_amount:
+			try:
+				v = price_amount
+				v = v.replace('[?]', '')
+				v = v.replace('?', '')
+				v = v.strip()
+				price_amount = float(v)
+				amnt.value =  price_amount
+			except ValueError:
+				amnt._label = price_amount
+				amnt.identified_by = model.Name(content=price_amount)
+	# 			warnings.warn(f'*** Not a numeric price amount: {v}')
+		if price_currency:
+			if price_currency in MAPPING:
+				try:
+					price_currency = MAPPING[price_currency.lower()]
+				except KeyError:
+					pass
+			if price_currency in vocab.instances:
+				amnt.currency = vocab.instances[price_currency]
+			else:
+				warnings.warn('*** No currency instance defined for %s' % (price_currency,))
+		if price_amount and price_currency:
+			amnt._label = '%s %s' % (price_amount, price_currency)
+		elif price_amount:
+			amnt._label = '%s' % (price_amount,)
+		return amnt
 	return None
