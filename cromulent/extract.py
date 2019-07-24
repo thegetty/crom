@@ -41,7 +41,7 @@ simple_dimensions_pattern_x2 = ''\
 simple_dimensions_re_x2 = re.compile(simple_dimensions_pattern_x2)
 
 # Haut 14 pouces, large 10 pouces
-french_dimensions_pattern = r'[Hh]aut(?:eur)? (?P<d1>(?:%s\s*)+), [Ll]arge(?:ur)? (?P<d2>(?:%s\s*)+)' % (dimension_pattern, dimension_pattern)
+french_dimensions_pattern = r'[Hh]aut(?:eur|[.])? (?P<d1>(?:%s\s*)+), [Ll]arge(?:ur|[.])? (?P<d2>(?:%s\s*)+)' % (dimension_pattern, dimension_pattern)
 french_dimensions_re = re.compile(french_dimensions_pattern)
 
 # Hoog. 1 v. 6 d., Breed 2 v. 3 d.
