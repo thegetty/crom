@@ -6,6 +6,19 @@ from collections import namedtuple
 from cromulent import model, vocab
 import warnings
 
+#mark - Mapping Dictionaries
+
+CURRENCY_MAPPING = { # TODO: can this be refactored somewhere?
+	'österreichische schilling': 'at shillings',
+	'florins': 'de florins',
+	'fl': 'de florins',
+	'fl.': 'de florins',
+	'pounds': 'gb pounds',
+	'livres': 'fr livres',
+	'guineas': 'gb guineas',
+	'reichsmark': 'de reichsmarks'
+}
+
 #mark - Dimensions
 
 number_pattern = r'((?:\d+\s+\d+/\d+)|(?:\d+(?:[.,]\d+)?))'
@@ -326,18 +339,6 @@ def extract_monetary_amount(data):
 	  - note: `price_note` or `price_desc`
 	  - bibliographic statement: `price_citation`
 	'''
-
-	MAPPING = { # TODO: can this be refactored somewhere?
-		'österreichische schilling': 'at shillings',
-		'florins': 'de florins',
-		'fl': 'de florins',
-		'fl.': 'de florins',
-		'pounds': 'gb pounds',
-		'livres': 'fr livres',
-		'guineas': 'gb guineas',
-		'reichsmark': 'de reichsmarks'
-	}
-
 	amount_type = 'Price'
 	if 'est_price' in data:
 		amnt = vocab.EstimatedPrice()
@@ -379,9 +380,9 @@ def extract_monetary_amount(data):
 				amnt.identified_by = model.Name(content=price_amount)
 	# 			warnings.warn(f'*** Not a numeric price amount: {v}')
 		if price_currency:
-			if price_currency in MAPPING:
+			if price_currency in CURRENCY_MAPPING:
 				try:
-					price_currency = MAPPING[price_currency.lower()]
+					price_currency = CURRENCY_MAPPING[price_currency.lower()]
 				except KeyError:
 					pass
 			if price_currency in vocab.instances:
