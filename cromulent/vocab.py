@@ -300,6 +300,7 @@ identity_instances = {
 	"gigabytes": {"parent": MeasurementUnit, "id": "300265874", "label": "gigabytes"},
 	"terabytes": {"parent": MeasurementUnit, "id": "300266477", "label": "terabytes"},
 	"partsUnit": {"parent": MeasurementUnit, "id": "300404159", "label": "parts"},
+	"pageCount": {"parent": MeasurementUnit, "id": "300194222", "label": "pages"},
 
 	"english": {"parent": Language, "id": "300388277", "label": "English"},
 	"french": {"parent": Language, "id":"300388306","label": "French"},
