@@ -28,6 +28,8 @@ class TestDateCleaners(unittest.TestCase):
 			'2 pieds 3 pouces': [Dimension('2', 'feet', None), Dimension('3', 'inches', None)],
 			'1 pied 7 pouces': [Dimension('1', 'feet', None), Dimension('7', 'inches', None)],
 			'8 1/2 pouces': [Dimension('8.5', 'inches', None)],
+			'8 1/4 pouces': [Dimension('8.25', 'inches', None)],
+			'8 1/8 pouces': [Dimension('8.125', 'inches', None)],
 			'1': [Dimension('1', None, None)],
 		}
 

@@ -55,15 +55,20 @@ Dimension = namedtuple("Dimension", [
 ])
 
 def _canonical_value(value):
-	value = value.replace(',', '.')
-	value = value.replace(' 1/4', '.25')
-	value = value.replace(' 1/2', '.5')
-	value = value.replace(' 3/4', '.75')
-	if '/' in value:
-		return None
-	if value.startswith('.'):
-		value = '0' + value
-	return value
+	try:
+		value = value.replace(',', '.')
+		parts = value.split(None, 1)
+		if len(parts) > 1 and '/' in parts[1]:
+			i = int(parts[0])
+			n, d = map(int, parts[1].split('/', 1))
+			f = n/d
+			value = str(i + f)
+		if value.startswith('.'):
+			value = '0' + value
+		return value
+	except:
+		pass
+	return None
 
 def _canonical_unit(value):
 	if value is None:
