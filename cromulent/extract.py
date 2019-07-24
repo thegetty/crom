@@ -67,7 +67,7 @@ def _canonical_value(value):
 		if len(parts) > 1 and '/' in parts[1]:
 			intpart = int(parts[0])
 			numer, denom = map(int, parts[1].split('/', 1))
-			fracpart = numer/denom
+			fracpart = float(numer)/denom
 			value = str(intpart + fracpart)
 		if value.startswith('.'):
 			value = '0' + value
