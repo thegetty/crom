@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import pprint
 import re
-from collections import namedtuple
-from cromulent import model, vocab
 import warnings
+from collections import namedtuple
+
+from cromulent import model, vocab
 
 #mark - Mapping Dictionaries
 
-CURRENCY_MAPPING = { # TODO: can this be refactored somewhere?
+# TODO: can this be refactored somewhere?
+CURRENCY_MAPPING = {
 	'österreichische schilling': 'at shillings',
 	'florins': 'de florins',
 	'fl': 'de florins',
@@ -21,32 +22,37 @@ CURRENCY_MAPPING = { # TODO: can this be refactored somewhere?
 
 #mark - Dimensions
 
-number_pattern = r'((?:\d+\s+\d+/\d+)|(?:\d+(?:[.,]\d+)?))'
-unit_pattern = r'''('|"|d[.]?|duymen|pouces?|inches|inch|in[.]?|pieds?|v[.]?|voeten|feet|foot|ft[.]?|cm)'''
-dimension_pattern = '(%s\\s*(?:%s)?)' % (number_pattern, unit_pattern)
-dimension_re = re.compile(r'\s*%s' % (dimension_pattern,))
+NUMBER_PATTERN = r'((?:\d+\s+\d+/\d+)|(?:\d+(?:[.,]\d+)?))'
+UNIT_PATTERN = r'''('|"|d(?:[.]?|uymen)|pouces?|in(?:ch(?:es)?|[.]?)|'''\
+				r'''pieds?|v[.]?|voeten|f(?:eet|oot|t[.]?)|cm)'''
+DIMENSION_PATTERN = '(%s\\s*(?:%s)?)' % (NUMBER_PATTERN, UNIT_PATTERN)
+DIMENSION_RE = re.compile(r'\s*%s' % (DIMENSION_PATTERN,))
 
-simple_width_height_pattern = r'(?:\s*((?<!\w)[wh]|width|height))?'
-simple_dimensions_pattern_x1 = ''\
-	r'(?P<d1>(?:%s\s*)+)(?P<d1w>%s)' % (dimension_pattern, simple_width_height_pattern)
-simple_dimensions_re_x1 = re.compile(simple_dimensions_pattern_x1)
-simple_dimensions_pattern_x2 = ''\
+SIMPLE_WIDTH_HEIGHT_PATTERN = r'(?:\s*((?<!\w)[wh]|width|height))?'
+SIMPLE_DIMENSIONS_PATTERN_X1 = ''\
+	r'(?P<d1>(?:%s\s*)+)(?P<d1w>%s)' % (DIMENSION_PATTERN, SIMPLE_WIDTH_HEIGHT_PATTERN)
+SIMPLE_DIMENSIONS_RE_X1 = re.compile(SIMPLE_DIMENSIONS_PATTERN_X1)
+SIMPLE_DIMENSIONS_PATTERN_X2 = ''\
 	r'(?P<d1>(?:%s\s*)+)(?P<d1w>%s)'\
 	r'(?:,)?\s*(x|by)'\
 	r'(?P<d2>(?:\s*%s)+)(?P<d2w>%s)' % (
-		dimension_pattern,
-		simple_width_height_pattern,
-		dimension_pattern,
-		simple_width_height_pattern)
-simple_dimensions_re_x2 = re.compile(simple_dimensions_pattern_x2)
+		DIMENSION_PATTERN,
+		SIMPLE_WIDTH_HEIGHT_PATTERN,
+		DIMENSION_PATTERN,
+		SIMPLE_WIDTH_HEIGHT_PATTERN)
+SIMPLE_DIMENSIONS_RE_X2 = re.compile(SIMPLE_DIMENSIONS_PATTERN_X2)
 
 # Haut 14 pouces, large 10 pouces
-french_dimensions_pattern = r'[Hh]aut(?:eur|[.])? (?P<d1>(?:%s\s*)+), [Ll]arge(?:ur|[.])? (?P<d2>(?:%s\s*)+)' % (dimension_pattern, dimension_pattern)
-french_dimensions_re = re.compile(french_dimensions_pattern)
+FRENCH_DIMENSIONS_PATTERN = r'[Hh]aut(?:eur|[.])? (?P<d1>(?:%s\s*)+), '\
+							r'[Ll]arge(?:ur|[.])? (?P<d2>(?:%s\s*)+)' % (
+								DIMENSION_PATTERN, DIMENSION_PATTERN)
+FRENCH_DIMENSIONS_RE = re.compile(FRENCH_DIMENSIONS_PATTERN)
 
 # Hoog. 1 v. 6 d., Breed 2 v. 3 d.
-dutch_dimensions_pattern = r'(?P<d1w>[Hh]oogh?[.]?|[Bb]reedt?) (?P<d1>(?:%s\s*)+), (?P<d2w>[Hh]oogh?[.]?|[Bb]reedt?) (?P<d2>(?:%s\s*)+)' % (dimension_pattern, dimension_pattern)
-dutch_dimensions_re = re.compile(dutch_dimensions_pattern)
+DUTCH_DIMENSIONS_PATTERN = r'(?P<d1w>[Hh]oogh?[.]?|[Bb]reedt?) (?P<d1>(?:%s\s*)+), '\
+							r'(?P<d2w>[Hh]oogh?[.]?|[Bb]reedt?) (?P<d2>(?:%s\s*)+)' % (
+								DIMENSION_PATTERN, DIMENSION_PATTERN)
+DUTCH_DIMENSIONS_RE = re.compile(DUTCH_DIMENSIONS_PATTERN)
 
 Dimension = namedtuple("Dimension", [
 	'value',	# numeric value
@@ -59,10 +65,10 @@ def _canonical_value(value):
 		value = value.replace(',', '.')
 		parts = value.split(None, 1)
 		if len(parts) > 1 and '/' in parts[1]:
-			i = int(parts[0])
-			n, d = map(int, parts[1].split('/', 1))
-			f = n/d
-			value = str(i + f)
+			intpart = int(parts[0])
+			numer, denom = map(int, parts[1].split('/', 1))
+			fracpart = numer/denom
+			value = str(intpart + fracpart)
 		if value.startswith('.'):
 			value = '0' + value
 		return value
@@ -71,14 +77,16 @@ def _canonical_value(value):
 	return None
 
 def _canonical_unit(value):
+	inches = {'pouces', 'pouce', 'duymen', 'd.', 'd', '"'}
+	feet = {'pieds', 'pied', 'feet', 'foot', 'voeten', 'v.', 'v', "'"}
 	if value is None:
 		return None
 	value = value.lower()
-	if 'in' in value or value in ('pouces', 'pouce', 'duymen', 'd.', 'd') or value == '"':
+	if 'in' in value or value in inches:
 		return 'inches'
-	elif 'ft' in value or value in ('pieds', 'pied', 'feet', 'foot', 'voeten', 'v.', 'v') or value == "'":
+	if 'ft' in value or value in feet:
 		return 'feet'
-	elif 'cm' in value:
+	if 'cm' in value:
 		return 'cm'
 	return None
 
@@ -88,7 +96,7 @@ def _canonical_which(value):
 	value = value.strip().lower()
 	if value.startswith('w'):
 		return 'width'
-	elif value.startswith('h'):
+	if value.startswith('h'):
 		return 'height'
 	warnings.warn('*** Unknown which dimension: %s' % (value,))
 	return None
@@ -109,19 +117,19 @@ def parse_simple_dimensions(value, which=None):
 	value = value.strip()
 	dims = []
 # 	warnings.warn('DIMENSION: %s' % (value,))
-	for m in re.finditer(dimension_re, value):
-		# warnings.warn('--> match %s' % (m,))
-		v = _canonical_value(m.group(2))
-		if not v:
-			warnings.warn('*** failed to canonicalize dimension value: %s' % (m.group(2),))
+	for match in re.finditer(DIMENSION_RE, value):
+		# warnings.warn('--> match %s' % (match,))
+		matched_value = _canonical_value(match.group(2))
+		if not matched_value:
+			warnings.warn('*** failed to canonicalize dimension value: %s' % (match.group(2),))
 			return None
-		unit_value = m.group(3)
-		u = _canonical_unit(unit_value)
-		if unit_value and not u:
+		unit_value = match.group(3)
+		matched_unit = _canonical_unit(unit_value)
+		if unit_value and not matched_unit:
 			warnings.warn('*** not a recognized unit: %s' % (unit_value,))
 		which = _canonical_which(which)
-		d = Dimension(value=v, unit=u, which=which)
-		dims.append(d)
+		dim = Dimension(value=matched_value, unit=matched_unit, which=which)
+		dims.append(dim)
 	if not dims:
 		return None
 	return dims
@@ -147,24 +155,24 @@ def normalized_dimension_object(dimensions):
 			"10 feet, 3 inches"
 		)
 	'''
-	nd = normalize_dimension(dimensions)
-	if not nd:
+	normalized = normalize_dimension(dimensions)
+	if not normalized:
 		return None
 	labels = []
-	for d in dimensions:
-		if d.unit == 'inches':
-			labels.append('%s inches' % (d.value,))
-		elif d.unit == 'feet':
-			labels.append('%s feet' % (d.value,))
-		elif d.unit == 'cm':
-			labels.append('%s cm' % (d.value,))
-		elif d.unit is None:
-			labels.append('%s' % (d.value,))
+	for dim in dimensions:
+		if dim.unit == 'inches':
+			labels.append('%s inches' % (dim.value,))
+		elif dim.unit == 'feet':
+			labels.append('%s feet' % (dim.value,))
+		elif dim.unit == 'cm':
+			labels.append('%s cm' % (dim.value,))
+		elif dim.unit is None:
+			labels.append('%s' % (dim.value,))
 		else:
-			warnings.warn('*** unrecognized unit: {d.unit}')
+			warnings.warn('*** unrecognized unit: {dim.unit}')
 			return None
 	label = ', '.join(labels)
-	return nd, label
+	return normalized, label
 
 def normalize_dimension(dimensions):
 	'''
@@ -175,34 +183,34 @@ def normalize_dimension(dimensions):
 	'''
 	unknown = 0
 	inches = 0
-	cm = 0
+	centimeters = 0
 	which = None
-	for d in dimensions:
-		which = d.which
-		if d.unit == 'inches':
-			inches += float(d.value)
-		elif d.unit == 'feet':
-			inches += 12 * float(d.value)
-		elif d.unit == 'cm':
-			cm += float(d.value)
-		elif d.unit is None:
-			unknown += float(d.value)
+	for dim in dimensions:
+		which = dim.which
+		if dim.unit == 'inches':
+			inches += float(dim.value)
+		elif dim.unit == 'feet':
+			inches += 12 * float(dim.value)
+		elif dim.unit == 'cm':
+			centimeters += float(dim.value)
+		elif dim.unit is None:
+			unknown += float(dim.value)
 		else:
-			warnings.warn('*** unrecognized unit: %s' % (d.unit,))
+			warnings.warn('*** unrecognized unit: %s' % (dim.unit,))
 			return None
 	used_systems = 0
-	for v in (inches, cm, unknown):
-		if v:
+	for values in (inches, centimeters, unknown):
+		if values:
 			used_systems += 1
 	if used_systems != 1:
-		warnings.warn('*** dimension used a mix of unit systems (metric, imperial, and/or unknown): %r' % (dimensions,))
+		warnings.warn('*** dimension used a mix of metric, imperial, and/or unknown: '\
+						'%r' % (dimensions,))
 		return None
-	elif inches:
+	if inches:
 		return Dimension(value=str(inches), unit='inches', which=which)
-	elif cm:
-		return Dimension(value=str(cm), unit='cm', which=which)
-	else:
-		return Dimension(value=str(cm), unit=None, which=which)
+	if centimeters:
+		return Dimension(value=str(centimeters), unit='cm', which=which)
+	return Dimension(value=str(centimeters), unit=None, which=which)
 
 def extract_physical_dimensions(dimstr):
 	dimensions = dimensions_cleaner(dimstr)
@@ -210,16 +218,16 @@ def extract_physical_dimensions(dimstr):
 		for orig_d in dimensions:
 			dimdata = normalized_dimension_object(orig_d)
 			if dimdata:
-				d, label = dimdata
-				if d.which == 'height':
+				dimension, label = dimdata
+				if dimension.which == 'height':
 					dim = vocab.Height()
-				elif d.which == 'width':
+				elif dimension.which == 'width':
 					dim = vocab.Width()
 				else:
 					dim = vocab.PhysicalDimension()
 				dim.identified_by = model.Name(content=label)
-				dim.value = d.value
-				unit = vocab.instances.get(d.unit)
+				dim.value = dimension.value
+				unit = vocab.instances.get(dimension.unit)
 				if unit:
 					dim.unit = unit
 				yield dim
@@ -239,27 +247,26 @@ def dimensions_cleaner(value):
 		dutch_dimensions_cleaner_x2,
 		simple_dimensions_cleaner_x1
 	]
-	for f in cleaners:
-		d = f(value)
-		if d:
-			return d
+	for cleaner in cleaners:
+		dimension = cleaner(value)
+		if dimension:
+			return dimension
 	return None
 
 def french_dimensions_cleaner_x2(value):
 	'''Attempt to parse 2 dimensions from a French-formatted string.'''
 	# Haut 14 pouces, large 10 pouces
 
-	m = french_dimensions_re.match(value)
-	if m:
-		d = m.groupdict()
-		d1 = parse_simple_dimensions(d['d1'], 'h')
-		d2 = parse_simple_dimensions(d['d2'], 'w')
-		if d1 and d2:
-			return (d1, d2)
-		else:
-			warnings.warn('d1: %s %s h' % (d1, d['d1']))
-			warnings.warn('d2: %s %s w' % (d2, d['d2']))
-			warnings.warn('*** Failed to parse dimensions: %s' % (value,))
+	match = FRENCH_DIMENSIONS_RE.match(value)
+	if match:
+		groups = match.groupdict()
+		dim1 = parse_simple_dimensions(groups['d1'], 'h')
+		dim2 = parse_simple_dimensions(groups['d2'], 'w')
+		if dim1 and dim2:
+			return (dim1, dim2)
+		warnings.warn('dim1: %s %s h' % (dim1, groups['d1']))
+		warnings.warn('dim2: %s %s w' % (dim2, groups['d2']))
+		warnings.warn('*** Failed to parse dimensions: %s' % (value,))
 	return None
 
 def dutch_dimensions_cleaner_x2(value):
@@ -267,22 +274,21 @@ def dutch_dimensions_cleaner_x2(value):
 	# Hoog. 1 v. 6 d., Breed 2 v. 3 d.
 	# Breedt 6 v., hoog 3 v
 
-	m = dutch_dimensions_re.match(value)
-	if m:
-		d = m.groupdict()
-		h = 'h'
-		w = 'w'
-		if 'breed' in d['d1w'].lower():
-			h, w = w, h
+	match = DUTCH_DIMENSIONS_RE.match(value)
+	if match:
+		groups = match.groupdict()
+		height = 'h'
+		width = 'w'
+		if 'breed' in groups['d1w'].lower():
+			height, width = width, height
 
-		d1 = parse_simple_dimensions(d['d1'], h)
-		d2 = parse_simple_dimensions(d['d2'], w)
-		if d1 and d2:
-			return (d1, d2)
-		else:
-			warnings.warn('d1: %s %s h' % (d1, d['d1']))
-			warnings.warn('d2: %s %s w' % (d2, d['d2']))
-			warnings.warn('*** Failed to parse dimensions: %s' % (value,))
+		dim1 = parse_simple_dimensions(groups['d1'], height)
+		dim2 = parse_simple_dimensions(groups['d2'], width)
+		if dim1 and dim2:
+			return (dim1, dim2)
+		warnings.warn('dim1: %s %s h' % (dim1, groups['d1']))
+		warnings.warn('dim2: %s %s w' % (dim2, groups['d2']))
+		warnings.warn('*** Failed to parse dimensions: %s' % (value,))
 	return None
 
 def simple_dimensions_cleaner_x1(value):
@@ -291,12 +297,12 @@ def simple_dimensions_cleaner_x1(value):
 	# 1' 2"
 	# 1 ft. 2 in. h
 
-	m = simple_dimensions_re_x1.match(value)
-	if m:
-		d = m.groupdict()
-		d1 = parse_simple_dimensions(d['d1'], d['d1w'])
-		if d1:
-			return (d1,)
+	match = SIMPLE_DIMENSIONS_RE_X1.match(value)
+	if match:
+		groups = match.groupdict()
+		dim1 = parse_simple_dimensions(groups['d1'], groups['d1w'])
+		if dim1:
+			return (dim1,)
 	return None
 
 def simple_dimensions_cleaner_x2(value):
@@ -305,17 +311,16 @@ def simple_dimensions_cleaner_x2(value):
 	# 1' 2" by 3 cm
 	# 1 ft. 2 in. h by 3 cm w
 
-	m = simple_dimensions_re_x2.match(value)
-	if m:
-		d = m.groupdict()
-		d1 = parse_simple_dimensions(d['d1'], d['d1w'])
-		d2 = parse_simple_dimensions(d['d2'], d['d2w'])
-		if d1 and d2:
-			return (d1, d2)
-		else:
-			warnings.warn('d1: %s %s %s' % (d1, d['d1'], d['d1w']))
-			warnings.warn('d2: %s %s %s' % (d2, d['d2'], d['d2w']))
-			warnings.warn('*** Failed to parse dimensions: %s' % (value,))
+	match = SIMPLE_DIMENSIONS_RE_X2.match(value)
+	if match:
+		groups = match.groupdict()
+		dim1 = parse_simple_dimensions(groups['d1'], groups['d1w'])
+		dim2 = parse_simple_dimensions(groups['d2'], groups['d2w'])
+		if dim1 and dim2:
+			return (dim1, dim2)
+		warnings.warn('dim1: %s %s %s' % (dim1, groups['d1'], groups['d1w']))
+		warnings.warn('dim2: %s %s %s' % (dim2, groups['d2'], groups['d2w']))
+		warnings.warn('*** Failed to parse dimensions: %s' % (value,))
 	return None
 
 #mark - Monetary Values
@@ -327,22 +332,22 @@ def extract_monetary_amount(data):
 	data is found in found, returns `None`.
 
 	For `EstimatedPrice`, values will be accessed from these keys:
-	  - amount: `est_price_amount` or `est_price`
-	  - currency: `est_price_currency` or `est_price_curr`
-	  - note: `est_price_note` or `est_price_desc`
-	  - bibliographic statement: `est_price_citation`
+		- amount: `est_price_amount` or `est_price`
+		- currency: `est_price_currency` or `est_price_curr`
+		- note: `est_price_note` or `est_price_desc`
+		- bibliographic statement: `est_price_citation`
 
 	For `StartingPrice`, values will be accessed from these keys:
-	  - amount: `start_price_amount` or `start_price`
-	  - currency: `start_price_currency` or `start_price_curr`
-	  - note: `start_price_note` or `start_price_desc`
-	  - bibliographic statement: `start_price_citation`
+		- amount: `start_price_amount` or `start_price`
+		- currency: `start_price_currency` or `start_price_curr`
+		- note: `start_price_note` or `start_price_desc`
+		- bibliographic statement: `start_price_citation`
 
 	For `MonetaryAmount` prices, values will be accessed from these keys:
-	  - amount: `price_amount` or `price`
-	  - currency: `price_currency` or `price_curr`
-	  - note: `price_note` or `price_desc`
-	  - bibliographic statement: `price_citation`
+		- amount: `price_amount` or `price`
+		- currency: `price_currency` or `price_curr`
+		- note: `price_note` or `price_desc`
+		- bibliographic statement: `price_citation`
 	'''
 	amount_type = 'Price'
 	if 'est_price' in data:
@@ -371,19 +376,19 @@ def extract_monetary_amount(data):
 			amnt.referred_to_by = vocab.BibliographyStatement(content=cite)
 		if note:
 			amnt.referred_to_by = vocab.Note(content=note)
-		
+
 		if price_amount:
 			try:
-				v = price_amount
-				v = v.replace('[?]', '')
-				v = v.replace('?', '')
-				v = v.strip()
-				price_amount = float(v)
-				amnt.value =  price_amount
+				value = price_amount
+				value = value.replace('[?]', '')
+				value = value.replace('?', '')
+				value = value.strip()
+				price_amount = float(value)
+				amnt.value = price_amount
 			except ValueError:
 				amnt._label = price_amount
 				amnt.identified_by = model.Name(content=price_amount)
-	# 			warnings.warn(f'*** Not a numeric price amount: {v}')
+	# 			warnings.warn(f'*** Not a numeric price amount: {value}')
 		if price_currency:
 			if price_currency in CURRENCY_MAPPING:
 				try:
