@@ -330,7 +330,7 @@ identity_instances = {
 	"greek": {"parent": Language, "id": "300388361", "label": "Greek"},
 	"georgian": {"parent": Language, "id": "300388343", "label": "Georgian"},
 	"hebrew": {"parent": Language, "id": "300388401", "label": "Hebrew"},
-	"hungarian ": {"parent": Language, "id": "300388770", "label": "Magyar (Hungarian)"},
+	"hungarian": {"parent": Language, "id": "300388770", "label": "Magyar (Hungarian)"},
 	"norwegian": {"parent": Language, "id": "300388992", "label": "Norwegian"},
 	"polish": {"parent": Language, "id": "300389109", "label": "Polish"},
 	"romanian": {"parent": Language, "id": "300389157", "label": "Romanian"},
