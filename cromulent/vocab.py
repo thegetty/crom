@@ -20,16 +20,17 @@ def post_init(self, **kw):
 			self.classified_as = t
 BaseResource._post_init = post_init
 
-def register_aat_class(name, data):
+def register_vocab_class(name, data):
 	parent = data['parent']
 	id = data['id']
 	label = data['label']
+	vocab = data.get('vocab', 'aat')
 
 	c = type(name, (parent,), {})
 	if id.startswith('http'):
 		t = Type(id)
 	else:
-		t = Type("http://vocab.getty.edu/aat/%s" % id)
+		t = Type("http://vocab.getty.edu/%s/%s" % (vocab, id))
 	t._label = label
 	if parent == LinguisticObject and "brief" in data:
 		c._classification = [t, instances["brief text"]]
@@ -39,17 +40,22 @@ def register_aat_class(name, data):
 	globals()[name] = c	
 	return c
 
+def register_aat_class(name, data):
+	data['vocab'] = 'aat'
+	register_vocab_class(name, data)
+
 instances = {}
 
 def register_instance(name, data):
 	parent = data['parent']
 	id = data['id']
+	vocab = data.get('vocab', 'aat')
 	label = data['label']
 
 	if id.startswith('http'):
 		t = parent(id)
 	else:
-		t = parent("http://vocab.getty.edu/aat/%s" % id)
+		t = parent("http://vocab.getty.edu/%s/%s" % (vocab, id))
 	t._label = label
 	instances[name] = t
 	return t
@@ -320,6 +326,21 @@ identity_instances = {
 	"ancient greek": {"parent": Language, "id": "300387827", "label": "Ancient Greek"},
 	"latin": {"parent": Language, "id":"300388693", "label":"Latin"},
 	"japanese": {"parent": Language, "id":"300388486", "label":"Japanese"},
+	"croatian": {"parent": Language, "id": "300388185", "label": "Croatian"},
+	"czech": {"parent": Language, "id": "300388191", "label": "Czech"},
+	"danish": {"parent": Language, "id": "300388204", "label": "Danish"},
+	"greek": {"parent": Language, "id": "300388361", "label": "Greek"},
+	"georgian": {"parent": Language, "id": "300388343", "label": "Georgian"},
+	"hebrew": {"parent": Language, "id": "300388401", "label": "Hebrew"},
+	"hungarian": {"parent": Language, "id": "300388770", "label": "Magyar (Hungarian)"},
+	"norwegian": {"parent": Language, "id": "300388992", "label": "Norwegian"},
+	"polish": {"parent": Language, "id": "300389109", "label": "Polish"},
+	"romanian": {"parent": Language, "id": "300389157", "label": "Romanian"},
+	"serbo-croatian": {"parent": Language, "id": "300389248", "label": "Serbo-Croatian"},
+	"slovak": {"parent": Language, "id": "300389290", "label": "Slovak"},
+	"slovenian": {"parent": Language, "id": "300389291", "label": "Slovenian"},
+	"swedish": {"parent": Language, "id": "300389336", "label": "Swedish"},
+	"turkish": {"parent": Language, "id": "300389470", "label": "Turkish"},
 
 	"primary": {"parent": Type, "id": "300404670", "label": "Primary"},
 	"artwork": {"parent": Type, "id": "300133025", "label": "Artwork"},
@@ -373,7 +394,7 @@ identity_instances = {
 for (name,v) in identity_instances.items():
 	register_instance(name, v)
 for (name,v) in ext_classes.items():
-	register_aat_class(name, v)
+	register_vocab_class(name, v)
 
 
 local_instances = {
@@ -403,6 +424,15 @@ local_instances = {
 	"mexican nationality": {"parent": Nationality, "id": "300107963", "label": "Mexican"},
 	"portuguese nationality": {"parent": Nationality, "id": "300111207", "label": "Portuguese"},
 	"japanese nationality": {"parent": Nationality, "id": "300018519", "label": "Japanese"},
+
+	"belgium": {"parent": Nation, "id": "1000063", "vocab": "tgn", "label": "Belgium"},
+	"france": {"parent": Nation, "id": "1000070", "vocab": "tgn", "label": "France"},
+	"germany": {"parent": Nation, "id": "7000084", "vocab": "tgn", "label": "Germany"},
+	"switzerland": {"parent": Nation, "id": "7011731", "vocab": "tgn", "label": "Switzerland"},
+	"united kingdom": {"parent": Nation, "id": "7008591", "vocab": "tgn", "label": "United Kingdom"},
+	"england": {"parent": Nation, "id": "7002445", "vocab": "tgn", "label": "England"},
+	"scotland": {"parent": Nation, "id": "7002444", "vocab": "tgn", "label": "Scotland"},
+	"wales": {"parent": Nation, "id": "7002443", "vocab": "tgn", "label": "Wales"},
 }
 
 for (name,v) in local_instances.items():
