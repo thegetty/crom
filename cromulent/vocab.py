@@ -108,10 +108,11 @@ ext_classes = {
 	"SalesCatalog": {"parent": LinguisticObject, "id": "300026074", "label": "Sales Catalog"},
 	"ExhibitionCatalog": {"parent": LinguisticObject, "id": "300026096", "label": "Exhibition Catalog"},
 	"AccountBook": {"parent": LinguisticObject, "id": "300027483", "label": "Account Book"},
-	"WebPage": {"parent": LinguisticObject, "id":"300264578", "label": "Web Page"},
 	"Register": {"parent": LinguisticObject, "id":"300027168", "label": "Register"},
 	"Page": {"parent": LinguisticObject, "id":"300194222", "label": "Page"},
 	"Folio": {"parent": LinguisticObject, "id":"300189604", "label": "Folio"},
+
+	"WebPage": {"parent": LinguisticObject, "id":"300264578", "label": "Web Page"},
 	"DataRecord": {"parent": LinguisticObject, "id":"300026685", "label": "Data Record"}, # Not sure about this one
 	"Heading": {"parent": LinguisticObject, "id": "300200862", "label": "Heading"},
 	"SubHeading": {"parent": LinguisticObject, "id": "300419992", "label": "Heading"},
@@ -208,10 +209,9 @@ ext_classes = {
 	"CityName": {"parent": Name, "id": "300008389", "label": "City"},
 	"CountryName": {"parent": Name, "id": "300128207", "label": "Country"},
 
-
-
 	"TelephoneNumber": {"parent": Name, "id": "3-x-phone", "label": "Telephone Number"},
 	"FaxNumber": {"parent": Name, "id": "3-x-fax", "label": "Fax Number"},
+
 
 	"Painting": {"parent": HumanMadeObject, "id": "300033618", "label": "Painting"},
 	"Sculpture": {"parent": HumanMadeObject, "id": "300047090", "label": "Sculpture"},
@@ -238,7 +238,7 @@ ext_classes = {
 
 	"Architecture": {"parent": HumanMadeObject, "id":"300263552", "label": "Architecture"},
 	"Armor": {"parent": HumanMadeObject, "id":"300036745", "label": "Armor"},
-	"Book": {"parent": HumanMadeObject, "id":"300028051", "label": "Book"},
+	"BookThing": {"parent": HumanMadeObject, "id":"300028051", "label": "Book"},
 	"DecArts": {"parent": HumanMadeObject, "id":"300054168", "label": "Decorative Arts"},
 	"Implement": {"parent": HumanMadeObject, "id":"300024841", "label": "Implement"},
 	"Jewelry": {"parent": HumanMadeObject, "id":"300209286", "label": "Jewelry"},
@@ -247,6 +247,7 @@ ext_classes = {
 	"Text": {"parent": HumanMadeObject, "id":"300263751", "label": "Text"},
 	"Print":  {"parent": HumanMadeObject, "id":"300041273", "label": "Print"},
 	"TimeBasedMedia": {"parent": HumanMadeObject, "id":"300185191", "label": "Time-based Media"},
+	"PageThing": {"parent": HumanMadeObject, "id":"300194222", "label": "Page"},
 
 	"FrontPart": {"parent": HumanMadeObject, "id":"300190703", "label": "Front Part"},
 	"BackPart": {"parent": HumanMadeObject, "id":"300190692", "label": "Back Part"},
@@ -265,6 +266,7 @@ ext_classes = {
 	"Envelope": {"parent": HumanMadeObject, "id":"300197601", "label": "Envelope"},
 	"Binder": {"parent": HumanMadeObject,"id":"300252990", "label": "Binder"},
 	"Case": {"parent": HumanMadeObject,"id":"300045659", "label": "Case"},
+	"FlatfileCabinet": {"parent": HumanMadeObject,"id":"300417284", "label": "Flat File Cabinet"},
 
 	"StartingPrice": {"parent": MonetaryAmount, "id": "300417242", "label": "Starting Price"},
 	"ReservePrice": {"parent": MonetaryAmount, "id": "300417243", "label": "Reserve Price"},
