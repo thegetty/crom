@@ -173,7 +173,7 @@ class TestFactorySerialization(unittest.TestCase):
 		p.classified_as = model.Type(ident="http://example.org/Type", label="Test")
 		res1 = model.factory.toString(p, compact=False, collapse=60) # all new lines
 		res2 = model.factory.toString(p, compact=False, collapse=120) # compact list of type
-		print(res1)
+		# print(res1)
 		self.assertEqual(len(res1.splitlines()), 12)
 		self.assertEqual(len(res2.splitlines()), 6)
 
@@ -462,6 +462,27 @@ class TestMagicMethods(unittest.TestCase):
 		model.factory.validate_multiplicity = False
 		who.born = b2
 		self.assertEqual(who.born, [b1, b2])
+
+	def test_not_multiple_instance(self):
+		who = model.Person()
+		n = model.Name(content="Test")
+		who.identified_by = n
+
+		model.factory.multiple_instances_per_property = "error"
+		self.assertRaises(model.DataError, who.__setattr__, 'identified_by', n)
+		self.assertEqual(who.identified_by, [n])
+
+		model.factory.multiple_instances_per_property = "drop"
+		who.identified_by = n
+		self.assertEqual(who.identified_by, [n,n])		
+		# and check that only serialized once
+		js = model.factory.toJSON(who)
+		self.assertEqual(len(js['identified_by']), 1)
+
+		model.factory.multiple_instances_per_property = "allow"
+		js = model.factory.toJSON(who)
+		self.assertEqual(len(js['identified_by']), 2)
+
 
 
 if __name__ == '__main__':

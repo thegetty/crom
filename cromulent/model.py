@@ -82,6 +82,7 @@ class CromulentFactory(object):
 		self.validate_multiplicity = True  # Raise if attempt to set n:1 to []
 		self.auto_assign_id = True # Automatially assign a URI
 		self.process_multiplicity = True # Return multiple with single value as [value]
+		self.multiple_instances_per_property = "drop"
 
 		self.auto_id_type = "int-per-segment" #  "int", "int-per-type", "int-per-segment", "uuid"
 		# self.default_lang = lang  # NOT USED
@@ -627,6 +628,10 @@ class BaseResource(ExternalResource):
 		if not current:
 			object.__setattr__(self, which, value)
 		elif type(current) is list:
+			# check value not in list
+			if self._factory.multiple_instances_per_property == "error" and isinstance(value, BaseResource) and value in current:
+				raise DataError("""Cannot add the same resource in the same property more than once:
+change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 			current.append(value)
 		else:
 			if self._factory.validate_multiplicity and not multiple:
@@ -743,7 +748,13 @@ class BaseResource(ExternalResource):
 					d[k] = v._toJSON(done=done, top=top)
 				elif type(v) is list:
 					newl = []
+					uniq = set()
 					for ni in v:
+						if self._factory.multiple_instances_per_property == "drop":
+							if id(ni) in uniq:
+								continue
+							else:
+								uniq.add(id(ni))
 						if isinstance(ni, ExternalResource):
 							if done[id(ni)] == id(self):
 								del done[id(ni)]

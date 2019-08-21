@@ -10,7 +10,7 @@ from .model import Identifier, Mark, HumanMadeObject, Type, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
 	Acquisition, HumanMadeFeature, VisualItem, Set, Birth, Death, \
 	PropositionalObject, Payment, Creation, Phase, Period, \
-	Production, \
+	Production, Event, \
 	STR_TYPES, factory
 
 # Add classified_as initialization hack for all resources
@@ -514,10 +514,16 @@ def add_attribute_assignment_check():
 def add_linked_art_boundary_check():
 
 	boundary_classes = [x.__name__ for x in [Actor, HumanMadeObject, Person, Group, VisualItem, \
-		Place, Period, LinguisticObject, Phase, Set]]
-	embed_classes = [x.__name__ for x in [Type, Name, Identifier, Dimension, Birth, Creation, \
-		Currency, Death, Destruction, Dissolution, Formation, Language, \
-		Material, MeasurementUnit, MonetaryAmount, Payment, Production, TimeSpan]]
+		Place, Period, LinguisticObject, Phase, Set, Event]]
+	data_embed_classes = [Name, Identifier, Dimension, TimeSpan, MonetaryAmount]
+	type_embed_classes = [Type, Currency, Language, Material, MeasurementUnit]
+	event_embed_classes = [Birth, Creation, Production, Formation, Payment, \
+							Death, Destruction, Dissolution ]
+	all_embed_classes = []
+	all_embed_classes.extend(data_embed_classes)
+	all_embed_classes.extend(type_embed_classes)
+	all_embed_classes.extend(event_embed_classes)
+	embed_classes = [x.__name__ for x in all_embed_classes]
 
 	# Activity, AttributeAssignment, InformationObject, TransferOfCustody, Move
 	# Propositional Object
