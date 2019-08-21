@@ -748,13 +748,13 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 					d[k] = v._toJSON(done=done, top=top)
 				elif type(v) is list:
 					newl = []
-					uniq = []
+					uniq = set()
 					for ni in v:
 						if self._factory.multiple_instances_per_property == "drop":
 							if id(ni) in uniq:
 								continue
 							else:
-								uniq.append(id(ni))
+								uniq.add(id(ni))
 						if isinstance(ni, ExternalResource):
 							if done[id(ni)] == id(self):
 								del done[id(ni)]
