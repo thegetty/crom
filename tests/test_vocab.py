@@ -69,14 +69,14 @@ class TestClassBuilder(unittest.TestCase):
 		n = model.Name()
 		n.content = "Test"
 		p2.identified_by = n
-		p.related = p2
+		p.exact_match = p2
 		# Now, Test should not appear in the resulting JSON of p
 		factory.linked_art_boundaries = True
 		js = factory.toJSON(p)
-		self.assertTrue(not 'identified_by' in js['related'][0])
+		self.assertTrue(not 'identified_by' in js['exact_match'][0])
 		factory.linked_art_boundaries = False
 		js = factory.toJSON(p)
-		self.assertTrue('identified_by' in js['related'][0])		
+		self.assertTrue('identified_by' in js['exact_match'][0])		
 
 	def test_procurement_boundary(self):
 		vocab.add_linked_art_boundary_check()
