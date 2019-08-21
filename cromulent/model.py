@@ -306,9 +306,9 @@ class CromulentFactory(object):
 		"""Build string from JSON."""
 		try:
 			if compact:
-				out = json.dumps(js, separators=(',',':'))
+				out = json.dumps(js, separators=(',',':'), ensure_ascii=False)
 			else:
-				out = json.dumps(js, indent=self.json_indent)
+				out = json.dumps(js, indent=self.json_indent, ensure_ascii=False)
 		except:
 			out = ""
 			self.maybe_warn("Can't decode %r" % js)
