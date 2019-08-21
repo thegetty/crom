@@ -630,7 +630,8 @@ class BaseResource(ExternalResource):
 		elif type(current) is list:
 			# check value not in list
 			if self._factory.multiple_instances_per_property == "error" and isinstance(value, BaseResource) and value in current:
-				raise DataError("Cannot add the same resource in the same property more than once")
+				raise DataError("""Cannot add the same resource in the same property more than once:
+change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 			current.append(value)
 		else:
 			if self._factory.validate_multiplicity and not multiple:
