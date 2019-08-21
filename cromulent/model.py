@@ -751,10 +751,10 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 					uniq = []
 					for ni in v:
 						if self._factory.multiple_instances_per_property == "drop":
-							if ni in uniq:
+							if id(ni) in uniq:
 								continue
 							else:
-								uniq.append(ni)
+								uniq.append(id(ni))
 						if isinstance(ni, ExternalResource):
 							if done[id(ni)] == id(self):
 								del done[id(ni)]
