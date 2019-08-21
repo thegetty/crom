@@ -62,14 +62,8 @@
 </rdf:Property>
 
 <!-- Similarity of resources -->
-<!-- E1: owl:sameAs, skos:exactMatch, skos:closeMatch, dct:relation -->
-
-<rdf:Property rdf:about="http://www.w3.org/2002/07/owl#sameAs">
-        <rdfs:label xml:lang="en">sameAs</rdfs:label>
-        <rdfs:comment xml:lang="en">Exactly the same entity</rdfs:comment>
-        <rdfs:domain rdf:resource="E1_CRM_Entity"/>
-        <rdfs:range rdf:resource="E1_CRM_Entity"/>
-</rdf:Property>
+<!-- E1: skos:exactMatch, skos:closeMatch -->
+<!-- owl:sameAs considered too dangerous, dct:relation considered too pointless -->
 
 <rdf:Property rdf:about="http://www.w3.org/2004/02/skos/core#exactMatch">
         <rdfs:label xml:lang="en">exactMatch</rdfs:label>
@@ -90,13 +84,6 @@
         <rdfs:comment xml:lang="en">A related resource, that is machine readable and related to the current resource.</rdfs:comment>
         <rdfs:domain rdf:resource="E1_CRM_Entity"/>
         <rdfs:range rdf:resource="E73_Information_Object"/>
-</rdf:Property>
-
-<rdf:Property rdf:about="http://purl.org/dc/terms/relation">
-        <rdfs:label xml:lang="en">relation</rdfs:label>
-        <rdfs:comment xml:lang="en">Related resources, with no further similarity semantics defined</rdfs:comment>
-        <rdfs:domain rdf:resource="E1_CRM_Entity"/>
-        <rdfs:range rdf:resource="E1_CRM_Entity"/>
 </rdf:Property>
 
 

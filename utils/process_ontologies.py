@@ -57,6 +57,8 @@ def process_classes(dom):
 				name = name.replace(ns, "%s:" % pref)
 				break
 
+		if not name in profile_flags:
+			print("  WARNING: %s not in profile" % name)
 		useflag = str(profile_flags.get(name, 0))
 		if name in classXHash:
 			classXHash[name][0] = c
@@ -115,6 +117,8 @@ def process_props(dom):
 				name = name.replace(ns, "%s:" % pref)
 				break		
 
+		if not name in profile_flags:
+			print("  WARNING: %s not in profile" % name)
 		useflags = profile_flags.get(name, [0,0]) or [0,0]
 		propXHash[name] = [p, useflags[0]]
 
