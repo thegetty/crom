@@ -2454,10 +2454,6 @@
     "_label": {
       "@id": "rdfs:label"
     }, 
-    "sameAs": {
-      "@id": "owl:sameAs", 
-      "@type": "@id"
-    }, 
     "exact_match": {
       "@id": "skos:exactMatch", 
       "@type": "@id", 
@@ -2465,15 +2461,11 @@
     }, 
     "close_match": {
       "@id": "skos:closeMatch", 
-      "@type": "@id"
-    }, 
-    "see_also": {
-      "@id": "rdfs:seeAlso", 
       "@type": "@id", 
       "@container": "@set"
     }, 
-    "related": {
-      "@id": "dcterms:relation", 
+    "see_also": {
+      "@id": "rdfs:seeAlso", 
       "@type": "@id", 
       "@container": "@set"
     }, 
