@@ -391,8 +391,9 @@ la:Payment	class	Payment	Payment	Payment of Money	E7_Activity	1
 la:PropertyInterest	class	PropertyInterest	Property Interest	A particular property interest, be it ownership or security, of intellectual or physical property	E71_Human-Made_Thing	1
 la:Phase	class	Phase	Phase	The period of time during which an entity is in a certain phase or state of its existence.  The phase can be physical (the box is open, the painting is 14 ft wide) or social (the sculpture is owned by some Actor, the building is used as a castle).	E4_Period	1
 la:Set	class	Set	Set		E89_Propositional_Object|E72_Legal_Object	1
+la:Addition	class	Addition	Addition	The addition of some entity to a Set	E7_Activity	1
+la:Removal	class	Removal	Removal	The removal of some entity from a Set	E7_Activity	1
 la:Relationship	class	Relationship	Relationship		E28_Conceptual_Object	1
-la:Container	class	Container	Container		E53_Place|E22_Human-Made_Object	1
 la:paid_amount	property	paid_amount	Paid Amount	The amount paid.		la:Payment	E97_Monetary_Amount		10000	1	0
 la:paid_from	property	paid_from	Paid From	Who the payment came from		la:Payment	E39_Actor		10000	1	1
 la:paid_to	property	paid_to	Paid To	Who the payment went to		la:Payment	E39_Actor		10000	1	1
@@ -412,6 +413,14 @@ la:related_entity_of	property	related_entity_of	related entity of	The inverse of
 la:relationship	property	relationship	related by	The relationship between the Entity that the phase is of, and the defining entity. For an ownership phase, this would be P52 has current owner. For the size of painting phase, this would be P43 has dimension.	P2_has_type	la:Phase	E55_Type		10000	1	0
 la:has_member	property	member	has member			la:Set	E1_CRM_Entity	https://linked.art/ns/terms/member_of	10000	1	1
 la:member_of	property	member_of	member of			E1_CRM_Entity	la:Set	https://linked.art/ns/terms/has_member	10000	1	1
+la:added_to	property	added_to	added to			la:Addition	la:Set	https://linked.art/ns/terms/added_to_by	10000	1	0
+la:added_to_by	property	added_to_by	added to by			la:Set	la:Addition	https://linked.art/ns/terms/added_to	10000	1	1
+la:added_member	property	added_member	added			la:Addition	E1_CRM_Entity	https://linked.art/ns/terms/added_member_by	10000	1	0
+la:added_member_by	property	added_member_by	added by			E1_CRM_Entity	la:Addition	https://linked.art/ns/terms/added_member	10000	1	1
+la:removed_from	property	removed_from	removed from			la:Removal	la:Set	https://linked.art/ns/terms/removed_from_by	10000	1	0
+la:removed_from_by	property	removed_from_by	removed from by			la:Set	la:Removal	https://linked.art/ns/terms/removed_from	10000	1	1
+la:removed_member	property	removed_member	removed			la:Removal	E1_CRM_Entity	https://linked.art/ns/terms/removed_member_by	10000	1	0
+la:removed_member_by	property	removed_member_by	removed by			E1_CRM_Entity	la:Removal	https://linked.art/ns/terms/removed_member	10000	1	1
 la:related_to	property	related_to	related to			la:Relationship	E1_CRM_Entity		10000	1	0
 la:related_from	property	related_from	related from			la:Relationship	E1_CRM_Entity		10000	1	0
 geo:SP5_Geometric_Place_Expression	class	Geometry	Geometry	Scope note: This class comprises definitions of places by quantitative expressions. An instance of SP5 Geometric Place Expression can be seen as a prescription of how to find the location meant by this expression in the real world (S), which is based on measuring where the quantities referred to in the expression lead to, beginning from the reference points of the respective reference system.	E41_Appellation	1
@@ -421,11 +430,9 @@ geo:Q9i_terms_express	property	Q9i_terms_express	terms express			geo:SP4_Spatial
 sci:O13_triggers	property	caused	triggers			E5_Event	E5_Event	http://www.ics.forth.gr/isl/CRMsci/O13i_is_triggered_by	10000	1	1
 sci:O13i_is_triggered_by	property	caused_by	triggered by			E5_Event	E5_Event	http://www.ics.forth.gr/isl/CRMsci/O13_triggers	10000	1	1
 rdfs:label	property	_label	label	A human-readable name for the subject.		E1_CRM_Entity	xsd:string		10000	1	0
-owl:sameAs	property	sameAs	sameAs	Exactly the same entity		E1_CRM_Entity	E1_CRM_Entity		10000	0	0
 skos:exactMatch	property	exact_match	exactMatch	Exact Match, not quite sameAs, good for most uses		E1_CRM_Entity	E1_CRM_Entity		10000	1	1
-skos:closeMatch	property	close_match	closeMatch	Close Match, good for some uses		E1_CRM_Entity	E1_CRM_Entity		10000	0	0
+skos:closeMatch	property	close_match	closeMatch	Close Match, good for some uses		E1_CRM_Entity	E1_CRM_Entity		10000	1	1
 rdfs:seeAlso	property	see_also	seeAlso	A related resource, that is machine readable and related to the current resource.		E1_CRM_Entity	E73_Information_Object		10000	1	1
-dcterms:relation	property	related	relation	Related resources, with no further similarity semantics defined		E1_CRM_Entity	E1_CRM_Entity		10000	1	1
 schema:genre	property	style	genre	Shortcut for Genre or Style		E73_Information_Object	E55_Type		10000	1	1
 dcterms:conformsTo	property	conforms_to	conforms to	Some thing conforms to some standard		E71_Human-Made_Thing	E73_Information_Object		10000	1	1
 dc:format	property	format	format	The media type of the information object		E73_Information_Object	xsd:string		10000	1	0

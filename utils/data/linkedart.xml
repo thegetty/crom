@@ -161,6 +161,8 @@
 
 <!-- caused / caused_by is O13_triggered / O13i_triggered_by -->
 
+
+
 <!-- Set of Things, as potential superclass of Group and Collection -->
 <!-- e.g. an auction lot is not a curated holding, but we need a class for its membership -->
 <!-- Sets can have rights (right to add /remove) and be about subjects (e.g. exhibition) -->
@@ -188,6 +190,81 @@
     <owl:inverseOf rdf:resource="https://linked.art/ns/terms/has_member"/>
 </rdf:Property>
 
+<rdfs:Class rdf:about="https://linked.art/ns/terms/Addition">
+    <rdfs:label xml:lang="en">Addition</rdfs:label>
+    <rdfs:comment>The addition of some entity to a Set</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="E7_Activity"/>
+</rdfs:Class>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/added_to">
+    <rdfs:label xml:lang="en">added to</rdfs:label>
+    <rdfs:comment xml:lang="en"></rdfs:comment>
+    <rdfs:domain rdf:resource="https://linked.art/ns/terms/Addition"/>
+    <rdfs:range rdf:resource="https://linked.art/ns/terms/Set"/>
+    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/added_to_by"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/added_to_by">
+    <rdfs:label xml:lang="en">added to by</rdfs:label>
+    <rdfs:comment xml:lang="en"></rdfs:comment>
+    <rdfs:domain rdf:resource="https://linked.art/ns/terms/Set"/>
+    <rdfs:range rdf:resource="https://linked.art/ns/terms/Addition"/>
+    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/added_to"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/added_member">
+    <rdfs:label xml:lang="en">added</rdfs:label>
+    <rdfs:comment xml:lang="en"></rdfs:comment>
+    <rdfs:domain rdf:resource="https://linked.art/ns/terms/Addition"/>
+    <rdfs:range rdf:resource="E1_CRM_Entity"/>
+    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/added_member_by"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/added_member_by">
+    <rdfs:label xml:lang="en">added by</rdfs:label>
+    <rdfs:comment xml:lang="en"></rdfs:comment>
+    <rdfs:domain rdf:resource="E1_CRM_Entity"/>
+    <rdfs:range rdf:resource="https://linked.art/ns/terms/Addition"/>
+    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/added_member"/>
+</rdf:Property>
+
+<rdfs:Class rdf:about="https://linked.art/ns/terms/Removal">
+    <rdfs:label xml:lang="en">Removal</rdfs:label>
+    <rdfs:comment>The removal of some entity from a Set</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="E7_Activity"/>
+</rdfs:Class>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/removed_from">
+    <rdfs:label xml:lang="en">removed from</rdfs:label>
+    <rdfs:comment xml:lang="en"></rdfs:comment>
+    <rdfs:domain rdf:resource="https://linked.art/ns/terms/Removal"/>
+    <rdfs:range rdf:resource="https://linked.art/ns/terms/Set"/>
+    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/removed_from_by"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/removed_from_by">
+    <rdfs:label xml:lang="en">removed from by</rdfs:label>
+    <rdfs:comment xml:lang="en"></rdfs:comment>
+    <rdfs:domain rdf:resource="https://linked.art/ns/terms/Set"/>
+    <rdfs:range rdf:resource="https://linked.art/ns/terms/Removal"/>
+    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/removed_from"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/removed_member">
+    <rdfs:label xml:lang="en">removed</rdfs:label>
+    <rdfs:comment xml:lang="en"></rdfs:comment>
+    <rdfs:domain rdf:resource="https://linked.art/ns/terms/Removal"/>
+    <rdfs:range rdf:resource="E1_CRM_Entity"/>
+    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/removed_member_by"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/removed_member_by">
+    <rdfs:label xml:lang="en">removed by</rdfs:label>
+    <rdfs:comment xml:lang="en"></rdfs:comment>
+    <rdfs:domain rdf:resource="E1_CRM_Entity"/>
+    <rdfs:range rdf:resource="https://linked.art/ns/terms/Removal"/>
+    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/removed_member"/>
+</rdf:Property>
 
 
 <!-- Reified Relationship class -->
@@ -212,14 +289,5 @@
         <rdfs:range rdf:resource="E1_CRM_Entity"/>
 </rdf:Property>
 
-
-<!-- Experiment with Place/Thing -->
-
-<rdfs:Class rdf:about="https://linked.art/ns/terms/Container">
-    <rdfs:label xml:lang="en">Container</rdfs:label>
-    <rdfs:comment></rdfs:comment>
-    <rdfs:subClassOf rdf:resource="E53_Place"/>
-    <rdfs:subClassOf rdf:resource="E22_Human-Made_Object"/>
-</rdfs:Class>
 
 </rdf:RDF>

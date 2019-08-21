@@ -2295,11 +2295,14 @@
       }, 
       "@id": "la:Set"
     }, 
+    "Addition": {
+      "@id": "la:Addition"
+    }, 
+    "Removal": {
+      "@id": "la:Removal"
+    }, 
     "Relationship": {
       "@id": "la:Relationship"
-    }, 
-    "Container": {
-      "@id": "la:Container"
     }, 
     "paid_amount": {
       "@id": "la:paid_amount", 
@@ -2380,6 +2383,42 @@
       "@id": "la:relationship", 
       "@type": "@id"
     }, 
+    "added_to": {
+      "@id": "la:added_to", 
+      "@type": "la:Set"
+    }, 
+    "added_to_by": {
+      "@id": "la:added_to_by", 
+      "@type": "la:Addition", 
+      "@container": "@set"
+    }, 
+    "added_member": {
+      "@id": "la:added_member", 
+      "@type": "@id"
+    }, 
+    "added_member_by": {
+      "@id": "la:added_member_by", 
+      "@type": "la:Addition", 
+      "@container": "@set"
+    }, 
+    "removed_from": {
+      "@id": "la:removed_from", 
+      "@type": "la:Set"
+    }, 
+    "removed_from_by": {
+      "@id": "la:removed_from_by", 
+      "@type": "la:Removal", 
+      "@container": "@set"
+    }, 
+    "removed_member": {
+      "@id": "la:removed_member", 
+      "@type": "@id"
+    }, 
+    "removed_member_by": {
+      "@id": "la:removed_member_by", 
+      "@type": "la:Removal", 
+      "@container": "@set"
+    }, 
     "related_to": {
       "@id": "la:related_to", 
       "@type": "@id"
@@ -2415,10 +2454,6 @@
     "_label": {
       "@id": "rdfs:label"
     }, 
-    "sameAs": {
-      "@id": "owl:sameAs", 
-      "@type": "@id"
-    }, 
     "exact_match": {
       "@id": "skos:exactMatch", 
       "@type": "@id", 
@@ -2426,15 +2461,11 @@
     }, 
     "close_match": {
       "@id": "skos:closeMatch", 
-      "@type": "@id"
-    }, 
-    "see_also": {
-      "@id": "rdfs:seeAlso", 
       "@type": "@id", 
       "@container": "@set"
     }, 
-    "related": {
-      "@id": "dcterms:relation", 
+    "see_also": {
+      "@id": "rdfs:seeAlso", 
       "@type": "@id", 
       "@container": "@set"
     }, 
