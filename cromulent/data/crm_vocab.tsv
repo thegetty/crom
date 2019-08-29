@@ -394,6 +394,7 @@ la:Set	class	Set	Set		E89_Propositional_Object|E72_Legal_Object	1
 la:Addition	class	Addition	Addition	The addition of some entity to a Set	E7_Activity	1
 la:Removal	class	Removal	Removal	The removal of some entity from a Set	E7_Activity	1
 la:Relationship	class	Relationship	Relationship		E28_Conceptual_Object	1
+la:DigitalService	class	DigitalService	Digital Service		E73_Information_Object	1
 la:paid_amount	property	paid_amount	Paid Amount	The amount paid.		la:Payment	E97_Monetary_Amount		10000	1	0
 la:paid_from	property	paid_from	Paid From	Who the payment came from		la:Payment	E39_Actor		10000	1	1
 la:paid_to	property	paid_to	Paid To	Who the payment went to		la:Payment	E39_Actor		10000	1	1
@@ -423,6 +424,12 @@ la:removed_member	property	removed_member	removed			la:Removal	E1_CRM_Entity	htt
 la:removed_member_by	property	removed_member_by	removed by			E1_CRM_Entity	la:Removal	https://linked.art/ns/terms/removed_member	10000	1	1
 la:related_to	property	related_to	related to			la:Relationship	E1_CRM_Entity		10000	1	0
 la:related_from	property	related_from	related from			la:Relationship	E1_CRM_Entity		10000	1	0
+la:digitally_carries	property	digitally_carries	digitally carries			E73_Information_Object	E90_Symbolic_Object	https://linked.art/ns/terms/digitally_carried_by	10000	1	1
+la:digitally_carried_by	property	digitally_carried_by	digitally carried by			E90_Symbolic_Object	E73_Information_Object	https://linked.art/ns/terms/digitally_carries	10000	1	1
+la:digitally_shows	property	digitally_shows	digitally shows			E73_Information_Object	E36_Visual_Item	https://linked.art/ns/terms/digitally_shown_by	10000	1	1
+la:digitally_shown_by	property	digitally_shown_by	digitally shown by			E36_Visual_Item	E73_Information_Object	https://linked.art/ns/terms/digitally_shows	10000	1	1
+la:digitally_available_via	property	digitally_available_via	digitally shows			E73_Information_Object	la:DigitalService	https://linked.art/ns/terms/digitally_makes_available	10000	1	1
+la:digitally_makes_available	property	digitally_makes_available	digitally shown by			E73_Information_Object	la:DigitalService	https://linked.art/ns/terms/digitally_available_via	10000	1	1
 geo:SP5_Geometric_Place_Expression	class	Geometry	Geometry	Scope note: This class comprises definitions of places by quantitative expressions. An instance of SP5 Geometric Place Expression can be seen as a prescription of how to find the location meant by this expression in the real world (S), which is based on measuring where the quantities referred to in the expression lead to, beginning from the reference points of the respective reference system.	E41_Appellation	1
 geo:SP4_Spatial_Coordinate_Reference_System	class	CoordinateSystem	Spatial Coordinate Reference System	Scope note: This class compromises systems that are used to describe locations in a SP3 Reference Space (S). An instance of SP4 Spatial Coordinate Reference System is composed of two parts: The first is a Coordinate System which is a set of coordinate axes with specified units of measurement and axis directions. The second part is a set of reference features at rest in the Reference Space it describes in the real world that relate the Coordinate System to real world locations (U) and fix it with respect to the reference object of its Reference Space.	E29_Design_or_Procedure	1
 geo:Q9_is_expressed_in_terms_of	property	Q9_is_expressed_in_terms_of	expressed in terms of	Scope note:        This property defines the coordinate reference system in terms of which a geometric place expression is formulated.		geo:SP5_Geometric_Place_Expression	geo:SP4_Spatial_Coordinate_Reference_System	http://www.ics.forth.gr/isl/CRMgeo/Q9i_terms_express	10000	1	0
