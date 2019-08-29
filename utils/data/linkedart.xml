@@ -289,5 +289,60 @@
         <rdfs:range rdf:resource="E1_CRM_Entity"/>
 </rdf:Property>
 
+<!-- Temporary (ish) digital relationships until update of CRMDig -->
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/digitally_carries">
+        <rdfs:label xml:lang="en">digitally carries</rdfs:label>
+        <rdfs:comment xml:lang="en"></rdfs:comment>
+        <rdfs:domain rdf:resource="E73_Information_Object"/>
+        <rdfs:range rdf:resource="E90_Symbolic_Object"/>
+        <owl:inverseOf rdf:resource="https://linked.art/ns/terms/digitally_carried_by"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/digitally_carried_by">
+        <rdfs:label xml:lang="en">digitally carried by</rdfs:label>
+        <rdfs:comment xml:lang="en"></rdfs:comment>
+        <rdfs:domain rdf:resource="E90_Symbolic_Object"/>
+        <rdfs:range rdf:resource="E73_Information_Object"/>
+        <owl:inverseOf rdf:resource="https://linked.art/ns/terms/digitally_carries"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/digitally_shows">
+        <rdfs:label xml:lang="en">digitally shows</rdfs:label>
+        <rdfs:comment xml:lang="en"></rdfs:comment>
+        <rdfs:domain rdf:resource="E73_Information_Object"/>
+        <rdfs:range rdf:resource="E36_Visual_Item"/>
+        <owl:inverseOf rdf:resource="https://linked.art/ns/terms/digitally_shown_by"/>        
+</rdf:Property>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/digitally_shown_by">
+        <rdfs:label xml:lang="en">digitally shown by</rdfs:label>
+        <rdfs:comment xml:lang="en"></rdfs:comment>
+        <rdfs:range rdf:resource="E73_Information_Object"/>
+        <rdfs:domain rdf:resource="E36_Visual_Item"/>
+        <owl:inverseOf rdf:resource="https://linked.art/ns/terms/digitally_shows"/>        
+</rdf:Property>
+
+<rdfs:Class rdf:about="https://linked.art/ns/terms/DigitalService">
+    <rdfs:label xml:lang="en">Digital Service</rdfs:label>
+    <rdfs:comment></rdfs:comment>
+    <rdfs:subClassOf rdf:resource="E73_Information_Object"/>
+</rdfs:Class>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/digitally_available_via">
+        <rdfs:label xml:lang="en">digitally shows</rdfs:label>
+        <rdfs:comment xml:lang="en"></rdfs:comment>
+        <rdfs:domain rdf:resource="E73_Information_Object"/>
+        <rdfs:range rdf:resource="https://linked.art/ns/terms/DigitalService"/>
+        <owl:inverseOf rdf:resource="https://linked.art/ns/terms/digitally_makes_available"/>        
+</rdf:Property>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/digitally_makes_available">
+        <rdfs:label xml:lang="en">digitally shown by</rdfs:label>
+        <rdfs:comment xml:lang="en"></rdfs:comment>
+        <rdfs:range rdf:resource="https://linked.art/ns/terms/DigitalService"/>
+        <rdfs:domain rdf:resource="E73_Information_Object"/>
+        <owl:inverseOf rdf:resource="https://linked.art/ns/terms/digitally_available_via"/>        
+</rdf:Property>
 
 </rdf:RDF>

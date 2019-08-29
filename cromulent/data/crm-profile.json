@@ -90,6 +90,7 @@
   "la:Set": 1,
   "la:Addition": 1,
   "la:Removal": 1,
+  "la:DigitalService": 1,
 
   "P100_was_death_of": [1,0], 
   "P100i_died_in": [1,0], 
@@ -413,10 +414,7 @@
   "P187i_is_production_plan_for": [0,0],
   "P188_requires_production_tool": [0,0],
   "P188i_is_production_tool_for": [0,0],
-
-  "dc:format": [1,0], 
-  "dcterms:conformsTo": [1,1], 
-  "dcterms:subject": [1,1],  
+ 
   "la:paid_amount": [1,0], 
   "la:paid_from": [1,1], 
   "la:paid_to": [1,1],
@@ -446,7 +444,16 @@
   "la:removed_from_by": [1,1],
   "la:removed_member": [1,0],
   "la:removed_member_by": [1,1],
+  "la:digitally_carries": [1,1],
+  "la:digitally_carried_by": [1,1],
+  "la:digitally_shows": [1,1],
+  "la:digitally_shown_by": [1,1],
+  "la:digitally_available_via": [1,1],
+  "la:digitally_makes_available": [1,1],
 
+  "dc:format": [1,0], 
+  "dcterms:conformsTo": [1,1], 
+  "dcterms:subject": [1,1], 
   "rdf:value": [1,0],
   "rdfs:seeAlso": [1,1], 
   "rdfs:label": [1,0], 
