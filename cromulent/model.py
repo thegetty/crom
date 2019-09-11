@@ -619,7 +619,7 @@ class BaseResource(ExternalResource):
 					multiple = v.multiple_okay
 					if v.inverse_property:
 						inverse = v.inverse_property
-						break
+					break
 
 		try:
 			current = getattr(self, which)
