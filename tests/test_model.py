@@ -5,7 +5,7 @@ import shutil
 import json
 import pickle
 from collections import OrderedDict
-from cromulent import model
+from cromulent import model, vocab
 from cromulent.model import override_okay
 
 
@@ -484,6 +484,59 @@ class TestMagicMethods(unittest.TestCase):
 		self.assertEqual(len(js['identified_by']), 2)
 
 
+class TestObjectEquality(unittest.TestCase):
+	def setUp(self):
+		self.artist = model.Person('00001', 'Jane Doe')
+		self.son = model.Person('00002', 'John Doe')
+		self.daughter = model.Person('00002', 'Jenny Doe')
+		self.son2 = model.Person('00002', 'Jim Doe')
+
+	def test_eq_ident(self):
+		self.assertEqual(self.artist, self.artist)
+		self.assertEqual(self.son, model.Person('00002', 'John Doe'))
+		self.assertEqual(self.son2, model.Person('00002', 'Jim Doe'))
+		self.assertEqual(self.daughter, model.Person('00002', 'Jenny Doe'))
+
+	def test_eq_value(self):
+		self.assertEqual(self.artist, model.Person('00001', 'Jane Doe'))
+		self.assertEqual(self.son, self.son)
+		self.assertEqual(self.son2, self.son2)
+		self.assertEqual(self.daughter, self.daughter)
+
+	def test_in_value(self):
+		people = (
+			model.Person('00001', 'Jane Doe'), # artist
+			model.Person('00002', 'Jim Doe')   # son2
+		)
+		self.assertIn(self.artist, people)
+		self.assertNotIn(self.son, people)
+		self.assertNotIn(self.daughter, people)
+		self.assertIn(self.son2, people)
+
+	def test_neq(self):
+		self.assertNotEqual(self.artist, self.son)
+		self.assertNotEqual(self.artist, model.Person('00001', 'Jane')) # label differs
+		self.assertNotEqual(self.artist, self.daughter)
+		self.assertNotEqual(self.artist, self.son2)
+		self.assertNotEqual(self.son, self.daughter)
+		self.assertNotEqual(self.son, self.son2)
+		self.assertNotEqual(self.daughter, self.son2)
+
+	def nation(self, name, ident):
+		place = vocab.Place(ident=f'tag:getty.edu,2019:digital:pipeline:provenance:REPLACE-WITH-UUID#PLACE-COUNTRY-{name}', label=name)
+		nation = model.Place(ident=ident)
+		place.classified_as = vocab.instances['nation']
+		place.identified_by = model.Name(ident='', content=name)
+		return place
+
+	def test_foo(self):
+		from cromulent.model import factory
+		place1 = self.nation('Belgium', 'http://vocab.getty.edu/aat/300128207')
+		place2 = self.nation('Belgium', 'http://vocab.getty.edu/aat/300128207')
+# 		print(factory.toString(place1, False))
+# 		print(factory.toString(place2, False))
+		self.assertEqual(place1, place2)
 
 if __name__ == '__main__':
 	unittest.main()
+
