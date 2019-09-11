@@ -831,6 +831,20 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 		# Without replacement, just return True always
 		return True
 
+	def __eq__(a, b):
+		if id(a) == id(b):
+			return True
+		ap = a.list_my_props()
+		bp = b.list_my_props()
+		if ap != bp:
+			return False
+		for p in ap:
+			av = getattr(a, p)
+			bv = getattr(b, p)
+			if av != bv:
+				return False
+		return True
+
 	def list_all_props(self, filter=None, okay=None):
 		props = []
 		for c in self._classhier:		
