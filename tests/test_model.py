@@ -523,7 +523,7 @@ class TestObjectEquality(unittest.TestCase):
 		self.assertNotEqual(self.daughter, self.son2)
 
 	def nation(self, name, ident):
-		place = vocab.Place(ident=f'tag:getty.edu,2019:digital:pipeline:provenance:REPLACE-WITH-UUID#PLACE-COUNTRY-{name}', label=name)
+		place = vocab.Place(ident='tag:getty.edu,2019:digital:pipeline:provenance:REPLACE-WITH-UUID#PLACE-COUNTRY-' + name, label=name)
 		nation = model.Place(ident=ident)
 		place.classified_as = vocab.instances['nation']
 		place.identified_by = model.Name(ident='', content=name)
