@@ -69,7 +69,7 @@ ext_classes = {
 	"IssnIdentifier": {"parent": Identifier, "id": "300417443", "label": "ISSN Identifier"},
 	"DoiIdentifier": {"parent": Identifier, "id": "300417432", "label": "DOI Identifer"},
 
-	"DigitalImage": {"parent": VisualItem, "id": "300215302", "label": "Digital Image"},
+	"DigitalImage": {"parent": InformationObject, "id": "300215302", "label": "Digital Image"},
 
 	"OwnershipRight": {"parent": PropertyInterest, "id":"300055603", "label": "Ownership Right"},
 	"CustodyRight": {"parent": PropertyInterest, "id":"300411616", "label": "Custody Right"},
@@ -89,7 +89,7 @@ ext_classes = {
 	"EditionStatement": {"parent": LinguisticObject, "id":"300121294", "label": "Edition Statement", "brief": True},
 	"BiographyStatement": {"parent": LinguisticObject, "id":"300080102", "label": "Biography Statement", "brief": True},
 	"ProvenanceStatement": {"parent": LinguisticObject, "id":"300055863", "label": "Provenance Statement", "brief": True},
-	"Description": {"parent": LinguisticObject, "id":"300080091", "label": "Description", "brief": True},
+	"Description": {"parent": LinguisticObject, "id":"300411780", "label": "Description", "brief": True},
 	"PaginationStatement": {"parent": LinguisticObject, "id":"300200294", "label": "Pagination Statement", "brief": True},
 	"FoliationStatement": {"parent": LinguisticObject, "id":"300200662", "label": "Foliation Statement", "brief": True},
 	"CultureStatement": {"parent": LinguisticObject, "id": "300055768", "label": "Culture Statement", "brief": True},
@@ -308,6 +308,7 @@ identity_instances = {
 	"terabytes": {"parent": MeasurementUnit, "id": "300266477", "label": "terabytes"},
 	"partsUnit": {"parent": MeasurementUnit, "id": "300404159", "label": "parts"},
 	"pageCount": {"parent": MeasurementUnit, "id": "300194222", "label": "pages"},
+	"pixels": {"parent": MeasurementUnit, "id": "300266190", "label": "pixels"},
 
 	"english": {"parent": Language, "id": "300388277", "label": "English"},
 	"french": {"parent": Language, "id":"300388306","label": "French"},

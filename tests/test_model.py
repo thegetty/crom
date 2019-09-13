@@ -382,7 +382,7 @@ class TestPropertyCache(unittest.TestCase):
 	def test_cache_hierarchy(self):
 		o = model.HumanMadeObject()
 		self.assertEqual(o._all_properties, {})
-		model.cache_hierarchy()
+		model.factory.cache_hierarchy()
 		self.assertTrue(len(o._all_properties) > 50)
 		
 
