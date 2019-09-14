@@ -122,9 +122,7 @@ class CromulentFactory(object):
 		self._auto_id_int = -1
 		self._all_classes = {}
 
-
 	def load_context(self, context, context_filemap):
-
 		if not context or not context_filemap:
 			raise ConfigurationError("No context provided, and load_context not False")
 
@@ -361,6 +359,29 @@ class CromulentFactory(object):
 		fh.close()
 		return out
 
+	def production_mode(self):
+		self.cache_hierarchy()
+		self.validate_profile = False
+		self.validate_properties = False
+		self.validate_range = False
+		self.validate_multiplicity = False
+		return True
+
+	def cache_hierarchy(self):
+		""" For each class, walk up the hierarchy and cache the terms """
+		# This will work with the existing code, as it will find it in the first
+		# test of props on classhier[0], the loop will just terminate straight away
+
+		for c in self._all_classes.values():
+			new_hash = c._all_properties.copy()
+			if len(c._classhier) > 1:
+				for p in c._classhier[1:]:
+					for (prop, info) in p._all_properties.items():
+						if not prop in new_hash:
+							new_hash[prop] = info
+			c._all_properties = new_hash
+
+
 class ExternalResource(object):
 	"""Base class for all resources, including external references"""
 	
@@ -469,6 +490,20 @@ class BaseResource(ExternalResource):
 		d.extend(self.list_all_props())
 		return sorted(d)
 
+	def __eq__(a, b):
+		if id(a) == id(b):
+			return True
+		ap = a.list_my_props()
+		bp = b.list_my_props()
+		if ap != bp:
+			return False
+		for p in ap:
+			av = getattr(a, p)
+			bv = getattr(b, p)
+			if av != bv:
+				return False
+		return True
+
 	@property
 	def type(self):
 		for c in self._classhier:
@@ -478,7 +513,9 @@ class BaseResource(ExternalResource):
 	@type.setter
 	def type(self, value):
 		raise AttributeError("Must not set 'type' on resources directly")
-
+	
+	def set_context(self, value):	
+		raise DataError("Must not set the JSON LD context directly", self)
 
 	def _post_init(self, **kw):
 		# Expect this to be overridden / replaced
@@ -486,14 +523,8 @@ class BaseResource(ExternalResource):
 
 	def __setattr__(self, which, value):
 		"""Attribute setting magic for error checking and resource/literal handling."""
-		try:
-			types = [str, unicode, list, dict] #Py2
-		except: 
-			types = [bytes, str, list, dict] #Py3
 
-		if which == 'context':
-			raise DataError("Must not set the JSON LD context directly", self)
-		elif which[0] == "_" or not value:
+		if which[0] == "_" or not value:
 			# _label goes through here, but it would below anyway, as it takes a Literal
 			object.__setattr__(self, which, value)			
 		else:
@@ -571,39 +602,7 @@ class BaseResource(ExternalResource):
 		else:
 			self._factory.maybe_warn("expecing a resource, got: %r" % (data))
 			return True
-			
-	def _set_magic_lang(self, which, value):
-		"""Magical handling of languages for string properties."""
-		# Input:  string, and use "" or default_lang
-		#         dict of lang: value
-		# Merge with existing values
-
-		# N.B. This function is never used, but retained in case we somehow need language setting
-		# in the future
-
-		try:
-			current = getattr(self, which)
-		except:
-			current = {}
-		if type(value) in STR_TYPES:
-			# use default language from factory
-			value = {self._factory.default_lang: value}
-		if type(value) is not dict:
-			raise DataError("Should be a dict or a string when setting %s" % which, self)
-		for k,v in value.items():
-			if k in current:
-				cv = current[k]
-				if type(cv) is not list:
-					cv = [cv]
-				if type(v) is not list:
-					v = [v]
-				for vi in v:	
-					cv.append(vi)
-				current[k] = cv
-			else:
-				current[k] = v
-		object.__setattr__(self, which, current)
-	
+				
 	def _set_magic_resource(self, which, value, inversed=False):
 		"""Set resource property.
 		allow: string/object/dict, and magically generate list thereof
@@ -639,12 +638,11 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 			nvalue = [current, value]
 			object.__setattr__(self, which, nvalue)
 
-		if self._factory.materialize_inverses or self._factory.process_multiplicity:
-			if not inversed and self._factory.materialize_inverses and inverse:
-				# set the backwards ref		
-				value._set_magic_resource(inverse, self, True)
-			if type(current) is not list and multiple and self._factory.process_multiplicity:
-				object.__setattr__(self, which, [getattr(self, which)])
+		if self._factory.materialize_inverses and not inversed and inverse:
+			# set the backwards ref		
+			value._set_magic_resource(inverse, self, True)
+		if self._factory.process_multiplicity and type(current) is not list and multiple:
+			object.__setattr__(self, which, [getattr(self, which)])
 
 	def _toJSON(self, done, top=None):
 		"""Serialize as JSON."""
@@ -831,20 +829,6 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 		# Without replacement, just return True always
 		return True
 
-	def __eq__(a, b):
-		if id(a) == id(b):
-			return True
-		ap = a.list_my_props()
-		bp = b.list_my_props()
-		if ap != bp:
-			return False
-		for p in ap:
-			av = getattr(a, p)
-			bv = getattr(b, p)
-			if av != bv:
-				return False
-		return True
-
 	def list_all_props(self, filter=None, okay=None):
 		props = []
 		for c in self._classhier:		
@@ -883,6 +867,7 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 				return bool(v.multiple_okay)
 		raise DataError("Cannot set '%s' on '%s'" % (propName, self.__class__.__name__))
 
+
 # Ontology / Profile manipulation
 
 def override_okay(clss, propName):
@@ -897,20 +882,6 @@ def override_okay(clss, propName):
 		raise DataError("%s does not have a %s property to allow" % 
 			(clss.__name__, propName))
 
-def cache_hierarchy():
-	""" For each class, walk up the hierarchy and cache the terms """
-
-	# This will work with the existing code, as it will find it in the first
-	# test of props on classhier[0], the loop will just terminate straight away
-
-	for c in factory._all_classes.values():
-		new_hash = c._all_properties.copy()
-		if len(c._classhier) > 1:
-			for p in c._classhier[1:]:
-				for (prop, info) in p._all_properties.items():
-					if not prop in new_hash:
-						new_hash[prop] = info
-		c._all_properties = new_hash
 
 # Ensure everything can have id, type, label and description
 BaseResource._properties = {'id': {"rdf": "@id", "range": str, "okayToUse": 1}, 
@@ -1084,12 +1055,8 @@ def build_classes(fn=None, topClass=None):
 			# Never had it set?
 			pass
 
-
-
-
 # XXX This should be invoked rather than inline so the module can be loaded
 # and a different context used. But for now ...
-
 # Build the factory first, so properties can be added to key_order
 factory = CromulentFactory("http://lod.example.org/museum/", context="https://linked.art/ns/v1/linked-art.json")
 build_classes()
