@@ -220,12 +220,12 @@ def extract_physical_dimensions(dimstr):
 			if dimdata:
 				dimension, label = dimdata
 				if dimension.which == 'height':
-					dim = vocab.Height()
+					dim = vocab.Height(ident='')
 				elif dimension.which == 'width':
-					dim = vocab.Width()
+					dim = vocab.Width(ident='')
 				else:
-					dim = vocab.PhysicalDimension()
-				dim.identified_by = model.Name(content=label)
+					dim = vocab.PhysicalDimension(ident='')
+				dim.identified_by = model.Name(ident='', content=label)
 				dim.value = dimension.value
 				unit = vocab.instances.get(dimension.unit)
 				if unit:
