@@ -351,20 +351,20 @@ def extract_monetary_amount(data):
 	'''
 	amount_type = 'Price'
 	if 'price' in data or 'price_amount' in data:
-		amnt = model.MonetaryAmount()
+		amnt = model.MonetaryAmount(ident='')
 		price_amount = data.get('price_amount', data.get('price'))
 		price_currency = data.get('price_currency', data.get('price_curr'))
 		note = data.get('price_note', data.get('price_desc'))
 		cite = data.get('price_citation')
 	elif 'est_price' in data or 'est_price_amount' in data:
-		amnt = vocab.EstimatedPrice()
+		amnt = vocab.EstimatedPrice(ident='')
 		price_amount = data.get('est_price_amount', data.get('est_price'))
 		price_currency = data.get('est_price_currency', data.get('est_price_curr'))
 		amount_type = 'Estimated Price'
 		note = data.get('est_price_note', data.get('est_price_desc'))
 		cite = data.get('est_price_citation')
 	elif 'start_price' in data or 'start_price_amount' in data:
-		amnt = vocab.StartingPrice()
+		amnt = vocab.StartingPrice(ident='')
 		price_amount = data.get('start_price_amount', data.get('start_price'))
 		price_currency = data.get('start_price_currency', data.get('start_price_curr'))
 		amount_type = 'Starting Price'
