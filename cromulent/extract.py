@@ -389,7 +389,7 @@ def extract_monetary_amount(data):
 				amnt.value = price_amount
 			except ValueError:
 				amnt._label = price_amount
-				amnt.identified_by = model.Name(content=price_amount)
+				amnt.identified_by = model.Name(ident='', content=price_amount)
 	# 			warnings.warn(f'*** Not a numeric price amount: {value}')
 		if price_currency:
 			if price_currency in CURRENCY_MAPPING:
