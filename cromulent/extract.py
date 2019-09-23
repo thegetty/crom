@@ -220,12 +220,12 @@ def extract_physical_dimensions(dimstr):
 			if dimdata:
 				dimension, label = dimdata
 				if dimension.which == 'height':
-					dim = vocab.Height()
+					dim = vocab.Height(ident='')
 				elif dimension.which == 'width':
-					dim = vocab.Width()
+					dim = vocab.Width(ident='')
 				else:
-					dim = vocab.PhysicalDimension()
-				dim.identified_by = model.Name(content=label)
+					dim = vocab.PhysicalDimension(ident='')
+				dim.identified_by = model.Name(ident='', content=label)
 				dim.value = dimension.value
 				unit = vocab.instances.get(dimension.unit)
 				if unit:
@@ -351,20 +351,20 @@ def extract_monetary_amount(data):
 	'''
 	amount_type = 'Price'
 	if 'price' in data or 'price_amount' in data:
-		amnt = model.MonetaryAmount()
+		amnt = model.MonetaryAmount(ident='')
 		price_amount = data.get('price_amount', data.get('price'))
 		price_currency = data.get('price_currency', data.get('price_curr'))
 		note = data.get('price_note', data.get('price_desc'))
 		cite = data.get('price_citation')
 	elif 'est_price' in data or 'est_price_amount' in data:
-		amnt = vocab.EstimatedPrice()
+		amnt = vocab.EstimatedPrice(ident='')
 		price_amount = data.get('est_price_amount', data.get('est_price'))
 		price_currency = data.get('est_price_currency', data.get('est_price_curr'))
 		amount_type = 'Estimated Price'
 		note = data.get('est_price_note', data.get('est_price_desc'))
 		cite = data.get('est_price_citation')
 	elif 'start_price' in data or 'start_price_amount' in data:
-		amnt = vocab.StartingPrice()
+		amnt = vocab.StartingPrice(ident='')
 		price_amount = data.get('start_price_amount', data.get('start_price'))
 		price_currency = data.get('start_price_currency', data.get('start_price_curr'))
 		amount_type = 'Starting Price'
@@ -389,7 +389,7 @@ def extract_monetary_amount(data):
 				amnt.value = price_amount
 			except ValueError:
 				amnt._label = price_amount
-				amnt.identified_by = model.Name(content=price_amount)
+				amnt.identified_by = model.Name(ident='', content=price_amount)
 	# 			warnings.warn(f'*** Not a numeric price amount: {value}')
 		if price_currency:
 			if price_currency in CURRENCY_MAPPING:
