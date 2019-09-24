@@ -529,7 +529,7 @@ class TestObjectEquality(unittest.TestCase):
 		place.identified_by = model.Name(ident='', content=name)
 		return place
 
-	def test_foo(self):
+	def test_equality(self):
 		from cromulent.model import factory
 		place1 = self.nation('Belgium', 'http://vocab.getty.edu/aat/300128207')
 		place2 = self.nation('Belgium', 'http://vocab.getty.edu/aat/300128207')

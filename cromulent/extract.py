@@ -375,9 +375,9 @@ def extract_monetary_amount(data):
 
 	if price_amount or price_currency:
 		if cite:
-			amnt.referred_to_by = vocab.BibliographyStatement(content=cite)
+			amnt.referred_to_by = vocab.BibliographyStatement(ident='', content=cite)
 		if note:
-			amnt.referred_to_by = vocab.Note(content=note)
+			amnt.referred_to_by = vocab.Note(ident='', content=note)
 
 		if price_amount:
 			try:
