@@ -22,8 +22,8 @@ CURRENCY_MAPPING = {
 
 #mark - Dimensions
 
-NUMBER_PATTERN = r'((?:\d+\s+\d+/\d+)|(?:\d+(?:[.,]\d+)?))'
-UNIT_PATTERN = r'''('|"|d(?:[.]?|uymen)|pouces?|in(?:ch(?:es)?|[.]?)|'''\
+NUMBER_PATTERN = r'((?:\d+\s+\d+/\d+)|(?:\d+/\d+)|(?:\d+(?:[.,]\d+)?))'
+UNIT_PATTERN = r'''('|"|d(?:[.]?|uymen)|pouc[e.]s?|in(?:ch(?:es)?|[.]?)|'''\
 				r'''pieds?|v[.]?|voeten|f(?:eet|oot|t[.]?)|cm)'''
 DIMENSION_PATTERN = '(%s\\s*(?:%s)?)' % (NUMBER_PATTERN, UNIT_PATTERN)
 DIMENSION_RE = re.compile(r'\s*%s' % (DIMENSION_PATTERN,))
@@ -69,6 +69,11 @@ def _canonical_value(value):
 			numer, denom = map(int, parts[1].split('/', 1))
 			fracpart = float(numer)/denom
 			value = str(intpart + fracpart)
+		elif len(parts) == 1 and '/' in parts[0]:
+			intpart = 0
+			numer, denom = map(int, parts[0].split('/', 1))
+			fracpart = float(numer)/denom
+			value = str(intpart + fracpart)
 		if value.startswith('.'):
 			value = '0' + value
 		return value
@@ -77,7 +82,7 @@ def _canonical_value(value):
 	return None
 
 def _canonical_unit(value):
-	inches = {'pouces', 'pouce', 'duymen', 'd.', 'd', '"'}
+	inches = {'pouces', 'pouce', 'pouc.', 'duymen', 'd.', 'd', '"'}
 	feet = {'pieds', 'pied', 'feet', 'foot', 'voeten', 'v.', 'v', "'"}
 	if value is None:
 		return None
@@ -134,7 +139,7 @@ def parse_simple_dimensions(value, which=None):
 		return None
 	return dims
 
-def normalized_dimension_object(dimensions):
+def normalized_dimension_object(dimensions, source=None):
 	'''
 	Normalizes the given `dimensions`, or returns `None` is normalization fails.
 
@@ -155,7 +160,7 @@ def normalized_dimension_object(dimensions):
 			"10 feet, 3 inches"
 		)
 	'''
-	normalized = normalize_dimension(dimensions)
+	normalized = normalize_dimension(dimensions, source=source)
 	if not normalized:
 		return None
 	labels = []
@@ -174,7 +179,7 @@ def normalized_dimension_object(dimensions):
 	label = ', '.join(labels)
 	return normalized, label
 
-def normalize_dimension(dimensions):
+def normalize_dimension(dimensions, source=None):
 	'''
 	Given a list of `Dimension`s, normalize them into a single Dimension (e.g. values in
 	both feet and inches become a single dimension of inches).
@@ -203,8 +208,12 @@ def normalize_dimension(dimensions):
 		if values:
 			used_systems += 1
 	if used_systems != 1:
-		warnings.warn('*** dimension used a mix of metric, imperial, and/or unknown: '\
-						'%r' % (dimensions,))
+		if source:
+			warnings.warn('*** dimension used a mix of metric, imperial, and/or unknown: '\
+							'%r; source is %r' % (dimensions, source))
+		else:
+			warnings.warn('*** dimension used a mix of metric, imperial, and/or unknown: '\
+							'%r' % (dimensions,))
 		return None
 	if inches:
 		return Dimension(value=str(inches), unit='inches', which=which)
@@ -216,7 +225,7 @@ def extract_physical_dimensions(dimstr):
 	dimensions = dimensions_cleaner(dimstr)
 	if dimensions:
 		for orig_d in dimensions:
-			dimdata = normalized_dimension_object(orig_d)
+			dimdata = normalized_dimension_object(orig_d, source=dimstr)
 			if dimdata:
 				dimension, label = dimdata
 				if dimension.which == 'height':

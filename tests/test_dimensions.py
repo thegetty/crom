@@ -72,6 +72,7 @@ class TestDateCleaners(unittest.TestCase):
 			'Breedt 6 v., hoog 3 v': ([Dimension('6', 'feet', 'width')], [Dimension('3', 'feet', 'height')]),
 			'20 cm x 24,5 cm': ([Dimension('20', 'cm', None)], [Dimension('24.5', 'cm', None)]),
 			'2 w by 5 h': ([Dimension('2', None, 'width')], [Dimension('5', None, 'height')]),
+			'Hauteur 1 pied 4 pouces, largeur 1 pied 1/2 pouc.': ([Dimension('1', 'feet', 'height'), Dimension(value='4', unit='inches', which='height')], [Dimension('1', 'feet', 'width'), Dimension(value='0.5', unit='inches', which='width')]),
 		}
 
 		for value, expected in tests.items():
