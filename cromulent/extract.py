@@ -82,11 +82,17 @@ def _canonical_value(value):
 	return None
 
 def _canonical_unit(value):
-	inches = {'pouces', 'pouce', 'pouc.', 'duymen', 'd.', 'd', '"'}
+	inches = {'duymen', 'd.', 'd', '"'}
 	feet = {'pieds', 'pied', 'feet', 'foot', 'voeten', 'v.', 'v', "'"}
+	fr_inches = {'pouces', 'pouce', 'pouc.'}
+	fr_feet = {'pieds', 'pied'}
 	if value is None:
 		return None
 	value = value.lower()
+	if value in fr_inches:
+		return 'fr_inches'
+	if value in fr_feet:
+		return 'fr_feet'
 	if 'ligne' in value or 'linge' in value:
 		return 'ligne'
 	if 'in' in value or value in inches:
@@ -168,18 +174,28 @@ def normalized_dimension_object(dimensions, source=None):
 	labels = []
 	for dim in dimensions:
 		if dim.unit == 'inches':
-			labels.append('%s inches' % (dim.value,))
+			units = ('inch', 'inches')
 		elif dim.unit == 'feet':
-			labels.append('%s feet' % (dim.value,))
+			units = ('foot', 'feet')
+		elif dim.unit == 'fr_feet':
+			units = ('French foot', 'French feet')
+		elif dim.unit == 'fr_inches':
+			units = ('French inch', 'French inches')
 		elif dim.unit == 'cm':
-			labels.append('%s cm' % (dim.value,))
+			units = ('cm', 'cm')
 		elif dim.unit == 'ligne':
-			labels.append('%s ligne' % (dim.value,))
+			units = ('ligne', 'lignes')
 		elif dim.unit is None:
-			labels.append('%s' % (dim.value,))
+			units = ('', '')
 		else:
 			warnings.warn('*** unrecognized unit: {dim.unit}')
 			return None
+		unit = units[0] if (float(dim.value) == 1.0) else units[1]
+		if unit:
+			label = '%s %s' % (dim.value, unit)
+		else:
+			label = str(dim.value)
+		labels.append(label)
 	label = ', '.join(labels)
 	return normalized, label
 
@@ -192,6 +208,7 @@ def normalize_dimension(dimensions, source=None):
 	'''
 	unknown = 0
 	inches = 0
+	fr_inches = 0
 	centimeters = 0
 	which = None
 	for dim in dimensions:
@@ -202,8 +219,12 @@ def normalize_dimension(dimensions, source=None):
 			inches += 12 * float(dim.value)
 		elif dim.unit == 'cm':
 			centimeters += float(dim.value)
+		elif dim.unit == 'fr_feet':
+			fr_inches += 12.0 * float(dim.value)
+		elif dim.unit == 'fr_inches':
+			fr_inches += float(dim.value)
 		elif dim.unit == 'ligne':
-			inches += 0.088812168 * float(dim.value)
+			fr_inches += float(dim.value) / 12.0
 		elif dim.unit is None:
 			unknown += float(dim.value)
 		else:
@@ -211,7 +232,7 @@ def normalize_dimension(dimensions, source=None):
 			return None
 
 	used_systems = 0
-	for values in (inches, centimeters, unknown):
+	for values in (inches, fr_inches, centimeters, unknown):
 		if values:
 			used_systems += 1
 	if used_systems != 1:
@@ -222,6 +243,8 @@ def normalize_dimension(dimensions, source=None):
 			warnings.warn('*** dimension used a mix of metric, imperial, and/or unknown: '\
 							'%r' % (dimensions,))
 		return None
+	if fr_inches:
+		return Dimension(value=str(fr_inches), unit='fr_inches', which=which)
 	if inches:
 		return Dimension(value=str(inches), unit='inches', which=which)
 	if centimeters:
