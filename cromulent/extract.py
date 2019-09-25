@@ -209,7 +209,8 @@ def normalize_dimension(dimensions, source=None):
 			used_systems += 1
 	if used_systems != 1:
 		if source:
-			warnings.warn(f'*** dimension used a mix of metric, imperial, and/or unknown: {dimensions!r}; source is {source!r}')
+			warnings.warn('*** dimension used a mix of metric, imperial, and/or unknown: '\
+							'%r; source is %r' % (dimensions, source))
 		else:
 			warnings.warn('*** dimension used a mix of metric, imperial, and/or unknown: '\
 							'%r' % (dimensions,))
