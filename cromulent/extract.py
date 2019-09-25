@@ -24,7 +24,7 @@ CURRENCY_MAPPING = {
 
 NUMBER_PATTERN = r'((?:\d+\s+\d+/\d+)|(?:\d+/\d+)|(?:\d+(?:[.,]\d+)?))'
 UNIT_PATTERN = r'''('|"|d(?:[.]?|uymen)|pouc[e.]s?|in(?:ch(?:es)?|[.]?)|'''\
-				r'''pieds?|v[.]?|voeten|f(?:eet|oot|t[.]?)|cm)'''
+				r'''pieds?|v[.]?|voeten|f(?:eet|oot|t[.]?)|cm|lignes?|linges?)'''
 DIMENSION_PATTERN = '(%s\\s*(?:%s)?)' % (NUMBER_PATTERN, UNIT_PATTERN)
 DIMENSION_RE = re.compile(r'\s*%s' % (DIMENSION_PATTERN,))
 
@@ -43,8 +43,8 @@ SIMPLE_DIMENSIONS_PATTERN_X2 = ''\
 SIMPLE_DIMENSIONS_RE_X2 = re.compile(SIMPLE_DIMENSIONS_PATTERN_X2)
 
 # Haut 14 pouces, large 10 pouces
-FRENCH_DIMENSIONS_PATTERN = r'[Hh]aut(?:eur|[.])? (?P<d1>(?:%s\s*)+), '\
-							r'[Ll]arge(?:ur|[.])? (?P<d2>(?:%s\s*)+)' % (
+FRENCH_DIMENSIONS_PATTERN = r'[Hh](?:(?:aut(?:eur|[.])?)|[.])\s*(?P<d1>(?:%s\s*)+),? '\
+							r'[Ll](?:(?:arge?(?:ur|[.])?)|[.])\s*(?P<d2>(?:%s\s*)+)' % (
 								DIMENSION_PATTERN, DIMENSION_PATTERN)
 FRENCH_DIMENSIONS_RE = re.compile(FRENCH_DIMENSIONS_PATTERN)
 
@@ -87,6 +87,8 @@ def _canonical_unit(value):
 	if value is None:
 		return None
 	value = value.lower()
+	if 'ligne' in value or 'linge' in value:
+		return 'ligne'
 	if 'in' in value or value in inches:
 		return 'inches'
 	if 'ft' in value or value in feet:
@@ -171,6 +173,8 @@ def normalized_dimension_object(dimensions, source=None):
 			labels.append('%s feet' % (dim.value,))
 		elif dim.unit == 'cm':
 			labels.append('%s cm' % (dim.value,))
+		elif dim.unit == 'ligne':
+			labels.append('%s ligne' % (dim.value,))
 		elif dim.unit is None:
 			labels.append('%s' % (dim.value,))
 		else:
@@ -198,11 +202,14 @@ def normalize_dimension(dimensions, source=None):
 			inches += 12 * float(dim.value)
 		elif dim.unit == 'cm':
 			centimeters += float(dim.value)
+		elif dim.unit == 'ligne':
+			inches += 0.088812168 * float(dim.value)
 		elif dim.unit is None:
 			unknown += float(dim.value)
 		else:
 			warnings.warn('*** unrecognized unit: %s' % (dim.unit,))
 			return None
+
 	used_systems = 0
 	for values in (inches, centimeters, unknown):
 		if values:
