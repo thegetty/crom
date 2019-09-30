@@ -3,7 +3,7 @@
 import unittest
 import pprint
 from datetime import datetime
-from cromulent.extract import Dimension
+from cromulent.extract import Dimension, normalized_dimension_object
 import cromulent.extract
 
 class TestDateCleaners(unittest.TestCase):
@@ -45,6 +45,10 @@ class TestDateCleaners(unittest.TestCase):
 			'8 1/4 pouces': [Dimension('8.25', 'inches', None)],
 			'8 1/8 pouces': [Dimension('8.125', 'inches', None)],
 			'1': [Dimension('1', None, None)],
+			
+			# values without a unit that follow values with a unit stay in the same system but using the next-finer unit
+			'2 pieds 3': [Dimension('2', 'feet', None), Dimension('3', 'inches', None)],
+			"1' 3": [Dimension('1', 'feet', None), Dimension('3', 'inches', None)],
 		}
 
 		for value, expected in tests.items():
@@ -87,6 +91,22 @@ class TestDateCleaners(unittest.TestCase):
 				self.assertEqual(dims, expected, msg='dimensions: %r' % (value,))
 			else:
 				self.assertIsNone(dims)
+
+	def test_normalize_dimension(self):
+		tests = {
+			'1 ft, 2 in': ('1 feet, 2 inches', Dimension(value='14.0', unit='inches', which=None)),
+			'8 1/2 pouces': ('8.5 inches', Dimension(value='8.5', unit='inches', which=None)),
+			'1 pied 7 pouces': ('1 feet, 7 inches', Dimension(value='19.0', unit='inches', which=None)),
+			'2 pied 1/2 pouces': ('2 feet, 0.5 inches', Dimension(value='24.5', unit='inches', which=None)),
+			"4' 8": ('4 feet, 8 inches', Dimension(value='56.0', unit='inches', which=None)),
+			"1 pied 2": ('1 feet, 2 inches', Dimension(value='14.0', unit='inches', which=None)),
+		}
+		for value, expected in tests.items():
+			elabel, edim = expected
+			dims = cromulent.extract.parse_simple_dimensions(value)
+			dim, label = normalized_dimension_object(dims)
+			self.assertEqual(label, elabel)
+			self.assertEqual(dim, edim)
 
 if __name__ == '__main__':
 	unittest.main()
