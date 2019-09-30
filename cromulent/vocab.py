@@ -295,6 +295,9 @@ identity_instances = {
 
 	"synthetic": {"parent": Type, "id": "xxx", "label": "Synthetic Material"},
 
+	"lignes": {"parent": MeasurementUnit, "id": "300435501", "label": "Paris lines"},
+	"fr_inches": {"parent": MeasurementUnit, "id": "300435502", "label": "Paris inches"},
+	"fr_feet": {"parent": MeasurementUnit, "id":"300435503", "label": "Paris feet"},
 	"inches": {"parent": MeasurementUnit, "id": "300379100", "label": "inches"},
 	"feet": {"parent": MeasurementUnit, "id":"300379101", "label": "feet"},
 	"cm": {"parent": MeasurementUnit, "id": "300379098", "label": "centimeters"},
