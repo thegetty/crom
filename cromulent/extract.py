@@ -22,6 +22,13 @@ CURRENCY_MAPPING = {
 
 #mark - Dimensions
 
+NEXT_FINER_DIMENSION_UNIT = {
+	'inches': None,
+	'feet': 'inches',
+	'cm': None,
+	'fr_feet': 'fr_inches',
+	'fr_inches': 'ligne'
+}
 NUMBER_PATTERN = r'((?:\d+\s+\d+/\d+)|(?:\d+/\d+)|(?:\d+(?:[.,]\d+)?))'
 UNIT_PATTERN = r'''('|"|d(?:[.]?|uymen)|pouc[e.]s?|in(?:ch(?:es)?|[.]?)|'''\
 				r'''pieds?|v[.]?|voeten|f(?:eet|oot|t[.]?)|cm|lignes?|linges?)'''
@@ -130,6 +137,8 @@ def parse_simple_dimensions(value, which=None):
 	value = value.strip()
 	dims = []
 # 	warnings.warn('DIMENSION: %s' % (value,))
+
+	last_unit = None
 	for match in re.finditer(DIMENSION_RE, value):
 		# warnings.warn('--> match %s' % (match,))
 		matched_value = _canonical_value(match.group(2))
@@ -138,10 +147,13 @@ def parse_simple_dimensions(value, which=None):
 			return None
 		unit_value = match.group(3)
 		matched_unit = _canonical_unit(unit_value)
+		if matched_unit is None:
+			matched_unit = NEXT_FINER_DIMENSION_UNIT.get(last_unit)
 		if unit_value and not matched_unit:
 			warnings.warn('*** not a recognized unit: %s' % (unit_value,))
 		which = _canonical_which(which)
 		dim = Dimension(value=matched_value, unit=matched_unit, which=which)
+		last_unit = matched_unit
 		dims.append(dim)
 	if not dims:
 		return None
