@@ -31,7 +31,7 @@ NEXT_FINER_DIMENSION_UNIT = {
 }
 NUMBER_PATTERN = r'((?:\d+\s+\d+/\d+)|(?:\d+/\d+)|(?:\d+(?:[.,]\d+)?))'
 UNIT_PATTERN = r'''('|"|d(?:[.]?|uymen)|pouc[e.]s?|in(?:ch(?:es)?|[.]?)|'''\
-				r'''pieds?|v[.]?|voeten|f(?:eet|oot|t[.]?)|cm)'''
+				r'''pieds?|v[.]?|voeten|f(?:eet|oot|t[.]?)|cm|lignes?|linges?)'''
 DIMENSION_PATTERN = '(%s\\s*(?:%s)?)' % (NUMBER_PATTERN, UNIT_PATTERN)
 DIMENSION_RE = re.compile(r'\s*%s' % (DIMENSION_PATTERN,))
 
@@ -50,8 +50,8 @@ SIMPLE_DIMENSIONS_PATTERN_X2 = ''\
 SIMPLE_DIMENSIONS_RE_X2 = re.compile(SIMPLE_DIMENSIONS_PATTERN_X2)
 
 # Haut 14 pouces, large 10 pouces
-FRENCH_DIMENSIONS_PATTERN = r'[Hh]aut(?:eur|[.])? (?P<d1>(?:%s\s*)+), '\
-							r'[Ll]arge(?:ur|[.])? (?P<d2>(?:%s\s*)+)' % (
+FRENCH_DIMENSIONS_PATTERN = r'[Hh](?:(?:aut(?:eur|[.])?)|[.])\s*(?P<d1>(?:%s\s*)+),? '\
+							r'[Ll](?:(?:arge?(?:ur|[.])?)|[.])\s*(?P<d2>(?:%s\s*)+)' % (
 								DIMENSION_PATTERN, DIMENSION_PATTERN)
 FRENCH_DIMENSIONS_RE = re.compile(FRENCH_DIMENSIONS_PATTERN)
 
@@ -89,11 +89,19 @@ def _canonical_value(value):
 	return None
 
 def _canonical_unit(value):
-	inches = {'pouces', 'pouce', 'pouc.', 'duymen', 'd.', 'd', '"'}
+	inches = {'duymen', 'd.', 'd', '"'}
 	feet = {'pieds', 'pied', 'feet', 'foot', 'voeten', 'v.', 'v', "'"}
+	fr_inches = {'pouces', 'pouce', 'pouc.'}
+	fr_feet = {'pieds', 'pied'}
 	if value is None:
 		return None
 	value = value.lower()
+	if value in fr_inches:
+		return 'fr_inches'
+	if value in fr_feet:
+		return 'fr_feet'
+	if 'ligne' in value or 'linge' in value:
+		return 'ligne'
 	if 'in' in value or value in inches:
 		return 'inches'
 	if 'ft' in value or value in feet:
@@ -178,16 +186,28 @@ def normalized_dimension_object(dimensions, source=None):
 	labels = []
 	for dim in dimensions:
 		if dim.unit == 'inches':
-			labels.append('%s inches' % (dim.value,))
+			units = ('inch', 'inches')
 		elif dim.unit == 'feet':
-			labels.append('%s feet' % (dim.value,))
+			units = ('foot', 'feet')
+		elif dim.unit == 'fr_feet':
+			units = ('French foot', 'French feet')
+		elif dim.unit == 'fr_inches':
+			units = ('French inch', 'French inches')
 		elif dim.unit == 'cm':
-			labels.append('%s cm' % (dim.value,))
+			units = ('cm', 'cm')
+		elif dim.unit == 'ligne':
+			units = ('ligne', 'lignes')
 		elif dim.unit is None:
-			labels.append('%s' % (dim.value,))
+			units = ('', '')
 		else:
 			warnings.warn('*** unrecognized unit: {dim.unit}')
 			return None
+		unit = units[0] if (float(dim.value) == 1.0) else units[1]
+		if unit:
+			label = '%s %s' % (dim.value, unit)
+		else:
+			label = str(dim.value)
+		labels.append(label)
 	label = ', '.join(labels)
 	return normalized, label
 
@@ -200,6 +220,7 @@ def normalize_dimension(dimensions, source=None):
 	'''
 	unknown = 0
 	inches = 0
+	fr_inches = 0
 	centimeters = 0
 	which = None
 	for dim in dimensions:
@@ -210,13 +231,20 @@ def normalize_dimension(dimensions, source=None):
 			inches += 12 * float(dim.value)
 		elif dim.unit == 'cm':
 			centimeters += float(dim.value)
+		elif dim.unit == 'fr_feet':
+			fr_inches += 12.0 * float(dim.value)
+		elif dim.unit == 'fr_inches':
+			fr_inches += float(dim.value)
+		elif dim.unit == 'ligne':
+			fr_inches += float(dim.value) / 12.0
 		elif dim.unit is None:
 			unknown += float(dim.value)
 		else:
 			warnings.warn('*** unrecognized unit: %s' % (dim.unit,))
 			return None
+
 	used_systems = 0
-	for values in (inches, centimeters, unknown):
+	for values in (inches, fr_inches, centimeters, unknown):
 		if values:
 			used_systems += 1
 	if used_systems != 1:
@@ -227,6 +255,8 @@ def normalize_dimension(dimensions, source=None):
 			warnings.warn('*** dimension used a mix of metric, imperial, and/or unknown: '\
 							'%r' % (dimensions,))
 		return None
+	if fr_inches:
+		return Dimension(value=str(fr_inches), unit='fr_inches', which=which)
 	if inches:
 		return Dimension(value=str(inches), unit='inches', which=which)
 	if centimeters:
