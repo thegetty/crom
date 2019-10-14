@@ -82,6 +82,7 @@ ext_classes = {
 	"Markings": {"parent": LinguisticObject, "id": "300028744", "label": "Markings", "brief": True},
 	"Watermarks": {"parent": LinguisticObject, "id": "300028749", "label": "Watermarks", "brief": True},
 
+	"_BriefText": {"parent": LinguisticObject, "id": "300418049", "label":"Brief Text"},
 	"MaterialStatement": {"parent": LinguisticObject, "id": "300010358", "label": "Material Statement", "brief": True},
 	"DimensionStatement": {"parent": LinguisticObject, "id": "300266036", "label": "Dimension Statement", "brief": True},
 	"CreditStatement": {"parent": LinguisticObject, "id": "300026687", "label": "Credit Statement", "brief": True},
