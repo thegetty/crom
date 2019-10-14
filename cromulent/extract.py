@@ -39,7 +39,7 @@ SIMPLE_WIDTH_HEIGHT_PATTERN = r'(?:\s*((?<!\w)[wh]|width|height))?'
 SIMPLE_DIMENSIONS_PATTERN_X1 = ''\
 	r'(?P<d1>(?:%s\s*)+)(?P<d1w>%s)' % (DIMENSION_PATTERN, SIMPLE_WIDTH_HEIGHT_PATTERN)
 SIMPLE_DIMENSIONS_RE_X1 = re.compile(SIMPLE_DIMENSIONS_PATTERN_X1)
-SIMPLE_DIMENSIONS_PATTERN_X2 = ''\
+SIMPLE_DIMENSIONS_PATTERN_X2a = ''\
 	r'(?P<d1>(?:%s\s*)+)(?P<d1w>%s)'\
 	r'(?:,)?\s*(x|by)'\
 	r'(?P<d2>(?:\s*%s)+)(?P<d2w>%s)' % (
@@ -47,7 +47,16 @@ SIMPLE_DIMENSIONS_PATTERN_X2 = ''\
 		SIMPLE_WIDTH_HEIGHT_PATTERN,
 		DIMENSION_PATTERN,
 		SIMPLE_WIDTH_HEIGHT_PATTERN)
-SIMPLE_DIMENSIONS_RE_X2 = re.compile(SIMPLE_DIMENSIONS_PATTERN_X2)
+SIMPLE_DIMENSIONS_PATTERN_X2b = ''\
+	r'(?P<d1w>%s)\s*(?P<d1>(?:%s\s*)+)'\
+	r'*(?:(?:,)?\s*(x|by)|,\s*)'\
+	r'(?P<d2w>%s)\s*(?P<d2>(?:\s*%s)+)' % (
+		SIMPLE_WIDTH_HEIGHT_PATTERN,
+		DIMENSION_PATTERN,
+		SIMPLE_WIDTH_HEIGHT_PATTERN,
+		DIMENSION_PATTERN)
+SIMPLE_DIMENSIONS_RE_X2a = re.compile(SIMPLE_DIMENSIONS_PATTERN_X2a)
+SIMPLE_DIMENSIONS_RE_X2b = re.compile(SIMPLE_DIMENSIONS_PATTERN_X2b)
 
 # Haut 14 pouces, large 10 pouces
 FRENCH_DIMENSIONS_PATTERN = r'[Hh](?:(?:aut(?:eur|[.])?)|[.])\s*(?P<d1>(?:%s\s*)+),? '\
@@ -222,30 +231,41 @@ def normalize_dimension(dimensions, source=None):
 	inches = 0
 	fr_inches = 0
 	centimeters = 0
+	used_unknown = False
+	used_inches = False
+	used_fr_inches = False
+	used_centimeters = False
 	which = None
 	for dim in dimensions:
 		which = dim.which
 		if dim.unit == 'inches':
 			inches += float(dim.value)
+			used_inches = True
 		elif dim.unit == 'feet':
 			inches += 12 * float(dim.value)
+			used_inches = True
 		elif dim.unit == 'cm':
 			centimeters += float(dim.value)
+			used_centimeters = True
 		elif dim.unit == 'fr_feet':
 			fr_inches += 12.0 * float(dim.value)
+			used_fr_inches = True
 		elif dim.unit == 'fr_inches':
 			fr_inches += float(dim.value)
+			used_fr_inches = True
 		elif dim.unit == 'ligne':
 			fr_inches += float(dim.value) / 12.0
+			used_fr_inches = True
 		elif dim.unit is None:
 			unknown += float(dim.value)
+			used_unknown = True
 		else:
 			warnings.warn('*** unrecognized unit: %s' % (dim.unit,))
 			return None
 
 	used_systems = 0
-	for values in (inches, fr_inches, centimeters, unknown):
-		if values:
+	for used in (used_inches, used_fr_inches, used_centimeters, used_unknown):
+		if used:
 			used_systems += 1
 	if used_systems != 1:
 		if source:
@@ -362,16 +382,17 @@ def simple_dimensions_cleaner_x2(value):
 	# 1' 2" by 3 cm
 	# 1 ft. 2 in. h by 3 cm w
 
-	match = SIMPLE_DIMENSIONS_RE_X2.match(value)
-	if match:
-		groups = match.groupdict()
-		dim1 = parse_simple_dimensions(groups['d1'], groups['d1w'])
-		dim2 = parse_simple_dimensions(groups['d2'], groups['d2w'])
-		if dim1 and dim2:
-			return (dim1, dim2)
-		warnings.warn('dim1: %s %s %s' % (dim1, groups['d1'], groups['d1w']))
-		warnings.warn('dim2: %s %s %s' % (dim2, groups['d2'], groups['d2w']))
-		warnings.warn('*** Failed to parse dimensions: %s' % (value,))
+	for pattern in (SIMPLE_DIMENSIONS_RE_X2a, SIMPLE_DIMENSIONS_RE_X2b):
+		match = pattern.match(value)
+		if match:
+			groups = match.groupdict()
+			dim1 = parse_simple_dimensions(groups['d1'], groups['d1w'])
+			dim2 = parse_simple_dimensions(groups['d2'], groups['d2w'])
+			if dim1 and dim2:
+				return (dim1, dim2)
+			warnings.warn('dim1: %s %s %s' % (dim1, groups['d1'], groups['d1w']))
+			warnings.warn('dim2: %s %s %s' % (dim2, groups['d2'], groups['d2w']))
+			warnings.warn('*** Failed to parse dimensions: %s' % (value,))
 	return None
 
 #mark - Monetary Values
