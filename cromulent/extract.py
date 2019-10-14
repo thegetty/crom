@@ -15,6 +15,7 @@ CURRENCY_MAPPING = {
 	'fl': 'de florins',
 	'fl.': 'de florins',
 	'pounds': 'gb pounds',
+	'£': 'gb pounds',
 	'livres': 'fr livres',
 	'guineas': 'gb guineas',
 	'reichsmark': 'de reichsmarks'
@@ -443,6 +444,9 @@ def extract_monetary_amount(data):
 				amnt.identified_by = model.Name(ident='', content=price_amount)
 	# 			warnings.warn(f'*** Not a numeric price amount: {value}')
 		if price_currency:
+			price_currency = price_currency.replace('[?]', '')
+			price_currency = price_currency.replace('?', '')
+			price_currency = price_currency.strip()
 			if price_currency in CURRENCY_MAPPING:
 				try:
 					price_currency = CURRENCY_MAPPING[price_currency.lower()]
