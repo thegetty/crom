@@ -79,7 +79,8 @@ class TestDateCleaners(unittest.TestCase):
 			'Hauteur 1 pied 4 pouces, largeur 1 pied 1/2 pouc.': ([Dimension('1', 'fr_feet', 'height'), Dimension(value='4', unit='fr_inches', which='height')], [Dimension('1', 'fr_feet', 'width'), Dimension(value='0.5', unit='fr_inches', which='width')]),
 			'h.73 pouces 4 lignes, l.50 pouces': ([Dimension(value='73', unit='fr_inches', which='height'), Dimension(value='4', unit='ligne', which='height')], [Dimension(value='50', unit='fr_inches', which='width')]),
 			'haut. 5 pouc. larg. 5 pouc. 4 linges': ([Dimension(value='5', unit='fr_inches', which='height')], [Dimension(value='5', unit='fr_inches', which='width'), Dimension(value='4', unit='ligne', which='width')]),
-			'haut. 9 pouc. 4 lignes larg. 10 pouc. 4 linges': ([Dimension(value='9', unit='fr_inches', which='height'), Dimension(value='4', unit='ligne', which='height')], [Dimension(value='10', unit='fr_inches', which='width'), Dimension(value='4', unit='ligne', which='width')])
+			'haut. 9 pouc. 4 lignes larg. 10 pouc. 4 linges': ([Dimension(value='9', unit='fr_inches', which='height'), Dimension(value='4', unit='ligne', which='height')], [Dimension(value='10', unit='fr_inches', which='width'), Dimension(value='4', unit='ligne', which='width')]),
+			'h 38 cm, w 27 cm': ([Dimension('38', 'cm', 'height')], [Dimension('27', 'cm', 'width')])
 		}
 
 		for value, expected in tests.items():
