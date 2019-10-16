@@ -79,6 +79,7 @@ ext_classes = {
 
 	"Note": {"parent": LinguisticObject, "id":"300027200", "label": "Note", "brief": True},
 	"Description": {"parent": LinguisticObject, "id":"300411780", "label": "Description", "brief": True},
+	"_BriefText": {"parent": LinguisticObject, "id": "300418049", "label":"Brief Text"},
 	"Abstract": {"parent": LinguisticObject, "id":"300026032", "label": "Abstract", "brief": True},
 	"Annotation": {"parent": LinguisticObject, "id":"300026100", "label":"Annotation"},
 	"Citation": {"parent": LinguisticObject, "id":"300311705", "label": "Citation", "brief": True},
@@ -89,7 +90,8 @@ ext_classes = {
 	"ConditionStatement": {"parent": LinguisticObject, "id": "300435425", "label": "Condition Statement", "brief": True},
 	"SignificanceStatement": {"parent": LinguisticObject, "id": "300435427", "label": "Significance Statement", "brief": True},
 	"ContextStatement": {"parent": LinguisticObject, "id": "300435428", "label": "Historical/Cultural Context", "brief": True},
-
+	"SourceStatement": {"parent": LinguisticObject, "id": "300404764", "label": "Source Statement", "brief": True},
+  
 	"MarkingsStatement": {"parent": LinguisticObject, "id": "300435420", "label": "Markings", "brief": True},
 	"InscriptionStatement": {"parent": LinguisticObject, "id": "300435414", "label": "Inscription", "brief": True},
 	"SignatureStatement": {"parent": LinguisticObject, "id": "300435415", "label": "Signature", "brief": True},
@@ -305,6 +307,9 @@ identity_instances = {
 
 	"synthetic": {"parent": Type, "id": "xxx", "label": "Synthetic Material"},
 
+	"lignes": {"parent": MeasurementUnit, "id": "300435501", "label": "Paris lines"},
+	"fr_inches": {"parent": MeasurementUnit, "id": "300435502", "label": "Paris inches"},
+	"fr_feet": {"parent": MeasurementUnit, "id":"300435503", "label": "Paris feet"},
 	"inches": {"parent": MeasurementUnit, "id": "300379100", "label": "inches"},
 	"feet": {"parent": MeasurementUnit, "id":"300379101", "label": "feet"},
 	"cm": {"parent": MeasurementUnit, "id": "300379098", "label": "centimeters"},
