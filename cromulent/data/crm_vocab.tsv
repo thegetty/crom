@@ -422,8 +422,10 @@ la:removed_from	property	removed_from	removed from			la:Removal	la:Set	https://l
 la:removed_from_by	property	removed_from_by	removed from by			la:Set	la:Removal	https://linked.art/ns/terms/removed_from	10000	1	1
 la:removed_member	property	removed_member	removed			la:Removal	E1_CRM_Entity	https://linked.art/ns/terms/removed_member_by	10000	1	0
 la:removed_member_by	property	removed_member_by	removed by			E1_CRM_Entity	la:Removal	https://linked.art/ns/terms/removed_member	10000	1	1
-la:related_to	property	related_to	related to			la:Relationship	E1_CRM_Entity		10000	1	0
-la:related_from	property	related_from	related from			la:Relationship	E1_CRM_Entity		10000	1	0
+la:relates_to	property	relates_to	related to			la:Relationship	E1_CRM_Entity	https://linked.art/ns/terms/related_to_by	10000	1	0
+la:related_to_by	property	related_to_by	related to by			E1_CRM_Entity	la:Relationship	https://linked.art/ns/terms/relates_to	10000	1	1
+la:relates_from	property	relates_from	related from			la:Relationship	E1_CRM_Entity	https://linked.art/ns/terms/related_from_by	10000	1	0
+la:related_from_by	property	related_from_by	related from by			E1_CRM_Entity	la:Relationship	https://linked.art/ns/terms/relates_from	10000	1	1
 la:digitally_carries	property	digitally_carries	digitally carries			E73_Information_Object	E90_Symbolic_Object	https://linked.art/ns/terms/digitally_carried_by	10000	1	1
 la:digitally_carried_by	property	digitally_carried_by	digitally carried by			E90_Symbolic_Object	E73_Information_Object	https://linked.art/ns/terms/digitally_carries	10000	1	1
 la:digitally_shows	property	digitally_shows	digitally shows			E73_Information_Object	E36_Visual_Item	https://linked.art/ns/terms/digitally_shown_by	10000	1	1
