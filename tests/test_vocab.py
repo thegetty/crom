@@ -23,6 +23,13 @@ class TestClassBuilder(unittest.TestCase):
 		tm2 = vocab.instances['TestMaterial2']
 		self.assertEqual(tm2.id, "http://vocab.getty.edu/aat/2")
 
+	def test_metatype(self):
+		vocab.register_instance("example", {"parent": model.Type, "id": "3", "label": "example type"}) 
+		vocab.register_aat_class("TestObject2", 
+			{"parent": model.HumanMadeObject, "id": "4", "label": "example typed object", "metatype": "example"})
+		from cromulent.vocab import TestObject2
+		self.assertEqual(TestObject2._classification[0].classified_as[0].id, 'http://vocab.getty.edu/aat/3')
+
 	def test_art_setter(self):
 		p = model.HumanMadeObject("a", art=1)
 		p._label = "a"
