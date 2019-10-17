@@ -324,6 +324,7 @@ identity_instances = {
 	"partsUnit": {"parent": MeasurementUnit, "id": "300404159", "label": "parts"},
 	"pageCount": {"parent": MeasurementUnit, "id": "300194222", "label": "pages"},
 	"pixels": {"parent": MeasurementUnit, "id": "300266190", "label": "pixels"},
+	"rgb_colorspace": {"parent": MeasurementUnit, "id": "300266239", "label": "rgb"},
 
 	"english": {"parent": Language, "id": "300388277", "label": "English"},
 	"french": {"parent": Language, "id":"300388306","label": "French"},
