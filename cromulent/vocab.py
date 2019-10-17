@@ -324,6 +324,7 @@ identity_instances = {
 	"partsUnit": {"parent": MeasurementUnit, "id": "300404159", "label": "parts"},
 	"pageCount": {"parent": MeasurementUnit, "id": "300194222", "label": "pages"},
 	"pixels": {"parent": MeasurementUnit, "id": "300266190", "label": "pixels"},
+	"rgb_colorspace": {"parent": MeasurementUnit, "id": "300266239", "label": "rgb"},
 
 	"english": {"parent": Language, "id": "300388277", "label": "English"},
 	"french": {"parent": Language, "id":"300388306","label": "French"},
@@ -385,6 +386,17 @@ identity_instances = {
 	"style landscape": {"parent": Type, "id":"300015636", "label": "Landscape"},
 	"style portrait": {"parent": Type, "id":"300015637", "label": "Portrait"},
 	"style still life": {"parent": Type, "id":"300015638", "label": "Still Life"},
+
+	"color red": {"parent": Type, "id": "300126225", "label": "Red"},
+	"color green": {"parent": Type, "id": "300128438", "label": "Green"},
+	"color blue": {"parent": Type, "id": "300129361", "label": "Blue"},
+	"color yellow": {"parent": Type, "id": "300127794", "label": "Yellow"},
+	"color orange": {"parent": Type, "id": "300126734", "label": "Orange"},
+	"color purple": {"parent": Type, "id": "300130257", "label": "Purple"},
+	"color brown": {"parent": Type, "id": "300127490", "label": "Brown"},
+	"color black": {"parent": Type, "id": "300130920", "label": "Black"},
+	"color white": {"parent": Type, "id": "300129784", "label": "White"},
+	"color gray": {"parent": Type, "id": "300130811", "label": "Gray"},
 
 	"brief text": {"parent": Type, "id": "300418049", "label":"Brief Text"},
 
