@@ -243,25 +243,25 @@ def normalize_dimension(dimensions, source=None):
 	for dim in dimensions:
 		which = dim.which
 		if dim.unit == 'inches':
-			inches += float(dim.value)
+			inches += dim.value
 			used_inches = True
 		elif dim.unit == 'feet':
-			inches += 12 * float(dim.value)
+			inches += 12 * dim.value
 			used_inches = True
 		elif dim.unit == 'cm':
-			centimeters += float(dim.value)
+			centimeters += dim.value
 			used_centimeters = True
 		elif dim.unit == 'fr_feet':
-			fr_inches += 12.0 * float(dim.value)
+			fr_inches += 12.0 * dim.value
 			used_fr_inches = True
 		elif dim.unit == 'fr_inches':
-			fr_inches += float(dim.value)
+			fr_inches += dim.value
 			used_fr_inches = True
 		elif dim.unit == 'ligne':
-			fr_inches += float(dim.value) / 12.0
+			fr_inches += dim.value / 12.0
 			used_fr_inches = True
 		elif dim.unit is None:
-			unknown += float(dim.value)
+			unknown += dim.value
 			used_unknown = True
 		else:
 			warnings.warn('*** unrecognized unit: %s' % (dim.unit,))
@@ -285,7 +285,7 @@ def normalize_dimension(dimensions, source=None):
 		return Dimension(value=inches, unit='inches', which=which)
 	if centimeters:
 		return Dimension(value=centimeters, unit='cm', which=which)
-	return Dimension(value=centimeters, unit=None, which=which)
+	return Dimension(value=unknown, unit=None, which=which)
 
 def extract_physical_dimensions(dimstr):
 	dimensions = dimensions_cleaner(dimstr)
@@ -300,8 +300,8 @@ def extract_physical_dimensions(dimstr):
 					dim = vocab.Width(ident='')
 				else:
 					dim = vocab.PhysicalDimension(ident='')
-				dim.identified_by = model.Name(ident='', content=label)
 				dim.value = dimension.value
+				dim.identified_by = model.Name(ident='', content=label)
 				unit = vocab.instances.get(dimension.unit)
 				if unit:
 					dim.unit = unit

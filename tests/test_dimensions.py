@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import unittest
+from contextlib import suppress
 import pprint
 from datetime import datetime
 from cromulent.extract import Dimension, normalized_dimension_object
@@ -80,7 +81,8 @@ class TestDateCleaners(unittest.TestCase):
 			'h.73 pouces 4 lignes, l.50 pouces': ([Dimension(value=73, unit='fr_inches', which='height'), Dimension(value=4, unit='ligne', which='height')], [Dimension(value=50, unit='fr_inches', which='width')]),
 			'haut. 5 pouc. larg. 5 pouc. 4 linges': ([Dimension(value=5, unit='fr_inches', which='height')], [Dimension(value=5, unit='fr_inches', which='width'), Dimension(value=4, unit='ligne', which='width')]),
 			'haut. 9 pouc. 4 lignes larg. 10 pouc. 4 linges': ([Dimension(value=9, unit='fr_inches', which='height'), Dimension(value=4, unit='ligne', which='height')], [Dimension(value=10, unit='fr_inches', which='width'), Dimension(value=4, unit='ligne', which='width')]),
-			'h 38 cm, w 27 cm': ([Dimension(38, 'cm', 'height')], [Dimension(27, 'cm', 'width')])
+			'h 38 cm, w 27 cm': ([Dimension(38, 'cm', 'height')], [Dimension(27, 'cm', 'width')]),
+			"hauteur 9 pouces, largeur 7": ([Dimension(value=9, unit='fr_inches', which='height')], [Dimension(value=7, unit=None, which='width')]),
 		}
 
 		for value, expected in tests.items():
@@ -95,6 +97,30 @@ class TestDateCleaners(unittest.TestCase):
 				self.assertEqual(dims, expected, msg='dimensions: %r' % (value,))
 			else:
 				self.assertIsNone(dims)
+
+	def test_extract_physical_dimensions(self):
+		'''
+		Test the documented formats that `cromulent.extract.extract_physical_dimensions`
+		can parse and ensure that it returns the expected data.
+		'''
+		tests = {}
+		h9l7_height = cromulent.vocab.Height(ident='', content=9.0)
+		h9l7_height.identified_by = cromulent.model.Name(ident='', content='9 French inches')
+		h9l7_height.unit = cromulent.vocab.instances.get('fr_inches')
+		h9l7_width = cromulent.vocab.Width(ident='', content=7.0)
+		tests["hauteur 9 pouces, largeur 7"] = [h9l7_height, h9l7_width]
+
+		for value, expected_dims in tests.items():
+			dims = list(cromulent.extract.extract_physical_dimensions(value))
+			for got, expected in zip(dims, expected_dims):
+				self.assertEqual(got.value, expected.value)
+				with suppress(AttributeError):
+					self.assertEqual(got.unit, expected.unit)
+				self.assertEqual(got.type, expected.type)
+				with suppress(AttributeError):
+					self.assertEqual(got.classified_as, expected.classified_as)
+				with suppress(AttributeError):
+					self.assertEqual(got.identified_by, expected.identified_by)
 
 	def test_normalize_dimension(self):
 		tests = {
