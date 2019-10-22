@@ -92,7 +92,11 @@ def _canonical_value(value):
 			value = str(intpart + fracpart)
 		if value.startswith('.'):
 			value = '0' + value
-		return value
+		
+		try:
+			return int(value)
+		except ValueError:
+			return float(value)
 	except:
 		pass
 	return None
@@ -178,14 +182,14 @@ def normalized_dimension_object(dimensions, source=None):
 	For example, the input:
 
 		[
-			Dimension(value='10', unit='feet', which=None),
-			Dimension(value='3', unit='inches', which=None),
+			Dimension(value=10, unit='feet', which=None),
+			Dimension(value=3, unit='inches', which=None),
 		]
 
 	results in the output:
 
 		(
-			Dimension(value='123.0', unit='inches', which=None),
+			Dimension(value=123.0, unit='inches', which=None),
 			"10 feet, 3 inches"
 		)
 	'''
@@ -276,12 +280,12 @@ def normalize_dimension(dimensions, source=None):
 							'%r' % (dimensions,))
 		return None
 	if fr_inches:
-		return Dimension(value=str(fr_inches), unit='fr_inches', which=which)
+		return Dimension(value=fr_inches, unit='fr_inches', which=which)
 	if inches:
-		return Dimension(value=str(inches), unit='inches', which=which)
+		return Dimension(value=inches, unit='inches', which=which)
 	if centimeters:
-		return Dimension(value=str(centimeters), unit='cm', which=which)
-	return Dimension(value=str(centimeters), unit=None, which=which)
+		return Dimension(value=centimeters, unit='cm', which=which)
+	return Dimension(value=centimeters, unit=None, which=which)
 
 def extract_physical_dimensions(dimstr):
 	dimensions = dimensions_cleaner(dimstr)
