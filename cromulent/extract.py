@@ -468,15 +468,15 @@ def extract_monetary_amount(data):
 				amnt.identified_by = model.Name(ident='', content=price_amount)
 	# 			warnings.warn(f'*** Not a numeric price amount: {value}')
 		if price_currency:
-			if price_currency in CURRENCY_MAPPING:
-				try:
-					price_currency = CURRENCY_MAPPING[price_currency.lower()]
-				except KeyError:
-					pass
-			if price_currency in vocab.instances:
-				amnt.currency = vocab.instances[price_currency]
+			price_currency_key = price_currency
+			try:
+				price_currency_key = CURRENCY_MAPPING[price_currency_key.lower()]
+			except KeyError:
+				pass
+			if price_currency_key in vocab.instances:
+				amnt.currency = vocab.instances[price_currency_key]
 			else:
-				warnings.warn('*** No currency instance defined for %s' % (price_currency,))
+				warnings.warn('*** No currency instance defined for %s' % (price_currency_key,))
 		if price_amount and price_currency:
 			amnt._label = '%s %s' % (price_amount, price_currency)
 		elif price_amount:
