@@ -401,7 +401,7 @@ def simple_dimensions_cleaner_x2(value):
 
 #mark - Monetary Values
 
-def extract_monetary_amount(data):
+def extract_monetary_amount(data, add_citations=False):
 	'''
 	Returns a `MonetaryAmount`, `StartingPrice`, or `EstimatedPrice` object
 	based on properties of the supplied `data` dict. If no amount or currency
@@ -450,7 +450,7 @@ def extract_monetary_amount(data):
 		return None
 
 	if price_amount or price_currency:
-		if cite:
+		if cite and add_citations:
 			amnt.referred_to_by = vocab.BibliographyStatement(ident='', content=cite)
 		if note:
 			amnt.referred_to_by = vocab.Note(ident='', content=note)
