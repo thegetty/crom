@@ -536,8 +536,8 @@ class TestObjectEquality(unittest.TestCase):
 		from cromulent.model import factory
 		place1 = self.nation('Belgium', 'http://vocab.getty.edu/aat/300128207')
 		place2 = self.nation('Belgium', 'http://vocab.getty.edu/aat/300128207')
-# 		print(factory.toString(place1, False))
-# 		print(factory.toString(place2, False))
+ 		print(factory.toString(place1, False))
+ 		print(factory.toString(place2, False))
 		self.assertEqual(place1, place2)
 
 if __name__ == '__main__':
