@@ -19,6 +19,7 @@ NS = {'rdf':"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 	"schema": "http://schema.org/",
 	"dc": "http://purl.org/dc/elements/1.1/",
 	"geo": "http://www.ics.forth.gr/isl/CRMgeo/",
+	"dig": "http://www.ics.forth.gr/isl/CRMdig/",
 	"sci": "http://www.ics.forth.gr/isl/CRMsci/"
 }
 
@@ -94,6 +95,8 @@ def process_classes(dom):
 			ccname = "DeclarativePlace"
 		elif name == "E33_E41_Linguistic_Appellation":
 			ccname = "Name"
+		elif name == "dig:D1_Digital_Object":
+			ccname = "DigitalObject"
 		else:
 			# Assume that we've done our job okay and put in overrides for NSS
 			cidx = name.find(":")
@@ -125,8 +128,8 @@ def process_props(dom):
 		try:
 			label = p.xpath('./rdfs:label[@xml:lang="en"]/text()', namespaces=NS)[0]
 		except:
-			print p.xpath('./@rdf:about', namespaces=NS)
-			print p.xpath('./rdfs:label/text()', namespaces=NS)
+			print(p.xpath('./@rdf:about', namespaces=NS))
+			print(p.xpath('./rdfs:label/text()', namespaces=NS))
 			raise ValueError
 		try:
 			comment = p.xpath('./rdfs:comment/text()', namespaces=NS)[0]
