@@ -1,22 +1,20 @@
 {
   "@context": {
-
-    "@version": 1.1, 
-    "crm": "http://www.cidoc-crm.org/cidoc-crm/", 
-    "sci": "http://www.ics.forth.gr/isl/CRMsci/", 
+    "@version": 1.1,
+    "crm": "http://www.cidoc-crm.org/cidoc-crm/",
+    "sci": "http://www.ics.forth.gr/isl/CRMsci/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "schema": "http://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dig": "http://www.ics.forth.gr/isl/CRMdig/",
-    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#", 
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#", 
-    "dc": "http://purl.org/dc/elements/1.1/", 
-    "dcterms": "http://purl.org/dc/terms/", 
-    "schema": "http://schema.org/", 
-    "skos": "http://www.w3.org/2004/02/skos/core#", 
-    "foaf": "http://xmlns.com/foaf/0.1/", 
-    "xsd": "http://www.w3.org/2001/XMLSchema#", 
-    "la": "https://linked.art/ns/terms/", 
-    "id": "@id", 
-    "type": "@type", 
-
+    "la": "https://linked.art/ns/terms/",
+    "id": "@id",
+    "type": "@type",
     "CRMEntity": {
       "@id": "crm:E1_CRM_Entity"
     },
@@ -2565,7 +2563,7 @@
     },
     "DigitalService": {
       "@id": "la:DigitalService"
-    }, 
+    },
     "paid_amount": {
       "@id": "la:paid_amount",
       "@type": "@id"
@@ -2681,13 +2679,23 @@
       "@type": "@id",
       "@container": "@set"
     },
-    "related_to": {
-      "@id": "la:related_to",
+    "relates_to": {
+      "@id": "la:relates_to",
       "@type": "@id"
     },
-    "related_from": {
-      "@id": "la:related_from",
+    "related_to_by": {
+      "@id": "la:related_to_by",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "relates_from": {
+      "@id": "la:relates_from",
       "@type": "@id"
+    },
+    "related_from_by": {
+      "@id": "la:related_from_by",
+      "@type": "@id",
+      "@container": "@set"
     },
     "digitally_carries": {
       "@id": "la:digitally_carries",
@@ -2722,55 +2730,6 @@
     "DigitalObject": {
       "@id": "dig:D1_Digital_Object"
     },
-    }, 
-    "relates_to": {
-      "@id": "la:relates_to", 
-      "@type": "@id"
-    }, 
-    "related_to_by": {
-      "@id": "la:related_to_by", 
-      "@type": "la:Relationship", 
-      "@container": "@set"
-    }, 
-    "relates_from": {
-      "@id": "la:relates_from", 
-      "@type": "@id"
-    }, 
-    "related_from_by": {
-      "@id": "la:related_from_by", 
-      "@type": "la:Relationship", 
-      "@container": "@set"
-    }, 
-    "digitally_carries": {
-      "@id": "la:digitally_carries", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "digitally_carried_by": {
-      "@id": "la:digitally_carried_by", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "digitally_shows": {
-      "@id": "la:digitally_shows", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "digitally_shown_by": {
-      "@id": "la:digitally_shown_by", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "digitally_available_via": {
-      "@id": "la:digitally_available_via", 
-      "@type": "la:DigitalService", 
-      "@container": "@set"
-    }, 
-    "digitally_makes_available": {
-      "@id": "la:digitally_makes_available", 
-      "@type": "la:DigitalService", 
-      "@container": "@set"
-    }, 
     "Geometry": {
       "@id": "geo:SP5_Geometric_Place_Expression"
     },
