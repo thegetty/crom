@@ -171,6 +171,7 @@ class TestFactorySerialization(unittest.TestCase):
 	def test_collapse_json(self):
 		model.factory.auto_id_type = "uuid"
 		model.factory.base_url = "http://lod.example.org/museum/"
+		model.factory.context_uri = "https://linked.art/ns/v1/linked-art.json"
 		p = model.Person()
 		p.classified_as = model.Type(ident="http://example.org/Type", label="Test")
 		res1 = model.factory.toString(p, compact=False, collapse=60) # all new lines
