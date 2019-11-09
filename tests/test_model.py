@@ -176,8 +176,6 @@ class TestFactorySerialization(unittest.TestCase):
 		p.classified_as = model.Type(ident="http://example.org/Type", label="Test")
 		res1 = model.factory.toString(p, compact=False, collapse=60) # all new lines
 		res2 = model.factory.toString(p, compact=False, collapse=120) # compact list of type
-		print(res1)
-		print(res1.splitlines())
 		self.assertEqual(len(res1.splitlines()), 12)
 		self.assertEqual(len(res2.splitlines()), 6)
 
