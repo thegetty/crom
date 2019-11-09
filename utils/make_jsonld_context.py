@@ -18,6 +18,7 @@ fh.close()
 context = OrderedDict()
 context['@version'] = 1.1
 context['crm'] = "http://www.cidoc-crm.org/cidoc-crm/"
+context['sci'] = "http://www.ics.forth.gr/isl/CRMsci/"
 context['rdf'] = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 context['rdfs'] = "http://www.w3.org/2000/01/rdf-schema#"
 context['dc'] = "http://purl.org/dc/elements/1.1/"
@@ -153,6 +154,11 @@ for l in lines:
 		if ctname in scoped_classes:
 			part = parts[scoped_classes[ctname]][0]
 			part_of = parts[scoped_classes[ctname]][1]
+
+			# XXX member_of needs to be added to person and Group as Group one
+			# and member_of_set for Set one
+			# then member_of is Set for everything else
+
 			if scoped_classes[ctname] in ['set', 'P107']:
 				context[ctname]['@context'] = {
 					"member": {"@id": part, "@type": "@id", "@container": "@set"},
