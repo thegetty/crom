@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
 import unittest
-from contextlib import suppress
+try:
+	from contextlib import suppress
+except:
+	# Python 2.7
+	suppress = None
 import pprint
 from datetime import datetime
 from cromulent.extract import Dimension, normalized_dimension_object
@@ -114,13 +118,23 @@ class TestDateCleaners(unittest.TestCase):
 			dims = list(cromulent.extract.extract_physical_dimensions(value))
 			for got, expected in zip(dims, expected_dims):
 				self.assertEqual(got.value, expected.value)
-				with suppress(AttributeError):
-					self.assertEqual(got.unit, expected.unit)
 				self.assertEqual(got.type, expected.type)
-				with suppress(AttributeError):
-					self.assertEqual(got.classified_as, expected.classified_as)
-				with suppress(AttributeError):
-					self.assertEqual(got.identified_by, expected.identified_by)
+
+				if suppress is None:
+					# Python 2.7
+					if hasattr(expected, 'unit'):
+						self.assertEqual(got.unit, expected.unit)						
+					if hasattr(expected, 'classified_as'):
+						self.assertEqual(got.classified_as, expected.classified_as)						
+					if hasattr(expected, 'identified_by'):
+						self.assertEqual(got.identified_by, expected.identified_by)						
+				else:			
+					with suppress(AttributeError):
+						self.assertEqual(got.unit, expected.unit)
+					with suppress(AttributeError):
+						self.assertEqual(got.classified_as, expected.classified_as)
+					with suppress(AttributeError):
+						self.assertEqual(got.identified_by, expected.identified_by)
 
 	def test_normalize_dimension(self):
 		tests = {

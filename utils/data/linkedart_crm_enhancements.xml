@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<rdf:RDF xml:lang="en" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.cidoc-crm.org/cidoc-crm/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:la="https://linked.art/ns/" xmlns:schema="http://schema.org/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:ore="http://www.openarchives.org/ore/terms/" xmlns:geo="http://www.ics.forth.gr/isl/CRMgeo/" xmlns:sci="http://www.ics.forth.gr/isl/CRMsci/">
+<rdf:RDF xml:lang="en" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.cidoc-crm.org/cidoc-crm/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:la="https://linked.art/ns/" xmlns:schema="http://schema.org/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:ore="http://www.openarchives.org/ore/terms/" xmlns:geo="http://www.ics.forth.gr/isl/CRMgeo/" xmlns:sci="http://www.ics.forth.gr/isl/CRMsci/" xmlns:dig="http://www.ics.forth.gr/isl/CRMdig/">
 
+    <rdfs:Class rdf:about="http://www.ics.forth.gr/isl/CRMdig/D1_Digital_Object">
+        <rdfs:label xml:lang="en">Digital Object</rdfs:label>
+        <rdfs:comment>This class comprises identifiable immaterial items that can be represented as sets of bit sequences, such as data sets, e-texts, images, audio or video items, software, etc., and are documented as single units. Any aggregation of instances of D1 Digital Object into a whole treated as single unit is also regarded as an instance of D1 Digital Object.  This means that for instance, the content of a DVD, an XML file on it, and an element of this file, are regarded as distinct instances of D1 Digital Object, mutually related by the P106 is composed of (forms part of) property. A D1 Digital Object does not depend on a specific physical carrier, and it can exist on one or more carriers simultaneously.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="E73_Information_Object"/>
+    </rdfs:Class>
 
   <rdfs:Class rdf:about="http://www.ics.forth.gr/isl/CRMgeo/SP5_Geometric_Place_Expression">
     <rdfs:label xml:lang="en">Geometry</rdfs:label>
@@ -86,15 +91,6 @@
         <rdfs:range rdf:resource="E73_Information_Object"/>
 </rdf:Property>
 
-
-<!-- Aboutness relationships for objects -->
-
-<rdf:Property rdf:about="http://schema.org/genre">
-        <rdfs:label xml:lang="en">genre</rdfs:label>
-        <rdfs:comment xml:lang="en">Shortcut for Genre or Style</rdfs:comment>
-        <rdfs:domain rdf:resource="E73_Information_Object"/>
-        <rdfs:range rdf:resource="E55_Type"/>
-</rdf:Property>
 
 <!-- Conformance of an object to a standard -->
 

@@ -169,11 +169,13 @@ class TestFactorySerialization(unittest.TestCase):
 		self.assertTrue('part' in js)
 
 	def test_collapse_json(self):
+		model.factory.auto_id_type = "uuid"
+		model.factory.base_url = "http://lod.example.org/museum/"
+		model.factory.context_uri = "https://linked.art/ns/v1/linked-art.json"
 		p = model.Person()
 		p.classified_as = model.Type(ident="http://example.org/Type", label="Test")
 		res1 = model.factory.toString(p, compact=False, collapse=60) # all new lines
 		res2 = model.factory.toString(p, compact=False, collapse=120) # compact list of type
-		# print(res1)
 		self.assertEqual(len(res1.splitlines()), 12)
 		self.assertEqual(len(res2.splitlines()), 6)
 
@@ -533,8 +535,6 @@ class TestObjectEquality(unittest.TestCase):
 		from cromulent.model import factory
 		place1 = self.nation('Belgium', 'http://vocab.getty.edu/aat/300128207')
 		place2 = self.nation('Belgium', 'http://vocab.getty.edu/aat/300128207')
-# 		print(factory.toString(place1, False))
-# 		print(factory.toString(place2, False))
 		self.assertEqual(place1, place2)
 
 if __name__ == '__main__':

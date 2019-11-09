@@ -10,7 +10,7 @@ from .model import Identifier, Mark, HumanMadeObject, Type, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
 	Acquisition, HumanMadeFeature, VisualItem, Set, Birth, Death, \
 	PropositionalObject, Payment, Creation, Phase, Period, \
-	Production, Event, \
+	Production, Event, DigitalObject, \
 	STR_TYPES, factory
 
 # Add classified_as initialization hack for all resources
@@ -70,8 +70,7 @@ ext_classes = {
 	"IsbnIdentifier": {"parent": Identifier, "id": "300417443", "label": "ISBN Identifier"},
 	"IssnIdentifier": {"parent": Identifier, "id": "300417430", "label": "ISSN Identifier"},
 	"DoiIdentifier": {"parent": Identifier, "id": "300417432", "label": "DOI Identifer"},
-
-	"DigitalImage": {"parent": InformationObject, "id": "300215302", "label": "Digital Image"},
+	"DigitalImage": {"parent": DigitalObject, "id": "300215302", "label": "Digital Image"},
 
 	"OwnershipRight": {"parent": PropertyInterest, "id":"300055603", "label": "Ownership Right"},
 	"CustodyRight": {"parent": PropertyInterest, "id":"300411616", "label": "Custody Right"},

@@ -27,6 +27,7 @@ context['schema'] = "http://schema.org/"
 context['skos'] = "http://www.w3.org/2004/02/skos/core#"
 context['foaf'] = 'http://xmlns.com/foaf/0.1/'
 context['xsd'] = "http://www.w3.org/2001/XMLSchema#"
+context['dig'] = "http://www.ics.forth.gr/isl/CRMdig/"
 context["la"] = "https://linked.art/ns/terms/"
 
 ## These are only aliases. The processing is defined by the spec.
@@ -129,6 +130,17 @@ scoped_classes = {
 }
 
 
+# enforce these in the context
+literal_types = [
+	"xsd:dateTime"
+]
+# Let these default
+empty_literal_types = [
+	"rdfs:Literal",
+	"xsd:string"
+]
+
+
 for l in lines:
 	l = l[:-1] # chomp
 	info= l.split('\t')
@@ -155,7 +167,8 @@ for l in lines:
 			else:
 				context[ctname]['@context'] = {
 					"part": {"@id": part, "@type": "@id", "@container": "@set"},
-					"part_of": {"@id": part_of, "@type": "@id", "@container": "@set"}
+					"part_of": {"@id": part_of, "@type": "@id", "@container": "@set"},
+					"member_of": {"@id": parts["set"][1], "@type": "@id", "@container": "@set"}					
 				}
 	else:
 		ctname = info[2]
@@ -166,24 +179,27 @@ for l in lines:
 		dmn = info[6]
 		rng = info[7]
 		mult = info[11] or '1'
-		if context.has_key(ctname):
-			print "Already found: %s   (%s vs %s)" % (ctname, context[ctname]['@id'], name)
+		if ctname in context:
+			print("Already found: %s   (%s vs %s)" % (ctname, context[ctname]['@id'], name))
 		else:
+
 			if rng:
-				if rng[0] == "E":
-					typ = "@id"
-					if ctname in vocab_properties:
-						typ = "@vocab"
-				else:
+				if rng in empty_literal_types:
+					typ = None
+				elif rng in literal_types:
 					typ = rng
+				elif ctname in vocab_properties:
+					typ = "@vocab"
+				else:
+					typ = "@id"
 			else:
-				typ = "@id"
+				typ = None
 
 			if name.startswith("P"):
 				name = "crm:%s" % name
 
 			if write:
-				if typ in ["rdfs:Literal", "xsd:string"]:
+				if not typ:
 					context[ctname] = {"@id": name}
 				elif mult == '1':
 					context[ctname] = {"@id": name, "@type": typ, "@container":"@set"}
@@ -194,11 +210,11 @@ for l in lines:
 					context['assigned_property_type']['@context'] = p177_context
 
 			# Otherwise, we're part / part_of, so ignore
-			# print "scoped context: %s: %s on %s" % (ctname, name, dmn)
+			# print("scoped context: %s: %s on %s" % (ctname, name, dmn))
 
 ctxt = {"@context": context}
 
 outstr = json.dumps(ctxt, indent=2)
-fh = file("../cromulent/data/linked-art.json", 'w')
+fh = open("../cromulent/data/linked-art.json", 'w')
 fh.write(outstr)
 fh.close()

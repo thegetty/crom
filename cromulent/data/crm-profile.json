@@ -80,6 +80,7 @@
   "E99_Product_Type": 0,
   "E9_Move": 1,
   "E33_E41_Linguistic_Appellation": 1,
+  "dig:D1_Digital_Object": 1,
   "geo:SP5_Geometric_Place_Expression": 1,
   "geo:SP4_Spatial_Coordinate_Reference_System": 1,
   "geo:SP6_Declarative_Place": 1,
