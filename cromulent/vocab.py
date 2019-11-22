@@ -6,7 +6,7 @@ from .model import Identifier, Mark, HumanMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, Currency, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, Language, \
 	LinguisticObject, InformationObject, Formation, Dissolution, \
-	Activity, Group, Name, MonetaryAmount, PropertyInterest, \
+	Activity, Group, Name, MonetaryAmount, Right, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
 	Acquisition, HumanMadeFeature, VisualItem, Set, Birth, Death, \
 	PropositionalObject, Payment, Creation, Phase, Period, \
@@ -20,6 +20,9 @@ def post_init(self, **kw):
 			self.classified_as = t
 BaseResource._post_init = post_init
 
+instances = {}
+instance_types = {}
+
 def register_vocab_class(name, data):
 	parent = data['parent']
 	id = data['id']
@@ -32,6 +35,7 @@ def register_vocab_class(name, data):
 	else:
 		t = Type("http://vocab.getty.edu/%s/%s" % (vocab, id))
 	t._label = label
+	instance_types[name] = t
 	if parent == LinguisticObject and "brief" in data:
 		c._classification = [t, instances["brief text"]]
 	else:	
@@ -45,8 +49,6 @@ def register_vocab_class(name, data):
 def register_aat_class(name, data):
 	data['vocab'] = 'aat'
 	register_vocab_class(name, data)
-
-instances = {}
 
 def register_instance(name, data):
 	parent = data['parent']
@@ -64,17 +66,28 @@ def register_instance(name, data):
 
 # Meta meta
 ext_classes = {
-	"LocalNumber": {"parent":Identifier, "id":"300404621", "label": "Local Number"},	
+
+	"LocalNumber": {"parent":Identifier, "id":"300404621", "label": "Owner-Assigned Number"},	
+	"SystemNumber": {"parent":Identifier, "id":"300435704", "label": "System-Assigned Number"},
 	"AccessionNumber": {"parent":Identifier, "id":"300312355", "label": "Accession Number"},
 	"LotNumber": {"parent": Identifier, "id": "300404628", "label": "Lot Number"},
 	"IsbnIdentifier": {"parent": Identifier, "id": "300417443", "label": "ISBN Identifier"},
 	"IssnIdentifier": {"parent": Identifier, "id": "300417430", "label": "ISSN Identifier"},
 	"DoiIdentifier": {"parent": Identifier, "id": "300417432", "label": "DOI Identifer"},
+
+	"EmailAddress": {"parent": Identifier, "id":"300435686", "label": "Email Address"},
+	"StreetAddress": {"parent": Identifier, "id":"300435687", "label": "Street Address"},
+	"TelephoneNumber": {"parent": Identifier, "id": "300435688", "label": "Telephone Number"},
+	"FaxNumber": {"parent": Identifier, "id": "300435689", "label": "Fax Number"},
+	"StreetNumber": {"parent": Identifier, "id":"300419272", "label": "Street Number"},
+	"StreetName": {"parent": Identifier, "id": "300419273", "label": "Street Name"},
+	"PostalCode": {"parent": Identifier, "id": "300419274", "label": "Postal Code"},
+
 	"DigitalImage": {"parent": DigitalObject, "id": "300215302", "label": "Digital Image"},
 
-	"OwnershipRight": {"parent": PropertyInterest, "id":"300055603", "label": "Ownership Right"},
-	"CustodyRight": {"parent": PropertyInterest, "id":"300411616", "label": "Custody Right"},
-	"CopyrightRight": {"parent": PropertyInterest, "id":"300055598", "label": "Copyright"},
+	"OwnershipRight": {"parent": Right, "id":"300055603", "label": "Ownership Right"},
+	"CustodyRight": {"parent": Right, "id":"300411616", "label": "Custody Right"},
+	"CopyrightRight": {"parent": Right, "id":"300055598", "label": "Copyright"},
 
 	"OwnershipPhase": {"parent": Phase, "id": "300055603", "label": "Ownership Phase"},
 
@@ -213,16 +226,9 @@ ext_classes = {
 	"NameSuffix": {"parent": Name, "id":"300404662", "label": "Name Suffix"},
 	"NamePrefix": {"parent": Name, "id":"300404845", "label": "Name Prefix"},
 
-	"EmailAddress": {"parent": Name, "id":"300149026", "label": "Email Address"},
-	"StreetAddress": {"parent": Name, "id":"300386983", "label": "Street Address"},
-	"StreetNumber": {"parent": Name, "id":"300419272", "label": "Street Number"},
-	"StreetName": {"parent": Name, "id": "300419273", "label": "Street Name"},
-	"PostalCode": {"parent": Name, "id": "300419274", "label": "Postal Code"},
+
 	"CityName": {"parent": Name, "id": "300008389", "label": "City"},
 	"CountryName": {"parent": Name, "id": "300128207", "label": "Country"},
-
-	"TelephoneNumber": {"parent": Name, "id": "3-x-phone", "label": "Telephone Number"},
-	"FaxNumber": {"parent": Name, "id": "3-x-fax", "label": "Fax Number"},
 
 	"Painting": {"parent": HumanMadeObject, "id": "300033618", "label": "Painting", "metatype": "work type"},
 	"Sculpture": {"parent": HumanMadeObject, "id": "300047090", "label": "Sculpture", "metatype": "work type"},
@@ -474,6 +480,16 @@ aat_culture_mapping = {
 	"dutch": "300020929"
 }
 
+def make_multitype_obj(*args, **kw):
+	# (class1, class2, class3, name=foo, other=bar)
+	inst = args[0](**kw)
+	for c in args[1:]:
+		for cn in c._classification:
+			if not cn in inst.classified_as:
+				inst.classified_as = cn
+	return inst
+
+
 def add_art_setter():
 	# Linked.Art profile requires aat:300133025 on all artworks
 	# Art can be a HumanMadeObject or an InformationObject
@@ -492,7 +508,7 @@ def add_art_setter():
 	InformationObject._post_init = art2_post_init
 
 def add_attribute_assignment_check():
-	# Allow references to properties in p2 on AttrAssign
+	# Allow references to properties in p177 on AttrAssign
 	# Validate that the property is allowed in assigned
 	# either on set, or when assigned is set
 		
