@@ -31,50 +31,41 @@
         <rdfs:range rdf:resource="E39_Actor"/>
 </rdf:Property>
 
-<!-- Legal Claim / Property Interest -->
-<!-- This might go to a reformulation of Right -->
-
-<rdfs:Class rdf:about="https://linked.art/ns/terms/PropertyInterest">
-    <rdfs:label xml:lang="en">Property Interest</rdfs:label>
-    <rdfs:comment>A particular property interest, be it ownership or security, of intellectual or physical property </rdfs:comment>
-    <rdfs:subClassOf rdf:resource="E71_Human-Made_Thing"/>
+<rdfs:Class rdf:about="https://linked.art/ns/terms/RightAcquisition">
+    <rdfs:label xml:lang="en">Right Acquisition</rdfs:label>
+    <rdfs:comment>The acquiring or establishment of a particular E30 Right over some entity </rdfs:comment>
+    <rdfs:subClassOf rdf:resource="E7_Activity"/>
 </rdfs:Class>
 
-<rdf:Property rdf:about="https://linked.art/ns/terms/claimed_by">
-        <rdfs:label xml:lang="en">Claimed By</rdfs:label>
-        <rdfs:comment xml:lang="en">The actor that is claiming the property interest</rdfs:comment>
-        <rdfs:domain rdf:resource="https://linked.art/ns/terms/PropertyInterest"/>
-        <rdfs:range rdf:resource="E39_Actor"/>
+<rdf:Property rdf:about="https://linked.art/ns/terms/establishes">
+        <rdfs:label xml:lang="en">establishes</rdfs:label>
+        <rdfs:comment xml:lang="en">The right established by a RightAcquisition</rdfs:comment>
+        <rdfs:domain rdf:resource="https://linked.art/ns/terms/RightAcquisition"/>
+        <rdfs:range rdf:resource="E30_Right"/>
+        <owl:inverseOf rdf:resource="https://linked.art/ns/terms/established_by"/>
+</rdf:Property>
+<rdf:Property rdf:about="https://linked.art/ns/terms/established_by">
+        <rdfs:label xml:lang="en">established by</rdfs:label>
+        <rdfs:comment xml:lang="en">The RightAcquisition that established this Right</rdfs:comment>
+        <rdfs:domain rdf:resource="E30_Right"/>
+        <rdfs:range rdf:resource="https://linked.art/ns/terms/RightAcquisition"/>
+        <owl:inverseOf rdf:resource="https://linked.art/ns/terms/establishes"/>
 </rdf:Property>
 
-<rdf:Property rdf:about="https://linked.art/ns/terms/jurisdiction">
-        <rdfs:label xml:lang="en">Jurisdiction</rdfs:label>
-        <rdfs:comment xml:lang="en">The jurisdiction under which the property interest is potentially enforceable</rdfs:comment>
-        <rdfs:domain rdf:resource="https://linked.art/ns/terms/PropertyInterest"/>
-        <rdfs:range rdf:resource="E53_Place"/>
-</rdf:Property>
 
-<rdf:Property rdf:about="https://linked.art/ns/terms/interest_for">
-    <rdfs:label xml:lang="en">interest for</rdfs:label>
-    <rdfs:comment xml:lang="en">The object that the property interest is for</rdfs:comment>
-    <rdfs:domain rdf:resource="https://linked.art/ns/terms/PropertyInterest"/>
-    <rdfs:range rdf:resource="E72_Legal_Object"/>
+<rdf:Property rdf:about="https://linked.art/ns/terms/invalidates">
+        <rdfs:label xml:lang="en">invalidates</rdfs:label>
+        <rdfs:comment xml:lang="en">The right which is invalidated by a RightAcquisition</rdfs:comment>
+        <rdfs:domain rdf:resource="https://linked.art/ns/terms/RightAcquisition"/>
+        <rdfs:range rdf:resource="E30_Right"/>
+        <owl:inverseOf rdf:resource="https://linked.art/ns/terms/invalidated_by"/>
 </rdf:Property>
-
-<rdf:Property rdf:about="https://linked.art/ns/terms/interest_part">
-    <rdfs:label xml:lang="en">Interest Part</rdfs:label>
-    <rdfs:comment xml:lang="en">The object property interest is part of the subject property interest</rdfs:comment>
-    <rdfs:domain rdf:resource="https://linked.art/ns/terms/PropertyInterest"/>
-    <rdfs:range rdf:resource="https://linked.art/ns/terms/PropertyInterest"/>
-    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/interest_part_of"/>
-</rdf:Property>
-
-<rdf:Property rdf:about="https://linked.art/ns/terms/interest_part_of">
-    <rdfs:label xml:lang="en">Interest Part Of</rdfs:label>
-    <rdfs:comment xml:lang="en">The subject property interest is part of the object property interest</rdfs:comment>
-    <rdfs:domain rdf:resource="https://linked.art/ns/terms/PropertyInterest"/>
-    <rdfs:range rdf:resource="https://linked.art/ns/terms/PropertyInterest"/>
-    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/interest_part"/>
+<rdf:Property rdf:about="https://linked.art/ns/terms/invalidated_by">
+        <rdfs:label xml:lang="en">invalidated by</rdfs:label>
+        <rdfs:comment xml:lang="en">The RightAcquisition that invalidated this Right</rdfs:comment>
+        <rdfs:domain rdf:resource="E30_Right"/>
+        <rdfs:range rdf:resource="https://linked.art/ns/terms/RightAcquisition"/>
+        <owl:inverseOf rdf:resource="https://linked.art/ns/terms/invalidates"/>
 </rdf:Property>
 
 
