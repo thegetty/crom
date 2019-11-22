@@ -28,6 +28,10 @@
 	"P106i": "part_of",
 	"P127i": "part",
 	"P127": "part_of",
+
+	"P148": "c_part",
+	"P148i": "c_part_of",
+
 	"P107":  "member",
 	"P107i": "member_of",
 	"P56":   "bears",

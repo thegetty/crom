@@ -47,8 +47,6 @@ parts = {
 	"P86": ["crm:P86i_contains", "crm:P86_falls_within"],
 	"P89": ["crm:P89i_contains", "crm:P89_falls_within"],
 	"P148": ["crm:P148_has_component", "crm:P148i_is_component_of"],
-	"interest": ["la:interest_part", "la:interest_part_of"],
-
 	"skos": ["skos:narrower", "skos:broader"],
 	"set": ["la:has_member", "la:member_of"],
 	"P107": ["crm:P107_has_current_or_former_member", "crm:P107i_is_current_or_former_member_of"]
@@ -100,7 +98,7 @@ scoped_classes = {
 	"PropositionalObject": "P148",
 	"Currency": "skos",
 	"Payment": "P9",
-	"PropertyInterest": "interest",
+	"Right": "P148",
 	"Name": "P106",
 	"Birth": "P9",
 	"Death": "P9",
