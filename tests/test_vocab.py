@@ -30,6 +30,13 @@ class TestClassBuilder(unittest.TestCase):
 		from cromulent.vocab import TestObject2
 		self.assertEqual(TestObject2._classification[0].classified_as[0].id, 'http://vocab.getty.edu/aat/3')
 
+	def test_multitype(self):
+		from cromulent.vocab import make_multitype_obj, Painting, Drawing
+		inst = make_multitype_obj(Painting, Drawing)
+		self.assertTrue(isinstance(inst, Painting))
+		self.assertTrue(len(inst.classified_as) == 2)
+		self.assertTrue(inst.classified_as[1].id == "http://vocab.getty.edu/aat/300033973")
+
 	def test_art_setter(self):
 		p = model.HumanMadeObject("a", art=1)
 		p._label = "a"
@@ -38,9 +45,6 @@ class TestClassBuilder(unittest.TestCase):
 		vocab.add_art_setter()
 		p2 = vocab.Painting("b", art=1)
 		p2j = p2._toJSON(done={})
-		# self.assertTrue("aat:300133025" in p2j['classified_as'])
-		# no idea why the aat:1234 pattern doesn't work here
-		# something to do with failing to set up the factory?
 
 	def test_aa_check(self):
 		t = model.Type()
