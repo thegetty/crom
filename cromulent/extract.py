@@ -401,7 +401,7 @@ def simple_dimensions_cleaner_x2(value):
 
 #mark - Monetary Values
 
-def extract_monetary_amount(data, add_citations=False):
+def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY_MAPPING):
 	'''
 	Returns a `MonetaryAmount`, `StartingPrice`, or `EstimatedPrice` object
 	based on properties of the supplied `data` dict. If no amount or currency
@@ -429,23 +429,23 @@ def extract_monetary_amount(data, add_citations=False):
 	if 'price' in data or 'price_amount' in data:
 		amnt = model.MonetaryAmount(ident='')
 		price_amount = data.get('price_amount', data.get('price'))
-		price_currency = data.get('price_currency', data.get('price_curr'))
+		price_currency = data.get('currency', data.get('price_currency', data.get('price_curr')))
 		note = data.get('price_note', data.get('price_desc'))
-		cite = data.get('price_citation')
+		cite = data.get('price_citation', data.get('citation'))
 	elif 'est_price' in data or 'est_price_amount' in data:
 		amnt = vocab.EstimatedPrice(ident='')
 		price_amount = data.get('est_price_amount', data.get('est_price'))
-		price_currency = data.get('est_price_currency', data.get('est_price_curr'))
+		price_currency = data.get('currency', data.get('est_price_currency', data.get('est_price_curr')))
 		amount_type = 'Estimated Price'
 		note = data.get('est_price_note', data.get('est_price_desc'))
-		cite = data.get('est_price_citation')
+		cite = data.get('est_price_citation', data.get('citation'))
 	elif 'start_price' in data or 'start_price_amount' in data:
 		amnt = vocab.StartingPrice(ident='')
 		price_amount = data.get('start_price_amount', data.get('start_price'))
-		price_currency = data.get('start_price_currency', data.get('start_price_curr'))
+		price_currency = data.get('currency', data.get('start_price_currency', data.get('start_price_curr')))
 		amount_type = 'Starting Price'
 		note = data.get('start_price_note', data.get('start_price_desc'))
-		cite = data.get('start_price_citation')
+		cite = data.get('start_price_citation', data.get('citation'))
 	else:
 		return None
 
@@ -470,10 +470,12 @@ def extract_monetary_amount(data, add_citations=False):
 		if price_currency:
 			price_currency_key = price_currency
 			try:
-				price_currency_key = CURRENCY_MAPPING[price_currency_key.lower()]
+				price_currency_key = currency_mapping[price_currency_key.lower()]
 			except KeyError:
 				pass
-			if price_currency_key in vocab.instances:
+			if isinstance(price_currency_key, model.BaseResource):
+				amnt.currency = price_currency_key
+			elif price_currency_key in vocab.instances:
 				amnt.currency = vocab.instances[price_currency_key]
 			else:
 				warnings.warn('*** No currency instance defined for %s' % (price_currency_key,))
