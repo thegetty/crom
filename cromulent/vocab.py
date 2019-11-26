@@ -421,6 +421,7 @@ identity_instances = {
 
 	"us dollars": {"parent": Currency, "id":"300411994", "label": "US Dollars"},
 	"gb pounds": {"parent": Currency, "id":"300411998", "label": "British Pounds"},
+	"gb shillings": {"parent": Currency, "id":"300191652", "label": "British Shillings"},
 	"dutch guilder": {"parent": Currency, "id":"300412019", "label": "Dutch Guilder"},
 	"fr assignats": {"parent": Currency, "id":"300412157", "label": "French Assignats"},
 	"at shillings": {"parent": Currency, "id":"300412158", "label": "Austrian Shillings"},
@@ -428,13 +429,17 @@ identity_instances = {
 	"de florins": {"parent": Currency, "id":"300412160", "label": "German Florins"},
 	"gb guineas": {"parent": Currency, "id":"300412163", "label": "British Guineas"},
 	"dk kroner": {"parent": Currency, "id":"300412164", "label": "Danish Kroner"},
+	"dk rigsdaler": {"parent": Currency, "id":"300412190", "label": "Danish Rigsdaler"},
 	"fr livres": {"parent": Currency, "id":"300412165", "label": "French Livres"},
 	"fr louis": {"parent": Currency, "id":"300412166", "label": "French Louis coins"},
 	"de reichsmarks": {"parent": Currency, "id":"300412169", "label": "German Reichsmarks"},
 	"reichsthalers": {"parent": Currency, "id":"300412170", "label": "Reichsthalers"},
 	"ch francs": {"parent": Currency, "id":"300412001", "label": "Swiss Francs"},
 	"fr francs": {"parent": Currency, "id":"300412016", "label": "French Francs"},
-	"it lira": {"parent": Currency, "id":"300412015", "label": "Italian Lira"}
+	"it lira": {"parent": Currency, "id":"300412015", "label": "Italian Lira"},
+	"ducats": {"parent": Currency, "id":"300193382", "label": "Ducats"},
+	"silbergroshen": {"parent": Currency, "id":"300412171", "label": "Silbergroshen"},
+	"stuiver": {"parent": Currency, "id":"300412172", "label": "Stuiver"},
 }
 
 for (name,v) in identity_instances.items():
