@@ -440,6 +440,7 @@ identity_instances = {
 	"fr francs": {"parent": Currency, "id":"300412016", "label": "French Francs"},
 	"it lira": {"parent": Currency, "id":"300412015", "label": "Italian Lira"},
 	"ducats": {"parent": Currency, "id":"300193382", "label": "Ducats"},
+	"groschen": {"parent": Currency, "id":"300191473", "label": "Groschen"},
 	"silbergroshen": {"parent": Currency, "id":"300412171", "label": "Silbergroshen"},
 	"stuiver": {"parent": Currency, "id":"300412172", "label": "Stuiver"},
 }
