@@ -11,9 +11,9 @@ from datetime import datetime
 from cromulent.extract import Dimension, normalized_dimension_object
 import cromulent.extract
 
-class TestDateCleaners(unittest.TestCase):
+class TestDimensionExtraction(unittest.TestCase):
 	'''
-	Test the ability to recognize and parse various formats of dates.
+	Test the ability to extract various formats of dimensions.
 	'''
 	def setUp(self):
 		pass
