@@ -395,6 +395,7 @@ la:Addition	class	Addition	Addition	The addition of some entity to a Set	E7_Acti
 la:Removal	class	Removal	Removal	The removal of some entity from a Set	E7_Activity	1
 la:Relationship	class	Relationship	Relationship		E28_Conceptual_Object	1
 la:DigitalService	class	DigitalService	Digital Service		E73_Information_Object	1
+la:property_classified_as	property	property_classified_as	Property Classified As	Record dot one properties via Attribute Assignments		E13_Attribute_Assignment	E55_Type		10000	1	0
 la:paid_amount	property	paid_amount	Paid Amount	The amount paid.		la:Payment	E97_Monetary_Amount		10000	1	0
 la:paid_from	property	paid_from	Paid From	Who the payment came from		la:Payment	E39_Actor		10000	1	1
 la:paid_to	property	paid_to	Paid To	Who the payment went to		la:Payment	E39_Actor		10000	1	1
