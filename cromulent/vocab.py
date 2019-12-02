@@ -239,7 +239,6 @@ ext_classes = {
 	"NameSuffix": {"parent": Name, "id":"300404662", "label": "Name Suffix"},
 	"NamePrefix": {"parent": Name, "id":"300404845", "label": "Name Prefix"},
 
-
 	"CityName": {"parent": Name, "id": "300008389", "label": "City"},
 	"CountryName": {"parent": Name, "id": "300128207", "label": "Country"},
 
@@ -279,23 +278,23 @@ ext_classes = {
 	"TimeBasedMedia": {"parent": HumanMadeObject, "id":"300185191", "label": "Time-based Media", "metatype": "work type"},
 	"Page": {"parent": HumanMadeObject, "id":"300194222", "label": "Page", "metatype": "work type"},
 
-	"FrontPart": {"parent": HumanMadeObject, "id":"300190703", "label": "Front Part"},
-	"BackPart": {"parent": HumanMadeObject, "id":"300190692", "label": "Back Part"},
-	"TopPart": {"parent": HumanMadeObject, "id":"300190710", "label": "Top Part"},
-	"BottomPart": {"parent": HumanMadeObject, "id":"300190695", "label": "Bottom Part"},
-	"SidePart": {"parent": HumanMadeObject, "id":"300190706", "label": "Side Part"},
-	"SupportPart": {"parent": HumanMadeObject, "id":"300014844", "label": "Support"},
-	"FramePart": {"parent": HumanMadeObject, "id":"300404391", "label": "Frame"},
-	"MountPart": {"parent": HumanMadeObject, "id":"300131087", "label": "Mount"},
-	"PanelPart": {"parent": HumanMadeObject, "id":"300014657", "label": "Panel"},
-	"BasePart": {"parent": HumanMadeObject, "id":"300001656", "label": "Base"},
-
 	"Folder": {"parent": HumanMadeObject, 'id':"300197602", "label": "Folder", "metatype": "work type"},
 	"Box": {"parent": HumanMadeObject, "id":"300045643", "label": "Box", "metatype": "work type"},
 	"Envelope": {"parent": HumanMadeObject, "id":"300197601", "label": "Envelope", "metatype": "work type"},
 	"Binder": {"parent": HumanMadeObject,"id":"300252990", "label": "Binder", "metatype": "work type"},
 	"Case": {"parent": HumanMadeObject,"id":"300045659", "label": "Case", "metatype": "work type"},
 	"FlatfileCabinet": {"parent": HumanMadeObject,"id":"300417284", "label": "Flat File Cabinet", "metatype": "work type"},
+
+	"FrontPart": {"parent": HumanMadeObject, "id":"300190703", "label": "Front Part", "metatype": "part type"},
+	"BackPart": {"parent": HumanMadeObject, "id":"300190692", "label": "Back Part", "metatype": "part type"},
+	"TopPart": {"parent": HumanMadeObject, "id":"300190710", "label": "Top Part", "metatype": "part type"},
+	"BottomPart": {"parent": HumanMadeObject, "id":"300190695", "label": "Bottom Part", "metatype": "part type"},
+	"SidePart": {"parent": HumanMadeObject, "id":"300190706", "label": "Side Part", "metatype": "part type"},
+	"SupportPart": {"parent": HumanMadeObject, "id":"300014844", "label": "Support", "metatype": "part type"},
+	"FramePart": {"parent": HumanMadeObject, "id":"300404391", "label": "Frame", "metatype": "part type"},
+	"MountPart": {"parent": HumanMadeObject, "id":"300131087", "label": "Mount", "metatype": "part type"},
+	"PanelPart": {"parent": HumanMadeObject, "id":"300014657", "label": "Panel", "metatype": "part type"},
+	"BasePart": {"parent": HumanMadeObject, "id":"300001656", "label": "Base", "metatype": "part type"},
 
 	"StartingPrice": {"parent": MonetaryAmount, "id": "300417242", "label": "Starting Price"},
 	"ReservePrice": {"parent": MonetaryAmount, "id": "300417243", "label": "Reserve Price"},
@@ -439,6 +438,7 @@ identity_instances = {
 	"primary": {"parent": Type, "id": "300404670", "label": "Primary"},
 	"artwork": {"parent": Type, "id": "300133025", "label": "Artwork"},
 	"work type": {"parent": Type, "id": "300435443", "label": "Type of Work"},
+	"part type": {"parent": Type, "id":"300241583", "label": "Part Type"},
 	"brief text": {"parent": Type, "id": "300418049", "label":"Brief Text"},
 	"first": {"parent": Type, "id":"300404050", "label": "First"},
 	"last": {"parent": Type, "id": "XXX", "label": "Last"},
