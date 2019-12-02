@@ -450,6 +450,11 @@ identity_instances = {
 	"groschen": {"parent": Currency, "id":"300191473", "label": "Groschen"},
 	"silbergroshen": {"parent": Currency, "id":"300412171", "label": "Silbergroshen"},
 	"stuiver": {"parent": Currency, "id":"300412172", "label": "Stuiver"},
+
+	"style of": {"parent": Type, "id":"300404285", "label": "Style of"},
+	"copy after": {"parent": Type, "id":"300404286", "label": "Copy after"},
+	
+	"obsolete": {"parent": Type, "id":"300404908", "label": "Obsolete"},
 }
 
 for (name,v) in identity_instances.items():
