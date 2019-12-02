@@ -163,7 +163,7 @@ ext_classes = {
 	"Depth":      {"parent": Dimension, "id":"300072633", "label": "Depth"},
 	"Diameter":   {"parent": Dimension, "id":"300055624", "label": "Diameter"},
 	"Weight":     {"parent": Dimension, "id":"300056240", "label": "Weight"},
-	"Color":      {"parent": Dimension, "id":"300056130", "label": "Color"},
+	"Color":      {"parent": Dimension, "id":"300080438", "label": "Color"}, # individual colors as dimensions, 56130 is concept of color
 	"SequencePosition": {"parent": Dimension, "id":"300010269", "label":"Sequence Position"},
 	"PhysicalDimension": {"parent": Dimension, "id":"300055642", "label":"Unknown physical dimension"},
 
@@ -189,6 +189,8 @@ ext_classes = {
 	"Nationality": {"parent": Type, "id":"300379842", "label": "Nationality"},
 	"Gender":      {"parent": Type, "id":"300055147", "label": "Gender"},
 	"Occupation":  {"parent": Type, "id":"300263369", "label": "Occupation"},
+	"Shape":       {"parent": Type, "id":"300056273", "label": "Shape"},
+	"Style": 	   {"parent": Type, "id":"300015646", "label": "Style"},
 
 	"Auctioneer":  {"parent": Person, "id":"300025208", "label": "Auctioneer"}, # is this useful?
 
@@ -208,6 +210,9 @@ ext_classes = {
 	"Managing": {"parent": Activity, "id":"300054277", "label": "Managing"},
 	"Storing": {"parent": Activity, "id":"300056390", "label": "Storing"},
 	"Producing": {"parent": Activity, "id":"300054713", "label": "Producing"},
+
+	"PossibleAssignment": {"parent": AttributeAssignment, "id":"300404272", "label": "Possibly"}, # FIXME: Update the ids if we
+	"ProbableAssignment": {"parent": AttributeAssignment, "id":"300404271", "label": "Probably"}, # get new terms from Patricia
 
 	"ExhibitionIdea": {"parent": PropositionalObject, "id":"300417531", "label": "Exhibition"},
 
@@ -233,7 +238,6 @@ ext_classes = {
 	"MiddleName": {"parent": Name, "id":"300404654", "label": "Middle Name"},
 	"NameSuffix": {"parent": Name, "id":"300404662", "label": "Name Suffix"},
 	"NamePrefix": {"parent": Name, "id":"300404845", "label": "Name Prefix"},
-
 
 	"CityName": {"parent": Name, "id": "300008389", "label": "City"},
 	"CountryName": {"parent": Name, "id": "300128207", "label": "Country"},
@@ -274,23 +278,23 @@ ext_classes = {
 	"TimeBasedMedia": {"parent": HumanMadeObject, "id":"300185191", "label": "Time-based Media", "metatype": "work type"},
 	"Page": {"parent": HumanMadeObject, "id":"300194222", "label": "Page", "metatype": "work type"},
 
-	"FrontPart": {"parent": HumanMadeObject, "id":"300190703", "label": "Front Part"},
-	"BackPart": {"parent": HumanMadeObject, "id":"300190692", "label": "Back Part"},
-	"TopPart": {"parent": HumanMadeObject, "id":"300190710", "label": "Top Part"},
-	"BottomPart": {"parent": HumanMadeObject, "id":"300190695", "label": "Bottom Part"},
-	"SidePart": {"parent": HumanMadeObject, "id":"300190706", "label": "Side Part"},
-	"SupportPart": {"parent": HumanMadeObject, "id":"300014844", "label": "Support"},
-	"FramePart": {"parent": HumanMadeObject, "id":"300404391", "label": "Frame"},
-	"MountPart": {"parent": HumanMadeObject, "id":"300131087", "label": "Mount"},
-	"PanelPart": {"parent": HumanMadeObject, "id":"300014657", "label": "Panel"},
-	"BasePart": {"parent": HumanMadeObject, "id":"300001656", "label": "Base"},
-
 	"Folder": {"parent": HumanMadeObject, 'id':"300197602", "label": "Folder", "metatype": "work type"},
 	"Box": {"parent": HumanMadeObject, "id":"300045643", "label": "Box", "metatype": "work type"},
 	"Envelope": {"parent": HumanMadeObject, "id":"300197601", "label": "Envelope", "metatype": "work type"},
 	"Binder": {"parent": HumanMadeObject,"id":"300252990", "label": "Binder", "metatype": "work type"},
 	"Case": {"parent": HumanMadeObject,"id":"300045659", "label": "Case", "metatype": "work type"},
 	"FlatfileCabinet": {"parent": HumanMadeObject,"id":"300417284", "label": "Flat File Cabinet", "metatype": "work type"},
+
+	"FrontPart": {"parent": HumanMadeObject, "id":"300190703", "label": "Front Part", "metatype": "part type"},
+	"BackPart": {"parent": HumanMadeObject, "id":"300190692", "label": "Back Part", "metatype": "part type"},
+	"TopPart": {"parent": HumanMadeObject, "id":"300190710", "label": "Top Part", "metatype": "part type"},
+	"BottomPart": {"parent": HumanMadeObject, "id":"300190695", "label": "Bottom Part", "metatype": "part type"},
+	"SidePart": {"parent": HumanMadeObject, "id":"300190706", "label": "Side Part", "metatype": "part type"},
+	"SupportPart": {"parent": HumanMadeObject, "id":"300014844", "label": "Support", "metatype": "part type"},
+	"FramePart": {"parent": HumanMadeObject, "id":"300404391", "label": "Frame", "metatype": "part type"},
+	"MountPart": {"parent": HumanMadeObject, "id":"300131087", "label": "Mount", "metatype": "part type"},
+	"PanelPart": {"parent": HumanMadeObject, "id":"300014657", "label": "Panel", "metatype": "part type"},
+	"BasePart": {"parent": HumanMadeObject, "id":"300001656", "label": "Base", "metatype": "part type"},
 
 	"StartingPrice": {"parent": MonetaryAmount, "id": "300417242", "label": "Starting Price"},
 	"ReservePrice": {"parent": MonetaryAmount, "id": "300417243", "label": "Reserve Price"},
@@ -301,6 +305,8 @@ ext_classes = {
 }
  
 identity_instances = {
+
+	# Common Materials
 	"watercolor": {"parent": Material, "id": "300015045", "label": "watercolors"},	
 	"oil": {"parent": Material, "id": "300015050", "label": "oil"},
 	"tempera": {"parent": Material, "id": "300015062", "label": "tempera"},
@@ -317,9 +323,9 @@ identity_instances = {
 	"albumen silver print": {"parent": Material, "id": "300127121", "label": "albumen silver print"},
 	"gelatin silver print": {"parent": Material, "id": "300128695", "label": "gelatin silver print"},
 	"silver": {"parent": Material, "id": "300011029", "label": "silver"},
-
 	"synthetic": {"parent": Type, "id": "xxx", "label": "Synthetic Material"},
 
+	# Measurement Units
 	"lignes": {"parent": MeasurementUnit, "id": "300435501", "label": "Paris lines"},
 	"fr_inches": {"parent": MeasurementUnit, "id": "300435502", "label": "Paris inches"},
 	"fr_feet": {"parent": MeasurementUnit, "id":"300435503", "label": "Paris feet"},
@@ -341,6 +347,7 @@ identity_instances = {
 	"pixels": {"parent": MeasurementUnit, "id": "300266190", "label": "pixels"},
 	"rgb_colorspace": {"parent": MeasurementUnit, "id": "300266239", "label": "rgb"},
 
+	# Languages
 	"english": {"parent": Language, "id": "300388277", "label": "English"},
 	"french": {"parent": Language, "id":"300388306","label": "French"},
 	"german": {"parent": Language, "id":"300388344","label": "German"},
@@ -373,59 +380,7 @@ identity_instances = {
 	"swedish": {"parent": Language, "id": "300389336", "label": "Swedish"},
 	"turkish": {"parent": Language, "id": "300389470", "label": "Turkish"},
 
-	"primary": {"parent": Type, "id": "300404670", "label": "Primary"},
-	"artwork": {"parent": Type, "id": "300133025", "label": "Artwork"},
-	"work type": {"parent": Type, "id": "300435443", "label": "Type of Work"},
-
-	"public collection": {"parent": Type, "id": "300411912", "label": "Public Collection"},
-	"style of": {"parent": Type, "id": "300404285", "label": "Style Of"},
-	"computer generated": {"parent": Type, "id": "300202389", "label": "Computer Generated"},
-	"gender issues": {"parent": Type, "id": "300233686", "label": "Gender Issues"},
-	"war": {"parent": Type, "id": "300055314", "label": "War"},
-	"impressionism": {"parent": Type, "id":"300021503", "label": "Impressionism"},
-	"landscapes": {"parent": Type, "id":"300015636", "label": "Landscapes"},
-	"door piece": {"parent": Type, "id":"300002911", "label": "Door piece"},
-	"bust": {"parent": Type, "id":"300047457", "label": "Bust"},
-	"altarpiece": {"parent": Type, "id":"300075940", "label": "Altarpiece"},
-	"arched": {"parent": Type, "id":"300126995", "label": "Arched"},
-	"bas-relief": {"parent": Type, "id":"300184633", "label": "Bas-relief"},
-	"oval": {"parent": Type, "id":"300263817", "label": "Oval"},
-	"octagonal": {"parent": Type, "id":"300263824", "label": "Octagonal"},
-	"circle": {"parent": Type, "id":"300263827", "label": "Circle"},
-	"square": {"parent": Type, "id":"300263832", "label": "Square"},
-	"double-sided paintings": {"parent": Type, "id":"300265620", "label": "Double-sided Paintings"},
-	"oblong": {"parent": Type, "id":"300311843", "label": "Oblong"},
-	"upright": {"parent": Type, "id":"300343370", "label": "Upright"},
-	"city": {"parent": Type, "id": "300008389", "label": "City"},
-	"province": {"parent": Type, "id":"300000774", "label": "Province"},
-	"nation": {"parent": Type, "id": "300128207", "label": "Nation"},
-	"building": {"parent": Type, "id": "300004792", "label": "Building"},
-	"city block": {"parent": Type, "id": "300008077", "label": "City Block"},
-	"crime": {"parent": Type, "id": "300055289", "label": "Crime"},
-	"glassblowing": {"parent": Type, "id":"300053932", "label":"Glassblowing"},
-	"sculpting": {"parent": Type, "id":"300264383", "label": "Sculpting"},
-	"painting": {"parent": Type, "id":"300054216", "label": "Painting"},
-	"first": {"parent": Type, "id":"300404050", "label": "First"},
-	"last": {"parent": Type, "id": "XXX", "label": "Last"},
-
-	"style genre": {"parent": Type, "id":"300139140", "label": "Genre"},
-	"style landscape": {"parent": Type, "id":"300015636", "label": "Landscape"},
-	"style portrait": {"parent": Type, "id":"300015637", "label": "Portrait"},
-	"style still life": {"parent": Type, "id":"300015638", "label": "Still Life"},
-
-	"color red": {"parent": Type, "id": "300126225", "label": "Red"},
-	"color green": {"parent": Type, "id": "300128438", "label": "Green"},
-	"color blue": {"parent": Type, "id": "300129361", "label": "Blue"},
-	"color yellow": {"parent": Type, "id": "300127794", "label": "Yellow"},
-	"color orange": {"parent": Type, "id": "300126734", "label": "Orange"},
-	"color purple": {"parent": Type, "id": "300130257", "label": "Purple"},
-	"color brown": {"parent": Type, "id": "300127490", "label": "Brown"},
-	"color black": {"parent": Type, "id": "300130920", "label": "Black"},
-	"color white": {"parent": Type, "id": "300129784", "label": "White"},
-	"color gray": {"parent": Type, "id": "300130811", "label": "Gray"},
-
-	"brief text": {"parent": Type, "id": "300418049", "label":"Brief Text"},
-
+	# Currencies
 	"us dollars": {"parent": Currency, "id":"300411994", "label": "US Dollars"},
 	"gb pounds": {"parent": Currency, "id":"300411998", "label": "British Pounds"},
 	"gb shillings": {"parent": Currency, "id":"300412167", "label": "British Shillings"},
@@ -450,6 +405,60 @@ identity_instances = {
 	"groschen": {"parent": Currency, "id":"300191473", "label": "Groschen"},
 	"silbergroshen": {"parent": Currency, "id":"300412171", "label": "Silbergroshen"},
 	"stuiver": {"parent": Currency, "id":"300412172", "label": "Stuiver"},
+
+	# Color Dimensions -- additional Type on the Color Dimension instance
+	# See: https://linked.art/model/object/physical/
+	"color red": {"parent": Type, "id": "300126225", "label": "Red"},
+	"color green": {"parent": Type, "id": "300128438", "label": "Green"},
+	"color blue": {"parent": Type, "id": "300129361", "label": "Blue"},
+	"color yellow": {"parent": Type, "id": "300127794", "label": "Yellow"},
+	"color orange": {"parent": Type, "id": "300126734", "label": "Orange"},
+	"color purple": {"parent": Type, "id": "300130257", "label": "Purple"},
+	"color brown": {"parent": Type, "id": "300127490", "label": "Brown"},
+	"color black": {"parent": Type, "id": "300130920", "label": "Black"},
+	"color white": {"parent": Type, "id": "300129784", "label": "White"},
+	"color gray": {"parent": Type, "id": "300130811", "label": "Gray"},
+
+	# Techniques -- use technique property, no need to metatype
+	"glassblowing": {"parent": Type, "id":"300053932", "label":"Glassblowing"},
+	"sculpting": {"parent": Type, "id":"300264383", "label": "Sculpting"},
+	"painting": {"parent": Type, "id":"300054216", "label": "Painting"},
+
+	# Geographic
+	"city": {"parent": Type, "id": "300008389", "label": "City"},
+	"province": {"parent": Type, "id":"300000774", "label": "Province"},
+	"nation": {"parent": Type, "id": "300128207", "label": "Nation"},
+	"building": {"parent": Type, "id": "300004792", "label": "Building"},
+	"city block": {"parent": Type, "id": "300008077", "label": "City Block"},
+
+	# dot one qualifiers
+	"style of": {"parent": Type, "id": "300404285", "label": "Style Of"},
+
+	# General
+	"primary": {"parent": Type, "id": "300404670", "label": "Primary"},
+	"artwork": {"parent": Type, "id": "300133025", "label": "Artwork"},
+	"work type": {"parent": Type, "id": "300435443", "label": "Type of Work"},
+	"part type": {"parent": Type, "id":"300241583", "label": "Part Type"},
+	"brief text": {"parent": Type, "id": "300418049", "label":"Brief Text"},
+	"first": {"parent": Type, "id":"300404050", "label": "First"},
+	"last": {"parent": Type, "id": "XXX", "label": "Last"},
+
+	# Random?
+	"public collection": {"parent": Type, "id": "300411912", "label": "Public Collection"},
+	"computer generated": {"parent": Type, "id": "300202389", "label": "Computer Generated"},
+
+	# Subjects -- use is_about / subject project, no need to metatype
+	"gender issues": {"parent": Type, "id": "300233686", "label": "Gender Issues"},
+	"war": {"parent": Type, "id": "300055314", "label": "War"},
+	"crime": {"parent": Type, "id": "300055289", "label": "Crime"},
+
+	# Additional classifications for objects
+	"door piece": {"parent": Type, "id":"300002911", "label": "Door piece"}, # on Painting
+	"bust": {"parent": Type, "id":"300047457", "label": "Bust"}, # on Sculpture
+	"altarpiece": {"parent": Type, "id":"300075940", "label": "Altarpiece"}, # on Painting
+	"double-sided paintings": {"parent": Type, "id":"300265620", "label": "Double-sided Paintings"}, # on Painting
+	"bas-relief": {"parent": Type, "id":"300184633", "label": "Bas-relief"},
+
 }
 
 for (name,v) in identity_instances.items():
@@ -459,6 +468,8 @@ for (name,v) in ext_classes.items():
 
 
 local_instances = {
+
+	# Nationalities
 	"french nationality": {"parent": Nationality, "id": "300111188", "label": "French"},
 	"american nationality": {"parent": Nationality, "id": "300107956", "label": "American"},
 	"italian nationality": {"parent": Nationality, "id": "300111198", "label": "Italian"},
@@ -486,6 +497,8 @@ local_instances = {
 	"portuguese nationality": {"parent": Nationality, "id": "300111207", "label": "Portuguese"},
 	"japanese nationality": {"parent": Nationality, "id": "300018519", "label": "Japanese"},
 
+
+	# Nations
 	"belgium": {"parent": Nation, "id": "1000063", "vocab": "tgn", "label": "Belgium"},
 	"france": {"parent": Nation, "id": "1000070", "vocab": "tgn", "label": "France"},
 	"germany": {"parent": Nation, "id": "7000084", "vocab": "tgn", "label": "Germany"},
@@ -494,6 +507,23 @@ local_instances = {
 	"england": {"parent": Nation, "id": "7002445", "vocab": "tgn", "label": "England"},
 	"scotland": {"parent": Nation, "id": "7002444", "vocab": "tgn", "label": "Scotland"},
 	"wales": {"parent": Nation, "id": "7002443", "vocab": "tgn", "label": "Wales"},
+
+	# Shapes
+	"oval": {"parent": Shape, "id":"300263817", "label": "Oval"},
+	"octagonal": {"parent": Shape, "id":"300263824", "label": "Octagonal"},
+	"circle": {"parent": Shape, "id":"300263827", "label": "Circle"},
+	"square": {"parent": Shape, "id":"300263832", "label": "Square"},
+	"oblong": {"parent": Shape, "id":"300311843", "label": "Oblong"},
+	"upright": {"parent": Shape, "id":"300343370", "label": "Upright"},
+	"arched": {"parent": Shape, "id":"300126995", "label": "Arched"},
+
+	# Styles
+	"style genre": {"parent": Style, "id":"300139140", "label": "Genre"},
+	"style landscape": {"parent": Style, "id":"300015636", "label": "Landscape"},
+	"style portrait": {"parent": Style, "id":"300015637", "label": "Portrait"},
+	"style still life": {"parent": Style, "id":"300015638", "label": "Still Life"},
+	"style impressionism": {"parent": Style, "id":"300021503", "label": "Impressionism"},
+
 }
 
 for (name,v) in local_instances.items():
