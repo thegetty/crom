@@ -179,9 +179,12 @@ ext_classes = {
 	"MuseumOrg":   {"parent": Group, "id":"300312281", "label": "Museum"},
 	"Department":  {"parent": Group, "id":"300263534", "label": "Department"},
 	"School":      {"parent": Group, "id":"300404284", "label": "School"},
+	"Studio":      {"parent": Group, "id":"300404275", "label": "Studio"},
 	"Circle":      {"parent": Group, "id":"300404283", "label": "Circle"},
 	"Workshop":    {"parent": Group, "id":"300404274", "label": "Workshop"},
 	"Atelier":     {"parent": Group, "id":"300404277", "label": "Atelier"},
+	"FollowerGroup": {"parent": Group, "id":"300404282", "label": "Follower"},
+	"PupilGroup":  {"parent": Group, "id":"300404279", "label": "Pupil"},
 
 	"Nationality": {"parent": Type, "id":"300379842", "label": "Nationality"},
 	"Gender":      {"parent": Type, "id":"300055147", "label": "Gender"},
