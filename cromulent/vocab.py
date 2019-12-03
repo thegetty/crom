@@ -213,6 +213,7 @@ ext_classes = {
 
 	"PossibleAssignment": {"parent": AttributeAssignment, "id":"300404272", "label": "Possibly"}, # FIXME: Update the ids if we
 	"ProbableAssignment": {"parent": AttributeAssignment, "id":"300404271", "label": "Probably"}, # get new terms from Patricia
+	"ObsoleteAssignment": {"parent": AttributeAssignment, "id":"300404908", "label": "Obsolete"},
 
 	"ExhibitionIdea": {"parent": PropositionalObject, "id":"300417531", "label": "Exhibition"},
 
@@ -458,7 +459,6 @@ identity_instances = {
 	"altarpiece": {"parent": Type, "id":"300075940", "label": "Altarpiece"}, # on Painting
 	"double-sided paintings": {"parent": Type, "id":"300265620", "label": "Double-sided Paintings"}, # on Painting
 	"bas-relief": {"parent": Type, "id":"300184633", "label": "Bas-relief"},
-
 }
 
 for (name,v) in identity_instances.items():
