@@ -452,7 +452,7 @@
   "la:digitally_shown_by": [1,1],
   "la:digitally_available_via": [1,1],
   "la:digitally_makes_available": [1,1],
-  "la:property_classified_as": [1,0],
+  "la:property_classified_as": [1,1],
 
   "dc:format": [1,0], 
   "dcterms:conformsTo": [1,1], 
