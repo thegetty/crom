@@ -459,8 +459,6 @@ identity_instances = {
 	"altarpiece": {"parent": Type, "id":"300075940", "label": "Altarpiece"}, # on Painting
 	"double-sided paintings": {"parent": Type, "id":"300265620", "label": "Double-sided Paintings"}, # on Painting
 	"bas-relief": {"parent": Type, "id":"300184633", "label": "Bas-relief"},
-
-	"copy after": {"parent": Type, "id":"300404286", "label": "Copy after"},
 }
 
 for (name,v) in identity_instances.items():
