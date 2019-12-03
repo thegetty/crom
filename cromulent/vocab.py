@@ -203,6 +203,7 @@ ext_classes = {
 	"MultiExhibition": {"parent": Activity, "id":"300054773", "label": "Exhibiting in multiple locations"},
 	"Active":      {"parent": Activity, "id":"300393177", "label": "Professional Activities"},
 	"Publishing":  {"parent": Activity, "id":"300054686", "label": "Publishing"},
+	"Hiring":      {"parent": Activity, "id":"300109703", "label": "Hiring"},
 
 	"Purchase":  {"parent":Acquisition, "id":"300077989", "label": "Purchasing"},
 	"Procurement": {"parent": Activity, "id":"300137616", "label": "Procurement"},
