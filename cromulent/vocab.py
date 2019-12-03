@@ -460,6 +460,9 @@ identity_instances = {
 	"altarpiece": {"parent": Type, "id":"300075940", "label": "Altarpiece"}, # on Painting
 	"double-sided paintings": {"parent": Type, "id":"300265620", "label": "Double-sided Paintings"}, # on Painting
 	"bas-relief": {"parent": Type, "id":"300184633", "label": "Bas-relief"},
+
+	# Additional classifications for visual content
+	"allusion": {"parent": Type, "id":"300055815", "label":"Allusion"},
 }
 
 for (name,v) in identity_instances.items():
