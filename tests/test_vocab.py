@@ -37,6 +37,13 @@ class TestClassBuilder(unittest.TestCase):
 		self.assertTrue(len(inst.classified_as) == 2)
 		self.assertTrue(inst.classified_as[1].id == "http://vocab.getty.edu/aat/300033973")
 
+		from cromulent.model import HumanMadeObject
+
+		inst = make_multitype_obj(HumanMadeObject, Painting)
+		self.assertTrue(len(inst.classified_as) == 1)
+		self.assertTrue(inst.classified_as[0].id == "http://vocab.getty.edu/aat/300033618")
+
+
 	def test_art_setter(self):
 		p = model.HumanMadeObject("a", art=1)
 		p._label = "a"

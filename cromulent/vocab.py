@@ -548,7 +548,9 @@ def make_multitype_obj(*args, **kw):
 	inst = args[0](**kw)
 	for c in args[1:]:
 		for cn in c._classification:
-			if not cn in inst.classified_as:
+			if hasattr(inst, 'classified_as') and not cn in inst.classified_as:
+				inst.classified_as = cn
+			elif not hasattr(inst, 'classified_as'):
 				inst.classified_as = cn
 	return inst
 
