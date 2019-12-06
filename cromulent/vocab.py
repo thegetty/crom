@@ -212,8 +212,8 @@ ext_classes = {
 	"Storing": {"parent": Activity, "id":"300056390", "label": "Storing"},
 	"Producing": {"parent": Activity, "id":"300054713", "label": "Producing"},
 
-	"PossibleAssignment": {"parent": AttributeAssignment, "id":"300404272", "label": "Possibly"}, # FIXME: Update the ids if we
-	"ProbableAssignment": {"parent": AttributeAssignment, "id":"300404271", "label": "Probably"}, # get new terms from Patricia
+	"PossibleAssignment": {"parent": AttributeAssignment, "id":"300435722", "label": "Possibly"}, 
+	"ProbableAssignment": {"parent": AttributeAssignment, "id":"300435721", "label": "Probably"},
 	"ObsoleteAssignment": {"parent": AttributeAssignment, "id":"300404908", "label": "Obsolete"},
 
 	"ExhibitionIdea": {"parent": PropositionalObject, "id":"300417531", "label": "Exhibition"},
@@ -234,6 +234,7 @@ ext_classes = {
 	"DisplayName": {"parent": Name, "id": "300404669", "label": "Display Title"},
 	"AliasName": {"parent": Name, "id": "300404664", "label": "Alias"},
 	"MaidenName": {"parent": Name, "id": "300404682", "label": "Maiden Name"},
+	"FormerName": {"parent": Name, "id": "300435719", "label": "Former Name"},
 
 	"GivenName": {"parent": Name, "id":"300404651", "label": "Given Name"},
 	"FamilyName": {"parent": Name, "id":"300404652", "label": "Family Name"},
