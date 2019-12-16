@@ -121,6 +121,7 @@ ext_classes = {
 	"ProvenanceStatement": {"parent": LinguisticObject, "id":"300435438", "label": "Provenance Statement", "brief": True},
 	"BibliographyStatement": {"parent": LinguisticObject, "id": "300026497", "label": "Bibliography Statement", "brief": True},
 	"ExhibitionStatement": {"parent": LinguisticObject, "id":"300435424", "label":"Exhibition Statement", "brief": True},
+	"PriceStatement": {"parent": LinguisticObject, "id":"300055694", "label":"Price Statement", "brief": True},
 
 	"BiographyStatement": {"parent": LinguisticObject, "id":"300435422", "label": "Biography Statement", "brief": True},
 	"EditionStatement": {"parent": LinguisticObject, "id":"300435435", "label": "Edition Statement", "brief": True},
