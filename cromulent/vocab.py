@@ -105,7 +105,8 @@ ext_classes = {
 	"SignificanceStatement": {"parent": LinguisticObject, "id": "300435427", "label": "Significance Statement", "brief": True},
 	"ContextStatement": {"parent": LinguisticObject, "id": "300435428", "label": "Historical/Cultural Context", "brief": True},
 	"SourceStatement": {"parent": LinguisticObject, "id": "300404764", "label": "Source Statement", "brief": True},
-  
+	"PropertyStatusStatement": {"parent": LinguisticObject, "id": "300417651", "label": "Property Status Statement", "brief": True},
+
 	"MarkingsStatement": {"parent": LinguisticObject, "id": "300435420", "label": "Markings", "brief": True},
 	"InscriptionStatement": {"parent": LinguisticObject, "id": "300435414", "label": "Inscription", "brief": True},
 	"SignatureStatement": {"parent": LinguisticObject, "id": "300435415", "label": "Signature", "brief": True},
@@ -139,6 +140,7 @@ ext_classes = {
 	"RegisterText": {"parent": LinguisticObject, "id":"300027168", "label": "Register"},
 	"PageText": {"parent": LinguisticObject, "id":"300194222", "label": "Page"},
 	"FolioText": {"parent": LinguisticObject, "id":"300189604", "label": "Folio"},
+	"ParagraphText": {"parent": LinguisticObject, "id":"300417223", "label": "Paragraph"},
 
 	"WebPage": {"parent": LinguisticObject, "id":"300264578", "label": "Web Page"},
 	"DataRecord": {"parent": LinguisticObject, "id":"300026685", "label": "Data Record"}, # Not sure about this one
