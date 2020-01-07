@@ -230,7 +230,7 @@
   "P17i_motivated": [1,1], 
   "P180_has_currency": [1,0], 
   "P180i_was_currency_of": [1,1], 
-  "P181_has_amount": [0,1],
+  "P181_has_amount": [0,0],
   "P182_ends_before_or_with_the_start_of": [0,1],
   "P182i_starts_after_or_with_the_end_of": [0,1],
   "P183_ends_before_the_start_of": [1,1],
