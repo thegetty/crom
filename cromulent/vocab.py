@@ -174,9 +174,12 @@ ext_classes = {
 	"AuctionHouse": {"parent": Place, "id":"300005234", "label": "Auction House (place)"},
 	"MuseumPlace":  {"parent": Place, "id":"300005768", "label": "Museum (place)"},
 	"ExhibitionPlace": {"parent": Place, "id":"300005748", "label": "Exhibition (place)"},
+	"CityBlock":    {"parent": Place, "id":"300008077", "label": "City Block"},
 	"City":         {"parent": Place, "id":"300008389", "label": "City"},
 	"Province":     {"parent": Place, "id":"300000774", "label": "Province"},
 	"Nation":       {"parent": Place, "id":"300128207", "label": "Nation"},
+
+	"Building":     {"parent": HumanMadeObject, "id": "300004792", label:"Building"},
 
 	"AuctionHouseOrg": {"parent": Group, "id": "300417515", "label": "Auction House (organization)"},
 	"MuseumOrg":   {"parent": Group, "id":"300312281", "label": "Museum"},
