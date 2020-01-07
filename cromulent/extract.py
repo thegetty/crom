@@ -426,9 +426,9 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 		- bibliographic statement: `price_citation`
 	'''
 	amount_type = 'Price'
-	if 'price' in data or 'price_amount' in data:
+	if 'price' in data or 'price_amount' in data or 'amount' in data:
 		amnt = model.MonetaryAmount(ident='')
-		price_amount = data.get('price_amount', data.get('price'))
+		price_amount = data.get('price_amount', data.get('price', data.get('amount')))
 		price_currency = data.get('currency', data.get('price_currency', data.get('price_curr')))
 		note = data.get('price_note', data.get('price_desc'))
 		cite = data.get('price_citation', data.get('citation'))
