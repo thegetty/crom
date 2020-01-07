@@ -105,7 +105,7 @@ ext_classes = {
 	"SignificanceStatement": {"parent": LinguisticObject, "id": "300435427", "label": "Significance Statement", "brief": True},
 	"ContextStatement": {"parent": LinguisticObject, "id": "300435428", "label": "Historical/Cultural Context", "brief": True},
 	"SourceStatement": {"parent": LinguisticObject, "id": "300404764", "label": "Source Statement", "brief": True},
-	"PropertyStatusStatement": {"parent": LinguisticObject, "id": "300417651", "label": "Property Status Statement", "brief": True},
+	"PropertyStatusStatement": {"parent": LinguisticObject, "id": "300438433", "label": "Property Status Statement", "brief": True},
 
 	"MarkingsStatement": {"parent": LinguisticObject, "id": "300435420", "label": "Markings", "brief": True},
 	"InscriptionStatement": {"parent": LinguisticObject, "id": "300435414", "label": "Inscription", "brief": True},
@@ -143,9 +143,9 @@ ext_classes = {
 	"ParagraphText": {"parent": LinguisticObject, "id":"300417223", "label": "Paragraph"},
 
 	"WebPage": {"parent": LinguisticObject, "id":"300264578", "label": "Web Page"},
-	"DataRecord": {"parent": LinguisticObject, "id":"300026685", "label": "Data Record"}, # Not sure about this one
+	"DataRecord": {"parent": LinguisticObject, "id":"300438434", "label": "Entry or Record"},
 	"Heading": {"parent": LinguisticObject, "id": "300200862", "label": "Heading"},
-	"SubHeading": {"parent": LinguisticObject, "id": "300419992", "label": "Heading"},
+	"SubHeading": {"parent": LinguisticObject, "id": "300419992", "label": "SubHeading"},
 
 	"JournalText": {"parent": LinguisticObject, "id":"300215390", "label": "Journal"},
 	"IssueText": {"parent": LinguisticObject, "id":"300312349", "label": "Issue"},
