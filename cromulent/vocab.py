@@ -179,7 +179,7 @@ ext_classes = {
 	"Province":     {"parent": Place, "id":"300000774", "label": "Province"},
 	"Nation":       {"parent": Place, "id":"300128207", "label": "Nation"},
 
-	"Building":     {"parent": HumanMadeObject, "id": "300004792", label:"Building"},
+	"Building":     {"parent": HumanMadeObject, "id": "300004792", "label":"Building"},
 
 	"AuctionHouseOrg": {"parent": Group, "id": "300417515", "label": "Auction House (organization)"},
 	"MuseumOrg":   {"parent": Group, "id":"300312281", "label": "Museum"},
