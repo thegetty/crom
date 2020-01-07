@@ -2566,7 +2566,8 @@
     }, 
     "property_classified_as": {
       "@id": "la:property_classified_as", 
-      "@type": "@id"
+      "@type": "@id", 
+      "@container": "@set"
     }, 
     "paid_amount": {
       "@id": "la:paid_amount", 

@@ -127,6 +127,8 @@ scoped_classes = {
 	"Group": "P107"
 }
 
+other_scoped = {
+}
 
 # enforce these in the context
 literal_types = [
@@ -168,6 +170,10 @@ for l in lines:
 					"part_of": {"@id": part_of, "@type": "@id", "@container": "@set"},
 					"member_of": {"@id": parts["set"][1], "@type": "@id", "@container": "@set"}					
 				}
+		# Add other scopes if needed
+		if ctname in other_scoped:
+			context[ctname]['@context'] = other_scoped[ctname]
+
 	else:
 		ctname = info[2]
 		write = not ctname in ['part', 'part_of', 'member', 'member_of']
