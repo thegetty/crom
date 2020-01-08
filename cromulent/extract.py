@@ -307,7 +307,7 @@ def extract_physical_dimensions(dimstr, **kwargs):
 					dim.unit = unit
 				yield dim
 
-def dimensions_cleaner(value, assume_unit=None):
+def dimensions_cleaner(value, default_unit=None):
 	'''
 	Attempt to parse a set of dimensions from the given string.
 
@@ -325,11 +325,11 @@ def dimensions_cleaner(value, assume_unit=None):
 	for cleaner in cleaners:
 		dimensions = cleaner(value)
 		if dimensions:
-			if assume_unit:
+			if default_unit:
 				for i, d_list in enumerate(dimensions):
 					for j, d in enumerate(d_list):
 						if d.unit is None:
-							dimensions[i][j] = Dimension(value=d.value, unit=assume_unit, which=d.which)
+							dimensions[i][j] = Dimension(value=d.value, unit=default_unit, which=d.which)
 			return dimensions
 	return None
 
