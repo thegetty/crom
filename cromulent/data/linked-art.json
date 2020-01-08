@@ -2380,7 +2380,7 @@
     }, 
     "assigned_property": {
       "@id": "crm:P177_assigned_property_type", 
-      "@type": "@id"
+      "@type": "@vocab"
     }, 
     "sales_price": {
       "@id": "crm:P179_had_sales_price", 
