@@ -457,6 +457,7 @@ identity_instances = {
 	"public collection": {"parent": Type, "id": "300411912", "label": "Public Collection"},
 	"computer generated": {"parent": Type, "id": "300202389", "label": "Computer Generated"},
 	"vandalism": {"parent": Type, "id":"300055299", "label": "Vandalism"},
+	"contribution": {"parent": Type, "id":"300403975", "label":"Contribution"},  # As opposed to primarily responsible
 
 	# Subjects -- use is_about / subject project, no need to metatype
 	"gender issues": {"parent": Type, "id": "300233686", "label": "Gender Issues"},
@@ -614,10 +615,7 @@ def add_attribute_assignment_check():
 	def aa_set_assigned_property_type(self, value):
 		ass_res = getattr(self, ass, None)
 		assto_res = getattr(self, assto, None)
-		if not assto_res:
-			# override
-			assto_res = BaseResource()
-		if ass_res:
+		if ass_res and assto_res:
 			assto_res._check_prop(value, ass_res)
 		object.__setattr__(self, p177, value)
 	setattr(AttributeAssignment, "set_%s" % p177, aa_set_assigned_property_type)
