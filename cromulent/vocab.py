@@ -432,6 +432,7 @@ identity_instances = {
 	"glassblowing": {"parent": Type, "id":"300053932", "label":"Glassblowing"},
 	"sculpting": {"parent": Type, "id":"300264383", "label": "Sculpting"},
 	"painting": {"parent": Type, "id":"300054216", "label": "Painting"},
+	"spraypainting": {"parent": Type, "id":"300053816", "label": "Spraypainting"},
 
 	# Geographic
 	"city": {"parent": Type, "id": "300008389", "label": "City"},
@@ -455,6 +456,7 @@ identity_instances = {
 	# Random?
 	"public collection": {"parent": Type, "id": "300411912", "label": "Public Collection"},
 	"computer generated": {"parent": Type, "id": "300202389", "label": "Computer Generated"},
+	"vandalism": {"parent": Type, "id":"300055299", "label": "Vandalism"},
 
 	# Subjects -- use is_about / subject project, no need to metatype
 	"gender issues": {"parent": Type, "id": "300233686", "label": "Gender Issues"},
