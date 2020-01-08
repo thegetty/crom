@@ -172,7 +172,7 @@ def parse_simple_dimensions(value, which=None):
 		return None
 	return dims
 
-def normalized_dimension_object(dimensions, source=None):
+def normalized_dimension_object(dimensions, source=None, **kwargs):
 	'''
 	Normalizes the given `dimensions`, or returns `None` is normalization fails.
 
@@ -193,7 +193,7 @@ def normalized_dimension_object(dimensions, source=None):
 			"10 feet, 3 inches"
 		)
 	'''
-	normalized = normalize_dimension(dimensions, source=source)
+	normalized = normalize_dimension(dimensions, source=source, **kwargs)
 	if not normalized:
 		return None
 	labels = []
@@ -287,8 +287,8 @@ def normalize_dimension(dimensions, source=None):
 		return Dimension(value=centimeters, unit='cm', which=which)
 	return Dimension(value=unknown, unit=None, which=which)
 
-def extract_physical_dimensions(dimstr):
-	dimensions = dimensions_cleaner(dimstr)
+def extract_physical_dimensions(dimstr, **kwargs):
+	dimensions = dimensions_cleaner(dimstr, **kwargs)
 	if dimensions:
 		for orig_d in dimensions:
 			dimdata = normalized_dimension_object(orig_d, source=dimstr)
@@ -307,7 +307,7 @@ def extract_physical_dimensions(dimstr):
 					dim.unit = unit
 				yield dim
 
-def dimensions_cleaner(value):
+def dimensions_cleaner(value, assume_unit=None):
 	'''
 	Attempt to parse a set of dimensions from the given string.
 
@@ -323,9 +323,14 @@ def dimensions_cleaner(value):
 		simple_dimensions_cleaner_x1
 	]
 	for cleaner in cleaners:
-		dimension = cleaner(value)
-		if dimension:
-			return dimension
+		dimensions = cleaner(value)
+		if dimensions:
+			if assume_unit:
+				for i, d_list in enumerate(dimensions):
+					for j, d in enumerate(d_list):
+						if d.unit is None:
+							dimensions[i][j] = Dimension(value=d.value, unit=assume_unit, which=d.which)
+			return dimensions
 	return None
 
 def french_dimensions_cleaner_x2(value):
