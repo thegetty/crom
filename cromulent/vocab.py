@@ -226,6 +226,7 @@ ext_classes = {
 
 	"Theft": {"parent": TransferOfCustody, "id": "300055292", "label": "Theft"},
 	"Looting": {"parent": TransferOfCustody, "id":"300379554", "label": "Looting"},
+	"Loss": {"parent": TransferOfCustody, "id":"300417655", "label": "Loss"},
 
 	"AuctionLotSet": {"parent": Set, "id":"300411307", "label": "Auction Lot"},
 	"CollectionSet": {"parent": Set, "id":"300025976", "label": "Collection"},
