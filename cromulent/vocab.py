@@ -10,7 +10,7 @@ from .model import Identifier, Mark, HumanMadeObject, Type, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
 	Acquisition, HumanMadeFeature, VisualItem, Set, Birth, Death, \
 	PropositionalObject, Payment, Creation, Phase, Period, \
-	Production, Event, DigitalObject, \
+	Production, Event, DigitalObject, TransferOfCustody, \
 	STR_TYPES, factory
 
 # Add classified_as initialization hack for all resources
@@ -224,8 +224,8 @@ ext_classes = {
 
 	"ExhibitionIdea": {"parent": PropositionalObject, "id":"300417531", "label": "Exhibition"},
 
-	"Theft": {"parent": Acquisition, "id": "300055292", "label": "Theft"},
-	"Looting": {"parent": Acquisition, "id":"300379554", "label": "Looting"},
+	"Theft": {"parent": TransferOfCustody, "id": "300055292", "label": "Theft"},
+	"Looting": {"parent": TransferOfCustody, "id":"300379554", "label": "Looting"},
 
 	"AuctionLotSet": {"parent": Set, "id":"300411307", "label": "Auction Lot"},
 	"CollectionSet": {"parent": Set, "id":"300025976", "label": "Collection"},
