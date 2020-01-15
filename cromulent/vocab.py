@@ -36,10 +36,7 @@ def register_vocab_class(name, data):
 		t = Type("http://vocab.getty.edu/%s/%s" % (vocab, id))
 	t._label = label
 	instance_types[name] = t
-	if parent == LinguisticObject and "brief" in data:
-		c._classification = [t, instances["brief text"]]
-	else:	
-		c._classification = [t]		
+	c._classification = [t]		
 	if "metatype" in data:
 		t.classified_as = instances[data['metatype']]
 	c._type = None # To avoid conflicting with parent class
@@ -91,46 +88,45 @@ ext_classes = {
 
 	"OwnershipPhase": {"parent": Phase, "id": "300055603", "label": "Ownership Phase"},
 
-	"Note": {"parent": LinguisticObject, "id":"300027200", "label": "Note", "brief": True},
-	"Description": {"parent": LinguisticObject, "id":"300411780", "label": "Description", "brief": True},
 	"_BriefText": {"parent": LinguisticObject, "id": "300418049", "label":"Brief Text"},
-	"Abstract": {"parent": LinguisticObject, "id":"300026032", "label": "Abstract", "brief": True},
-	"Annotation": {"parent": LinguisticObject, "id":"300026100", "label":"Annotation"},
-	"Citation": {"parent": LinguisticObject, "id":"300311705", "label": "Citation", "brief": True},
+	"Note": {"parent": LinguisticObject, "id":"300027200", "label": "Note", "metatype": "brief text"},
+	"Description": {"parent": LinguisticObject, "id":"300411780", "label": "Description", "metatype": "brief text"},
+	"Abstract": {"parent": LinguisticObject, "id":"300026032", "label": "Abstract", "metatype": "brief text"},
+	"Citation": {"parent": LinguisticObject, "id":"300311705", "label": "Citation", "metatype": "brief text"},
 
-	"CreditStatement": {"parent": LinguisticObject, "id": "300026687", "label": "Credit Statement", "brief": True},
-	"RightsStatement": {"parent": LinguisticObject, "id": "300435434", "label": "Copyright/License Statement", "brief": True},
-	"ValuationStatement": {"parent": LinguisticObject, "id": "300435426", "label": "Appraisal Statement", "brief": True},
-	"ConditionStatement": {"parent": LinguisticObject, "id": "300435425", "label": "Condition Statement", "brief": True},
-	"SignificanceStatement": {"parent": LinguisticObject, "id": "300435427", "label": "Significance Statement", "brief": True},
-	"ContextStatement": {"parent": LinguisticObject, "id": "300435428", "label": "Historical/Cultural Context", "brief": True},
-	"SourceStatement": {"parent": LinguisticObject, "id": "300404764", "label": "Source Statement", "brief": True},
-	"PropertyStatusStatement": {"parent": LinguisticObject, "id": "300438433", "label": "Property Status Statement", "brief": True},
+	"CreditStatement": {"parent": LinguisticObject, "id": "300026687", "label": "Credit Statement", "metatype": "brief text"},
+	"RightsStatement": {"parent": LinguisticObject, "id": "300435434", "label": "Copyright/License Statement", "metatype": "brief text"},
+	"ValuationStatement": {"parent": LinguisticObject, "id": "300435426", "label": "Appraisal Statement", "metatype": "brief text"},
+	"ConditionStatement": {"parent": LinguisticObject, "id": "300435425", "label": "Condition Statement", "metatype": "brief text"},
+	"SignificanceStatement": {"parent": LinguisticObject, "id": "300435427", "label": "Significance Statement", "metatype": "brief text"},
+	"ContextStatement": {"parent": LinguisticObject, "id": "300435428", "label": "Historical/Cultural Context", "metatype": "brief text"},
+	"SourceStatement": {"parent": LinguisticObject, "id": "300404764", "label": "Source Statement", "metatype": "brief text"},
+	"PropertyStatusStatement": {"parent": LinguisticObject, "id": "300438433", "label": "Property Status Statement", "metatype": "brief text"},
 
-	"MarkingsStatement": {"parent": LinguisticObject, "id": "300435420", "label": "Markings", "brief": True},
-	"InscriptionStatement": {"parent": LinguisticObject, "id": "300435414", "label": "Inscription", "brief": True},
-	"SignatureStatement": {"parent": LinguisticObject, "id": "300435415", "label": "Signature", "brief": True},
-	"WatermarksStatement": {"parent": LinguisticObject, "id": "300435421", "label": "Watermarks", "brief": True},
-	"MaterialStatement": {"parent": LinguisticObject, "id": "300435429", "label": "Material Statement", "brief": True},
-	"PhysicalStatement": {"parent": LinguisticObject, "id": "300435452", "label": "Physical Statement", "brief": True},
-	"DimensionStatement": {"parent": LinguisticObject, "id": "300435430", "label": "Dimension Statement", "brief": True},
-	"CultureStatement": {"parent": LinguisticObject, "id": "300435431", "label": "Culture Statement", "brief": True},
-	"PeriodStatement": {"parent": LinguisticObject, "id": "300435432", "label": "Period Statement", "brief": True},
+	"MarkingsStatement": {"parent": LinguisticObject, "id": "300435420", "label": "Markings", "metatype": "brief text"},
+	"InscriptionStatement": {"parent": LinguisticObject, "id": "300435414", "label": "Inscription", "metatype": "brief text"},
+	"SignatureStatement": {"parent": LinguisticObject, "id": "300435415", "label": "Signature", "metatype": "brief text"},
+	"WatermarksStatement": {"parent": LinguisticObject, "id": "300435421", "label": "Watermarks", "metatype": "brief text"},
+	"MaterialStatement": {"parent": LinguisticObject, "id": "300435429", "label": "Material Statement", "metatype": "brief text"},
+	"PhysicalStatement": {"parent": LinguisticObject, "id": "300435452", "label": "Physical Statement", "metatype": "brief text"},
+	"DimensionStatement": {"parent": LinguisticObject, "id": "300435430", "label": "Dimension Statement", "metatype": "brief text"},
+	"CultureStatement": {"parent": LinguisticObject, "id": "300435431", "label": "Culture Statement", "metatype": "brief text"},
+	"PeriodStatement": {"parent": LinguisticObject, "id": "300435432", "label": "Period Statement", "metatype": "brief text"},
 
-	"ProductionStatement": {"parent": LinguisticObject, "id": "300435436", "label": "Production Statement", "brief": True },
-	"AcquisitionStatement": {"parent": LinguisticObject, "id": "300435439", "label": "Acquisition Statement", "brief": True},
-	"ProvenanceStatement": {"parent": LinguisticObject, "id":"300435438", "label": "Provenance Statement", "brief": True},
-	"BibliographyStatement": {"parent": LinguisticObject, "id": "300026497", "label": "Bibliography Statement", "brief": True},
-	"ExhibitionStatement": {"parent": LinguisticObject, "id":"300435424", "label":"Exhibition Statement", "brief": True},
-	"PriceStatement": {"parent": LinguisticObject, "id":"300055694", "label":"Price Statement", "brief": True},
+	"ProductionStatement": {"parent": LinguisticObject, "id": "300435436", "label": "Production Statement", "metatype": "brief text" },
+	"AcquisitionStatement": {"parent": LinguisticObject, "id": "300435439", "label": "Acquisition Statement", "metatype": "brief text"},
+	"ProvenanceStatement": {"parent": LinguisticObject, "id":"300435438", "label": "Provenance Statement", "metatype": "brief text"},
+	"BibliographyStatement": {"parent": LinguisticObject, "id": "300026497", "label": "Bibliography Statement", "metatype": "brief text"},
+	"ExhibitionStatement": {"parent": LinguisticObject, "id":"300435424", "label":"Exhibition Statement", "metatype": "brief text"},
+	"PriceStatement": {"parent": LinguisticObject, "id":"300055694", "label":"Price Statement", "metatype": "brief text"},
 
-	"BiographyStatement": {"parent": LinguisticObject, "id":"300435422", "label": "Biography Statement", "brief": True},
-	"EditionStatement": {"parent": LinguisticObject, "id":"300435435", "label": "Edition Statement", "brief": True},
-	"PaginationStatement": {"parent": LinguisticObject, "id":"300435440", "label": "Pagination Statement", "brief": True},
-	"FoliationStatement": {"parent": LinguisticObject, "id":"300435441", "label": "Foliation Statement", "brief": True},
-	"LanguageStatement": {"parent": LinguisticObject, "id": "300435433", "label": "Language Statement", "brief": True},
+	"BiographyStatement": {"parent": LinguisticObject, "id":"300435422", "label": "Biography Statement", "metatype": "brief text"},
+	"EditionStatement": {"parent": LinguisticObject, "id":"300435435", "label": "Edition Statement", "metatype": "brief text"},
+	"PaginationStatement": {"parent": LinguisticObject, "id":"300435440", "label": "Pagination Statement", "metatype": "brief text"},
+	"FoliationStatement": {"parent": LinguisticObject, "id":"300435441", "label": "Foliation Statement", "metatype": "brief text"},
+	"LanguageStatement": {"parent": LinguisticObject, "id": "300435433", "label": "Language Statement", "metatype": "brief text"},
 
-	"TranscribedInscription": {"parent": LinguisticObject, "id": "300028702", "label": "Transcribed Inscription", "brief": True},
+	"TranscribedInscription": {"parent": LinguisticObject, "id": "300028702", "label": "Transcribed Inscription", "metatype": "brief text"},
 
 	"CatalogueRaisonneText": {"parent": LinguisticObject, "id":"300026061", "label": "Catalogue Raisonne"},
 	"AuctionCatalogText": {"parent": LinguisticObject, "id":"300026068", "label": "Auction Catalog"},
@@ -141,6 +137,7 @@ ext_classes = {
 	"PageText": {"parent": LinguisticObject, "id":"300194222", "label": "Page"},
 	"FolioText": {"parent": LinguisticObject, "id":"300189604", "label": "Folio"},
 	"ParagraphText": {"parent": LinguisticObject, "id":"300417223", "label": "Paragraph"},
+	"Annotation": {"parent": LinguisticObject, "id":"300026100", "label":"Annotation"},
 
 	"WebPage": {"parent": LinguisticObject, "id":"300264578", "label": "Web Page"},
 	"DataRecord": {"parent": LinguisticObject, "id":"300438434", "label": "Entry or Record"},
