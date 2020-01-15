@@ -136,6 +136,26 @@ class TestDimensionExtraction(unittest.TestCase):
 					with suppress(AttributeError):
 						self.assertEqual(got.identified_by, expected.identified_by)
 
+	def test_extract_physical_dimensions_with_default(self):
+		'''
+		Test the documented formats that `cromulent.extract.extract_physical_dimensions`
+		can parse, specifying a default unit, and ensure that it returns the expected data.
+		'''
+		tests = {}
+		h9l7_height = cromulent.vocab.Height(ident='', content=9.0)
+		h9l7_height.identified_by = cromulent.model.Name(ident='', content='9 French inches')
+		h9l7_height.unit = cromulent.vocab.instances.get('fr_inches')
+		h9l7_width = cromulent.vocab.Width(ident='', content=7.0)
+		h9l7_width.unit = cromulent.vocab.instances.get('inches')
+		tests["hauteur 9 pouces, largeur 7"] = [h9l7_height, h9l7_width]
+
+		for value, expected_dims in tests.items():
+			dims = list(cromulent.extract.extract_physical_dimensions(value, default_unit='inches'))
+			for got, expected in zip(dims, expected_dims):
+				self.assertEqual(got.value, expected.value)
+				self.assertEqual(got.type, expected.type)
+				self.assertEqual(got.unit, expected.unit)
+
 	def test_normalize_dimension(self):
 		tests = {
 			'1 ft, 2 in': ('1 foot, 2 inches', Dimension(value=14, unit='inches', which=None)),

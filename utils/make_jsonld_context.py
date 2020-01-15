@@ -38,7 +38,7 @@ extension = OrderedDict()
 extension['@version'] = 1.1
 extension['crm'] = "http://www.cidoc-crm.org/cidoc-crm/"
 
-vocab_properties = ["assigned_property_type"]
+vocab_properties = ["assigned_property"]
 
 parts = {
 	"P9": ["crm:P9_consists_of", "crm:P9i_forms_part_of"],

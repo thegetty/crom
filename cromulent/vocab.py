@@ -10,7 +10,7 @@ from .model import Identifier, Mark, HumanMadeObject, Type, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
 	Acquisition, HumanMadeFeature, VisualItem, Set, Birth, Death, \
 	PropositionalObject, Payment, Creation, Phase, Period, \
-	Production, Event, DigitalObject, \
+	Production, Event, DigitalObject, TransferOfCustody, \
 	STR_TYPES, factory
 
 # Add classified_as initialization hack for all resources
@@ -171,9 +171,12 @@ ext_classes = {
 	"AuctionHouse": {"parent": Place, "id":"300005234", "label": "Auction House (place)"},
 	"MuseumPlace":  {"parent": Place, "id":"300005768", "label": "Museum (place)"},
 	"ExhibitionPlace": {"parent": Place, "id":"300005748", "label": "Exhibition (place)"},
+	"CityBlock":    {"parent": Place, "id":"300008077", "label": "City Block"},
 	"City":         {"parent": Place, "id":"300008389", "label": "City"},
 	"Province":     {"parent": Place, "id":"300000774", "label": "Province"},
 	"Nation":       {"parent": Place, "id":"300128207", "label": "Nation"},
+
+	"Building":     {"parent": HumanMadeObject, "id": "300004792", "label":"Building"},
 
 	"AuctionHouseOrg": {"parent": Group, "id": "300417515", "label": "Auction House (organization)"},
 	"MuseumOrg":   {"parent": Group, "id":"300312281", "label": "Museum"},
@@ -218,8 +221,9 @@ ext_classes = {
 
 	"ExhibitionIdea": {"parent": PropositionalObject, "id":"300417531", "label": "Exhibition"},
 
-	"Theft": {"parent": Acquisition, "id": "300055292", "label": "Theft"},
-	"Looting": {"parent": Acquisition, "id":"300379554", "label": "Looting"},
+	"Theft": {"parent": TransferOfCustody, "id": "300055292", "label": "Theft"},
+	"Looting": {"parent": TransferOfCustody, "id":"300379554", "label": "Looting"},
+	"Loss": {"parent": TransferOfCustody, "id":"300417655", "label": "Loss"},
 
 	"AuctionLotSet": {"parent": Set, "id":"300411307", "label": "Auction Lot"},
 	"CollectionSet": {"parent": Set, "id":"300025976", "label": "Collection"},
@@ -426,6 +430,7 @@ identity_instances = {
 	"glassblowing": {"parent": Type, "id":"300053932", "label":"Glassblowing"},
 	"sculpting": {"parent": Type, "id":"300264383", "label": "Sculpting"},
 	"painting": {"parent": Type, "id":"300054216", "label": "Painting"},
+	"spraypainting": {"parent": Type, "id":"300053816", "label": "Spraypainting"},
 
 	# Geographic
 	"city": {"parent": Type, "id": "300008389", "label": "City"},
@@ -449,6 +454,8 @@ identity_instances = {
 	# Random?
 	"public collection": {"parent": Type, "id": "300411912", "label": "Public Collection"},
 	"computer generated": {"parent": Type, "id": "300202389", "label": "Computer Generated"},
+	"vandalism": {"parent": Type, "id":"300055299", "label": "Vandalism"},
+	"contribution": {"parent": Type, "id":"300403975", "label":"Contribution"},  # As opposed to primarily responsible
 
 	# Subjects -- use is_about / subject project, no need to metatype
 	"gender issues": {"parent": Type, "id": "300233686", "label": "Gender Issues"},
@@ -606,10 +613,7 @@ def add_attribute_assignment_check():
 	def aa_set_assigned_property_type(self, value):
 		ass_res = getattr(self, ass, None)
 		assto_res = getattr(self, assto, None)
-		if not assto_res:
-			# override
-			assto_res = BaseResource()
-		if ass_res:
+		if ass_res and assto_res:
 			assto_res._check_prop(value, ass_res)
 		object.__setattr__(self, p177, value)
 	setattr(AttributeAssignment, "set_%s" % p177, aa_set_assigned_property_type)
