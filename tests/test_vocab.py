@@ -103,3 +103,18 @@ class TestClassBuilder(unittest.TestCase):
 		a.caused = p
 		js = factory.toJSON(a)
 		self.assertTrue(not 'classified_as' in js['caused'][0])		
+
+	def test_linguistic_object_boundary(self):
+		vocab.add_linked_art_boundary_check()
+		jrnl = vocab.JournalText(label="journal")
+		issue = vocab.IssueText(label="issue")
+		issue.part_of = jrnl
+		issue.referred_to_by = vocab.MaterialStatement(content="Statement")
+
+		js = factory.toJSON(issue)
+		# Have not embedded journal in issue
+		self.assertTrue(not 'classified_as' in js['part_of'][0])
+		# Have embedded statement in issue
+		self.assertTrue('content' in js['referred_to_by'][0])
+		self.assertTrue('type' in js['referred_to_by'][0]['classified_as'][0]['classified_as'][0])
+
