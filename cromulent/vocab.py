@@ -224,6 +224,8 @@ ext_classes = {
 	"Theft": {"parent": TransferOfCustody, "id": "300055292", "label": "Theft"},
 	"Looting": {"parent": TransferOfCustody, "id":"300379554", "label": "Looting"},
 	"Loss": {"parent": TransferOfCustody, "id":"300417655", "label": "Loss"},
+	"Loan": {"parent": TransferOfCustody, "id":"300417645", "label": "Loan"},
+	"LongtermLoan": {"parent": TransferOfCustody, "id":"300417646", "label": "Long-term Loan"},
 
 	"AuctionLotSet": {"parent": Set, "id":"300411307", "label": "Auction Lot"},
 	"CollectionSet": {"parent": Set, "id":"300025976", "label": "Collection"},
@@ -643,18 +645,24 @@ def add_linked_art_boundary_check():
 
 	def my_linked_art_boundary_check(self, top, rel, value):
 		# True = Embed ; False = Split
-		if isinstance(value, LinguisticObject) and hasattr(value, 'classified_as') and instances['brief text'] in value.classified_as:
-			# linguistic objects and * can be described by embedded linguistic objects
-			return True
+		if isinstance(value, LinguisticObject) and hasattr(value, 'classified_as'):
+			for ca in value.classified_as:
+				if instances['brief text'] in getattr(ca, 'classified_as', []):
+					return True
+		# Non Statement Linguistic objects might still be internal or external
+		# so apply logic from relating properties, not return False
 		elif isinstance(value, Procurement):
 			return False
-		elif rel in ["part", "member"]:
+
+		if rel in ["part", "member"]:
 			# Downwards, internal simple partitioning 
+			# This catches an internal part to a LinguisticObject
 			return True
 		elif rel in ["part_of", 'member_of']:
 			# upwards partition refs are inclusion, and always boundary crossing
 			return False
 		elif value.type in boundary_classes:
+			# This catches the external text LinguisticObject
 			return False
 		elif value.type in embed_classes:
 			return True
