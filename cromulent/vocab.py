@@ -647,7 +647,7 @@ def add_linked_art_boundary_check():
 		# True = Embed ; False = Split
 		if isinstance(value, LinguisticObject) and hasattr(value, 'classified_as'):
 			for ca in value.classified_as:
-				if hasattr(ca, 'classified_as') and instances['brief text'] in ca.classified_as:
+				if instances['brief text'] in getattr(ca, 'classified_as', []):
 					return True
 		# Non Statement Linguistic objects might still be internal or external
 		# so apply logic from relating properties, not return False
