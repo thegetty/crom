@@ -209,23 +209,25 @@ ext_classes = {
 	"Hiring":      {"parent": Activity, "id":"300109703", "label": "Hiring"},
 
 	"Purchase":  {"parent":Acquisition, "id":"300077989", "label": "Purchasing"},
-	"Procurement": {"parent": Activity, "id":"300137616", "label": "Procurement"},
 	"Assembling": {"parent": Activity, "id":"300077121", "label":"Assembling"},
 	"Managing": {"parent": Activity, "id":"300054277", "label": "Managing"},
 	"Storing": {"parent": Activity, "id":"300056390", "label": "Storing"},
 	"Producing": {"parent": Activity, "id":"300054713", "label": "Producing"},
+
+	"ProvenanceEntry": {"parent": Activity, "id":"300055863", "label": "Provenance Entry"},
+	"ReturnOfLoan": {"parent": TransferOfCustody, "id":"300438467", "label": "Return of Loan"},
+	"Theft": {"parent": TransferOfCustody, "id": "300055292", "label": "Theft"},
+	"Looting": {"parent": TransferOfCustody, "id":"300379554", "label": "Looting"},
+	"Loss": {"parent": TransferOfCustody, "id":"300417655", "label": "Loss"},
+	"Loan": {"parent": TransferOfCustody, "id":"300417645", "label": "Loan"},
+	"LongtermLoan": {"parent": TransferOfCustody, "id":"300417646", "label": "Long-term Loan"},
+	"SaleOfStolenGoods": {"parent": TransferOfCustody, "id":"xxx", "label":"Sale of Stolen Goods"},
 
 	"PossibleAssignment": {"parent": AttributeAssignment, "id":"300435722", "label": "Possibly"}, 
 	"ProbableAssignment": {"parent": AttributeAssignment, "id":"300435721", "label": "Probably"},
 	"ObsoleteAssignment": {"parent": AttributeAssignment, "id":"300404908", "label": "Obsolete"},
 
 	"ExhibitionIdea": {"parent": PropositionalObject, "id":"300417531", "label": "Exhibition"},
-
-	"Theft": {"parent": TransferOfCustody, "id": "300055292", "label": "Theft"},
-	"Looting": {"parent": TransferOfCustody, "id":"300379554", "label": "Looting"},
-	"Loss": {"parent": TransferOfCustody, "id":"300417655", "label": "Loss"},
-	"Loan": {"parent": TransferOfCustody, "id":"300417645", "label": "Loan"},
-	"LongtermLoan": {"parent": TransferOfCustody, "id":"300417646", "label": "Long-term Loan"},
 
 	"AuctionLotSet": {"parent": Set, "id":"300411307", "label": "Auction Lot"},
 	"CollectionSet": {"parent": Set, "id":"300025976", "label": "Collection"},
