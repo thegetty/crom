@@ -99,7 +99,7 @@ class TestClassBuilder(unittest.TestCase):
 	def test_procurement_boundary(self):
 		vocab.add_linked_art_boundary_check()
 		a = model.Activity()
-		p = vocab.Procurement()
+		p = vocab.ProvenanceEntry()
 		a.caused = p
 		js = factory.toJSON(a)
 		self.assertTrue(not 'classified_as' in js['caused'][0])		
