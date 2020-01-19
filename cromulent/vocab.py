@@ -653,7 +653,7 @@ def add_linked_art_boundary_check():
 					return True
 		# Non Statement Linguistic objects might still be internal or external
 		# so apply logic from relating properties, not return False
-		elif isinstance(value, Procurement):
+		elif isinstance(value, ProvenanceEntry):
 			return False
 
 		if rel in ["part", "member"]:
