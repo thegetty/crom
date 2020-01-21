@@ -567,6 +567,32 @@ def make_multitype_obj(*args, **kw):
 	return inst
 
 
+def conceptual_only_parts():
+	# Make .part work as expected for Right
+	# which is only propositional and not symbolic, so P148 not P106
+
+	def set_c_part(self, value):
+		self.c_part = value
+	def set_c_part_of(self, value):
+		self.c_part_of = value
+
+	def rights_getter(self, what):
+		if what == "part":
+			return self.c_part
+		elif what == "part_of":
+			return self.c_part_of
+		else:
+			getattr(self, what)
+
+	Right.set_part = set_c_part
+	Right.set_part_of = set_c_part_of
+	Right._property_name_map['c_part'] = 'part'
+	Right._property_name_map['c_part_of'] = 'part_of'
+	Right._all_properties['part'] = PropositionalObject._all_properties['c_part']
+	Right._all_properties['part_of'] = PropositionalObject._all_properties['c_part_of']
+	Right.__getattr__ = rights_getter
+
+
 def add_art_setter():
 	# Linked.Art profile requires aat:300133025 on all artworks
 	# Art can be a HumanMadeObject or an InformationObject

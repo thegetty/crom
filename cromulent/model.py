@@ -392,7 +392,7 @@ class ExternalResource(object):
 	_all_properties = {}
 	_type = ""
 	_embed = True
-
+	_property_name_map = {}
 
 	def _is_uri(self, what):
 		uri_schemes = ['urn:uuid:', 'tag:', 'data:', 'mailto:', 'info:', 'ftp:/', 'sftp:/'] 
@@ -708,6 +708,7 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 		tbd = []
 		for (k, v) in kvs:
 			# some _foo might be carried through, eg _label or _comment
+			k = self._property_name_map.get(k, k)
 			if not v or (k[0] == "_" and not k in self._factory.underscore_properties):
 				del d[k]
 			else:
@@ -739,6 +740,11 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 				done[t] = id(self)
 			
 		for (k,v) in kvs:
+			nk = self._property_name_map.get(k, k)
+			if nk != k:
+				del d[k]
+				d[nk] = v
+				k = nk
 			if v and (k[0] != "_" and not k in self._factory.underscore_properties):
 				if isinstance(v, ExternalResource):
 					if done[id(v)] == id(self):
