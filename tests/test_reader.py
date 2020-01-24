@@ -11,6 +11,8 @@ from cromulent import reader
 from cromulent.model import factory, Person, DataError, BaseResource, \
 	Dimension, override_okay
 
+from cromulent import vocab
+
 class TestReader(unittest.TestCase):
 
 	def setUp(self):
@@ -41,3 +43,27 @@ class TestReader(unittest.TestCase):
 
 		unknown2 = '{"type":"Person", "fishbat": "bob"}'
 		self.assertRaises(DataError, self.reader.read, unknown)
+
+	def test_attrib_assign(self):
+		vocab.add_attribute_assignment_check()
+
+		data = """
+		{
+		  "id": "https://linked.art/example/activity/12", 
+		  "type": "AttributeAssignment", 
+		  "assigned": {
+		    "id": "https://linked.art/example/name/10", 
+			"type": "Name", 
+		    "content": "Exhibition Specific Name"
+		  }, 
+		  "assigned_property": "identified_by", 
+		  "assigned_to": {
+		    "id": "https://linked.art/example/object/12", 
+		    "type": "HumanMadeObject", 
+		    "_label": "Real Painting Name"
+		  }
+		}
+		"""
+		d = self.reader.read(data)
+		
+

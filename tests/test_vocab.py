@@ -43,6 +43,21 @@ class TestClassBuilder(unittest.TestCase):
 		self.assertTrue(len(inst.classified_as) == 1)
 		self.assertTrue(inst.classified_as[0].id == "http://vocab.getty.edu/aat/300033618")
 
+	def test_conceptual_parts(self):
+		r = model.Right()
+		r2 = model.Right()
+		self.assertRaises(model.DataError, r.__setattr__, 'part', r2)
+		r.c_part = r2
+		self.assertTrue(r2 in r.c_part)
+
+		vocab.conceptual_only_parts()
+		r3 = model.Right()
+		r4 = model.Right()
+		r3.part = r4
+		self.assertTrue(r4 in r3.c_part)
+		self.assertTrue("part" in model.factory.toJSON(r3))
+		self.assertTrue(r4 in r3.part)
+
 
 	def test_art_setter(self):
 		p = model.HumanMadeObject("a", art=1)
@@ -54,6 +69,13 @@ class TestClassBuilder(unittest.TestCase):
 		p2j = p2._toJSON(done={})
 
 	def test_aa_check(self):
+
+		# Make sure that some other test hasn't set it
+		try:
+			del model.AttributeAssignment.set_assigned_property
+		except:
+			pass
+
 		t = model.Type()
 		aa = model.AttributeAssignment()
 		# First check that aa accepts a type

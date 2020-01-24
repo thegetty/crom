@@ -1,6 +1,7 @@
-from cromulent import model
+from cromulent import model, vocab
 from cromulent.model import factory, DataError, OrderedDict, BaseResource
 from cromulent.model import STR_TYPES
+
 import json
 
 class Reader(object):
@@ -8,6 +9,7 @@ class Reader(object):
 	def __init__(self):
 		self.uri_object_map = {}
 		self.forward_refs = []
+		self.vocab_props = ['assigned_property']
 
 	def read(self, data):
 		if not data:
@@ -65,6 +67,24 @@ class Reader(object):
 				# No such class
 				raise DataError("Resource %s has unknown class %s" % (ident, typ) )
 
+		# now check vocab.ext_classes to try and refine
+		if 'classified_as' in js:
+			trash = None
+			for c in js['classified_as']:
+				i = c['id']
+				for cx in dir(vocab):
+					what = getattr(vocab, cx)
+					if cx[0].isupper() and not hasattr(model, cx) and type(what) == type:
+						if i in [x.id for x in what._classification]:
+							clx = what
+							# Trash the classification
+							trash = c
+							break
+				if trash is not None:
+					break
+			if trash is not None:
+				js['classified_as'].remove(trash)
+
 		what = clx(ident=ident)
 		self.uri_object_map[ident] = what
 		propList = what.list_all_props()
@@ -92,6 +112,9 @@ class Reader(object):
 					# recurse ...
 					val = self.construct(subvalue)
 					setattr(what, prop, val)
+				elif type(subvalue) in STR_TYPES and prop in self.vocab_props:
+					# keep as string
+					setattr(what, prop, subvalue)
 				elif type(subvalue) in STR_TYPES:
 					# raw URI to be made into a class of type rng
 					# or back reference
@@ -107,3 +130,5 @@ class Reader(object):
 					raise DataError("Value %r is not expected for %s" % (subvalue, prop))
 
 		return what
+
+
