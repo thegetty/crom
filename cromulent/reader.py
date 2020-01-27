@@ -76,7 +76,10 @@ class Reader(object):
 					what = getattr(vocab, cx)
 					# crying cat face -- type as a @property returns the function, not the value
 					# when calling it on a class rather than an instance
-					mytype = what._classhier[0].__name__
+					try:
+						mytype = what._classhier[0].__name__
+					except AttributeError:
+						continue
 					if  (cx[0].isupper() and not hasattr(model, cx) and type(what) == type) and \
 						(typ is None or mytype == typ) and \
 						(i in [x.id for x in what._classification]):
