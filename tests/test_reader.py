@@ -9,7 +9,7 @@ except:
 
 from cromulent import reader
 from cromulent.model import factory, Person, DataError, BaseResource, \
-	Dimension, override_okay
+	Dimension, override_okay, AttributeAssignment
 
 from cromulent import vocab
 
@@ -65,5 +65,7 @@ class TestReader(unittest.TestCase):
 		}
 		"""
 		d = self.reader.read(data)
-		
+		self.assertTrue(isinstance(d, AttributeAssignment))
+
+
 
