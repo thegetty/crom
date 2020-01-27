@@ -68,4 +68,29 @@ class TestReader(unittest.TestCase):
 		self.assertTrue(isinstance(d, AttributeAssignment))
 
 
+	def test_vocab_collision(self):
+		# Test that the algorithm picks the right vocab instance
+		# if multiple have the same AAT term but different base class
+
+		data = """
+        {
+          "type": "LinguisticObject",
+          "_label": "Sale recorded in catalog: B-267 0003 (1817) (record number 22947)",
+	      "part_of": [
+            {
+              "type": "LinguisticObject",
+              "_label": "Sale Catalog B-267",
+              "classified_as": [
+                {
+                  "id": "http://vocab.getty.edu/aat/300026068",
+                  "type": "Type",
+                  "_label": "Auction Catalog"
+                }
+              ]
+            }
+          ]
+        }
+        """
+		d = self.reader.read(data)
+		self.assertTrue(isinstance(d.part_of[0], vocab.AuctionCatalogText))
 
