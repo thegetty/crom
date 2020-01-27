@@ -129,9 +129,10 @@ ext_classes = {
 	"TranscribedInscription": {"parent": LinguisticObject, "id": "300028702", "label": "Transcribed Inscription", "metatype": "brief text"},
 
 	"CatalogueRaisonneText": {"parent": LinguisticObject, "id":"300026061", "label": "Catalogue Raisonne"},
-	"AuctionCatalogText": {"parent": LinguisticObject, "id":"300026068", "label": "Auction Catalog"},
-	"SalesCatalogText": {"parent": LinguisticObject, "id": "300026074", "label": "Sales Catalog"},
-	"ExhibitionCatalogText": {"parent": LinguisticObject, "id": "300026096", "label": "Exhibition Catalog"},
+	"AuctionCatalogText": {"parent": LinguisticObject, "id":"300026068", "label": "Auction Catalog", "metatype": "work type"},
+	"SalesCatalogText": {"parent": LinguisticObject, "id": "300026074", "label": "Sales Catalog", "metatype": "work type"},
+	"ExhibitionCatalogText": {"parent": LinguisticObject, "id": "300026096", "label": "Exhibition Catalog", "metatype": "work type"},
+	"AccessionCatalogText": {"parent": LinguisticObject, "id": "300026617", "label": "Accession Catalog", "metatype": "work type"},
 	"AccountBookText": {"parent": LinguisticObject, "id": "300027483", "label": "Account Book"},
 	"RegisterText": {"parent": LinguisticObject, "id":"300027168", "label": "Register"},
 	"PageText": {"parent": LinguisticObject, "id":"300194222", "label": "Page"},
@@ -295,6 +296,11 @@ ext_classes = {
 	"Binder": {"parent": HumanMadeObject,"id":"300252990", "label": "Binder", "metatype": "work type"},
 	"Case": {"parent": HumanMadeObject,"id":"300045659", "label": "Case", "metatype": "work type"},
 	"FlatfileCabinet": {"parent": HumanMadeObject,"id":"300417284", "label": "Flat File Cabinet", "metatype": "work type"},
+
+	"AuctionCatalog": {"parent": HumanMadeObject,"id":"300026068", "label": "Auction Catalog", "metatype": "work type"},
+	"ExhibitionCatalog": {"parent": HumanMadeObject,"id":"300026096", "label": "Exhibition Catalog", "metatype": "work type"},
+	"AccessionCatalog": {"parent": HumanMadeObject, "id": "300026617", "label": "Accession Catalog", "metatype": "work type"},
+	"SalesCatalog": {"parent": HumanMadeObject,"id":"300026074", "label": "Sales Catalog", "metatype": "work type"},
 
 	"FrontPart": {"parent": HumanMadeObject, "id":"300190703", "label": "Front Part", "metatype": "part type"},
 	"BackPart": {"parent": HumanMadeObject, "id":"300190692", "label": "Back Part", "metatype": "part type"},
