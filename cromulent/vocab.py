@@ -316,6 +316,7 @@ ext_classes = {
 	"StartingPrice": {"parent": MonetaryAmount, "id": "300417242", "label": "Starting Price"},
 	"ReservePrice": {"parent": MonetaryAmount, "id": "300417243", "label": "Reserve Price"},
 	"EstimatedPrice": {"parent": MonetaryAmount, "id": "300417244", "label": "Estimated Price"},
+	"AskingPrice": {"parent": MonetaryAmount, "id": "300417241", "label": "Asking Price"},
 
 	"CommissionPayment": {"parent": Payment, "id": "300393199", "label": "Commission"}
 
