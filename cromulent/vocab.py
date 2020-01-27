@@ -582,7 +582,7 @@ def conceptual_only_parts():
 		elif what == "part_of":
 			return self.c_part_of
 		else:
-			getattr(self, what)
+			object.__getattr__(self, what)
 
 	Right.set_part = set_c_part
 	Right.set_part_of = set_c_part_of
