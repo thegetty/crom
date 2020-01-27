@@ -561,6 +561,15 @@ aat_culture_mapping = {
 	"dutch": "300020929"
 }
 
+def add_classification(obj, cl_type):
+	c = cl_type()
+	for cn in c._classification:
+		if hasattr(obj, 'classified_as') and not cn in obj.classified_as:
+			obj.classified_as = cn
+		elif not hasattr(obj, 'classified_as'):
+			obj.classified_as = cn
+	return obj
+
 def make_multitype_obj(*args, **kw):
 	# (class1, class2, class3, name=foo, other=bar)
 	inst = args[0](**kw)
