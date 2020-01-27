@@ -128,15 +128,15 @@ ext_classes = {
 
 	"TranscribedInscription": {"parent": LinguisticObject, "id": "300028702", "label": "Transcribed Inscription", "metatype": "brief text"},
 
-	"CatalogueRaisonneText": {"parent": LinguisticObject, "id":"300026061", "label": "Catalogue Raisonne"},
+	"CatalogueRaisonneText": {"parent": LinguisticObject, "id":"300026061", "label": "Catalogue Raisonne", "metatype": "work type"},
 	"AuctionCatalogText": {"parent": LinguisticObject, "id":"300026068", "label": "Auction Catalog", "metatype": "work type"},
 	"SalesCatalogText": {"parent": LinguisticObject, "id": "300026074", "label": "Sales Catalog", "metatype": "work type"},
 	"ExhibitionCatalogText": {"parent": LinguisticObject, "id": "300026096", "label": "Exhibition Catalog", "metatype": "work type"},
 	"AccessionCatalogText": {"parent": LinguisticObject, "id": "300026617", "label": "Accession Catalog", "metatype": "work type"},
-	"AccountBookText": {"parent": LinguisticObject, "id": "300027483", "label": "Account Book"},
-	"RegisterText": {"parent": LinguisticObject, "id":"300027168", "label": "Register"},
-	"PageText": {"parent": LinguisticObject, "id":"300194222", "label": "Page"},
-	"FolioText": {"parent": LinguisticObject, "id":"300189604", "label": "Folio"},
+	"AccountBookText": {"parent": LinguisticObject, "id": "300027483", "label": "Account Book", "metatype": "work type"},
+	"RegisterText": {"parent": LinguisticObject, "id":"300027168", "label": "Register", "metatype": "work type"},
+	"PageText": {"parent": LinguisticObject, "id":"300194222", "label": "Page", "metatype": "work type"},
+	"FolioText": {"parent": LinguisticObject, "id":"300189604", "label": "Folio", "metatype": "work type"},
 	"ParagraphText": {"parent": LinguisticObject, "id":"300417223", "label": "Paragraph"},
 	"Annotation": {"parent": LinguisticObject, "id":"300026100", "label":"Annotation"},
 
