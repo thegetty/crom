@@ -74,8 +74,11 @@ class Reader(object):
 				i = c['id']
 				for cx in dir(vocab):
 					what = getattr(vocab, cx)
+					# crying cat face -- type as a @property returns the function, not the value
+					# when calling it on a class rather than an instance
+					mytype = what._classhier[0].__name__
 					if  (cx[0].isupper() and not hasattr(model, cx) and type(what) == type) and \
-						(typ is None or what.type == typ) and \
+						(typ is None or mytype == typ) and \
 						(i in [x.id for x in what._classification]):
 						clx = what
 						# Trash the classification
