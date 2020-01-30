@@ -435,7 +435,7 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 		amnt = model.MonetaryAmount(ident='')
 		price_amount = data.get('price_amount', data.get('price', data.get('amount')))
 		price_currency = data.get('currency', data.get('price_currency', data.get('price_curr')))
-		note = data.get('price_note', data.get('price_desc'))
+		note = data.get('price_note', data.get('price_desc', data.get('note')))
 		cite = data.get('price_citation', data.get('citation'))
 	elif 'est_price' in data or 'est_price_amount' in data:
 		amnt = vocab.EstimatedPrice(ident='')
@@ -466,8 +466,10 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 				value = value.replace('[?]', '')
 				value = value.replace('?', '')
 				value = value.strip()
-				price_amount = float(value)
-				amnt.value = price_amount
+				if re.search(re.compile(r',\d\d\d'), value):
+					value = value.replace(',', '')
+				value = float(value)
+				amnt.value = value
 			except ValueError:
 				amnt._label = price_amount
 				amnt.identified_by = model.Name(ident='', content=price_amount)
