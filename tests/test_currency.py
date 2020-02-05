@@ -39,6 +39,30 @@ class TestCurrencyExtraction(unittest.TestCase):
 		self.assertEqual(c.type, 'Currency')
 		self.assertEqual(c._label, 'British Pounds')
 
+	def test_extract_comma_separated(self):
+		e = extract_monetary_amount({
+			'price': '1,280.5',
+			'currency': 'pounds'
+		})
+		self.assertEqual(e.type, 'MonetaryAmount')
+		self.assertEqual(e._label, '1,280.5 pounds')
+		self.assertEqual(e.value, 1280.50)
+		c = e.currency
+		self.assertEqual(c.type, 'Currency')
+		self.assertEqual(c._label, 'British Pounds')
+
+	def test_extract_multiple_comma_separated(self):
+		e = extract_monetary_amount({
+			'price': '1,310,720.5',
+			'currency': 'pounds'
+		})
+		self.assertEqual(e.type, 'MonetaryAmount')
+		self.assertEqual(e._label, '1,310,720.5 pounds')
+		self.assertEqual(e.value, 1310720.5)
+		c = e.currency
+		self.assertEqual(c.type, 'Currency')
+		self.assertEqual(c._label, 'British Pounds')
+
 	def test_extract_est(self):
 		e = extract_monetary_amount({
 			'est_price': '12.0',
