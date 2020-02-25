@@ -200,6 +200,7 @@ ext_classes = {
 
 	"AuctionEvent": {"parent": Activity, "id":"300054751", "label": "Auction Event"},
 	"Auction":     {"parent": Activity, "id":"300420001", "label": "Auction of Lot"}, # Individual auction-of-lot
+	"Negotiating": {"parent": Activity, "id":"300438558", "label": "Negotiating"},
 	"Bidding":     {"parent": Creation, "id":"300054602", "label": "Bidding"}, # individual bid
 	"Curating":    {"parent": Activity, "id":"300054277", "label": "Curating"},
 	"Inventorying": {"parent": Activity, "id":"300077506", "label": "Inventorying"},
