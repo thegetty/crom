@@ -197,8 +197,6 @@ ext_classes = {
 	"Style": 	   {"parent": Type, "id":"300015646", "label": "Style"},
 
 	"Auctioneer":  {"parent": Person, "id":"300025208", "label": "Auctioneer"}, # is this useful?
-	"Expert":  {"parent": Person, "id":"300417631", "label": "Expert"},
-	"CommissairePriseur":  {"parent": Person, "id":"300412173", "label": "Commissaire-priseur"},
 
 	"AuctionEvent": {"parent": Activity, "id":"300054751", "label": "Auction Event"},
 	"Auction":     {"parent": Activity, "id":"300420001", "label": "Auction of Lot"}, # Individual auction-of-lot
@@ -211,6 +209,8 @@ ext_classes = {
 	"Active":      {"parent": Activity, "id":"300393177", "label": "Professional Activities"},
 	"Publishing":  {"parent": Activity, "id":"300054686", "label": "Publishing"},
 	"Hiring":      {"parent": Activity, "id":"300109703", "label": "Hiring"},
+	"Expert":      {"parent": Activity, "id":"300417631", "label": "Expert"},
+	"CommissairePriseur":  {"parent": Activity, "id":"300412173", "label": "Commissaire-priseur"},
 
 	"Purchase":  {"parent":Acquisition, "id":"300077989", "label": "Purchasing"},
 	"Assembling": {"parent": Activity, "id":"300077121", "label":"Assembling"},
