@@ -197,6 +197,8 @@ ext_classes = {
 	"Style": 	   {"parent": Type, "id":"300015646", "label": "Style"},
 
 	"Auctioneer":  {"parent": Person, "id":"300025208", "label": "Auctioneer"}, # is this useful?
+	"Expert":  {"parent": Person, "id":"300417631", "label": "Expert"},
+	"CommissairePriseur":  {"parent": Person, "id":"300412173", "label": "Commissaire-priseur"},
 
 	"AuctionEvent": {"parent": Activity, "id":"300054751", "label": "Auction Event"},
 	"Auction":     {"parent": Activity, "id":"300420001", "label": "Auction of Lot"}, # Individual auction-of-lot
