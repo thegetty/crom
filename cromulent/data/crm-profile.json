@@ -453,6 +453,8 @@
   "la:digitally_available_via": [1,1],
   "la:digitally_makes_available": [1,1],
   "la:property_classified_as": [1,1],
+  "la:represents_instance_of_type": [1,1],
+  "la:instance_represented_by": [1,1],
 
   "dc:format": [1,0], 
   "dcterms:conformsTo": [1,1], 

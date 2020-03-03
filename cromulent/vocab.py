@@ -483,6 +483,8 @@ identity_instances = {
 
 	# Additional classifications for visual content
 	"allusion": {"parent": Type, "id":"300055815", "label":"Allusion"},
+	"allegory": {"parent": Type, "id":"300055866", "label":"Allegory"}
+
 }
 
 for (name,v) in identity_instances.items():
