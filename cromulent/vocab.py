@@ -206,11 +206,16 @@ ext_classes = {
 	"Inventorying": {"parent": Activity, "id":"300077506", "label": "Inventorying"},
 	"Exhibition":  {"parent": Activity, "id":"300054766", "label": "Exhibiting"},
 	"MultiExhibition": {"parent": Activity, "id":"300054773", "label": "Exhibiting in multiple locations"},
-	"Active":      {"parent": Activity, "id":"300393177", "label": "Professional Activities"},
 	"Publishing":  {"parent": Activity, "id":"300054686", "label": "Publishing"},
 	"Hiring":      {"parent": Activity, "id":"300109703", "label": "Hiring"},
 	"Expert":      {"parent": Activity, "id":"300417631", "label": "Expert"},
 	"CommissairePriseur":  {"parent": Activity, "id":"300412173", "label": "Commissaire-priseur"},
+
+	"Active":      {"parent": Activity, "id":"300393177", "label": "Professional Activities"},
+	"Collecting": {"parent": Activity, "id": "300077121", "label": "Collecting"},
+	"Creating": {"parent": Activity, "id": "300404387", "label": "Creating Artwork"},
+	"Dealing": {"parent": Activity, "id": "300055675", "label": "Commercial Dealing in Artwork"},
+	"Owning": {"parent": Activity, "id": "300055603", "label": "Owning"},
 
 	"Purchase":  {"parent":Acquisition, "id":"300077989", "label": "Purchasing"},
 	"Assembling": {"parent": Activity, "id":"300077121", "label":"Assembling"},
