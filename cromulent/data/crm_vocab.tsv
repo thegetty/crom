@@ -396,6 +396,8 @@ la:Removal	class	Removal	Removal	The removal of some entity from a Set	E7_Activi
 la:Relationship	class	Relationship	Relationship		E28_Conceptual_Object	1
 la:DigitalService	class	DigitalService	Digital Service		E73_Information_Object	1
 la:property_classified_as	property	property_classified_as	Property Classified As	Record dot one properties via Attribute Assignments		E13_Attribute_Assignment	E55_Type		10000	1	1
+la:represents_instance_of_type	property	represents_instance_of_type	Represents Instance of Type	This property establishes the relationship between an E36 Visual Item and an E55 Type that represents the class of entity which it visually represents.  This property is used when the specific entity being represented is either unknown, or not of documentary interest.		E36_Visual_Item	E55_Type	https://linked.art/ns/terms/instance_represented_by	10000	1	1
+la:instance_represented_by	property	instance_represented_by	Represents Instance of Type	Inverse of represents instance of type		E55_Type	E36_Visual_Item	https://linked.art/ns/terms/represents_instance_of_type	10000	1	1
 la:paid_amount	property	paid_amount	Paid Amount	The amount paid.		la:Payment	E97_Monetary_Amount		10000	1	0
 la:paid_from	property	paid_from	Paid From	Who the payment came from		la:Payment	E39_Actor		10000	1	1
 la:paid_to	property	paid_to	Paid To	Who the payment went to		la:Payment	E39_Actor		10000	1	1

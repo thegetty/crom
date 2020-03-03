@@ -12,6 +12,26 @@
         <rdfs:range rdf:resource="E55_Type"/>
 </rdf:Property>
 
+
+<!-- depicts_entity_of_type -->
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/represents_instance_of_type">
+    <rdfs:label xml:lang="en">Represents Instance of Type</rdfs:label>
+    <rdfs:comment xml:lang="en">This property establishes the relationship between an E36 Visual Item and an E55 Type that represents the class of entity which it visually represents.  This property is used when the specific entity being represented is either unknown, or not of documentary interest.</rdfs:comment>
+    <rdfs:domain rdf:resource="E36_Visual_Item"/>
+    <rdfs:range rdf:resource="E55_Type"/>
+    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/instance_represented_by"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="https://linked.art/ns/terms/instance_represented_by">
+    <rdfs:label xml:lang="en">Represents Instance of Type</rdfs:label>
+    <rdfs:comment xml:lang="en">Inverse of represents instance of type</rdfs:comment>
+    <rdfs:domain rdf:resource="E55_Type"/>
+    <rdfs:range rdf:resource="E36_Visual_Item"/>
+    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/represents_instance_of_type"/>
+</rdf:Property>
+
+
 <!-- Many of these will go to CRM SOC in the future -->
 
 <rdfs:Class rdf:about="https://linked.art/ns/terms/Payment">
