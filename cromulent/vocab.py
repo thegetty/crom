@@ -217,6 +217,7 @@ ext_classes = {
 	"Creating": {"parent": Activity, "id": "300404387", "label": "Creating Artwork"},
 	"Dealing": {"parent": Activity, "id": "300055675", "label": "Commercial Dealing in Artwork"},
 	"Owning": {"parent": Activity, "id": "300055603", "label": "Owning"},
+	"Promise": {"parent": Activity, "id": "300435599", "label": "Promise"},
 
 	"Purchase":  {"parent":Acquisition, "id":"300077989", "label": "Purchasing"},
 	"Assembling": {"parent": Activity, "id":"300077121", "label":"Assembling"},
