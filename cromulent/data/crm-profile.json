@@ -455,6 +455,8 @@
   "la:property_classified_as": [1,1],
   "la:represents_instance_of_type": [1,1],
   "la:instance_represented_by": [1,1],
+  "la:current_permanent_custodian": [1,0],
+  "la:current_permanent_custodian_of": [1,1],
 
   "dc:format": [1,0], 
   "dcterms:conformsTo": [1,1], 
