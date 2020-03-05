@@ -13,6 +13,8 @@ LINKED_ART_CONTEXT_URI = "https://linked.art/ns/v1/linked-art.json"
 import json
 from collections import OrderedDict, namedtuple
 
+from json import JSONEncoder
+
 try:
 	STR_TYPES = [str, unicode] #Py2.7
 	FILE_STREAM_CLASS = file
@@ -62,6 +64,7 @@ class DataError(MetadataError):
 class ProfileError(MetadataError):
 	"""Raised when a class or property not in the configured profile is used"""
 	pass
+
 
 class CromulentFactory(object):
 
@@ -236,6 +239,13 @@ class CromulentFactory(object):
 			# We don't know the type, just raise a MetadataError
 			raise MetadataError(msg)
 
+	def _is_uri(self, what):
+		uri_schemes = ['urn:uuid:', 'tag:', 'data:', 'mailto:', 'info:', 'ftp:/', 'sftp:/'] 
+		for u in uri_schemes:
+			if what.startswith(u):
+				return True
+		return False
+
 	def generate_id(self, what):
 		if self.auto_id_type == "int":
 			# increment and return
@@ -325,6 +335,59 @@ class CromulentFactory(object):
 		js = self.toJSON(what, done=done)
 		return self._buildString(js, compact, collapse)
 
+
+	def toHtml(self, what, done=None):
+		enc = JSONEncoder(indent=self.json_indent, ensure_ascii=False)
+		js = self.toJSON(what, done=done)
+		res = ['<pre><span>']
+		lineno = 0
+		for y in enc.iterencode(js):
+			# split newlines
+			if '\n' in y:
+				sp = y.split('\n')
+				x2 = []
+				for z in sp[:-1]:
+					if z:
+						x2.append(z)
+					x2.append('\n')
+				if sp[-1]:
+					x2.append(sp[-1])
+			else:
+				x2 = [y]
+
+			for x in x2:
+				if x[0] == '"':
+					s = x.strip()[1:-1]
+					clss = "str"
+					if s.startswith('http') or self._is_uri(s):
+						x = '"<a href="%s">%s</a>"' % (s, s)
+					elif s in ["@context"]:
+						clss = "str context"
+					res.append('<span class="%s">%s</span>' % (clss, x))
+				elif x[0].isdigit():
+					res.append('<span class="int">%s</span>' % x)						
+				elif x[0] in [":", ","]:
+					res.append('<span class="sep">%s</span>' % x)	
+				elif x[0]  == "{":
+					res.append('<span class="bsep">%s</span><span class="block">' % x)
+				elif x[0]  == "[":
+					res.append('<span class="asep">%s</span><span class="ablock">' % x)
+				elif x[0] == "}":
+					res.append('</span><span class="bsep">%s</span>' % x)
+				elif x[0] == "]":
+					res.append('</span><span class="asep">%s</span>' % x)
+				elif x == '\n':
+					res.append('\n<span class="line" data-lno="%s"></span>' % lineno)
+					lineno += 1
+				elif x.isspace():
+					res.append(x)
+				else:
+					print("*** Unhandled: %r" % x)
+					res.append(x)
+		res.append('</span></pre>')
+		return ''.join(res)
+
+
 	def toFile(self, what, compact=True, filename="", done=None):
 		"""Write to local file.
 
@@ -398,18 +461,11 @@ class ExternalResource(object):
 	_highlight = False
 	_elide = False
 
-	def _is_uri(self, what):
-		uri_schemes = ['urn:uuid:', 'tag:', 'data:', 'mailto:', 'info:', 'ftp:/', 'sftp:/'] 
-		for u in uri_schemes:
-			if what.startswith(u):
-				return True
-		return False
-
 
 	def __init__(self, ident=None):
 		self._factory = factory
 		if ident is not None:
-			if self._is_uri(ident):
+			if self._factory._is_uri(ident):
 				self.id = ident
 			elif ident.startswith('http'):
 				# Try to find prefixable term
