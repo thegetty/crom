@@ -83,6 +83,8 @@ class CromulentFactory(object):
 		self.auto_assign_id = True # Automatially assign a URI
 		self.process_multiplicity = True # Return multiple with single value as [value]
 		self.multiple_instances_per_property = "drop"
+		self.allow_highlight = False # Allow the JSON to include a _highlight flag for re-rendering
+		self.allow_elide = False
 
 		self.auto_id_type = "int-per-segment" #  "int", "int-per-type", "int-per-segment", "uuid"
 		# self.default_lang = lang  # NOT USED
@@ -224,7 +226,7 @@ class CromulentFactory(object):
 
 	def maybe_warn(self, msg):
 		"""warn method that respects debug_level property."""
-		if self.debug_level == "warn":
+		if self.log_stream and self.debug_level == "warn":
 			self.log_stream.write(msg + "\n")
 			try:	
 				self.log_stream.flush()
@@ -393,6 +395,8 @@ class ExternalResource(object):
 	_type = ""
 	_embed = True
 	_property_name_map = {}
+	_highlight = False
+	_elide = False
 
 	def _is_uri(self, what):
 		uri_schemes = ['urn:uuid:', 'tag:', 'data:', 'mailto:', 'info:', 'ftp:/', 'sftp:/'] 
@@ -493,6 +497,10 @@ class BaseResource(ExternalResource):
 	def __eq__(a, b):
 		if id(a) == id(b):
 			return True
+		if not a or not b:
+			return False
+		if not isinstance(b, BaseResource) or not isinstance(a, BaseResource):
+			return False
 		ap = a.list_my_props()
 		bp = b.list_my_props()
 		if ap != bp:
@@ -825,6 +833,11 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 							del d['part_of']
 							break
 
+		if self._highlight and self._factory.allow_highlight:
+			d['_highlight'] = True
+		if self._elide and self._factory.allow_elide:
+			d['_elide'] = True
+
 		if self._factory.order_json:
 			return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
 		else:
@@ -845,6 +858,17 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 						filter is v.range):
 					props.append(k)
 		props.sort()
+		return props
+
+	def list_all_props_with_range(self, filter=None, okay=None):
+		props = {}
+		for c in self._classhier:		
+			for k,v in c._all_properties.items():
+				if not k in props and \
+					(not okay or (okay and v.profile_okay)) and \
+					(filter is None or isinstance(filter, v.range) or \
+						filter is v.range):
+					props[k] = v.range
 		return props
 
 	def list_my_props(self, filter=None):
