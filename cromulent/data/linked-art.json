@@ -2579,6 +2579,15 @@
       "@type": "@id",
       "@container": "@set"
     },
+    "current_permanent_custodian": {
+      "@id": "la:current_permanent_custodian",
+      "@type": "@id"
+    },
+    "current_permanent_custodian_of": {
+      "@id": "la:current_permanent_custodian_of",
+      "@type": "@id",
+      "@container": "@set"
+    },
     "paid_amount": {
       "@id": "la:paid_amount",
       "@type": "@id"
