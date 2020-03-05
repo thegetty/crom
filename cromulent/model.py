@@ -13,6 +13,8 @@ LINKED_ART_CONTEXT_URI = "https://linked.art/ns/v1/linked-art.json"
 import json
 from collections import OrderedDict, namedtuple
 
+from json import JSONEncoder
+
 try:
 	STR_TYPES = [str, unicode] #Py2.7
 	FILE_STREAM_CLASS = file
@@ -63,6 +65,7 @@ class ProfileError(MetadataError):
 	"""Raised when a class or property not in the configured profile is used"""
 	pass
 
+
 class CromulentFactory(object):
 
 	def __init__(self, base_url="", base_dir="", lang="", full_names=False, 
@@ -83,6 +86,8 @@ class CromulentFactory(object):
 		self.auto_assign_id = True # Automatially assign a URI
 		self.process_multiplicity = True # Return multiple with single value as [value]
 		self.multiple_instances_per_property = "drop"
+		self.allow_highlight = False # Allow the JSON to include a _highlight flag for re-rendering
+		self.allow_elide = False
 
 		self.auto_id_type = "int-per-segment" #  "int", "int-per-type", "int-per-segment", "uuid"
 		# self.default_lang = lang  # NOT USED
@@ -224,7 +229,7 @@ class CromulentFactory(object):
 
 	def maybe_warn(self, msg):
 		"""warn method that respects debug_level property."""
-		if self.debug_level == "warn":
+		if self.log_stream and self.debug_level == "warn":
 			self.log_stream.write(msg + "\n")
 			try:	
 				self.log_stream.flush()
@@ -233,6 +238,13 @@ class CromulentFactory(object):
 		elif self.debug_level == "error_on_warning":
 			# We don't know the type, just raise a MetadataError
 			raise MetadataError(msg)
+
+	def _is_uri(self, what):
+		uri_schemes = ['urn:uuid:', 'tag:', 'data:', 'mailto:', 'info:', 'ftp:/', 'sftp:/'] 
+		for u in uri_schemes:
+			if what.startswith(u):
+				return True
+		return False
 
 	def generate_id(self, what):
 		if self.auto_id_type == "int":
@@ -323,6 +335,59 @@ class CromulentFactory(object):
 		js = self.toJSON(what, done=done)
 		return self._buildString(js, compact, collapse)
 
+
+	def toHtml(self, what, done=None):
+		enc = JSONEncoder(indent=self.json_indent, ensure_ascii=False)
+		js = self.toJSON(what, done=done)
+		res = ['<pre><span>']
+		lineno = 0
+		for y in enc.iterencode(js):
+			# split newlines
+			if '\n' in y:
+				sp = y.split('\n')
+				x2 = []
+				for z in sp[:-1]:
+					if z:
+						x2.append(z)
+					x2.append('\n')
+				if sp[-1]:
+					x2.append(sp[-1])
+			else:
+				x2 = [y]
+
+			for x in x2:
+				if x[0] == '"':
+					s = x.strip()[1:-1]
+					clss = "str"
+					if s.startswith('http') or self._is_uri(s):
+						x = '"<a href="%s">%s</a>"' % (s, s)
+					elif s in ["@context"]:
+						clss = "str context"
+					res.append('<span class="%s">%s</span>' % (clss, x))
+				elif x[0].isdigit():
+					res.append('<span class="int">%s</span>' % x)						
+				elif x[0] in [":", ","]:
+					res.append('<span class="sep">%s</span>' % x)	
+				elif x[0]  == "{":
+					res.append('<span class="bsep">%s</span><span class="block">' % x)
+				elif x[0]  == "[":
+					res.append('<span class="asep">%s</span><span class="ablock">' % x)
+				elif x[0] == "}":
+					res.append('</span><span class="bsep">%s</span>' % x)
+				elif x[0] == "]":
+					res.append('</span><span class="asep">%s</span>' % x)
+				elif x == '\n':
+					res.append('\n<span class="line" data-lno="%s"></span>' % lineno)
+					lineno += 1
+				elif x.isspace():
+					res.append(x)
+				else:
+					print("*** Unhandled: %r" % x)
+					res.append(x)
+		res.append('</span></pre>')
+		return ''.join(res)
+
+
 	def toFile(self, what, compact=True, filename="", done=None):
 		"""Write to local file.
 
@@ -393,19 +458,14 @@ class ExternalResource(object):
 	_type = ""
 	_embed = True
 	_property_name_map = {}
-
-	def _is_uri(self, what):
-		uri_schemes = ['urn:uuid:', 'tag:', 'data:', 'mailto:', 'info:', 'ftp:/', 'sftp:/'] 
-		for u in uri_schemes:
-			if what.startswith(u):
-				return True
-		return False
+	_highlight = False
+	_elide = False
 
 
 	def __init__(self, ident=None):
 		self._factory = factory
 		if ident is not None:
-			if self._is_uri(ident):
+			if self._factory._is_uri(ident):
 				self.id = ident
 			elif ident.startswith('http'):
 				# Try to find prefixable term
@@ -493,6 +553,10 @@ class BaseResource(ExternalResource):
 	def __eq__(a, b):
 		if id(a) == id(b):
 			return True
+		if not a or not b:
+			return False
+		if not isinstance(b, BaseResource) or not isinstance(a, BaseResource):
+			return False
 		ap = a.list_my_props()
 		bp = b.list_my_props()
 		if ap != bp:
@@ -825,6 +889,11 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 							del d['part_of']
 							break
 
+		if self._highlight and self._factory.allow_highlight:
+			d['_highlight'] = True
+		if self._elide and self._factory.allow_elide:
+			d['_elide'] = True
+
 		if self._factory.order_json:
 			return OrderedDict(sorted(d.items(), key=lambda x: KOH.get(x[0], 1000)))
 		else:
@@ -845,6 +914,17 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 						filter is v.range):
 					props.append(k)
 		props.sort()
+		return props
+
+	def list_all_props_with_range(self, filter=None, okay=None):
+		props = {}
+		for c in self._classhier:		
+			for k,v in c._all_properties.items():
+				if not k in props and \
+					(not okay or (okay and v.profile_okay)) and \
+					(filter is None or isinstance(filter, v.range) or \
+						filter is v.range):
+					props[k] = v.range
 		return props
 
 	def list_my_props(self, filter=None):
