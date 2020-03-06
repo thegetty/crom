@@ -70,5 +70,7 @@
 	"rdfs:seeAlso": "see_also",
 	"rdfs:label": "_label",
 	"sci:O13_triggers": "caused",
-	"sci:O13i_is_triggered_by": "caused_by"
+	"sci:O13i_is_triggered_by": "caused_by",
+	"sci:O19_has_found_object": "encountered",
+	"sci:O19i_was_object_found_by": "encountered_by"
 }

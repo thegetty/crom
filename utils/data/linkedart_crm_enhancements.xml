@@ -53,6 +53,30 @@
     </rdf:Property>
 
 
+
+  <rdfs:Class rdf:about="http://www.ics.forth.gr/isl/CRMsci/S19_Encounter_Event">
+    <rdfs:label xml:lang="en">Encounter</rdfs:label>
+    <rdfs:subClassOf rdf:resource="E7_Activity"/>
+    <rdfs:comment>This class comprises activities of S4 Observation (substance) where an E39 Actor encounters an instance of E18 Physical Thing of a kind relevant for the mission of the observation or regarded as potentially relevant for some community (identity). This observation produces knowledge about the existence of the respective thing at a particular place in or on surrounding matter. This knowledge may be new to the group of people the actor belongs to. In that case we would talk about a discovery. The observer may recognize or assign an individual identity of the thing encountered or regard only the type as noteworthy in the associated documentation or report.
+    Note that this representation treats S19 as a subClass of only E7 Activity for ease of implementation, as we do not need the full set of relationships available via the complete hierarcy. In the full CRMsci, it is Activity -> Attribute Assignment -> Observation -> Encounter.
+</rdfs:comment>
+  </rdfs:Class>
+
+    <rdf:Property rdf:about="http://www.ics.forth.gr/isl/CRMsci/O19_has_found_object">
+        <rdfs:label xml:lang="en">encountered object</rdfs:label>
+        <rdfs:domain rdf:resource="http://www.ics.forth.gr/isl/CRMsci/S19_Encounter_Event"/>
+        <rdfs:range rdf:resource="E18_Physical_Thing"/>
+        <owl:inverseOf rdf:resource="http://www.ics.forth.gr/isl/CRMsci/O13_triggers" />     
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://www.ics.forth.gr/isl/CRMsci/O19i_was_object_found_by">
+        <rdfs:label xml:lang="en">was encountered by</rdfs:label>
+        <rdfs:domain rdf:resource="E18_Physical_Thing"/>
+        <rdfs:range rdf:resource="http://www.ics.forth.gr/isl/CRMsci/S19_Encounter_Event"/>
+        <owl:inverseOf rdf:resource="http://www.ics.forth.gr/isl/CRMsci/O19_has_found_object" />     
+    </rdf:Property>
+
+
 <!-- These redefine external classes and properties in relation to CRM -->
 <!-- All care has been taken in this mapping to avoid introducing semantics -->
 <!-- where non existed previously -->
