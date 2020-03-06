@@ -84,6 +84,7 @@
   "geo:SP5_Geometric_Place_Expression": 1,
   "geo:SP4_Spatial_Coordinate_Reference_System": 1,
   "geo:SP6_Declarative_Place": 1,
+  "sci:S19_Encounter_Event": 1,
   "la:Phase": 1, 
   "la:RightAcquisition": 1,
   "la:Payment": 1, 
@@ -472,5 +473,8 @@
   "geo:Q11_approximates": [1,0],
   "geo:Q11i_is_approximated_by": [1,1],
   "sci:O13_triggers": [1,1],
-  "sci:O13i_is_triggered_by": [1,1]
+  "sci:O13i_is_triggered_by": [1,1],
+  "sci:O19_has_found_object": [1,1],
+  "sci:O19i_was_object_found_by": [1,1]
+
 }

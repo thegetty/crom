@@ -97,6 +97,8 @@ def process_classes(dom):
 			ccname = "Name"
 		elif name == "dig:D1_Digital_Object":
 			ccname = "DigitalObject"
+		elif name == "sci:S19_Encounter_Event":
+			ccname = "Encounter"
 		else:
 			# Assume that we've done our job okay and put in overrides for NSS
 			cidx = name.find(":")
