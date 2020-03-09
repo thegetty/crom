@@ -66,6 +66,16 @@ class ProfileError(MetadataError):
 	pass
 
 
+class CromJsonEncoder(JSONEncoder):
+
+	def default(self, o):
+		if isinstance(o, BaseResource):
+			# print("Saw %r" % o)
+			return o._minToJSON()
+		else:
+			return JSONEncoder.default(self, o)			
+
+
 class CromulentFactory(object):
 
 	def __init__(self, base_url="", base_dir="", lang="", full_names=False, 
@@ -708,6 +718,7 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 		if self._factory.process_multiplicity and type(current) is not list and multiple:
 			object.__setattr__(self, which, [getattr(self, which)])
 
+
 	def _toJSON(self, done, top=None):
 		"""Serialize as JSON."""
 		# If we're already in the graph, return our URI only
@@ -953,6 +964,21 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 				return bool(v.multiple_okay)
 		raise DataError("Cannot set '%s' on '%s'" % (propName, self.__class__.__name__))
 
+	def clone(self, minimal=False):
+		""" Make a shallow copy of self. If minimal flag is set, only return id, type and _label """
+		new = self.__class__(ident=self.id)
+		if minimal:
+			if self._label:
+				new._label = self._label
+		else:
+			for p in self.list_my_props():
+				curr = getattr(self, p)
+				if type(curr) == list:
+					for v in curr:
+						setattr(new, p, v)
+				else:
+					setattr(new, p, curr)
+		return new
 
 # Ontology / Profile manipulation
 
