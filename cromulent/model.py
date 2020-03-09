@@ -776,9 +776,12 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 			done[id(self)] = 1			
 
 		# Need to do in order now to get done correctly ordered
-		KOH = self._factory.key_order_hash
-		kodflt = self._factory.key_order_default
-		kvs = sorted(d.items(), key=lambda x: KOH.get(x[0], kodflt))
+		if self._factory.order_json:
+			KOH = self._factory.key_order_hash
+			kodflt = self._factory.key_order_default
+			kvs = sorted(d.items(), key=lambda x: KOH.get(x[0], kodflt))
+		else:
+			kvs = list(d.items())
 
 		tbd = []
 		for (k, v) in kvs:
