@@ -982,6 +982,7 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 
 		tbd = []
 		for (k, v) in kvs:
+			k = self._property_name_map.get(k, k)
 			if isinstance(v, ExternalResource):
 				if self._factory.linked_art_boundaries and \
 					not self._linked_art_boundary_okay(top, k, v):
@@ -1009,6 +1010,7 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 			
 		# This is already sorted if needed
 		for (k,v) in kvs:
+			k = self._property_name_map.get(k, k)
 			if not v:
 				pass
 			elif isinstance(v, ExternalResource):

@@ -74,7 +74,7 @@ class TestFactorySerialization(unittest.TestCase):
 			js=badjs)
 
 	def test_toJSON(self):
-		model.factory.context_uri = 'http://lod.getty.edu/context.json'
+		# model.factory.context_uri = 'http://lod.getty.edu/context.json'
 		expect = OrderedDict([
 			('@context', model.factory.context_uri),
 			('id', u'http://lod.example.org/museum/InformationObject/collection'), 
@@ -82,7 +82,17 @@ class TestFactorySerialization(unittest.TestCase):
 		outj = model.factory.toJSON(self.collection)
 		self.assertEqual(expect, outj)
 
-	def test_toJSON_full(self):
+	def test_toJSON_fast(self):
+		model.factory.json_serializer = "fast"
+		expect = {'@context': model.factory.context_uri, 
+			'id': 'http://lod.example.org/museum/InformationObject/collection', 
+			'type': 'InformationObject', 
+			'_label': 'Test Object'}
+		outj = model.factory.toJSON(self.collection)
+		self.assertEqual(expect, outj)
+		model.factory.json_serializer = "normal"
+
+	def test_toJSON_normal(self):
 		expect = OrderedDict([(u'@context', 'http://lod.getty.edu/context.json'), 
 			(u'@id', u'http://lod.example.org/museum/Person/1'), (u'@type', u'crm:E21_Person'),
 			('rdfs:label', 'Test Person')])
@@ -99,6 +109,13 @@ class TestFactorySerialization(unittest.TestCase):
 	def test_toString(self):
 		expect = u'{"id":"http://lod.example.org/museum/InformationObject/collection","type":"InformationObject","_label":"Test Object"}'
 		outs = model.factory.toString(self.collection)
+		self.assertEqual(expect, outs)
+
+	def test_toString_fast(self):
+		expect = u'{"id":"http://lod.example.org/museum/InformationObject/collection","type":"InformationObject","_label":"Test Object"}'
+		model.factory.json_serializer = "fast"		
+		outs = model.factory.toString(self.collection)
+		model.factory.json_serializer = "normal"
 		self.assertEqual(expect, outs)
 
 	def test_toFile(self):
@@ -178,6 +195,26 @@ class TestFactorySerialization(unittest.TestCase):
 		res2 = model.factory.toString(p, compact=False, collapse=120) # compact list of type
 		self.assertEqual(len(res1.splitlines()), 12)
 		self.assertEqual(len(res2.splitlines()), 6)
+
+	def test_production_mode(self):
+
+		# model.factory.production_mode()
+		# Can't unset the cached hierarchy
+		# and it causes the test for the hierarchy to fail
+		model.factory.validate_profile = False
+		model.factory.validate_properties = False
+		model.factory.validate_range = False
+		model.factory.validate_multiplicity = False
+
+		p = model.Person()
+		p.identified_by = model.Name(value="abc")
+		p.part = model.HumanMadeObject()
+		js = model.factory.toJSON(p)
+
+		model.factory.production_mode(state="off")
+
+
+
 
 
 class TestProcessTSV(unittest.TestCase):
@@ -373,6 +410,14 @@ class TestBaseResource(unittest.TestCase):
 		self.assertEqual(p2.id, "schema:Foo")
 		p3 = model.Name(content="Test")
 		self.assertEqual(p3.content, "Test")
+		c = model.MonetaryAmount(value=10)
+		self.assertEqual(c.value, 10)
+		n = model.Name(value="Rob")
+		self.assertEqual(n.content, "Rob")
+		i = model.Identifier(content="xyz123")
+		self.assertEqual(i.content, "xyz123")
+		i2 = model.Identifier(value="abc")
+		self.assertEqual(i2.content, "abc")
 
 	def test_dir(self):
 		props = dir(self.artist)
