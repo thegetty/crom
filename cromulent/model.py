@@ -1048,11 +1048,12 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 		if top is self and not id(self) in done and self._factory.context_uri: 
 			result['@context'] = self._factory.context_uri
 
-
-		result['id'] = self.id
-		result['type'] = self.type
+		if self.id:
+			result['id'] = self.id
+		if self.type:
+			result['type'] = self.type
 		try:
-			result['_label'] = d['_label']
+			result['_label'] = self._label
 		except:
 			pass
 
@@ -1076,11 +1077,6 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 		else:
 			kvs = list(d.items())
 
-		# tbd vs done is to ensure that in a DAG rather than a tree
-		# that it is breadth first, not depth first.
-		# This doesn't catch the pattern A-B-C-D / A-E-D,
-		# (D will be under C, not under E) 
-
 		for (k,v) in kvs:
 			if isinstance(v, ExternalResource):
 				if self._factory.linked_art_boundaries and \
@@ -1094,58 +1090,14 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 						if self._factory.linked_art_boundaries and \
 							not self._linked_art_boundary_okay(top, k, nv):
 							done[id(nv)] = 1
-					newl.append(ni._toJSON_faster(done=done, top=top))
-				else:
-					# A number or string
-					newl.append(ni)
+						newl.append(nv._toJSON_faster(done=done, top=top))
+					else:
+						# A number or string
+						newl.append(nv)					
 				result[k] = newl
-
-
-		tbd = []
-		for (k, v) in kvs:
-			if isinstance(v, ExternalResource):
-				if self._factory.linked_art_boundaries and \
-					not self._linked_art_boundary_okay(top, k, v):
-					# never follow, so just add to done
-					done[id(v)] = 1
-				else:
-					tbd.append(id(v))
-			elif type(v) is list:
-				for ni in v:
-					if isinstance(ni, ExternalResource):
-						if self._factory.linked_art_boundaries and \
-							not self._linked_art_boundary_okay(top, k, ni):
-							# never follow, so just add to done
-							done[id(ni)] = 1							
-						else:
-							tbd.append(id(ni))
-				# For completeness should check list-of-datetime here too
 			elif isinstance(v, datetime.datetime):
 				# replace with string
-				kvs[k] = v.strftime("%Y-%m-%dT%H:%M:%SZ")
-
-		for t in tbd:
-			if not t in done:
-				done[t] = id(self)
-			
-		# This is already sorted if needed
-		for (k,v) in kvs:
-			if not v:
-				pass
-			elif isinstance(v, ExternalResource):
-				if done[id(v)] == id(self):
-					del done[id(v)]
-				result[k] = v._toJSON_fast(done=done, top=top)
-			elif type(v) is list:
-				newl = []
-				uniq = set()
-				for ni in v:
-					if self._factory.multiple_instances_per_property == "drop":
-						if id(ni) in uniq:
-							continue
-						else:
-							uniq.add(id(ni))
-
+				result[k] = v.strftime("%Y-%m-%dT%H:%M:%SZ")
 			else:
 				result[k] = v
 		return result
