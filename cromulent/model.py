@@ -557,8 +557,10 @@ class BaseResource(ExternalResource):
 		elif content and is_sym:
 			self.content = content
 		elif value and is_sym:
-			self.content = value
-		elif value or content:
+			self.content = value # not the right param, but not ambiguous
+		elif content and is_dim:
+			self.value = content # ditto
+		elif value or content: 
 			raise ProfileError("Class '%s' does not hold values" % self.__class__._type)
 		# Custom post initialization function for autoconstructed classes
 		self._post_init(**kw)
@@ -922,12 +924,115 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 		else:
 			return d
 
-
-
 	def _toJSON_fast(self, done, top=None):
 		"""Serialize as JSON."""
 		# If we're already in the graph, return our URI only
 		# This should only be called from the factory!
+
+		# id, type, _label is the default.
+		if not self._factory.id_type_label and id(self) in done:
+			return self.id
+
+		# Can't pass in self as a param
+		if top is None:
+			top = self
+
+		# Add back context at the top, if set
+		result = {}
+		if top is self and not id(self) in done and self._factory.context_uri: 
+			result['@context'] = self._factory.context_uri
+
+		result['id'] = self.id
+		if self.type:
+			result['type'] = self.type
+		try:
+			result['_label'] = d['_label']
+		except:
+			pass
+
+		# Need only minimal representation of self
+		if (self._factory.id_type_label and id(self) in done) or (top is not self and not self._embed):
+			# limit to only id, type, label
+			return result
+		else:	
+			# otherwise, we're about to serialize the resource completely
+			done[id(self)] = 1			
+
+		d = self.__dict__.copy()
+		del d['_factory']
+		del d['id']
+
+		# Need to do in order now to get done correctly ordered
+		if self._factory.order_json:
+			KOH = self._factory.key_order_hash
+			kodflt = self._factory.key_order_default
+			kvs = sorted(d.items(), key=lambda x: KOH.get(x[0], kodflt))
+		else:
+			kvs = list(d.items())
+
+		# tbd vs done is to ensure that in a DAG rather than a tree
+		# that it is breadth first, not depth first.
+		# This doesn't catch the pattern A-B-C-D / A-E-D,
+		# (D will be under C, not under E) 
+
+		tbd = []
+		for (k, v) in kvs:
+			if isinstance(v, ExternalResource):
+				if self._factory.linked_art_boundaries and \
+					not self._linked_art_boundary_okay(top, k, v):
+					# never follow, so just add to done
+					done[id(v)] = 1
+				else:
+					tbd.append(id(v))
+			elif type(v) is list:
+				for ni in v:
+					if isinstance(ni, ExternalResource):
+						if self._factory.linked_art_boundaries and \
+							not self._linked_art_boundary_okay(top, k, ni):
+							# never follow, so just add to done
+							done[id(ni)] = 1							
+						else:
+							tbd.append(id(ni))
+				# For completeness should check list-of-datetime here too
+			elif isinstance(v, datetime.datetime):
+				# replace with string
+				kvs[k] = v.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+		for t in tbd:
+			if not t in done:
+				done[t] = id(self)
+			
+		# This is already sorted if needed
+		for (k,v) in kvs:
+			if not v:
+				pass
+			elif isinstance(v, ExternalResource):
+				if done[id(v)] == id(self):
+					del done[id(v)]
+				result[k] = v._toJSON_fast(done=done, top=top)
+			elif type(v) is list:
+				newl = []
+				uniq = set()
+				for ni in v:
+					if self._factory.multiple_instances_per_property == "drop":
+						if id(ni) in uniq:
+							continue
+						else:
+							uniq.add(id(ni))
+					if isinstance(ni, ExternalResource):
+						if done[id(ni)] == id(self):
+							del done[id(ni)]
+						newl.append(ni._toJSON_fast(done=done, top=top))
+					else:
+						# A number or string
+						newl.append(ni)
+				result[k] = newl
+			else:
+				result[k] = v
+		return result
+
+	def _toJSON_faster(self, done, top=None):
+		"""Serialize as JSON."""
 
 		# id, type, _label is the default.
 		if not self._factory.id_type_label and id(self) in done:
@@ -969,6 +1074,29 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 		else:
 			kvs = list(d.items())
 
+		# tbd vs done is to ensure that in a DAG rather than a tree
+		# that it is breadth first, not depth first.
+		# This doesn't catch the pattern A-B-C-D / A-E-D,
+		# (D will be under C, not under E) 
+
+		for (k,v) in kvs:
+			if isinstance(v, ExternalResource):
+				if self._factory.linked_art_boundaries and \
+					not self._linked_art_boundary_okay(top, k, v):
+					done[id(v)] = 1
+				result[k] = v._toJSON_faster(done=done, top=top)
+			elif type(v) is list:
+				newl = []
+				if isinstance(ni, ExternalResource):
+					if done[id(ni)] == id(self):
+						del done[id(ni)]
+					newl.append(ni._toJSON_fast(done=done, top=top))
+				else:
+					# A number or string
+					newl.append(ni)
+				result[k] = newl
+
+
 		tbd = []
 		for (k, v) in kvs:
 			if isinstance(v, ExternalResource):
@@ -992,7 +1120,6 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 				# replace with string
 				kvs[k] = v.strftime("%Y-%m-%dT%H:%M:%SZ")
 
-
 		for t in tbd:
 			if not t in done:
 				done[t] = id(self)
@@ -1014,17 +1141,11 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 							continue
 						else:
 							uniq.add(id(ni))
-					if isinstance(ni, ExternalResource):
-						if done[id(ni)] == id(self):
-							del done[id(ni)]
-						newl.append(ni._toJSON_fast(done=done, top=top))
-					else:
-						# A number or string
-						newl.append(ni)
-				result[k] = newl
+
 			else:
 				result[k] = v
 		return result
+
 
 
 	def _linked_art_boundary_okay(self, top, prop, value):
