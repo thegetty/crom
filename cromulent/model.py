@@ -942,11 +942,12 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 		if top is self and not id(self) in done and self._factory.context_uri: 
 			result['@context'] = self._factory.context_uri
 
-		result['id'] = self.id
+		if self.id:
+			result['id'] = self.id
 		if self.type:
 			result['type'] = self.type
 		try:
-			result['_label'] = d['_label']
+			result['_label'] = self._label
 		except:
 			pass
 
@@ -1047,6 +1048,7 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 		if top is self and not id(self) in done and self._factory.context_uri: 
 			result['@context'] = self._factory.context_uri
 
+
 		result['id'] = self.id
 		result['type'] = self.type
 		try:
@@ -1087,10 +1089,12 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 				result[k] = v._toJSON_faster(done=done, top=top)
 			elif type(v) is list:
 				newl = []
-				if isinstance(ni, ExternalResource):
-					if done[id(ni)] == id(self):
-						del done[id(ni)]
-					newl.append(ni._toJSON_fast(done=done, top=top))
+				for nv in v:
+					if isinstance(nv, ExternalResource):
+						if self._factory.linked_art_boundaries and \
+							not self._linked_art_boundary_okay(top, k, nv):
+							done[id(nv)] = 1
+					newl.append(ni._toJSON_faster(done=done, top=top))
 				else:
 					# A number or string
 					newl.append(ni)
