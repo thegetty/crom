@@ -122,6 +122,7 @@ class CromulentFactory(object):
 		self.linked_art_boundaries = False # break on linked art API boundaries between classes
 		self.id_type_label = True # references are id, type and _label, not just id.
 
+		self.json_serializer = "normal" # "normal" or "fast"
 		self.json_indent = 2
 		self.order_json = True
 		self.key_order_hash = {"@context": 0, "id": 1, "type": 2, 
@@ -283,7 +284,10 @@ class CromulentFactory(object):
 		""" Serialize what, making sure of no infinite loops """
 		if not done:
 			done = {}
-		out = what._toJSON(top=what, done=done)
+		if self.json_serializer == "fast":
+			out = what._toJSON_fast(top=what, done=done)
+		else:
+			out = what._toJSON(top=what, done=done)
 		return out
 
 	def _collapse_json(self, text, collapse):
@@ -1031,78 +1035,6 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 			else:
 				result[k] = v
 		return result
-
-	def _toJSON_faster(self, done, top=None):
-		"""Serialize as JSON."""
-
-		# id, type, _label is the default.
-		if not self._factory.id_type_label and id(self) in done:
-			return self.id
-
-		# Can't pass in self as a param
-		if top is None:
-			top = self
-
-		# Add back context at the top, if set
-		result = {}
-		if top is self and not id(self) in done and self._factory.context_uri: 
-			result['@context'] = self._factory.context_uri
-
-		if self.id:
-			result['id'] = self.id
-		if self.type:
-			result['type'] = self.type
-		try:
-			result['_label'] = self._label
-		except:
-			pass
-
-		# Need only minimal representation of self
-		if (self._factory.id_type_label and id(self) in done) or (top is not self and not self._embed):
-			# limit to only id, type, label
-			return result
-		else:	
-			# otherwise, we're about to serialize the resource completely
-			done[id(self)] = 1			
-
-		d = self.__dict__.copy()
-		del d['_factory']
-		del d['id']
-
-		# Need to do in order now to get done correctly ordered
-		if self._factory.order_json:
-			KOH = self._factory.key_order_hash
-			kodflt = self._factory.key_order_default
-			kvs = sorted(d.items(), key=lambda x: KOH.get(x[0], kodflt))
-		else:
-			kvs = list(d.items())
-
-		for (k,v) in kvs:
-			if isinstance(v, ExternalResource):
-				if self._factory.linked_art_boundaries and \
-					not self._linked_art_boundary_okay(top, k, v):
-					done[id(v)] = 1
-				result[k] = v._toJSON_faster(done=done, top=top)
-			elif type(v) is list:
-				newl = []
-				for nv in v:
-					if isinstance(nv, ExternalResource):
-						if self._factory.linked_art_boundaries and \
-							not self._linked_art_boundary_okay(top, k, nv):
-							done[id(nv)] = 1
-						newl.append(nv._toJSON_faster(done=done, top=top))
-					else:
-						# A number or string
-						newl.append(nv)					
-				result[k] = newl
-			elif isinstance(v, datetime.datetime):
-				# replace with string
-				result[k] = v.strftime("%Y-%m-%dT%H:%M:%SZ")
-			else:
-				result[k] = v
-		return result
-
-
 
 	def _linked_art_boundary_okay(self, top, prop, value):
 		# Return false to say do not cross this boundary
