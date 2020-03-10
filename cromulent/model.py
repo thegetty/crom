@@ -943,16 +943,15 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 			result['@context'] = self._factory.context_uri
 
 		result['id'] = self.id
-		if self.type:
-			result['type'] = self.type
+		result['type'] = self.type
+		try:
+			result['_label'] = d['_label']
+		except:
+			pass
 
 		# Need only minimal representation of self
 		if (self._factory.id_type_label and id(self) in done) or (top is not self and not self._embed):
 			# limit to only id, type, label
-			try:
-				result['_label'] = d['_label']
-			except:
-				pass
 			return result
 		else:	
 			# otherwise, we're about to serialize the resource completely
@@ -972,33 +971,27 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 
 		tbd = []
 		for (k, v) in kvs:
-			if not v or (k[0] == "_" and not k in self._factory.underscore_properties):
-				del d[k]
-			else:
-				# Should we do this at all? Could be outside of our API serialization scope
-				if isinstance(v, ExternalResource):
-					if self._factory.linked_art_boundaries and \
-						not self._linked_art_boundary_okay(top, k, v):
-						# never follow, so just add to done
-						done[id(v)] = 1
-					else:
-						tbd.append(id(v))
-				elif type(v) is list:
-					for ni in v:
-						if isinstance(ni, ExternalResource):
-							if self._factory.linked_art_boundaries and \
-								not self._linked_art_boundary_okay(top, k, ni):
-								# never follow, so just add to done
-								done[id(ni)] = 1							
-							else:
-								tbd.append(id(ni))
-					# For completeness should check list-of-datetime here too
-				elif isinstance(v, datetime.datetime):
-					# replace with string
-					kvs[k] = v.strftime("%Y-%m-%dT%H:%M:%SZ")
-				# else
-				# this is likely a literal value, 
-				# otherwise it's going to die in upstream serialization anyway
+			if isinstance(v, ExternalResource):
+				if self._factory.linked_art_boundaries and \
+					not self._linked_art_boundary_okay(top, k, v):
+					# never follow, so just add to done
+					done[id(v)] = 1
+				else:
+					tbd.append(id(v))
+			elif type(v) is list:
+				for ni in v:
+					if isinstance(ni, ExternalResource):
+						if self._factory.linked_art_boundaries and \
+							not self._linked_art_boundary_okay(top, k, ni):
+							# never follow, so just add to done
+							done[id(ni)] = 1							
+						else:
+							tbd.append(id(ni))
+				# For completeness should check list-of-datetime here too
+			elif isinstance(v, datetime.datetime):
+				# replace with string
+				kvs[k] = v.strftime("%Y-%m-%dT%H:%M:%SZ")
+
 
 		for t in tbd:
 			if not t in done:
@@ -1006,30 +999,31 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 			
 		# This is already sorted if needed
 		for (k,v) in kvs:
-			if v and (k[0] != "_" and not k in self._factory.underscore_properties):
-				if isinstance(v, ExternalResource):
-					if done[id(v)] == id(self):
-						del done[id(v)]
-					result[k] = v._toJSON_fast(done=done, top=top)
-				elif type(v) is list:
-					newl = []
-					uniq = set()
-					for ni in v:
-						if self._factory.multiple_instances_per_property == "drop":
-							if id(ni) in uniq:
-								continue
-							else:
-								uniq.add(id(ni))
-						if isinstance(ni, ExternalResource):
-							if done[id(ni)] == id(self):
-								del done[id(ni)]
-							newl.append(ni._toJSON_fast(done=done, top=top))
+			if not v:
+				pass
+			elif isinstance(v, ExternalResource):
+				if done[id(v)] == id(self):
+					del done[id(v)]
+				result[k] = v._toJSON_fast(done=done, top=top)
+			elif type(v) is list:
+				newl = []
+				uniq = set()
+				for ni in v:
+					if self._factory.multiple_instances_per_property == "drop":
+						if id(ni) in uniq:
+							continue
 						else:
-							# A number or string
-							newl.append(ni)
-					result[k] = newl
-				else:
-					result[k] = v
+							uniq.add(id(ni))
+					if isinstance(ni, ExternalResource):
+						if done[id(ni)] == id(self):
+							del done[id(ni)]
+						newl.append(ni._toJSON_fast(done=done, top=top))
+					else:
+						# A number or string
+						newl.append(ni)
+				result[k] = newl
+			else:
+				result[k] = v
 		return result
 
 
