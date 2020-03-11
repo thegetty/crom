@@ -93,10 +93,9 @@ class TestFactorySerialization(unittest.TestCase):
 		model.factory.json_serializer = "normal"
 
 	def test_toJSON_normal(self):
-		expect = OrderedDict([(u'@context', 'http://lod.getty.edu/context.json'), 
+		expect = OrderedDict([(u'@context', model.factory.context_uri), 
 			(u'@id', u'http://lod.example.org/museum/Person/1'), (u'@type', u'crm:E21_Person'),
 			('rdfs:label', 'Test Person')])
-		model.factory.context_uri = 'http://lod.getty.edu/context.json'
 		model.factory.full_names = True
 		p = model.Person("1")
 		p._label = "Test Person"
@@ -104,19 +103,22 @@ class TestFactorySerialization(unittest.TestCase):
 		self.assertEqual(expect, outj)
 		# reset
 		model.factory.full_names = False
-		model.factory.context_uri = ""
 
 	def test_toString(self):
-		expect = u'{"id":"http://lod.example.org/museum/InformationObject/collection","type":"InformationObject","_label":"Test Object"}'
+		expect = u'{"@context":"'+model.factory.context_uri+'","id":"http://lod.example.org/museum/InformationObject/collection","type":"InformationObject","_label":"Test Object"}'
 		outs = model.factory.toString(self.collection)
 		self.assertEqual(expect, outs)
 
 	def test_toString_fast(self):
-		expect = u'{"id":"http://lod.example.org/museum/InformationObject/collection","type":"InformationObject","_label":"Test Object"}'
-		model.factory.json_serializer = "fast"		
-		outs = model.factory.toString(self.collection)
-		model.factory.json_serializer = "normal"
-		self.assertEqual(expect, outs)
+		# Should only be trusted in python 3
+		if sys.version_info.major >= 3 and sys.version_info.minor >= 6:
+			expect = u'{"@context":"'+model.factory.context_uri+'","id":"http://lod.example.org/museum/InformationObject/collection","type":"InformationObject","_label":"Test Object"}'
+			model.factory.json_serializer = "fast"		
+			outs = model.factory.toString(self.collection)
+			model.factory.json_serializer = "normal"
+			self.assertEqual(expect, outs)
+		else:
+			print("Skipping toString_fast test in Python 2.x")
 
 	def test_toFile(self):
 		self.assertRaises(model.ConfigurationError, model.factory.toFile, self.collection)
