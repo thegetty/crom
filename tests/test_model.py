@@ -213,9 +213,7 @@ class TestFactorySerialization(unittest.TestCase):
 		p.part = model.HumanMadeObject()
 		js = model.factory.toJSON(p)
 
-		model.factory.production_mode(state="off")
-
-
+		model.factory.production_mode(state=False)
 
 
 

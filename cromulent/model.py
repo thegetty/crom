@@ -122,6 +122,8 @@ class CromulentFactory(object):
 		self.linked_art_boundaries = False # break on linked art API boundaries between classes
 		self.id_type_label = True # references are id, type and _label, not just id.
 
+		# if sorting is unimportant, use fast. If sorting is important, and python >= 3.6, use fast.
+		# fast is approximately half the time for serializing
 		self.json_serializer = "normal" # "normal" or "fast"
 		self.json_indent = 2
 		self.order_json = True
@@ -438,8 +440,8 @@ class CromulentFactory(object):
 		fh.close()
 		return out
 
-	def production_mode(self, state="on"):
-		if state == "on":
+	def production_mode(self, state=True):
+		if state:
 			self.cache_hierarchy()
 			self.validate_profile = False
 			self.validate_properties = False
@@ -947,7 +949,7 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 
 		# Add back context at the top, if set
 		result = {}
-		if top is self and not id(self) in done and self._factory.context_uri: 
+		if top is self and id(self) not in done and self._factory.context_uri: 
 			result['@context'] = self._factory.context_uri
 
 		if self.id:
@@ -986,12 +988,13 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 			kvs.sort(key=lambda x: KOH.setdefault(x[0], kodflt))
 			
 		# tbd vs done is to ensure that in a DAG rather than a tree
-		# that it is breadth first, not depth first.
-		# This doesn't catch the pattern A-B-C-D / A-E-D,
-		# (D will be under C, not under E) 
-		# Reimplemented this in a single depth-first loop
-		# and it was less than 2% faster (!)
-		# This is just not that expensive
+		# that it is serialized breadth first per level of the graph, 
+		# not depth first. This doesn't catch the pattern A-B-C-D / A-E-D,
+		# (D will be under B-C, not under E) as B is processed completely
+		# before E.
+
+		# Note: Reimplemented this in a single depth-first loop
+		# and it was less than 2% faster. The 2 loops are not that expensive
 
 		tbd = []
 		for (k, v) in kvs:
@@ -1012,10 +1015,6 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 							done[id(ni)] = 1							
 						else:
 							tbd.append(id(ni))
-				# For completeness should check list-of-datetime here too
-			elif isinstance(v, datetime.datetime):
-				# replace with string
-				kvs[k] = v.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 		for t in tbd:
 			if not t in done:
@@ -1047,6 +1046,8 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 						# A number or string
 						newl.append(ni)
 				result[k] = newl
+			elif isinstance(v, datetime.datetime):
+				result[k] = v.strftime("%Y-%m-%dT%H:%M:%SZ")
 			else:
 				result[k] = v
 		return result
