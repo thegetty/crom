@@ -933,6 +933,10 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 		# If we're already in the graph, return our URI only
 		# This should only be called from the factory!
 
+		# This should ONLY be used in Python3.6+
+		# as it relies on a stable order to a regular dict
+		# which was not the case before 3.6
+
 		# id, type, _label is the default.
 		if not self._factory.id_type_label and id(self) in done:
 			return self.id
@@ -947,8 +951,10 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 			result['@context'] = self._factory.context_uri
 
 		if self.id:
+			# Could be a bnode
 			result['id'] = self.id
 		if self.type:
+			# Could be an external reference
 			result['type'] = self.type
 		try:
 			result['_label'] = self._label
@@ -968,17 +974,24 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 		del d['id']
 
 		# Need to do in order now to get done correctly ordered
+		kvs = list(d.items())
 		if self._factory.order_json:
 			KOH = self._factory.key_order_hash
 			kodflt = self._factory.key_order_default
-			kvs = sorted(d.items(), key=lambda x: KOH.get(x[0], kodflt))
-		else:
-			kvs = list(d.items())
-
+			# in place sort is 2% faster than sorted
+			# rather than over an iterable
+			# and sorting is 10% of srlz cost
+			# and use setdefault to amortize cost of default
+			# over multiple calls to the factory's hash
+			kvs.sort(key=lambda x: KOH.setdefault(x[0], kodflt))
+			
 		# tbd vs done is to ensure that in a DAG rather than a tree
 		# that it is breadth first, not depth first.
 		# This doesn't catch the pattern A-B-C-D / A-E-D,
 		# (D will be under C, not under E) 
+		# Reimplemented this in a single depth-first loop
+		# and it was less than 2% faster (!)
+		# This is just not that expensive
 
 		tbd = []
 		for (k, v) in kvs:
