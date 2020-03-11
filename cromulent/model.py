@@ -988,8 +988,12 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 			kvs.sort(key=lambda x: KOH.setdefault(x[0], kodflt))
 			
 		# tbd vs done is to ensure that in a DAG rather than a tree
-		# that it is serialized breadth first per level of the graph, 
-		# not depth first. This doesn't catch the pattern A-B-C-D / A-E-D,
+		# that children of the current node are given priority for
+		# full serialization, rather than deeper descendent nodes
+		# that would otherwise be processed first during the (recursive)
+		# depth-first traversal.
+
+		# This doesn't catch the pattern A-B-C-D / A-E-D,
 		# (D will be under B-C, not under E) as B is processed completely
 		# before E.
 
