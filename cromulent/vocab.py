@@ -376,6 +376,7 @@ identity_instances = {
 	"rgb_colorspace": {"parent": MeasurementUnit, "id": "300266239", "label": "rgb"},
 	"seconds": {"parent": MeasurementUnit, "id": "300379239", "label": "seconds"},
 	"days": {"parent": MeasurementUnit, "id": "300379242", "label": "days"},
+	"months": {"parent": MeasurementUnit, "id": "300379245", "label": "months"},
 	"years": {"parent": MeasurementUnit, "id": "300379244", "label": "years"},
 
 	# Languages
