@@ -374,6 +374,9 @@ identity_instances = {
 	"pageCount": {"parent": MeasurementUnit, "id": "300194222", "label": "pages"},
 	"pixels": {"parent": MeasurementUnit, "id": "300266190", "label": "pixels"},
 	"rgb_colorspace": {"parent": MeasurementUnit, "id": "300266239", "label": "rgb"},
+	"seconds": {"parent": MeasurementUnit, "id": "300379239", "label": "seconds"},
+	"days": {"parent": MeasurementUnit, "id": "300379242", "label": "days"},
+	"years": {"parent": MeasurementUnit, "id": "300379244", "label": "years"},
 
 	# Languages
 	"english": {"parent": Language, "id": "300388277", "label": "English"},
