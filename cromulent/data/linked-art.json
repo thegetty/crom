@@ -1521,12 +1521,12 @@
       "@type": "@id", 
       "@container": "@set"
     }, 
-    "current_keeper": {
+    "current_custodian": {
       "@id": "crm:P50_has_current_keeper", 
       "@type": "@id", 
       "@container": "@set"
     }, 
-    "current_keeper_of": {
+    "current_custodian_of": {
       "@id": "crm:P50i_is_current_keeper_of", 
       "@type": "@id", 
       "@container": "@set"
