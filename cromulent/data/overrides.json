@@ -15,6 +15,8 @@
 	"P29i": "acquired_custody_through",
 	"P14i": "carried_out",
 	"P140": "assigned_to",
+	"P50": "current_custodian",
+	"P50i": "current_custodian_of",
 
 	"P9": "part",
 	"P9i": "part_of",
