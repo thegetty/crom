@@ -1,5 +1,9 @@
 {
-	"classified_as": 3,  
+	"@context": 0,
+	"id": 1,
+	"type": 2,
+	"_label": 3,
+	"classified_as": 4,  
 	"identified_by": 10,
 	"referred_to_by" : 15,
 	"about": 18,

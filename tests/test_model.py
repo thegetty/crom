@@ -216,6 +216,21 @@ class TestFactorySerialization(unittest.TestCase):
 		model.factory.production_mode(state=False)
 
 
+	def test_ordering(self):
+		p = model.Person(label="Person")
+		p.classified_as = model.Type(ident="type-uri")
+		p.referred_to_by = model.LinguisticObject(content="text")
+		p.dimension = model.Dimension(value=1)
+
+		outstr = model.factory.toString(p)
+		lbl = outstr.index("_label")
+		clsf = outstr.index("classified_as")
+		r2b = outstr.index("referred_to_by")
+		dim = outstr.index("dimension")
+		self.assertTrue(lbl < clsf)
+		self.assertTrue(clsf < r2b)
+		self.assertTrue(r2b < dim)
+
 
 class TestProcessTSV(unittest.TestCase):
 
