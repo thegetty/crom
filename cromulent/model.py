@@ -1181,8 +1181,8 @@ def process_tsv(fn):
 
 			koh = int(info[9])
 			if koh != KEY_ORDER_DEFAULT:
-				factory.full_key_order_hash[data['propName']] = koh
-				factory.key_order_hash[data['name']] = koh
+				factory.key_order_hash[data['propName']] = koh
+				factory.full_key_order_hash[data['name']] = koh
 
 	# invert subclass hierarchy
 	for k, v in vocabData.items():
