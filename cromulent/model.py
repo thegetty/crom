@@ -140,6 +140,52 @@ class CromulentFactory(object):
 		self._auto_id_int = -1
 		self._all_classes = {}
 
+		self.mermaid_class_styles = {
+			"HumanMadeObject": "object",
+			"Place": "place",
+			"Actor": "actor",
+			"Person": "actor",
+			"Group": "actor",
+			"Type": "type",
+			"MeasurementUnit": "type",
+			"Currency": "type",
+			"Material": "type",
+			"Language": "type",
+			"Name": "name",
+			"Identifier": "name",
+			"Dimension": "dims",
+			"MonetaryAmount": "dims",			
+			"LinguisticObject": "infoobj",
+			"VisualItem": "infoobj",
+			"InformationObject": "infoobj",
+			"Set": "infoobj",
+			"PropositionalObject": "infoobj",
+			"Right": "infoobj",
+			"PropertyInterest": "infoobj",
+			"TimeSpan": "timespan",
+			"Activity": "event",
+			"Event": "event",
+			"Birth": "event",
+			"Death": "event",
+			"Production": "event",
+			"Destruction": "event",
+			"Creation": "event",
+			"Formation": "event",
+			"Dissolution": "event",
+			"Acquisition": "event",
+			"TransferOfCustody": "event",
+			"Move": "event",
+			"Payment": "event",
+			"AttributeAssignment": "event",
+			"Phase": "event",
+			"Relationship": "dims",
+			"RightAcquisition": "event",
+			"PartRemoval": "event",
+			"PartAddition": "event",
+			"Encounter": "event"
+		}
+
+
 	def load_context(self, context, context_filemap):
 		if not context or not context_filemap:
 			raise ConfigurationError("No context provided, and load_context not False")
@@ -402,6 +448,94 @@ class CromulentFactory(object):
 					res.append(x)
 		res.append('</span></pre>')
 		return ''.join(res)
+
+	def toMermaid(self, what, done=None):
+		curr_int = 1
+		mermaid = []
+		id_map = {}
+		mermaid.append("graph TD")
+		mermaid.append("classDef object stroke:black,fill:#E1BA9C,rx:20px,ry:20px;")
+		mermaid.append("classDef actor stroke:black,fill:#FFBDCA,rx:20px,ry:20px;")
+		mermaid.append("classDef type stroke:red,fill:#FAB565,rx:20px,ry:20px;")
+		mermaid.append("classDef name stroke:orange,fill:#FEF3BA,rx:20px,ry:20px;")
+		mermaid.append("classDef dims stroke:black,fill:#c6c6c6,rx:20px,ry:20px;")
+		mermaid.append("classDef infoobj stroke:#907010,fill:#fffa40,rx:20px,ry:20px")
+		mermaid.append("classDef timespan stroke:blue,fill:#ddfffe,rx:20px,ry:20px")
+		mermaid.append("classDef place stroke:#3a7a3a,fill:#aff090,rx:20px,ry:20px")
+		mermaid.append("classDef event stroke:blue,fill:#96e0f6,rx:20px,ry:20px")
+		mermaid.append("classDef literal stroke:black,fill:#f0f0e0;")
+		mermaid.append("classDef classstyle stroke:black,fill:white;")
+		js = self.toJSON(what, done=done)
+		self.walk(js, curr_int, id_map, mermaid)
+		return "\n".join(mermaid)
+
+	def uri_to_label(self, uri):
+		if uri.startswith('http://vocab.getty.edu/'):
+			uri = uri.replace('http://vocab.getty.edu/', '')
+			uri = uri.replace('/', ':')
+			return uri
+		elif uri.startswith(self.base_url):
+			uri = uri.replace(self.base_url, '')
+			uri = uri.replace('/', '')
+			return uri
+		else:
+			print("Unhandled URI: %s" % uri)
+			return uri
+
+	def walk(self, js, curr_int, id_map, mermaid):
+		if isinstance(js, dict):
+			# Resource
+			curr = js.get('id', str(uuid.uuid4()))
+			if curr in id_map:
+				currid = id_map[curr]
+			else:
+				currid = "O%s" % curr_int
+				curr_int += 1
+				id_map[curr] = currid
+			lbl = self.uri_to_label(curr)
+			line = "%s(%s)" % (currid, lbl)
+			if not line in mermaid:
+				mermaid.append(line)
+			t = js.get('type', '')
+			if t:
+				style = self.mermaid_class_styles.get(t, '')
+				if style:
+					line = "class %s %s;" % (currid, style)
+					if not line in mermaid:
+						mermaid.append("class %s %s;" % (currid, style))
+				else:
+					print("No style for class %s" % t)
+				line = "%s-- type -->%s_0[%s]" % (currid, currid, t)
+				if not line in mermaid:
+					mermaid.append(line) 			
+					mermaid.append("class %s_0 classstyle;" % currid)
+			n = 0
+			for k,v in js.items():
+				n += 1
+				if k in ["@context", "id", "type"]:
+					continue
+				elif isinstance(v, list):
+					for vi in v:
+						if isinstance(vi, dict):
+							(rng, curr_int, id_map) = self.walk(vi, curr_int, id_map, mermaid)
+							mermaid.append("%s-- %s -->%s" % (currid, k, rng))				
+						else:
+							print("Iterating a list and found %r" % vi)
+				elif isinstance(v, dict):
+					(rng, curr_int, id_map) = self.walk(v, curr_int, id_map, mermaid)
+					line = "%s-- %s -->%s" % (currid, k, rng)
+					if not line in mermaid:
+						mermaid.append(line)				
+				else:
+					if type(v) in STR_TYPES:
+						# :|
+						v = v.replace('"', "''")
+						v = "\"''%s''\""% v
+					line = "%s-- %s -->%s_%s(%s)" % (currid, k, currid, n, v)
+					if not line in mermaid:
+						mermaid.append(line)
+						mermaid.append("class %s_%s literal;" % (currid, n))
+			return (currid, curr_int, id_map)
 
 
 	def toFile(self, what, compact=True, filename="", done=None):

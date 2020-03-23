@@ -231,6 +231,18 @@ class TestFactorySerialization(unittest.TestCase):
 		self.assertTrue(clsf < r2b)
 		self.assertTrue(r2b < dim)
 
+	def test_mermaid(self):
+
+		graph = """O1(Person1)
+class O1 actor;
+O1-- type -->O1_0[Person]
+class O1_0 classstyle;
+O1-- _label -->O1_4("''Test''")
+class O1_4 literal;"""
+		p = model.Person(ident="1", label="Test")
+		mm = model.factory.toMermaid(p)
+		self.assertTrue(graph in mm)
+
 
 class TestProcessTSV(unittest.TestCase):
 
