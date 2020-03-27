@@ -299,6 +299,7 @@ ext_classes = {
 	"Print":  {"parent": HumanMadeObject, "id":"300041273", "label": "Print", "metatype": "work type"},
 	"TimeBasedMedia": {"parent": HumanMadeObject, "id":"300185191", "label": "Time-based Media", "metatype": "work type"},
 	"Page": {"parent": HumanMadeObject, "id":"300194222", "label": "Page", "metatype": "work type"},
+	"Folio": {"parent": HumanMadeObject, "id":"300189604", "label": "Folio", "metatype": "work type"},
 
 	"Folder": {"parent": HumanMadeObject, 'id':"300197602", "label": "Folder", "metatype": "work type"},
 	"Box": {"parent": HumanMadeObject, "id":"300045643", "label": "Box", "metatype": "work type"},
