@@ -470,7 +470,7 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 				if re.search(re.compile(r',\d\d\d'), value):
 					value = value.replace(',', '')
 				value = float(value)
-				price_amount_label = round(value, 3)
+				price_amount_label = '{:,}'.format(round(value, 3))
 				amnt.value = value
 			except ValueError:
 				amnt._label = price_amount
