@@ -454,6 +454,7 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 	else:
 		return None
 
+	price_amount_label = price_amount
 	if price_amount or price_currency:
 		if cite and add_citations:
 			amnt.referred_to_by = vocab.BibliographyStatement(ident='', content=cite)
@@ -469,6 +470,7 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 				if re.search(re.compile(r',\d\d\d'), value):
 					value = value.replace(',', '')
 				value = float(value)
+				price_amount_label = round(value, 3)
 				amnt.value = value
 			except ValueError:
 				amnt._label = price_amount
@@ -486,8 +488,8 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 				amnt.currency = vocab.instances[price_currency_key]
 			else:
 				warnings.warn('*** No currency instance defined for %s' % (price_currency_key,))
-		if price_amount and price_currency:
-			amnt._label = '%s %s' % (price_amount, price_currency)
+		if price_amount_label and price_currency:
+			amnt._label = '%s %s' % (price_amount_label, price_currency)
 		elif price_amount:
 			amnt._label = '%s' % (price_amount,)
 		return amnt
