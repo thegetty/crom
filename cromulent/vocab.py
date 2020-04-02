@@ -131,6 +131,7 @@ ext_classes = {
 	"CatalogueRaisonneText": {"parent": LinguisticObject, "id":"300026061", "label": "Catalogue Raisonne", "metatype": "work type"},
 	"AuctionCatalogText": {"parent": LinguisticObject, "id":"300026068", "label": "Auction Catalog", "metatype": "work type"},
 	"SalesCatalogText": {"parent": LinguisticObject, "id": "300026074", "label": "Sales Catalog", "metatype": "work type"},
+	"LotteryCatalogText": {"parent": LinguisticObject, "id":"300438603", "label": "Lottery Catalog", "metatype": "work type"},
 	"ExhibitionCatalogText": {"parent": LinguisticObject, "id": "300026096", "label": "Exhibition Catalog", "metatype": "work type"},
 	"AccessionCatalogText": {"parent": LinguisticObject, "id": "300026617", "label": "Accession Catalog", "metatype": "work type"},
 	"AccountBookText": {"parent": LinguisticObject, "id": "300027483", "label": "Account Book", "metatype": "work type"},
@@ -201,6 +202,9 @@ ext_classes = {
 
 	"AuctionEvent": {"parent": Activity, "id":"300054751", "label": "Auction Event"},
 	"Auction":     {"parent": Activity, "id":"300420001", "label": "Auction of Lot"}, # Individual auction-of-lot
+	"LotteryDrawing": {"parent": Activity, "id":"300438601", "label": "Lottery Drawing"},
+	"Lottery":     {"parent": Activity, "id":"300184191", "label": "Lottery"},
+
 	"Negotiating": {"parent": Activity, "id":"300438558", "label": "Negotiating"},
 	"Bidding":     {"parent": Creation, "id":"300054602", "label": "Bidding"}, # individual bid
 	"Curating":    {"parent": Activity, "id":"300054277", "label": "Curating"},
@@ -312,6 +316,7 @@ ext_classes = {
 	"ExhibitionCatalog": {"parent": HumanMadeObject,"id":"300026096", "label": "Exhibition Catalog", "metatype": "work type"},
 	"AccessionCatalog": {"parent": HumanMadeObject, "id": "300026617", "label": "Accession Catalog", "metatype": "work type"},
 	"SalesCatalog": {"parent": HumanMadeObject,"id":"300026074", "label": "Sales Catalog", "metatype": "work type"},
+	"LotteryCatalog": {"parent": HumanMadeObject, "id":"300438603", "label": "Lottery Catalog", "metatype": "work type"},
 
 	"FrontPart": {"parent": HumanMadeObject, "id":"300190703", "label": "Front Part", "metatype": "part type"},
 	"BackPart": {"parent": HumanMadeObject, "id":"300190692", "label": "Back Part", "metatype": "part type"},
