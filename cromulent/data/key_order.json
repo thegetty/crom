@@ -5,6 +5,7 @@
 	"_label": 3,
 	"classified_as": 4,  
 	"identified_by": 10,
+	"defined_by": 11,
 	"referred_to_by" : 15,
 	"about": 18,
 	"technique": 19,
@@ -42,7 +43,8 @@
 	"dimension": 41,
 	"made_of": 42,
 	"part_of": 43,
-	"member_of": 44,
+	"approximated_by": 44,
+	"member_of": 45,
 
 	"transferred_title_of": 50, 
 	"transferred_title_from": 51, 
