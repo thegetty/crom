@@ -44,9 +44,9 @@ else:
 	f = None
 
 
-print(f"Main Class: {c.__name__}")
+print(f"Main Class: \033[95m{c.__name__}\033[0m")
 if cf:
-	print(f"Filtered To: {cf.__name__}")
+	print(f"Filtered To: \033[95m{cf.__name__}\033[0m")
 else:
 	print("Filtered To: None")
 print(f"Using Profile: {args.okay}")
@@ -57,5 +57,15 @@ ap = list_all_props(c, okay=args.okay, filter=f)
 for pi in ap:
 	if pi.property in ['close_match', 'exact_match']:
 		continue
-	print(f"<{what}>  {pi.property} ({pi.predicate}) / {pi.inverse_property} ({pi.inverse_predicate})  <{pi.range.__name__}> ")
+	out = f"{pi.property} ({pi.predicate})"
+	if pi.inverse_property:
+		inv = f"{pi.inverse_property} ({pi.inverse_predicate})"
+	else:
+		inv = ""
+	if pi.range == str:
+		rng = "\033[93mLiteral"
+	else:
+		rng = pi.range.__name__
+	# old skool colorizing
+	print(f"\033[95m{what:<15} \033[92m{out:<50} / {inv:<50} \033[95m{rng}\033[0m")
 
