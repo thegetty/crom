@@ -1,27 +1,26 @@
 
 import sys, argparse
 from cromulent import model, vocab
-factory = model.factory
-
-factory.cache_hierarchy()
 
 parser = argparse.ArgumentParser()
 parser.add_argument('what')
-parser.add_argument('--okay', dest="okay", type=bool)
+parser.add_argument('--okay', '--profile', dest="okay", type=bool)
 parser.add_argument('--filter', dest="filter")
 args = parser.parse_args()
 
 def list_all_props(what, filter=None, okay=None):
 	props = []
-	for k,v in c._all_properties.items():
-		if not k in props and \
-			(not okay or okay and v.profile_okay) and \
-			(filter is None or isinstance(filter, v.range) or \
-				filter is v.range):
-			props.append(v)
+	ks = []
+	for c in what._classhier:	
+		for k,v in c._all_properties.items():
+			if not k in ks and \
+				(not okay or (okay and v.profile_okay)) and \
+				(filter is None or isinstance(filter, v.range) or \
+					filter is v.range):
+				props.append(v)
+				ks.append(k)
 	props.sort(key=lambda x: x.property)
 	return props
-
 
 what = args.what
 try:
@@ -52,7 +51,10 @@ else:
 print(f"Using Profile: {args.okay}")
 
 instance = c()
-ap = list_all_props(c, okay=args.okay, filter=f)
+ap = list_all_props(instance, okay=args.okay, filter=f)
+
+ap2 = instance.list_all_props(okay=args.okay, filter=f)
+
 
 for pi in ap:
 	if pi.property in ['close_match', 'exact_match']:

@@ -396,56 +396,56 @@ la:Removal	class	Removal	Removal	The removal of some entity from a Set	E7_Activi
 la:Relationship	class	Relationship	Relationship		E28_Conceptual_Object	0
 la:DigitalService	class	DigitalService	Digital Service		E73_Information_Object	1
 la:property_classified_as	property	property_classified_as	Property Classified As	Record dot one properties via Attribute Assignments		E13_Attribute_Assignment	E55_Type		10000	1	1
-la:represents_instance_of_type	property	represents_instance_of_type	Represents Instance of Type	This property establishes the relationship between an E36 Visual Item and an E55 Type that represents the class of entity which it visually represents.  This property is used when the specific entity being represented is either unknown, or not of documentary interest.		E36_Visual_Item	E55_Type	https://linked.art/ns/terms/instance_represented_by	10000	1	1
-la:instance_represented_by	property	instance_represented_by	Represents Instance of Type	Inverse of represents instance of type		E55_Type	E36_Visual_Item	https://linked.art/ns/terms/represents_instance_of_type	10000	1	1
-la:current_permanent_custodian	property	current_permanent_custodian	Current Permanent Custodian	This property records the normal custodian of the object at the time when the assertion was made. The object may have a temporary custodian, for example when it is loaned to another organization for an exhibition or between departments for conservation or storage.		E19_Physical_Object	E39_Actor	https://linked.art/ns/terms/current_permanent_custodian_of	10000	1	0
-la:current_permanent_custodian_of	property	current_permanent_custodian_of	Current Permanent Custodian Of	Inverse of Current Permanent Custodian		E39_Actor	E19_Physical_Object	https://linked.art/ns/terms/current_permanent_custodian	10000	1	1
+la:represents_instance_of_type	property	represents_instance_of_type	Represents Instance of Type	This property establishes the relationship between an E36 Visual Item and an E55 Type that represents the class of entity which it visually represents.  This property is used when the specific entity being represented is either unknown, or not of documentary interest.		E36_Visual_Item	E55_Type	la:instance_represented_by	10000	1	1
+la:instance_represented_by	property	instance_represented_by	Represents Instance of Type	Inverse of represents instance of type		E55_Type	E36_Visual_Item	la:represents_instance_of_type	10000	1	1
+la:current_permanent_custodian	property	current_permanent_custodian	Current Permanent Custodian	This property records the normal custodian of the object at the time when the assertion was made. The object may have a temporary custodian, for example when it is loaned to another organization for an exhibition or between departments for conservation or storage.		E19_Physical_Object	E39_Actor	la:current_permanent_custodian_of	10000	1	0
+la:current_permanent_custodian_of	property	current_permanent_custodian_of	Current Permanent Custodian Of	Inverse of Current Permanent Custodian		E39_Actor	E19_Physical_Object	la:current_permanent_custodian	10000	1	1
 la:paid_amount	property	paid_amount	Paid Amount	The amount paid.		la:Payment	E97_Monetary_Amount		50	1	0
 la:paid_from	property	paid_from	Paid From	Who the payment came from		la:Payment	E39_Actor		51	1	1
 la:paid_to	property	paid_to	Paid To	Who the payment went to		la:Payment	E39_Actor		52	1	1
-la:establishes	property	establishes	establishes	The right established by a RightAcquisition		la:RightAcquisition	E30_Right	https://linked.art/ns/terms/established_by	10000	1	0
-la:established_by	property	established_by	established by	The RightAcquisition that established this Right		E30_Right	la:RightAcquisition	https://linked.art/ns/terms/establishes	10000	1	0
-la:invalidates	property	invalidates	invalidates	The right which is invalidated by a RightAcquisition		la:RightAcquisition	E30_Right	https://linked.art/ns/terms/invalidated_by	10000	1	1
-la:invalidated_by	property	invalidated_by	invalidated by	The RightAcquisition that invalidated this Right		E30_Right	la:RightAcquisition	https://linked.art/ns/terms/invalidates	10000	1	0
-la:initiated	property	initiated	initiated	Events can start or initiate Phases, such as the Modification of a painting to trim it from 16 feet to 14 ft would initiate a 14 feet phase, or the Acquisition of a sculpture by some Actor would initiate that Actor's ownership phase. This relationship links the initiating Event to the Phase.		E5_Event	la:Phase	https://linked.art/ns/terms/initiated_by	10000	0	1
-la:initiated_by	property	initiated_by	initiated by	The inverse of la:initiated.		la:Phase	E5_Event	https://linked.art/ns/terms/initiated	10000	0	1
-la:terminated	property	terminated	terminated	Events can end or terminate Phases, such as the Modification of a painting to trim it from 16 feet to 14 ft would end the 16 feet phase, or the Acquisition of a sculpture by some Actor would end the seller's ownership. This relationship links the terminating Event to the Phase.		E5_Event	la:Phase	https://linked.art/ns/terms/terminated_by	10000	0	1
-la:terminated_by	property	terminated_by	terminated by	The inverse of la:terminated.		la:Phase	E5_Event	https://linked.art/ns/terms/terminated	10000	0	1
-la:has_phase	property	has_phase	has phase	The relationship between an E1 Entity and one of its Phases. A painting that had two sizes, 16 feet and 14 feet wide, would have two Phases, one for each width.		E1_CRM_Entity	la:Phase	https://linked.art/ns/terms/phase_of	10000	0	1
-la:phase_of	property	phase_of	phase of	The inverse of la:has_phase.		la:Phase	E1_CRM_Entity	https://linked.art/ns/terms/has_state	10000	0	0
-la:related_entity	property	related_entity	related entity	An E1 Entity that defines the nature of the Phase. For an ownership phase, this would be the owning E39 Actor. For the size of painting phase, this would be the E54 Dimension that describes the size.		la:Phase	E1_CRM_Entity	https://linked.art/ns/terms/terminated	10000	0	0
-la:related_entity_of	property	related_entity_of	related entity of	The inverse of la:related_entity.		E1_CRM_Entity	la:Phase	https://linked.art/ns/terms/related_entity	10000	0	1
+la:establishes	property	establishes	establishes	The right established by a RightAcquisition		la:RightAcquisition	E30_Right	la:established_by	10000	1	0
+la:established_by	property	established_by	established by	The RightAcquisition that established this Right		E30_Right	la:RightAcquisition	la:establishes	10000	1	0
+la:invalidates	property	invalidates	invalidates	The right which is invalidated by a RightAcquisition		la:RightAcquisition	E30_Right	la:invalidated_by	10000	1	1
+la:invalidated_by	property	invalidated_by	invalidated by	The RightAcquisition that invalidated this Right		E30_Right	la:RightAcquisition	la:invalidates	10000	1	0
+la:initiated	property	initiated	initiated	Events can start or initiate Phases, such as the Modification of a painting to trim it from 16 feet to 14 ft would initiate a 14 feet phase, or the Acquisition of a sculpture by some Actor would initiate that Actor's ownership phase. This relationship links the initiating Event to the Phase.		E5_Event	la:Phase	la:initiated_by	10000	0	1
+la:initiated_by	property	initiated_by	initiated by	The inverse of la:initiated.		la:Phase	E5_Event	la:initiated	10000	0	1
+la:terminated	property	terminated	terminated	Events can end or terminate Phases, such as the Modification of a painting to trim it from 16 feet to 14 ft would end the 16 feet phase, or the Acquisition of a sculpture by some Actor would end the seller's ownership. This relationship links the terminating Event to the Phase.		E5_Event	la:Phase	la:terminated_by	10000	0	1
+la:terminated_by	property	terminated_by	terminated by	The inverse of la:terminated.		la:Phase	E5_Event	la:terminated	10000	0	1
+la:has_phase	property	has_phase	has phase	The relationship between an E1 Entity and one of its Phases. A painting that had two sizes, 16 feet and 14 feet wide, would have two Phases, one for each width.		E1_CRM_Entity	la:Phase	la:phase_of	10000	0	1
+la:phase_of	property	phase_of	phase of	The inverse of la:has_phase.		la:Phase	E1_CRM_Entity	la:has_state	10000	0	0
+la:related_entity	property	related_entity	related entity	An E1 Entity that defines the nature of the Phase. For an ownership phase, this would be the owning E39 Actor. For the size of painting phase, this would be the E54 Dimension that describes the size.		la:Phase	E1_CRM_Entity	la:terminated	10000	0	0
+la:related_entity_of	property	related_entity_of	related entity of	The inverse of la:related_entity.		E1_CRM_Entity	la:Phase	la:related_entity	10000	0	1
 la:relationship	property	relationship	related by	The relationship between the Entity that the phase is of, and the defining entity. For an ownership phase, this would be P52 has current owner. For the size of painting phase, this would be P43 has dimension.	P2_has_type	la:Phase	E55_Type		10000	0	0
-la:has_member	property	member	has member			la:Set	E1_CRM_Entity	https://linked.art/ns/terms/member_of	105	1	1
-la:member_of	property	member_of	member of			E1_CRM_Entity	la:Set	https://linked.art/ns/terms/has_member	45	1	1
-la:added_to	property	added_to	added to			la:Addition	la:Set	https://linked.art/ns/terms/added_to_by	10000	1	0
-la:added_to_by	property	added_to_by	added to by			la:Set	la:Addition	https://linked.art/ns/terms/added_to	10000	1	1
-la:added_member	property	added_member	added			la:Addition	E1_CRM_Entity	https://linked.art/ns/terms/added_member_by	10000	1	0
-la:added_member_by	property	added_member_by	added by			E1_CRM_Entity	la:Addition	https://linked.art/ns/terms/added_member	10000	1	1
-la:removed_from	property	removed_from	removed from			la:Removal	la:Set	https://linked.art/ns/terms/removed_from_by	10000	1	0
-la:removed_from_by	property	removed_from_by	removed from by			la:Set	la:Removal	https://linked.art/ns/terms/removed_from	10000	1	1
-la:removed_member	property	removed_member	removed			la:Removal	E1_CRM_Entity	https://linked.art/ns/terms/removed_member_by	10000	1	0
-la:removed_member_by	property	removed_member_by	removed by			E1_CRM_Entity	la:Removal	https://linked.art/ns/terms/removed_member	10000	1	1
-la:relates_to	property	relates_to	related to			la:Relationship	E1_CRM_Entity	https://linked.art/ns/terms/related_to_by	10000	0	0
-la:related_to_by	property	related_to_by	related to by			E1_CRM_Entity	la:Relationship	https://linked.art/ns/terms/relates_to	10000	0	1
-la:relates_from	property	relates_from	related from			la:Relationship	E1_CRM_Entity	https://linked.art/ns/terms/related_from_by	10000	0	0
-la:related_from_by	property	related_from_by	related from by			E1_CRM_Entity	la:Relationship	https://linked.art/ns/terms/relates_from	10000	0	1
-la:digitally_carries	property	digitally_carries	digitally carries			dig:D1_Digital_Object	E90_Symbolic_Object	https://linked.art/ns/terms/digitally_carried_by	10000	1	1
-la:digitally_carried_by	property	digitally_carried_by	digitally carried by			E90_Symbolic_Object	dig:D1_Digital_Object	https://linked.art/ns/terms/digitally_carries	10000	1	1
-la:digitally_shows	property	digitally_shows	digitally shows			dig:D1_Digital_Object	E36_Visual_Item	https://linked.art/ns/terms/digitally_shown_by	10000	1	1
-la:digitally_shown_by	property	digitally_shown_by	digitally shown by			E36_Visual_Item	dig:D1_Digital_Object	https://linked.art/ns/terms/digitally_shows	10000	1	1
-la:digitally_available_via	property	digitally_available_via	digitally shows			dig:D1_Digital_Object	la:DigitalService	https://linked.art/ns/terms/digitally_makes_available	10000	1	1
-la:digitally_makes_available	property	digitally_makes_available	digitally shown by			dig:D1_Digital_Object	la:DigitalService	https://linked.art/ns/terms/digitally_available_via	10000	1	1
+la:has_member	property	member	has member			la:Set	E1_CRM_Entity	la:member_of	105	1	1
+la:member_of	property	member_of	member of			E1_CRM_Entity	la:Set	la:has_member	45	1	1
+la:added_to	property	added_to	added to			la:Addition	la:Set	la:added_to_by	10000	1	0
+la:added_to_by	property	added_to_by	added to by			la:Set	la:Addition	la:added_to	10000	1	1
+la:added_member	property	added_member	added			la:Addition	E1_CRM_Entity	la:added_member_by	10000	1	0
+la:added_member_by	property	added_member_by	added by			E1_CRM_Entity	la:Addition	la:added_member	10000	1	1
+la:removed_from	property	removed_from	removed from			la:Removal	la:Set	la:removed_from_by	10000	1	0
+la:removed_from_by	property	removed_from_by	removed from by			la:Set	la:Removal	la:removed_from	10000	1	1
+la:removed_member	property	removed_member	removed			la:Removal	E1_CRM_Entity	la:removed_member_by	10000	1	0
+la:removed_member_by	property	removed_member_by	removed by			E1_CRM_Entity	la:Removal	la:removed_member	10000	1	1
+la:relates_to	property	relates_to	related to			la:Relationship	E1_CRM_Entity	la:related_to_by	10000	0	0
+la:related_to_by	property	related_to_by	related to by			E1_CRM_Entity	la:Relationship	la:relates_to	10000	0	1
+la:relates_from	property	relates_from	related from			la:Relationship	E1_CRM_Entity	la:related_from_by	10000	0	0
+la:related_from_by	property	related_from_by	related from by			E1_CRM_Entity	la:Relationship	la:relates_from	10000	0	1
+la:digitally_carries	property	digitally_carries	digitally carries			dig:D1_Digital_Object	E90_Symbolic_Object	la:digitally_carried_by	10000	1	1
+la:digitally_carried_by	property	digitally_carried_by	digitally carried by			E90_Symbolic_Object	dig:D1_Digital_Object	la:digitally_carries	10000	1	1
+la:digitally_shows	property	digitally_shows	digitally shows			dig:D1_Digital_Object	E36_Visual_Item	la:digitally_shown_by	10000	1	1
+la:digitally_shown_by	property	digitally_shown_by	digitally shown by			E36_Visual_Item	dig:D1_Digital_Object	la:digitally_shows	10000	1	1
+la:digitally_available_via	property	digitally_available_via	digitally shows			dig:D1_Digital_Object	la:DigitalService	la:digitally_makes_available	10000	1	1
+la:digitally_makes_available	property	digitally_makes_available	digitally shown by			dig:D1_Digital_Object	la:DigitalService	la:digitally_available_via	10000	1	1
 dig:D1_Digital_Object	class	DigitalObject	Digital Object	This class comprises identifiable immaterial items that can be represented as sets of bit sequences, such as data sets, e-texts, images, audio or video items, software, etc., and are documented as single units. Any aggregation of instances of D1 Digital Object into a whole treated as single unit is also regarded as an instance of D1 Digital Object.  This means that for instance, the content of a DVD, an XML file on it, and an element of this file, are regarded as distinct instances of D1 Digital Object, mutually related by the P106 is composed of (forms part of) property. A D1 Digital Object does not depend on a specific physical carrier, and it can exist on one or more carriers simultaneously.	E73_Information_Object	1
 geo:SP5_Geometric_Place_Expression	class	Geometry	Geometry	Scope note: This class comprises definitions of places by quantitative expressions. An instance of SP5 Geometric Place Expression can be seen as a prescription of how to find the location meant by this expression in the real world (S), which is based on measuring where the quantities referred to in the expression lead to, beginning from the reference points of the respective reference system.	E41_Appellation	1
 geo:SP4_Spatial_Coordinate_Reference_System	class	CoordinateSystem	Spatial Coordinate Reference System	Scope note: This class compromises systems that are used to describe locations in a SP3 Reference Space (S). An instance of SP4 Spatial Coordinate Reference System is composed of two parts: The first is a Coordinate System which is a set of coordinate axes with specified units of measurement and axis directions. The second part is a set of reference features at rest in the Reference Space it describes in the real world that relate the Coordinate System to real world locations (U) and fix it with respect to the reference object of its Reference Space.	E29_Design_or_Procedure	1
 sci:S19_Encounter_Event	class	Encounter	Encounter	This class comprises activities of S4 Observation (substance) where an E39 Actor encounters an instance of E18 Physical Thing of a kind relevant for the mission of the observation or regarded as potentially relevant for some community (identity). This observation produces knowledge about the existence of the respective thing at a particular place in or on surrounding matter. This knowledge may be new to the group of people the actor belongs to. In that case we would talk about a discovery. The observer may recognize or assign an individual identity of the thing encountered or regard only the type as noteworthy in the associated documentation or report.\n    Note that this representation treats S19 as a subClass of only E7 Activity for ease of implementation, as we do not need the full set of relationships available via the complete hierarcy. In the full CRMsci, it is Activity -> Attribute Assignment -> Observation -> Encounter.	E7_Activity	1
-geo:Q9_is_expressed_in_terms_of	property	Q9_is_expressed_in_terms_of	expressed in terms of	Scope note:        This property defines the coordinate reference system in terms of which a geometric place expression is formulated.		geo:SP5_Geometric_Place_Expression	geo:SP4_Spatial_Coordinate_Reference_System	http://www.ics.forth.gr/isl/CRMgeo/Q9i_terms_express	10000	1	0
-geo:Q9i_terms_express	property	Q9i_terms_express	terms express			geo:SP4_Spatial_Coordinate_Reference_System	geo:SP5_Geometric_Place_Expression	http://www.ics.forth.gr/isl/CRMgeo/Q9_is_expressed_in_terms_of	10000	1	0
-sci:O13_triggers	property	caused	triggers			E5_Event	E5_Event	http://www.ics.forth.gr/isl/CRMsci/O13i_is_triggered_by	10000	1	1
-sci:O13i_is_triggered_by	property	caused_by	triggered by			E5_Event	E5_Event	http://www.ics.forth.gr/isl/CRMsci/O13_triggers	10000	1	1
-sci:O19_has_found_object	property	encountered	encountered object			sci:S19_Encounter_Event	E18_Physical_Thing	http://www.ics.forth.gr/isl/CRMsci/O13_triggers	10000	1	1
-sci:O19i_was_object_found_by	property	encountered_by	was encountered by			E18_Physical_Thing	sci:S19_Encounter_Event	http://www.ics.forth.gr/isl/CRMsci/O19_has_found_object	10000	1	1
+geo:Q9_is_expressed_in_terms_of	property	Q9_is_expressed_in_terms_of	expressed in terms of	Scope note:        This property defines the coordinate reference system in terms of which a geometric place expression is formulated.		geo:SP5_Geometric_Place_Expression	geo:SP4_Spatial_Coordinate_Reference_System	geo:Q9i_terms_express	10000	1	0
+geo:Q9i_terms_express	property	Q9i_terms_express	terms express			geo:SP4_Spatial_Coordinate_Reference_System	geo:SP5_Geometric_Place_Expression	geo:Q9_is_expressed_in_terms_of	10000	1	0
+sci:O13_triggers	property	caused	triggers			E5_Event	E5_Event	sci:O13i_is_triggered_by	10000	1	1
+sci:O13i_is_triggered_by	property	caused_by	triggered by			E5_Event	E5_Event	sci:O13_triggers	10000	1	1
+sci:O19_has_found_object	property	encountered	encountered object			sci:S19_Encounter_Event	E18_Physical_Thing	sci:O13_triggers	10000	1	1
+sci:O19i_was_object_found_by	property	encountered_by	was encountered by			E18_Physical_Thing	sci:S19_Encounter_Event	sci:O19_has_found_object	10000	1	1
 rdfs:label	property	_label	label	A human-readable name for the subject.		E1_CRM_Entity	xsd:string		3	1	0
 skos:exactMatch	property	exact_match	exactMatch	Exact Match, not quite sameAs, good for most uses		E1_CRM_Entity	E1_CRM_Entity		10000	1	1
 skos:closeMatch	property	close_match	closeMatch	Close Match, good for some uses		E1_CRM_Entity	E1_CRM_Entity		10000	1	1
