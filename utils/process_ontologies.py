@@ -164,6 +164,10 @@ def process_props(dom):
 		inverse = p.xpath('./owl:inverseOf/@rdf:resource', namespaces=NS)
 		if inverse:
 			inverse = inverse[0]
+			for (pref,ns) in NS.items():
+				if inverse.startswith(ns):
+					inverse = inverse.replace(ns, "%s:" % pref)
+					break
 		else:
 			inverse = ""
 
