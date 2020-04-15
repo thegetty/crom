@@ -1200,7 +1200,7 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 		for c in self._classhier:		
 			for k,v in c._all_properties.items():
 				if not k in props and \
-					(not okay or okay and v.profile_okay) and \
+					(not okay or (okay and v.profile_okay)) and \
 					(filter is None or isinstance(filter, v.range) or \
 						filter is v.range):
 					props.append(k)
@@ -1350,7 +1350,10 @@ def build_class(crmName, parent, vocabData):
 	c = type(name, (parent,), {'__doc__': data['desc']})
 	globals()[name] = c
 	data['class'] = c
-	c._type = "crm:%s" % crmName
+	if not ":" in crmName:
+		c._type = "crm:%s" % crmName
+	else:
+		c._type = crmName
 	c._uri_segment = name
 	c._properties = {}
 	c._all_properties = {}
@@ -1361,6 +1364,8 @@ def build_class(crmName, parent, vocabData):
 	# Set up real properties
 	for p in data['props']:
 		name = p['name']
+		if not ":" in name:
+			name = "crm:%s" % name
 		rng = p['range']
 		ccname = p['propName']
 		if p['inverse']:
@@ -1382,7 +1387,7 @@ def build_class(crmName, parent, vocabData):
 		mult = int(mult)
 
 		# can't guarantee all classes have been built at this stage :(
-		c._properties[ccname] = {"rdf": "crm:%s" % name, 
+		c._properties[ccname] = {"rdf": name, 
 			"rangeStr": rng,
 			"inverseRdf": invRdf,
 			"okayToUse": okay,
