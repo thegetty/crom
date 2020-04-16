@@ -254,6 +254,7 @@ ext_classes = {
 	"SortName": {"parent": Name, "id":"300404672", "label": "Sorting Name"},
 	"PersonalName": {"parent": Name, "id":"300266386", "label": "Personal Name"},
 	"Title": {"parent": Name, "id":"300195168", "label": "Title"},
+	"Subtitle": {"parent": Name, "id":"300312006", "label":"Subtitle"},
 	"DisplayName": {"parent": Name, "id": "300404669", "label": "Display Title"},
 	"AliasName": {"parent": Name, "id": "300404664", "label": "Alias"},
 	"MaidenName": {"parent": Name, "id": "300404682", "label": "Maiden Name"},
