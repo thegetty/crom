@@ -242,6 +242,10 @@ ext_classes = {
 	"ProbableAssignment": {"parent": AttributeAssignment, "id":"300435721", "label": "Probably"},
 	"ObsoleteAssignment": {"parent": AttributeAssignment, "id":"300404908", "label": "Obsolete"},
 
+	"Measuring": {"parent": AttributeAssignment, "id":"300053578", "label":"Measuring"},
+	"Identifying": {"parent": AttributeAssignment, "id":"300137570","label":"Identifying"},
+	"Naming": {"parent": AttributeAssignment, "id":"300411672", "label":"Naming"},
+
 	"ExhibitionIdea": {"parent": PropositionalObject, "id":"300417531", "label": "Exhibition"},
 
 	"AuctionLotSet": {"parent": Set, "id":"300411307", "label": "Auction Lot"},
