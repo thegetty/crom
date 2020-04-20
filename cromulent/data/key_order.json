@@ -4,6 +4,12 @@
 	"type": 2,
 	"_label": 3,
 	"classified_as": 4,  
+
+	"value": 5,
+	"upper_value_limit": 6,
+	"lower_value_limit": 7,
+	"unit": 8,
+
 	"identified_by": 10,
 	"defined_by": 11,
 	"referred_to_by" : 15,
@@ -16,7 +22,6 @@
 	"begin_of_the_end": 23, 
 	"end_of_the_end": 24,
 	"duration": 25,
-
 
 	"started_by": 26, 
 	"continued": 26,
@@ -38,6 +43,8 @@
 	"formed": 38,
 	"dissolved": 39,
 	"created": 38,
+
+	"assigned_by": 39,
 
 	"carried_out": 40,
 	"dimension": 41,

@@ -214,8 +214,8 @@ P86_falls_within	property	part_of	falls within	This property describes the inclu
 P86i_contains	property	part	contains			E52_Time-Span	E52_Time-Span	P86_falls_within	102	0	1
 P89_falls_within	property	part_of	falls within	This property identifies an instance of E53 Place that falls wholly within the extent of another E53 Place.\nIt addresses spatial containment only, and does not imply any relationship between things or phenomena occupying these places.		E53_Place	E53_Place	P89i_contains	43	1	1
 P89i_contains	property	part	contains			E53_Place	E53_Place	P89_falls_within	102	1	1
-P90_has_value	property	value	has value	This property allows an E54 Dimension to be approximated by an E60 Number primitive.		E54_Dimension	rdfs:Literal		10000	1	0
-P91_has_unit	property	unit	has unit	This property shows the type of unit an E54 Dimension was expressed in.		E54_Dimension	E58_Measurement_Unit	P91i_is_unit_of	10000	1	0
+P90_has_value	property	value	has value	This property allows an E54 Dimension to be approximated by an E60 Number primitive.		E54_Dimension	rdfs:Literal		5	1	0
+P91_has_unit	property	unit	has unit	This property shows the type of unit an E54 Dimension was expressed in.		E54_Dimension	E58_Measurement_Unit	P91i_is_unit_of	8	1	0
 P91i_is_unit_of	property	unit_of	is unit of			E58_Measurement_Unit	E54_Dimension	P91_has_unit	10000	0	1
 P92_brought_into_existence	property	brought_into_existence	brought into existence	This property allows an E63 Beginning of Existence event to be linked to the E77 Persistent Item brought into existence by it.\nIt allows a “start” to be attached to any Persistent Item being documented i.e. E70 Thing, E72 Legal Object, E39 Actor, E41 Appellation, E51 Contact Point and E55 Type	P12_occurred_in_the_presence_of	E63_Beginning_of_Existence	E77_Persistent_Item	P92i_was_brought_into_existence_by	10000	0	1
 P92i_was_brought_into_existence_by	property	brought_into_existence_by	was brought into existence by		P12i_was_present_at	E77_Persistent_Item	E63_Beginning_of_Existence	P92_brought_into_existence	10000	0	0
@@ -308,7 +308,7 @@ P139_has_alternative_form	property	alternative	has alternative form	This propert
 P140_assigned_attribute_to	property	assigned_to	assigned attribute to	This property indicates the item to which an attribute or relation is assigned.		E13_Attribute_Assignment	E1_CRM_Entity	P140i_was_attributed_by	10000	1	0
 P140i_was_attributed_by	property	attributed_by	was attributed by			E1_CRM_Entity	E13_Attribute_Assignment	P140_assigned_attribute_to	10000	1	1
 P141_assigned	property	assigned	assigned	This property indicates the attribute that was assigned or the item that was related to the item denoted by a property P140 assigned attribute to in an Attribute assignment action.		E13_Attribute_Assignment	E1_CRM_Entity	P141i_was_assigned_by	10000	1	0
-P141i_was_assigned_by	property	assigned_by	was assigned by			E1_CRM_Entity	E13_Attribute_Assignment	P141_assigned	10000	1	1
+P141i_was_assigned_by	property	assigned_by	was assigned by			E1_CRM_Entity	E13_Attribute_Assignment	P141_assigned	39	1	1
 P142_used_constituent	property	used_constituent	used constituent	This property associates the event of assigning an instance of E42 Identifier to an entity, with  the instances of E41 Appellation that were used as elements of the identifier.	P16_used_specific_object	E15_Identifier_Assignment	E90_Symbolic_Object	P142i_was_used_in	10000	0	1
 P142i_was_used_in	property	used_in	was used in		P16i_was_used_for	E90_Symbolic_Object	E15_Identifier_Assignment	P142_used_constituent	10000	0	1
 P143_joined	property	joined	joined	This property identifies the instance of E39 Actor that becomes member of a E74 Group in an E85 Joining.\n  Joining events allow for describing people becoming members of a group with a more detailed path from E74 Group through P144 joined with (gained member by), E85 Joining, P143 joined (was joined by) to E39 Actor, compared to the shortcut offered by P107 has current or former member (is current or former member of).	P11_had_participant	E85_Joining	E39_Actor	P143i_was_joined_by	10000	1	0
@@ -385,8 +385,8 @@ P81a_end_of_the_begin	property	end_of_the_begin	end of the begin	This is defined
 P81b_begin_of_the_end	property	begin_of_the_end	begin of the end	This is defined as the second boundary of the property P81	P81_ongoing_throughout	E52_Time-Span	xsd:dateTime		23	1	0
 P82a_begin_of_the_begin	property	begin_of_the_begin	begin of the begin	This is defined as the first boundary of the property P82	P82_at_some_time_within	E52_Time-Span	xsd:dateTime		21	1	0
 P82b_end_of_the_end	property	end_of_the_end	end of the end	This is defined as the second boundary of the property P82	P82_at_some_time_within	E52_Time-Span	xsd:dateTime		24	1	0
-P90a_has_lower_value_limit	property	lower_value_limit	has lower value limit	This property allows the lowest possible value of an E54 Dimension to be approximated by an E60 Number primitive.		E54_Dimension	rdfs:Literal		10000	1	0
-P90b_has_upper_value_limit	property	upper_value_limit	has upper value limit	This property allows the greatest possible value of an E54 Dimension to be approximated by an E60 Number primitive.		E54_Dimension	rdfs:Literal		10000	1	0
+P90a_has_lower_value_limit	property	lower_value_limit	has lower value limit	This property allows the lowest possible value of an E54 Dimension to be approximated by an E60 Number primitive.		E54_Dimension	rdfs:Literal		7	1	0
+P90b_has_upper_value_limit	property	upper_value_limit	has upper value limit	This property allows the greatest possible value of an E54 Dimension to be approximated by an E60 Number primitive.		E54_Dimension	rdfs:Literal		6	1	0
 la:Payment	class	Payment	Payment	Payment of Money	E7_Activity	1
 la:RightAcquisition	class	RightAcquisition	Right Acquisition	The acquiring or establishment of a particular E30 Right over some entity	E7_Activity	1
 la:Phase	class	Phase	Phase	The period of time during which an entity is in a certain phase or state of its existence.  The phase can be physical (the box is open, the painting is 14 ft wide) or social (the sculpture is owned by some Actor, the building is used as a castle).	E4_Period	0
