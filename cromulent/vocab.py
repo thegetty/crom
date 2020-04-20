@@ -127,6 +127,7 @@ ext_classes = {
 	"LanguageStatement": {"parent": LinguisticObject, "id": "300435433", "label": "Language Statement", "metatype": "brief text"},
 
 	"TranscribedInscription": {"parent": LinguisticObject, "id": "300028702", "label": "Transcribed Inscription", "metatype": "brief text"},
+	"TranscribedSignature": {"parent": LinguisticObject, "id": "300028705", "label": "Transcribed Signature", "metatype": "brief text"},
 
 	"CatalogueRaisonneText": {"parent": LinguisticObject, "id":"300026061", "label": "Catalogue Raisonne", "metatype": "work type"},
 	"AuctionCatalogText": {"parent": LinguisticObject, "id":"300026068", "label": "Auction Catalog", "metatype": "work type"},
