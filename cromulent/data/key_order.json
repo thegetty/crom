@@ -6,6 +6,7 @@
 	"classified_as": 4,  
 
 	"value": 5,
+	"content": 5,
 	"upper_value_limit": 6,
 	"lower_value_limit": 7,
 	"unit": 8,
@@ -49,6 +50,7 @@
 	"carried_out": 40,
 	"dimension": 41,
 	"made_of": 42,
+	"language": 42,
 	"part_of": 43,
 	"approximated_by": 44,
 	"member_of": 45,
@@ -70,10 +72,10 @@
 	"shows": 60,
 	"carries": 61,
 
-	"consists_of": 100, 
-	"composed_of": 101,
-	"part": 102,
-	"temporally_contains": 103,
-	"spatially_contains": 104,
-	"member": 105
+	"consists_of": 10001, 
+	"composed_of": 10001,
+	"part": 10001,
+	"temporally_contains": 10001,
+	"spatially_contains": 10001,
+	"member": 10001
  }
