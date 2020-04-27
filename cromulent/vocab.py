@@ -71,6 +71,8 @@ ext_classes = {
 	"IsbnIdentifier": {"parent": Identifier, "id": "300417443", "label": "ISBN Identifier"},
 	"IssnIdentifier": {"parent": Identifier, "id": "300417430", "label": "ISSN Identifier"},
 	"DoiIdentifier": {"parent": Identifier, "id": "300417432", "label": "DOI Identifer"},
+	"VolumeNumber": {"parent": Identifier, "id": "300265632", "label": "Volume"},
+	"IssueNumber": {"parent": Identifier, "id": "300312349", "label": "Issue"},
 
 	"EmailAddress": {"parent": Identifier, "id":"300435686", "label": "Email Address"},
 	"StreetAddress": {"parent": Identifier, "id":"300435687", "label": "Street Address"},
