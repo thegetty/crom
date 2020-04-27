@@ -259,14 +259,16 @@ ext_classes = {
 	
 	"PrimaryName": {"parent": Name, "id":"300404670", "label": "Primary Name"},
 	"SortName": {"parent": Name, "id":"300404672", "label": "Sorting Name"},
-	"PersonalName": {"parent": Name, "id":"300266386", "label": "Personal Name"},
+
 	"Title": {"parent": Name, "id":"300195168", "label": "Title"},
 	"Subtitle": {"parent": Name, "id":"300312006", "label":"Subtitle"},
 	"DisplayName": {"parent": Name, "id": "300404669", "label": "Display Title"},
+	"TranslatedTitle": {"parent": Name, "id":"300417194", "label": "Translated Title"},
+
+	"PersonalName": {"parent": Name, "id":"300266386", "label": "Personal Name"},
 	"AliasName": {"parent": Name, "id": "300404664", "label": "Alias"},
 	"MaidenName": {"parent": Name, "id": "300404682", "label": "Maiden Name"},
 	"FormerName": {"parent": Name, "id": "300435719", "label": "Former Name"},
-
 	"GivenName": {"parent": Name, "id":"300404651", "label": "Given Name"},
 	"FamilyName": {"parent": Name, "id":"300404652", "label": "Family Name"},
 	"MiddleName": {"parent": Name, "id":"300404654", "label": "Middle Name"},
