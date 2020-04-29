@@ -215,6 +215,7 @@ ext_classes = {
 	"Exhibition":  {"parent": Activity, "id":"300054766", "label": "Exhibiting"},
 	"MultiExhibition": {"parent": Activity, "id":"300054773", "label": "Exhibiting in multiple locations"},
 	"Publishing":  {"parent": Activity, "id":"300054686", "label": "Publishing"},
+	"Distributing":  {"parent": Activity, "id": "300137595", "label": "Distributing"},
 	"Hiring":      {"parent": Activity, "id":"300109703", "label": "Hiring"},
 	"Expert":      {"parent": Activity, "id":"300417631", "label": "Expert"},
 	"CommissairePriseur":  {"parent": Activity, "id":"300412173", "label": "Commissaire-priseur"},
