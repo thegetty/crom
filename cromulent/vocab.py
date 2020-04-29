@@ -417,7 +417,7 @@ identity_instances = {
 	"icelandic": {"parent": Language, "id":"300388449", "label":"Icelandic"},
 	"irish": {"parent": Language, "id":"300388467", "label":"Irish"},
 	"italian": {"parent": Language, "id":"300388474", "label":"Italian"},
-	"farsi": {"parent": Language, "id":"300389087", "label":"Farsi"},
+	"farsi": {"parent": Language, "id":"300388296", "label":"Farsi"},
 	"greek": {"parent": Language, "id":"300389734", "label":"Greek"},
 	"gujarati": {"parent": Language, "id":"300388371", "label":"Gujarati"},
 	"ancient greek": {"parent": Language, "id": "300387827", "label": "Ancient Greek"},
