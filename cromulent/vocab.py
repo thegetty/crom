@@ -70,6 +70,7 @@ ext_classes = {
 	"LotNumber": {"parent": Identifier, "id": "300404628", "label": "Lot Number"},
 	"IsbnIdentifier": {"parent": Identifier, "id": "300417443", "label": "ISBN Identifier"},
 	"IssnIdentifier": {"parent": Identifier, "id": "300417430", "label": "ISSN Identifier"},
+	"CodenIdentifier": {"parent": Identifier, "id": "300417431", "label": "CODEN Identifer"},
 	"DoiIdentifier": {"parent": Identifier, "id": "300417432", "label": "DOI Identifer"},
 	"VolumeNumber": {"parent": Identifier, "id": "300265632", "label": "Volume"},
 	"IssueNumber": {"parent": Identifier, "id": "300312349", "label": "Issue"},
