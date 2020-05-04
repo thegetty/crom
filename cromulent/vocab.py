@@ -597,6 +597,14 @@ local_instances = {
 	"style still life": {"parent": Style, "id":"300015638", "label": "Still Life"},
 	"style impressionism": {"parent": Style, "id":"300021503", "label": "Impressionism"},
 
+	# Genders / Biological Sexes
+	"male": {"parent": Gender, "id":"300189559", "label": "Male"},
+	"female": {"parent": Gender, "id":"300189557", "label": "Female"},	
+	"intersex": {"parent": Gender, "id":"300417544", "label": "Intersex"},
+	"hermaphrodite": {"parent": Gender, "id":"300389935", "label": "Hermaphrodite"},
+	"non-binary gender": {"parent": Gender, "id":"300417543", "label": "Non-Binary Gender Identity"},
+	"transgender": {"parent": Gender, "id":"300400504", "label": "Transgender"}
+
 }
 
 for (name,v) in local_instances.items():
