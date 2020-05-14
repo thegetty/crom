@@ -84,6 +84,7 @@ ext_classes = {
 	"PostalCode": {"parent": Identifier, "id": "300419274", "label": "Postal Code"},
 
 	"DigitalImage": {"parent": DigitalObject, "id": "300215302", "label": "Digital Image"},
+	"WebPage": {"parent": DigitalObject, "id":"300264578", "label": "Web Page"},
 
 	"OwnershipRight": {"parent": Right, "id":"300055603", "label": "Ownership Right"},
 	"CustodyRight": {"parent": Right, "id":"300411616", "label": "Custody Right"},
@@ -145,7 +146,6 @@ ext_classes = {
 	"ParagraphText": {"parent": LinguisticObject, "id":"300417223", "label": "Paragraph"},
 	"Annotation": {"parent": LinguisticObject, "id":"300026100", "label":"Annotation"},
 
-	"WebPage": {"parent": LinguisticObject, "id":"300264578", "label": "Web Page"},
 	"DataRecord": {"parent": LinguisticObject, "id":"300438434", "label": "Entry or Record"},
 	"Heading": {"parent": LinguisticObject, "id": "300200862", "label": "Heading"},
 	"SubHeading": {"parent": LinguisticObject, "id": "300419992", "label": "SubHeading"},
