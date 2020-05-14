@@ -249,7 +249,7 @@
   "P1i_identifies": [1, 0], 
   "P20_had_specific_purpose": [1,1], 
   "P20i_was_purpose_of": [1,1], 
-  "P21_had_general_purpose": [0,1],
+  "P21_had_general_purpose": [1,1],
   "P21i_was_purpose_of": [0,1],
   "P22_transferred_title_to": [1,1], 
   "P22i_acquired_title_through": [1,1], 
