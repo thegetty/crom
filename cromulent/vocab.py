@@ -6,7 +6,7 @@ from .model import Identifier, Mark, HumanMadeObject, Type, \
 	Person, Material, MeasurementUnit, Place, Dimension, Currency, \
 	ConceptualObject, TimeSpan, Actor, PhysicalThing, Language, \
 	LinguisticObject, InformationObject, Formation, Dissolution, \
-	Activity, Group, Name, MonetaryAmount, Right, \
+	Activity, Group, Name, MonetaryAmount, Right, Encounter, \
 	Destruction, AttributeAssignment, BaseResource, PhysicalObject, \
 	Acquisition, HumanMadeFeature, VisualItem, Set, Birth, Death, \
 	PropositionalObject, Payment, Creation, Phase, Period, \
@@ -212,7 +212,7 @@ ext_classes = {
 	"Negotiating": {"parent": Activity, "id":"300438558", "label": "Negotiating"},
 	"Bidding":     {"parent": Creation, "id":"300054602", "label": "Bidding"}, # individual bid
 	"Curating":    {"parent": Activity, "id":"300054277", "label": "Curating"},
-	"Inventorying": {"parent": Activity, "id":"300077506", "label": "Inventorying"},
+	"Inventorying": {"parent": Encounter, "id":"300077506", "label": "Inventorying"},
 	"Exhibition":  {"parent": Activity, "id":"300054766", "label": "Exhibiting"},
 	"MultiExhibition": {"parent": Activity, "id":"300054773", "label": "Exhibiting in multiple locations"},
 	"Publishing":  {"parent": Activity, "id":"300054686", "label": "Publishing"},
