@@ -181,6 +181,7 @@ ext_classes = {
 	"City":         {"parent": Place, "id":"300008389", "label": "City"},
 	"Province":     {"parent": Place, "id":"300000774", "label": "Province"},
 	"Nation":       {"parent": Place, "id":"300128207", "label": "Nation"},
+	"Sovereign":	{"parent": Place, "id":"300232420", "label": "Sovereign State"},
 	"StoragePlace": {"parent": Place, "id":"300150151", "label": "Storage (place)"},
 
 	"Building":     {"parent": HumanMadeObject, "id": "300004792", "label":"Building"},
@@ -494,7 +495,9 @@ identity_instances = {
 	# Geographic
 	"city": {"parent": Type, "id": "300008389", "label": "City"},
 	"province": {"parent": Type, "id":"300000774", "label": "Province"},
+	"county": {"parent": Type, "id":"300000771", "label": "County"},
 	"nation": {"parent": Type, "id": "300128207", "label": "Nation"},
+	"sovereign": {"parent": Type, "id": "300232420", "label": "Sovereign State"},
 	"building": {"parent": Type, "id": "300004792", "label": "Building"},
 	"city block": {"parent": Type, "id": "300008077", "label": "City Block"},
 
