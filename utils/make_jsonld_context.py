@@ -68,7 +68,6 @@ p177_context = {
     "propositional_part_of": "crm:P148i_is_component_of",
     "timespan_part_of": "crm:P86_falls_within",
     "location_part_of": "crm:P89_falls_within",
-    "interest_part_of": "la:interest_part_of"
 }
 
 scoped_classes = {
@@ -124,7 +123,8 @@ scoped_classes = {
 	"SymbolicObject": "P106",
 	"Purchase": "P9",
 	"Set": "set",
-	"Group": "P107"
+	"Group": "P107",
+	"Person": "P107"
 }
 
 other_scoped = {
