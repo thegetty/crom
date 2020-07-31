@@ -406,7 +406,7 @@ def simple_dimensions_cleaner_x2(value):
 
 #mark - Monetary Values
 
-def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY_MAPPING):
+def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY_MAPPING, source_mapping=None):
 	'''
 	Returns a `MonetaryAmount`, `StartingPrice`, or `EstimatedPrice` object
 	based on properties of the supplied `data` dict. If no amount or currency
@@ -437,6 +437,7 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 		price_currency = data.get('currency', data.get('price_currency', data.get('price_curr')))
 		note = data.get('price_note', data.get('price_desc', data.get('note')))
 		cite = data.get('price_citation', data.get('citation'))
+		source = data.get('price_source', '')
 	elif 'est_price' in data or 'est_price_amount' in data:
 		amnt = vocab.EstimatedPrice(ident='')
 		price_amount = data.get('est_price_amount', data.get('est_price'))
@@ -444,6 +445,7 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 		amount_type = 'Estimated Price'
 		note = data.get('est_price_note', data.get('est_price_desc', data.get('note')))
 		cite = data.get('est_price_citation', data.get('citation'))
+		source = data.get('est_price_source', data.get('est_price_so', ''))
 	elif 'start_price' in data or 'start_price_amount' in data:
 		amnt = vocab.StartingPrice(ident='')
 		price_amount = data.get('start_price_amount', data.get('start_price'))
@@ -451,6 +453,7 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 		amount_type = 'Starting Price'
 		note = data.get('start_price_note', data.get('start_price_desc', data.get('note')))
 		cite = data.get('start_price_citation', data.get('citation'))
+		source = data.get('start_price_source', data.get('start_price_so', ''))
 	else:
 		return None
 
