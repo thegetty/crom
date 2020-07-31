@@ -8,36 +8,6 @@
         <rdfs:subClassOf rdf:resource="E73_Information_Object"/>
     </rdfs:Class>
 
-  <rdfs:Class rdf:about="http://www.ics.forth.gr/isl/CRMgeo/SP5_Geometric_Place_Expression">
-    <rdfs:label xml:lang="en">Geometry</rdfs:label>
-    <rdfs:comment>Scope note: This class comprises definitions of places by quantitative expressions. An instance of SP5 Geometric Place Expression can be seen as a prescription of how to find the location meant by this expression in the real world (S), which is based on measuring where the quantities referred to in the expression lead to, beginning from the reference points of the respective reference system.</rdfs:comment>
-    <!-- This subclass is derived from P168 being a subProperty of P1 -->
-    <!-- Thus, for P168 to refer to an SP5, it must at least be an E41 -->
-    <!-- Decision in Berlin, Nov 2018, 42nd Mtg of SIG -->
-    <rdfs:subClassOf rdf:resource="E41_Appellation"/>
-  </rdfs:Class>
-
-  <rdfs:Class rdf:about="http://www.ics.forth.gr/isl/CRMgeo/SP4_Spatial_Coordinate_Reference_System">
-    <rdfs:label xml:lang="en">Spatial Coordinate Reference System</rdfs:label>
-    <rdfs:subClassOf rdf:resource="E29_Design_or_Procedure"/>
-    <rdfs:comment>Scope note: This class compromises systems that are used to describe locations in a SP3 Reference Space (S). An instance of SP4 Spatial Coordinate Reference System is composed of two parts: The first is a Coordinate System which is a set of coordinate axes with specified units of measurement and axis directions. The second part is a set of reference features at rest in the Reference Space it describes in the real world that relate the Coordinate System to real world locations (U) and fix it with respect to the reference object of its Reference Space.</rdfs:comment>
-  </rdfs:Class>
-
-  <rdf:Property rdf:about="http://www.ics.forth.gr/isl/CRMgeo/Q9_is_expressed_in_terms_of">
-    <rdfs:label xml:lang="en">expressed in terms of</rdfs:label>
-    <rdfs:domain rdf:resource="http://www.ics.forth.gr/isl/CRMgeo/SP5_Geometric_Place_Expression"/>
-    <rdfs:range rdf:resource="http://www.ics.forth.gr/isl/CRMgeo/SP4_Spatial_Coordinate_Reference_System"/>
-    <rdfs:comment>Scope note:        This property defines the coordinate reference system in terms of which a geometric place expression is formulated.</rdfs:comment>
-    <owl:inverseOf rdf:resource="http://www.ics.forth.gr/isl/CRMgeo/Q9i_terms_express"/>    
-  </rdf:Property>
-
-  <rdf:Property rdf:about="http://www.ics.forth.gr/isl/CRMgeo/Q9i_terms_express">
-    <rdfs:label xml:lang="en">terms express</rdfs:label>
-    <rdfs:domain rdf:resource="http://www.ics.forth.gr/isl/CRMgeo/SP4_Spatial_Coordinate_Reference_System"/>
-    <rdfs:range rdf:resource="http://www.ics.forth.gr/isl/CRMgeo/SP5_Geometric_Place_Expression"/>
-    <owl:inverseOf rdf:resource="http://www.ics.forth.gr/isl/CRMgeo/Q9_is_expressed_in_terms_of"/>
-  </rdf:Property>
-
     <rdf:Property rdf:about="http://www.ics.forth.gr/isl/CRMsci/O13_triggers">
         <rdfs:label xml:lang="en">triggers</rdfs:label>
         <rdfs:domain rdf:resource="E5_Event"/>
@@ -93,6 +63,9 @@
 <!-- Similarity of resources -->
 <!-- E1: skos:exactMatch, skos:closeMatch -->
 <!-- owl:sameAs considered too dangerous, dct:relation considered too pointless -->
+<!-- exactMatch / closeMatch should only be used between E55_Type in CRM, but usage is not restricted -->
+<!-- This allows adopters to assert that a person is exactMatch to a ulan entry -->
+<!-- But see la:equivalent for a local but semantically better option -->
 
 <rdf:Property rdf:about="http://www.w3.org/2004/02/skos/core#exactMatch">
         <rdfs:label xml:lang="en">exactMatch</rdfs:label>
@@ -107,6 +80,55 @@
         <rdfs:domain rdf:resource="E1_CRM_Entity"/>
         <rdfs:range rdf:resource="E1_CRM_Entity"/>
 </rdf:Property>
+
+<!-- These replace P127 / P127i -->
+
+<rdf:Property rdf:about="http://www.w3.org/2004/02/skos/core#narrower">
+        <rdfs:label xml:lang="en">has narrower term</rdfs:label>
+        <rdfs:comment xml:lang="en">Or is broader term of</rdfs:comment>
+        <rdfs:domain rdf:resource="E55_Type"/>
+        <rdfs:range rdf:resource="E55_Type"/>
+        <owl:inverseOf rdf:resource="http://www.w3.org/2004/02/skos/core#broader"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="http://www.w3.org/2004/02/skos/core#broader">
+        <rdfs:label xml:lang="en">has broader term</rdfs:label>
+        <rdfs:comment xml:lang="en">Or is narrower term of</rdfs:comment>
+        <rdfs:domain rdf:resource="E55_Type"/>
+        <rdfs:range rdf:resource="E55_Type"/>
+        <owl:inverseOf rdf:resource="http://www.w3.org/2004/02/skos/core#narrower"/>
+</rdf:Property>
+
+
+<!-- And SKOS / CRM equivalences -->
+
+<rdf:Property rdf:about="http://www.w3.org/2004/02/skos/core#hasTopConcept">
+        <rdfs:label xml:lang="en">has top concept</rdfs:label>
+        <rdfs:comment xml:lang="en"></rdfs:comment>
+        <rdfs:domain rdf:resource="E32_Authority_Document"/>
+        <rdfs:range rdf:resource="E55_Type"/>
+        <owl:inverseOf rdf:resource="http://www.w3.org/2004/02/skos/core#topConceptOf"/>
+</rdf:Property>
+
+
+<rdf:Property rdf:about="http://www.w3.org/2004/02/skos/core#topConceptOf">
+        <rdfs:label xml:lang="en">is top concept of</rdfs:label>
+        <rdfs:comment xml:lang="en"></rdfs:comment>
+        <rdfs:domain rdf:resource="E55_Type"/>
+        <rdfs:range rdf:resource="E32_Authority_Document"/>
+        <owl:inverseOf rdf:resource="http://www.w3.org/2004/02/skos/core#hasTopConcept"/>
+</rdf:Property>
+
+  <rdf:Property rdf:about="http://www.w3.org/2004/02/skos/core#inScheme">
+    <rdfs:label xml:lang="en">is in scheme</rdfs:label>
+    <rdfs:comment xml:lang="en">Relates a resource (for example a concept) to a concept scheme in which it is included.</rdfs:comment>
+    <skos:scopeNote xml:lang="en">A concept may be a member of more than one concept scheme.</skos:scopeNote>
+    <rdfs:domain rdf:resource="E55_Type"/>
+    <rdfs:range rdf:resource="E32_Authority_Document"/>
+  </rdf:Property>
+
+<!-- SeeAlso to other descriptions -->
+
 
 <rdf:Property rdf:about="http://www.w3.org/2000/01/rdf-schema#seeAlso">
         <rdfs:label xml:lang="en">seeAlso</rdfs:label>
