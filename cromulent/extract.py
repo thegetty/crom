@@ -442,14 +442,14 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 		price_amount = data.get('est_price_amount', data.get('est_price'))
 		price_currency = data.get('currency', data.get('est_price_currency', data.get('est_price_curr')))
 		amount_type = 'Estimated Price'
-		note = data.get('est_price_note', data.get('est_price_desc'))
+		note = data.get('est_price_note', data.get('est_price_desc', data.get('note')))
 		cite = data.get('est_price_citation', data.get('citation'))
 	elif 'start_price' in data or 'start_price_amount' in data:
 		amnt = vocab.StartingPrice(ident='')
 		price_amount = data.get('start_price_amount', data.get('start_price'))
 		price_currency = data.get('currency', data.get('start_price_currency', data.get('start_price_curr')))
 		amount_type = 'Starting Price'
-		note = data.get('start_price_note', data.get('start_price_desc'))
+		note = data.get('start_price_note', data.get('start_price_desc', data.get('note')))
 		cite = data.get('start_price_citation', data.get('citation'))
 	else:
 		return None
