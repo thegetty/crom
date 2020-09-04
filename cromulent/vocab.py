@@ -472,6 +472,8 @@ identity_instances = {
 	"groschen": {"parent": Currency, "id":"300191473", "label": "Groschen"},
 	"silbergroshen": {"parent": Currency, "id":"300412171", "label": "Silbergroshen"},
 	"stuiver": {"parent": Currency, "id":"300412172", "label": "Stuiver"},
+	"at kronen": {"parent": Currency, "id":"300435706", "label": "Austrian Kronen"},
+	"austro-hungarian kronen": {"parent": Currency, "id":"300435707", "label": "Austro-Hungarian Kronen"},
 
 	# Color Dimensions -- additional Type on the Color Dimension instance
 	# See: https://linked.art/model/object/physical/
