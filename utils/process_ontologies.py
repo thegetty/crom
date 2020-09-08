@@ -196,7 +196,12 @@ def process_props(dom):
 			str(useflags[0]), str(useflags[1])])
 
 
-files = ['cidoc.xml', 'linkedart.xml', 'linkedart_crm_enhancements.xml']
+# This order is important.
+# Need to process the class definition before the properties of the class
+# linkedart defines properties against the classes in the core and extensions
+# so needs to come last
+
+files = ['cidoc.xml', 'linkedart_crm_enhancements.xml', 'linkedart.xml']
 
 for fn in files:
 	print("processing: %s" % fn)

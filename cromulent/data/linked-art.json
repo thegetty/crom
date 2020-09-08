@@ -2523,6 +2523,83 @@
     "upper_value_limit": {
       "@id": "crm:P90b_has_upper_value_limit"
     }, 
+    "DigitalObject": {
+      "@id": "dig:D1_Digital_Object"
+    }, 
+    "Encounter": {
+      "@id": "sci:S19_Encounter_Event"
+    }, 
+    "caused": {
+      "@id": "sci:O13_triggers", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "caused_by": {
+      "@id": "sci:O13i_is_triggered_by", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "encountered": {
+      "@id": "sci:O19_has_found_object", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "encountered_by": {
+      "@id": "sci:O19i_was_object_found_by", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "_label": {
+      "@id": "rdfs:label"
+    }, 
+    "exact_match": {
+      "@id": "skos:exactMatch", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "close_match": {
+      "@id": "skos:closeMatch", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "narrower": {
+      "@id": "skos:narrower", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "broader": {
+      "@id": "skos:broader", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "hasTopConcept": {
+      "@id": "skos:hasTopConcept", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "topConceptOf": {
+      "@id": "skos:topConceptOf", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "inScheme": {
+      "@id": "skos:inScheme", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "see_also": {
+      "@id": "rdfs:seeAlso", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "conforms_to": {
+      "@id": "dcterms:conformsTo", 
+      "@type": "@id", 
+      "@container": "@set"
+    }, 
+    "format": {
+      "@id": "dc:format"
+    }, 
     "Payment": {
       "@context": {
         "part_of": {
@@ -2745,83 +2822,6 @@
       "@id": "la:digitally_makes_available", 
       "@type": "@id", 
       "@container": "@set"
-    }, 
-    "DigitalObject": {
-      "@id": "dig:D1_Digital_Object"
-    }, 
-    "Encounter": {
-      "@id": "sci:S19_Encounter_Event"
-    }, 
-    "caused": {
-      "@id": "sci:O13_triggers", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "caused_by": {
-      "@id": "sci:O13i_is_triggered_by", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "encountered": {
-      "@id": "sci:O19_has_found_object", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "encountered_by": {
-      "@id": "sci:O19i_was_object_found_by", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "_label": {
-      "@id": "rdfs:label"
-    }, 
-    "exact_match": {
-      "@id": "skos:exactMatch", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "close_match": {
-      "@id": "skos:closeMatch", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "narrower": {
-      "@id": "skos:narrower", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "broader": {
-      "@id": "skos:broader", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "hasTopConcept": {
-      "@id": "skos:hasTopConcept", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "topConceptOf": {
-      "@id": "skos:topConceptOf", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "inScheme": {
-      "@id": "skos:inScheme", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "see_also": {
-      "@id": "rdfs:seeAlso", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "conforms_to": {
-      "@id": "dcterms:conformsTo", 
-      "@type": "@id", 
-      "@container": "@set"
-    }, 
-    "format": {
-      "@id": "dc:format"
     }
   }
 }

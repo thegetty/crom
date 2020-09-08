@@ -1183,7 +1183,8 @@ def process_tsv(fn):
 			try:
 				what = vocabData[info[6]]
 			except:
-				what = vocabData["rdf:Resource"]
+				print(f"Failed to find class for {data} given {info[6]}")
+				raise
 			what["props"].append(data)
 
 			koh = int(info[9])
@@ -1206,6 +1207,8 @@ def process_tsv(fn):
 
 # Build class heirarchy recursively
 def build_class(crmName, parent, vocabData):
+
+
 	data = vocabData[crmName]
 	name = str(data['className'])
 
