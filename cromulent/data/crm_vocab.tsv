@@ -410,7 +410,7 @@ la:Phase	class	Phase	Phase	The period of time during which an entity is in a cer
 la:Set	class	Set	Set		E89_Propositional_Object|E72_Legal_Object	1
 la:Addition	class	Addition	Addition	The addition of some entity to a Set	E7_Activity	1
 la:Removal	class	Removal	Removal	The removal of some entity from a Set	E7_Activity	1
-la:DigitalService	class	DigitalService	Digital Service		E73_Information_Object	1
+la:DigitalService	class	DigitalService	Digital Service		dig:D1_Digital_Object	1
 la:property_classified_as	property	property_classified_as	Property Classified As	Record dot one properties via Attribute Assignments		E13_Attribute_Assignment	E55_Type		10000	1	1
 la:represents_instance_of_type	property	represents_instance_of_type	Represents Instance of Type	This property establishes the relationship between an E36 Visual Item and an E55 Type that represents the class of entity which it visually represents.  This property is used when the specific entity being represented is either unknown, or not of documentary interest.		E36_Visual_Item	E55_Type	la:instance_represented_by	10000	1	1
 la:instance_represented_by	property	instance_represented_by	Represents Instance of Type	Inverse of represents instance of type		E55_Type	E36_Visual_Item	la:represents_instance_of_type	10000	1	1

@@ -1173,6 +1173,7 @@ def process_tsv(fn):
 		info= l.split('\t')
 		name = info[0]	
 		if info[1] == "class":
+			print(f"found {name} subOf {info[5]}")
 			data = {"subOf": info[5], "label": info[3], 'className': info[2],
 				"desc": info[4], "class": None, "props": [], "subs": [], "okay": info[6]}
 			vocabData[name] = data
@@ -1183,7 +1184,7 @@ def process_tsv(fn):
 			try:
 				what = vocabData[info[6]]
 			except:
-				print(f"Failed to find class for {data} given {info[6]}")
+				print("Failed to find class for %s given %s" % (data, info[6]))
 				raise
 			what["props"].append(data)
 
@@ -1207,7 +1208,6 @@ def process_tsv(fn):
 
 # Build class heirarchy recursively
 def build_class(crmName, parent, vocabData):
-
 
 	data = vocabData[crmName]
 	name = str(data['className'])
@@ -1275,6 +1275,7 @@ def build_class(crmName, parent, vocabData):
 
 def build_classes(fn=None, topClass=None):
 	# Default to building our core dataset
+
 	if not fn:
 		dd = os.path.join(os.path.dirname(__file__), 'data')
 		fn = os.path.join(dd, 'crm_vocab.tsv')
@@ -1306,6 +1307,9 @@ def build_classes(fn=None, topClass=None):
 			else:
 				rng = rngd['class']
 				# and add inverse prop name from range
+				if rng == None:
+					# Uh-oh!
+					raise ConfigurationError("Class %s did not get built, range of %s" % (value['rangeStr'], name))
 				for (ik, iv) in rng._properties.items():
 					if iv['inverseRdf'] == value['rdf']:
 						inverse = ik
