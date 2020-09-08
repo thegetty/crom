@@ -1173,7 +1173,6 @@ def process_tsv(fn):
 		info= l.split('\t')
 		name = info[0]	
 		if info[1] == "class":
-			print(f"found {name} subOf {info[5]}")
 			data = {"subOf": info[5], "label": info[3], 'className': info[2],
 				"desc": info[4], "class": None, "props": [], "subs": [], "okay": info[6]}
 			vocabData[name] = data
