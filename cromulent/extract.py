@@ -4,6 +4,11 @@ import re
 import warnings
 from collections import namedtuple
 
+import locale
+import calendar
+from contextlib import contextmanager, suppress
+from datetime import datetime, timedelta
+
 from cromulent import model, vocab
 
 #mark - Mapping Dictionaries
@@ -503,52 +508,6 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 # Datetime Cleaning (from Getty Pipeline code)
 # https://github.com/thegetty/pipeline/blob/master/pipeline/util/cleaners.py 
 
-def ymd_to_datetime(year, month, day, which="begin"):
-	if not isinstance(year, int):
-		try:
-			year = int(year)
-		except:
-			# print("DATE CLEAN: year is %r; returning None" % year)
-			return None
-
-	if not isinstance(month, int):
-		try:
-			month = int(month)
-		except:
-			# print("DATE CLEAN: month is %r; continuing with %s" % (month, "earliest" if which=="begin" else "latest"))
-			month = None
-
-	if not isinstance(day, int):
-		try:
-			day = int(day)
-		except:
-			day = None
-
-	if not month or month > 12 or month < 1:
-		if which == "begin":
-			month = 1
-		else:
-			month = 12
-
-	maxday = calendar.monthrange(year, month)[1]
-	if not day or day > maxday or day < 1:
-		if which == "begin":
-			day = 1
-		else:
-			# number of days in month
-			day = maxday
-
-	ystr = "%04d" % abs(year)
-	if year < 0:
-		ystr = "-" + ystr
-
-	if which == "begin":
-		return "%s-%02d-%02dT00:00:00" % (ystr, month, day)
-	else:
-		return "%s-%02d-%02dT23:59:59" % (ystr, month, day)
-
-
-
 def date_parse(value, delim):
 	# parse a / or - or . date or range
 
@@ -591,8 +550,6 @@ def date_parse(value, delim):
 	else:
 		print("broken / date: %s" % value)
 	return None
-
-
 
 def date_cleaner(value):
 

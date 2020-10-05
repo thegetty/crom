@@ -64,6 +64,10 @@
 	"P186i": "type_produced_by",
 	"P168": "defined_by",
 
+	"P165": "presence_of",
+	"P195": "presence_of_thing",
+	"P195i": "thing_presence",
+
 	"skos:closeMatch": "close_match",
 	"skos:exactMatch": "exact_match",
 	"dcterms:conformsTo": "conforms_to",
