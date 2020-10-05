@@ -170,6 +170,8 @@ ext_classes = {
 	"Diameter":   {"parent": Dimension, "id":"300055624", "label": "Diameter"},
 	"Weight":     {"parent": Dimension, "id":"300056240", "label": "Weight"},
 	"Color":      {"parent": Dimension, "id":"300080438", "label": "Color"}, # individual colors as dimensions, 56130 is concept of color
+	"Length":     {"parent": Dimension, "id":"300055645", "label": "Length"},
+	"Thickness":  {"parent": Dimension, "id":"300055646", "label": "Thickness"},
 	"SequencePosition": {"parent": Dimension, "id":"300010269", "label":"Sequence Position"},
 	"PhysicalDimension": {"parent": Dimension, "id":"300055642", "label":"Unknown physical dimension"},
 
@@ -373,16 +375,28 @@ identity_instances = {
 	"silver": {"parent": Material, "id": "300011029", "label": "silver"},
 	"synthetic": {"parent": Type, "id": "xxx", "label": "Synthetic Material"},
 
-	# Measurement Units
+	# Measurement Units - lengths, weights, durations
 	"lignes": {"parent": MeasurementUnit, "id": "300435501", "label": "Paris lines"},
 	"fr_inches": {"parent": MeasurementUnit, "id": "300435502", "label": "Paris inches"},
 	"fr_feet": {"parent": MeasurementUnit, "id":"300435503", "label": "Paris feet"},
 	"inches": {"parent": MeasurementUnit, "id": "300379100", "label": "inches"},
 	"feet": {"parent": MeasurementUnit, "id":"300379101", "label": "feet"},
+	"mm": {"parent": MeasurementUnit, "id": "300379097", "label": "millimeters"},
 	"cm": {"parent": MeasurementUnit, "id": "300379098", "label": "centimeters"},
 	"meters": {"parent": MeasurementUnit, "id": "300379099", "label": "meters"},
 	"braccia": {"parent": MeasurementUnit, "id": "300404161", "label": "braccia"},
 	"ells": {"parent": MeasurementUnit, "id": "300412070", "label": "ells"},
+	"grams": {"parent": MeasurementUnit, "id": "300379225", "label": "grams"},
+	"kilograms": {"parent": MeasurementUnit, "id": "300379226", "label": "kilograms"},
+	"ounces":{"parent": MeasurementUnit, "id": "300379229", "label": "ounces"},
+	"pounds": {"parent": MeasurementUnit, "id": "300379254", "label": "pounds"},
+	"seconds": {"parent": MeasurementUnit, "id": "300379239", "label": "seconds"},
+	"minutes": {"parent": MeasurementUnit, "id": "300379240", "label": "minutes"},
+	"hours": {"parent": MeasurementUnit, "id": "300379241", "label": "hours"},
+	"days": {"parent": MeasurementUnit, "id": "300379242", "label": "days"},
+	"months": {"parent": MeasurementUnit, "id": "300379245", "label": "months"},
+	"years": {"parent": MeasurementUnit, "id": "300379244", "label": "years"},
+
 	"percent": {"parent": MeasurementUnit, "id": "300417377", "label": "percent"},
 	"numbers": {"parent": MeasurementUnit, "id": "300055665", "label": "numbers"},
 	"bytes": {"parent": MeasurementUnit, "id": "300265869", "label": "bytes"},
@@ -390,14 +404,10 @@ identity_instances = {
 	"megabytes": {"parent": MeasurementUnit, "id": "300265873", "label": "megabytes"},
 	"gigabytes": {"parent": MeasurementUnit, "id": "300265874", "label": "gigabytes"},
 	"terabytes": {"parent": MeasurementUnit, "id": "300266477", "label": "terabytes"},
-	"partsUnit": {"parent": MeasurementUnit, "id": "300404159", "label": "parts"},
 	"pageCount": {"parent": MeasurementUnit, "id": "300194222", "label": "pages"},
 	"pixels": {"parent": MeasurementUnit, "id": "300266190", "label": "pixels"},
 	"rgb_colorspace": {"parent": MeasurementUnit, "id": "300266239", "label": "rgb"},
-	"seconds": {"parent": MeasurementUnit, "id": "300379239", "label": "seconds"},
-	"days": {"parent": MeasurementUnit, "id": "300379242", "label": "days"},
-	"months": {"parent": MeasurementUnit, "id": "300379245", "label": "months"},
-	"years": {"parent": MeasurementUnit, "id": "300379244", "label": "years"},
+	"partsUnit": {"parent": MeasurementUnit, "id": "300404159", "label": "parts"},
 
 	# Languages
 	"english": {"parent": Language, "id": "300388277", "label": "English"},
