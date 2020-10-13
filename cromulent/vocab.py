@@ -11,6 +11,7 @@ from .model import Identifier, Mark, HumanMadeObject, Type, \
 	Acquisition, HumanMadeFeature, VisualItem, Set, Birth, Death, \
 	PropositionalObject, Payment, Creation, Phase, Period, \
 	Production, Event, DigitalObject, TransferOfCustody, \
+	Move, DigitalService, \
 	STR_TYPES, factory
 
 # Add classified_as initialization hack for all resources
@@ -790,4 +791,39 @@ def add_linked_art_boundary_check():
 
 	setattr(BaseResource, "_linked_art_boundary_okay", my_linked_art_boundary_check)
 	factory.linked_art_boundaries = True	
+
+def set_linked_art_uri_segments():
+	HumanMadeObject._uri_segment = "object"
+	Activity._uri_segment = "activity"
+	Place._uri_segment = "place"
+	InformationObject._uri_segment = "text"
+	Group._uri_segment = "group"
+	Actor._uri_segment = "actor"
+	Person._uri_segment = "person"
+	TimeSpan._uri_segment = "time"
+	#Production._uri_segment = "_activity"
+	#Acquisition._uri_segment = "_activity"
+	#Purchase._uri_segment = "_activity"
+	#Payment._uri_segment = "_activity"
+	#MonetaryAmount._uri_segment = "_value"
+	Currency._uri_segment = "concept"
+	PhysicalObject._uri_segment = "object"
+	#Identifier._uri_segment = "_name"
+	#TransferOfCustody._uri_segment = "_activity"
+	#Move._uri_segment = "_activity"
+	LinguisticObject._uri_segment = "text"
+	#Appellation._uri_segment = "_name"
+	#Name._uri_segment = "_name"
+	#AttributeAssignment._uri_segment = "_activity"
+	#Dimension._uri_segment = "_value"
+	PropositionalObject._uri_segment = "concept"
+	#Destruction._uri_segment = "_activity"
+	#Birth._uri_segment = "_activity"
+	#Death._uri_segment = "_activity"
+	DigitalObject._uri_segment = "digital"
+	DigitalService._uri_segment = "digital"
+	Type._uri_segment = "concept"	
+	VisualItem._uri_segment = "visual"
+	ProvenanceEntry._uri_segment = "provenance"
+	Exhibition._uri_segment = "activity"
 

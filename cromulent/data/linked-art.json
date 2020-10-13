@@ -2285,35 +2285,43 @@
     },
     "starts_before_or_with_the_end_of": {
       "@id": "crm:P173_starts_before_or_with_the_end_of",
-      "@type": "@id"
+      "@type": "@id",
+      "@container": "@set"
     },
     "ends_after_or_with_the_start_of": {
       "@id": "crm:P173i_ends_after_or_with_the_start_of",
-      "@type": "@id"
+      "@type": "@id",
+      "@container": "@set"
     },
     "starts_before_the_end_of": {
       "@id": "crm:P174_starts_before_the_end_of",
-      "@type": "@id"
+      "@type": "@id",
+      "@container": "@set"
     },
     "ends_after_the_start_of": {
       "@id": "crm:P174i_ends_after_the_start_of",
-      "@type": "@id"
+      "@type": "@id",
+      "@container": "@set"
     },
     "starts_before_or_with_the_start_of": {
       "@id": "crm:P175_starts_before_or_with_the_start_of",
-      "@type": "@id"
+      "@type": "@id",
+      "@container": "@set"
     },
     "starts_with_or_after_the_start_of": {
       "@id": "crm:P175i_starts_with_or_after_the_start_of",
-      "@type": "@id"
+      "@type": "@id",
+      "@container": "@set"
     },
     "starts_before_the_start_of": {
       "@id": "crm:P176_starts_before_the_start_of",
-      "@type": "@id"
+      "@type": "@id",
+      "@container": "@set"
     },
     "starts_after_the_start_of": {
       "@id": "crm:P176i_starts_after_the_start_of",
-      "@type": "@id"
+      "@type": "@id",
+      "@container": "@set"
     },
     "assigned_property": {
       "@id": "crm:P177_assigned_property_type",

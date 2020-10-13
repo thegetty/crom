@@ -99,7 +99,7 @@ class CromulentFactory(object):
 		self.allow_highlight = False # Allow the JSON to include a _highlight flag for re-rendering
 		self.allow_elide = False
 
-		self.auto_id_type = "int-per-segment" #  "int", "int-per-type", "int-per-segment", "uuid"
+		self.auto_id_type = "int-per-segment" #  "int", "int-per-type", "int-per-segment", "uuid", "uuid-segment"
 		# self.default_lang = lang  # NOT USED
 		self.filename_extension = ".json"  # some people like .jsonld
 		self.context_uri = context # Might be a list, or a context value as a dict
@@ -280,6 +280,8 @@ class CromulentFactory(object):
 			slug = self._auto_id_types[t]
 		elif auto_type == "uuid":
 			return "urn:uuid:%s" % uuid.uuid4()
+		elif auto_type == "uuid-segment":
+			slug = uuid.uuid4()
 		else:
 			raise ConfigurationError("Unknown auto-id type")
 
@@ -421,10 +423,10 @@ class CromulentFactory(object):
 			myid = js['id']
 			mdb = self.base_url
 			if not myid.startswith(mdb):
-				raise ConfigurationError("The id of that object is not the base URI in the Factory")
+				raise ConfigurationError("The id of that object is not the base URI (factory.base_url) in the Factory")
 			mdd = self.base_dir
 			if not mdd:
-				raise ConfigurationError("Directory on Factory must be set to write to file")
+				raise ConfigurationError("Directory (factory.base_dir) on Factory must be set to write to file")
 			fp = myid[len(mdb):]	
 			bits = fp.split('/')
 			if len(bits) > 1:

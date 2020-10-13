@@ -587,13 +587,18 @@ def date_cleaner(value):
 		# Broken? null it out
 		return None
 
-	elif len(value) == 4 and value.isdigit():
+	elif len(value) <= 4 and value.isdigit():
 		# year only
 		return [datetime(int(value),1,1), datetime(int(value)+1,1,1)]
 
 	elif value.startswith('v.'):
 		value = value[2:].strip()
 		return None
+
+	elif value.startswith('-') and value[1:].isdigit():
+		# BCE year
+		# These are problematic, as python datetime.datetime() doesn't support them :(
+		return [int(value), int(value)+1]
 
 	elif value.endswith('s'):
 		# 1950s
@@ -658,6 +663,7 @@ def date_cleaner(value):
 		return date_parse(value, '.')
 
 	elif value.find('-') > -1:
+		# 0 could be -983 for 983 BCE
 		return date_parse(value, '-')
 
 	elif value.find(';') > -1:
