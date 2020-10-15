@@ -751,7 +751,7 @@ def add_attribute_assignment_check():
 def add_linked_art_boundary_check():
 
 	boundary_classes = [x.__name__ for x in [Actor, HumanMadeObject, Person, Group, VisualItem, \
-		Place, Period, LinguisticObject, Phase, Set, Event]]
+		Place, Period, LinguisticObject, Phase, Set, Event, DigitalObject, DigitalService]]
 	data_embed_classes = [Name, Identifier, Dimension, TimeSpan, MonetaryAmount]
 	type_embed_classes = [Type, Currency, Language, Material, MeasurementUnit]
 	event_embed_classes = [Birth, Creation, Production, Formation, Payment, \
