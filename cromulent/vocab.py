@@ -561,6 +561,7 @@ local_instances = {
 	# Nationalities
 	"american nationality": {"parent": Nationality, "id": "300107956", "label": "American"},
 	"austrian nationality": {"parent": Nationality, "id": "300111153", "label": "Austrian"},
+	"australian nationality": {"parent": Nationality, "id": "300021861", "label": "Australian"},
 	"belgian nationality": {"parent": Nationality, "id": "300111156", "label": "Belgian"},
 	"british nationality": {"parent": Nationality, "id": "300111159", "label": "British"},	
 	"canadian nationality": {"parent": Nationality, "id": "300107962", "label": "Canadian"},
@@ -579,6 +580,7 @@ local_instances = {
 	"italian nationality": {"parent": Nationality, "id": "300111198", "label": "Italian"},
 	"japanese nationality": {"parent": Nationality, "id": "300018519", "label": "Japanese"},
 	"mexican nationality": {"parent": Nationality, "id": "300107963", "label": "Mexican"},
+	"new zealand nationality": {"parent": Nationality, "id": "300021959", "label": "New Zealander"},
 	"norwegian nationality": {"parent": Nationality, "id": "300111201", "label": "Norwegian"},
 	"polish nationality": {"parent": Nationality, "id": "300111204", "label": "Polish"},
 	"portuguese nationality": {"parent": Nationality, "id": "300111207", "label": "Portuguese"},
@@ -586,6 +588,7 @@ local_instances = {
 	"spanish nationality": {"parent": Nationality, "id": "300111215", "label": "Spanish"},
 	"swedish nationality": {"parent": Nationality, "id": "300111218", "label": "Swedish"},
 	"swiss nationality": {"parent": Nationality, "id": "300111221", "label": "Swiss"},
+	"venetian nationality": {"parent": Nationality, "id": "300379657", "label": "Venetian"}, # republic until 1797
 
 
 	# Nations
