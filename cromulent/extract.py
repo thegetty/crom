@@ -6,6 +6,8 @@ from collections import namedtuple
 
 from cromulent import model, vocab
 
+from contextlib import contextmanager
+
 #mark - Mapping Dictionaries
 
 # TODO: can this be refactored somewhere?
@@ -406,7 +408,7 @@ def simple_dimensions_cleaner_x2(value):
 
 #mark - Monetary Values
 
-def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY_MAPPING):
+def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY_MAPPING, source_mapping=None):
 	'''
 	Returns a `MonetaryAmount`, `StartingPrice`, or `EstimatedPrice` object
 	based on properties of the supplied `data` dict. If no amount or currency
@@ -437,20 +439,23 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 		price_currency = data.get('currency', data.get('price_currency', data.get('price_curr')))
 		note = data.get('price_note', data.get('price_desc', data.get('note')))
 		cite = data.get('price_citation', data.get('citation'))
+		source = data.get('price_source', '')
 	elif 'est_price' in data or 'est_price_amount' in data:
 		amnt = vocab.EstimatedPrice(ident='')
 		price_amount = data.get('est_price_amount', data.get('est_price'))
 		price_currency = data.get('currency', data.get('est_price_currency', data.get('est_price_curr')))
 		amount_type = 'Estimated Price'
-		note = data.get('est_price_note', data.get('est_price_desc'))
+		note = data.get('est_price_note', data.get('est_price_desc', data.get('note')))
 		cite = data.get('est_price_citation', data.get('citation'))
+		source = data.get('est_price_source', data.get('est_price_so', ''))
 	elif 'start_price' in data or 'start_price_amount' in data:
 		amnt = vocab.StartingPrice(ident='')
 		price_amount = data.get('start_price_amount', data.get('start_price'))
 		price_currency = data.get('currency', data.get('start_price_currency', data.get('start_price_curr')))
 		amount_type = 'Starting Price'
-		note = data.get('start_price_note', data.get('start_price_desc'))
+		note = data.get('start_price_note', data.get('start_price_desc', data.get('note')))
 		cite = data.get('start_price_citation', data.get('citation'))
+		source = data.get('start_price_source', data.get('start_price_so', ''))
 	else:
 		return None
 
@@ -494,3 +499,240 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 			amnt._label = '%s' % (price_amount,)
 		return amnt
 	return None
+
+
+
+# Datetime Cleaning (from Getty Pipeline code)
+# https://github.com/thegetty/pipeline/blob/master/pipeline/util/cleaners.py 
+
+def ymd_to_datetime(year, month, day, which="begin"):
+	if not isinstance(year, int):
+		try:
+			year = int(year)
+		except:
+			# print("DATE CLEAN: year is %r; returning None" % year)
+			return None
+
+	if not isinstance(month, int):
+		try:
+			month = int(month)
+		except:
+			# print("DATE CLEAN: month is %r; continuing with %s" % (month, "earliest" if which=="begin" else "latest"))
+			month = None
+
+	if not isinstance(day, int):
+		try:
+			day = int(day)
+		except:
+			day = None
+
+	if not month or month > 12 or month < 1:
+		if which == "begin":
+			month = 1
+		else:
+			month = 12
+
+	maxday = calendar.monthrange(year, month)[1]
+	if not day or day > maxday or day < 1:
+		if which == "begin":
+			day = 1
+		else:
+			# number of days in month
+			day = maxday
+
+	ystr = "%04d" % abs(year)
+	if year < 0:
+		ystr = "-" + ystr
+
+	if which == "begin":
+		return "%s-%02d-%02dT00:00:00" % (ystr, month, day)
+	else:
+		return "%s-%02d-%02dT23:59:59" % (ystr, month, day)
+
+
+
+def date_parse(value, delim):
+	# parse a / or - or . date or range
+
+	bits = value.split(delim)
+	if len(bits) == 2:
+		# YYYY/ range
+		b1 = bits[0].strip()
+		b2 = bits[1].strip()
+		if len(b2) < 3 :
+			b2 = "%s%s" % (b1[:len(b1)-len(b2)], b2)
+		elif len(b2) > 4:
+			print("Bad range: %s" % value)
+			return None
+		try:
+			return [datetime(int(b1),1,1), datetime(int(b2)+1,1,1)]
+		except:
+			print("Broken delim: %s" % value)
+			return None
+	elif len(bits) == 3:
+		# YYYY/MM/DD or YY/YY/YYYY or DD.MM.YYYY or YYYY.MM.DD
+		m = int(bits[1])
+		if len(bits[0]) == 4:
+			y = int(bits[0])
+			d = int(bits[2])
+		else:
+			y = int(bits[2])
+			d = int(bits[0])
+		if m == 0:
+			m = 1
+		if d == 0:
+			d = 1
+		if m > 12:
+			# swap them
+			d, m = m, d
+		try:
+			yearmonthday = datetime(y,m,d)
+			return [yearmonthday, yearmonthday+timedelta(days=1)]
+		except:
+			print("Bad // value: %s" % value)
+	else:
+		print("broken / date: %s" % value)
+	return None
+
+
+
+def date_cleaner(value):
+
+	# FORMATS:
+
+	# YYYY[?]
+	# YYYY/MM/DD
+	# DD/MM/YYYY
+	# ca. YYYY
+	# aft[er|.] YYYY
+	# bef[ore|.] YYYY
+	# YYYY.MM.DD
+	# YYYY/(Y|YY|YYYY)
+	# YYYY-YY
+	# YYY0s
+	# YYYY-
+	# YYYY Mon
+	# YYYY Month DD
+
+	if value:
+		value = value.replace("?",'')
+		value = value.replace('est', '')
+		value = value.replace("()", '')
+		value = value.replace(' or ', '/')
+		value = value.strip()
+		value = value.replace('by ', 'bef.')
+		value = value.replace('c.', 'ca.')
+		value = value.replace('CA.', 'ca.')
+		value = value.replace('af.', 'aft.')
+
+	if not value:
+		return None
+
+	elif value.startswith("|"):
+		# Broken? null it out
+		return None
+
+	elif len(value) == 4 and value.isdigit():
+		# year only
+		return [datetime(int(value),1,1), datetime(int(value)+1,1,1)]
+
+	elif value.startswith('v.'):
+		value = value[2:].strip()
+		return None
+
+	elif value.endswith('s'):
+		# 1950s
+		if len(value) == 5 and value[:4].isdigit():
+			y = int(value[:4])
+			return [datetime(y,1,1), datetime(y+10,1,1)]
+		else:
+			warnings.warn("Bad YYYYs date: %s" % value)
+			return None
+
+	elif len(value) == 5 and value[:4].isdigit() and value.endswith('-'):
+		y = int(value[:4])
+		return [datetime(y,1,1), None]
+
+	elif value.startswith("ca"):
+		# circa x
+		value = value[3:].strip()
+		if len(value) == 4 and value.isdigit():
+			y = int(value)
+			return [datetime(y-CIRCA,1,1), datetime(y+CIRCA,1,1)]
+		else:
+			# Try and parse it
+			if value.find('/') > -1:
+				val = date_parse(value, '/')
+			elif value.find('-') > -1:
+				val = date_parse(value, '-')
+
+			if not val:
+				warnings.warn("bad circa: %s" % value)
+				return None
+
+			val[0] -= CIRCA_D
+			val[1] += CIRCA_D
+			return val
+
+	elif value.startswith('aft'):
+		# after x
+		value = value.replace('aft.', '')
+		value = value.replace('after ', '')
+		value = value.strip()
+		try:
+			y = int(value)
+		except:
+			warnings.warn("Bad aft value: %s" % value)
+			return None
+		return [datetime(y,1,1), None]
+
+	elif value.startswith('bef'):
+		value = value.replace('bef.', '')
+		value = value.replace('before ', '')
+		value = value.strip()
+		y = int(value)
+		return [None, datetime(y,1,1)]
+
+	elif value.find('/') > -1:
+		# year/year or year/month/date
+		# 1885/90
+		# 07/02/1897
+		return date_parse(value, '/')
+
+	elif value.find('.') > -1:
+		return date_parse(value, '.')
+
+	elif value.find('-') > -1:
+		return date_parse(value, '-')
+
+	elif value.find(';') > -1:
+		return date_parse(value, ';')
+
+	else:
+		with c_locale(), suppress(ValueError):
+			yearmonthday = datetime.strptime(value, '%Y %B %d')
+			if yearmonthday:
+				return [yearmonthday, yearmonthday+timedelta(days=1)]
+
+		with c_locale(), suppress(ValueError):
+			yearmonth = datetime.strptime(value, '%Y %b')
+			if yearmonth:
+				year = yearmonth.year
+				month = yearmonth.month
+				maxday = calendar.monthrange(year, month)[1]
+				d = datetime(year, month, 1)
+				r = [d, d+timedelta(days=maxday)]
+				return r
+
+		warnings.warn(f'fell through to: {value!r}')
+		return None
+
+@contextmanager
+def c_locale():
+	l = locale.getlocale()
+	locale.setlocale(locale.LC_ALL, 'C')
+	try:
+		yield
+	finally:
+		locale.setlocale(locale.LC_ALL, l)
+

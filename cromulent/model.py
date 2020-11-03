@@ -259,23 +259,26 @@ class CromulentFactory(object):
 				return True
 		return False
 
-	def generate_id(self, what):
-		if self.auto_id_type == "int":
+	def generate_id(self, what, auto_type=None):
+		if auto_type == None:
+			auto_type = self.auto_id_type
+
+		if auto_type == "int":
 			# increment and return
 			self._auto_id_int += 1
 			slug = self._auto_id_int
-		elif self.auto_id_type == "int-per-segment":
+		elif auto_type == "int-per-segment":
 			curr = self._auto_id_segments.get(what._uri_segment, -1)
 			curr += 1
 			self._auto_id_segments[what._uri_segment] = curr
 			slug = self._auto_id_segments[what._uri_segment]
-		elif self.auto_id_type == "int-per-type":
+		elif auto_type == "int-per-type":
 			t = type(what).__name__
 			curr = self._auto_id_types.get(t, -1)
 			curr += 1
 			self._auto_id_types[t] = curr
 			slug = self._auto_id_types[t]
-		elif self.auto_id_type == "uuid":
+		elif auto_type == "uuid":
 			return "urn:uuid:%s" % uuid.uuid4()
 		else:
 			raise ConfigurationError("Unknown auto-id type")
@@ -509,6 +512,10 @@ class ExternalResource(object):
 			elif ident == "":
 				# Allow explicit setting of empty string
 				self.id = ""
+			elif ident.startswith("auto "):
+				# Allow override of auto setting for this resource
+				# eg:  model.Person(ident="auto int") to assign an int, rather than the default
+				self.id = factory.generate_id(self, auto_type=ident[5:].strip())
 			else:
 				# Allow for prefixed term that isn't ambiguously a URI
 				curied = ident.split(':', 1)
@@ -1176,7 +1183,8 @@ def process_tsv(fn):
 			try:
 				what = vocabData[info[6]]
 			except:
-				what = vocabData["rdf:Resource"]
+				print("Failed to find class for %s given %s" % (data, info[6]))
+				raise
 			what["props"].append(data)
 
 			koh = int(info[9])
@@ -1199,6 +1207,7 @@ def process_tsv(fn):
 
 # Build class heirarchy recursively
 def build_class(crmName, parent, vocabData):
+
 	data = vocabData[crmName]
 	name = str(data['className'])
 
@@ -1265,6 +1274,7 @@ def build_class(crmName, parent, vocabData):
 
 def build_classes(fn=None, topClass=None):
 	# Default to building our core dataset
+
 	if not fn:
 		dd = os.path.join(os.path.dirname(__file__), 'data')
 		fn = os.path.join(dd, 'crm_vocab.tsv')
@@ -1296,6 +1306,9 @@ def build_classes(fn=None, topClass=None):
 			else:
 				rng = rngd['class']
 				# and add inverse prop name from range
+				if rng == None:
+					# Uh-oh!
+					raise ConfigurationError("Class %s did not get built, range of %s" % (value['rangeStr'], name))
 				for (ik, iv) in rng._properties.items():
 					if iv['inverseRdf'] == value['rdf']:
 						inverse = ik

@@ -351,14 +351,22 @@
         <owl:inverseOf rdf:resource="https://linked.art/ns/terms/digitally_shows"/>        
 </rdf:Property>
 
+<rdf:Property rdf:about="https://linked.art/ns/terms/access_point">
+    <rdfs:label xml:lang="en">access point</rdfs:label>
+    <rdfs:comment xml:lang="en">From an ur- digital object to a single concrete representation.
+        A locator as opposed to an identifier, similar to the approximated_by for Place.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.ics.forth.gr/isl/CRMdig/D1_Digital_Object"/>
+    <rdfs:range rdf:resource="http://www.ics.forth.gr/isl/CRMdig/D1_Digital_Object"/>
+</rdf:Property>
+
 <rdfs:Class rdf:about="https://linked.art/ns/terms/DigitalService">
     <rdfs:label xml:lang="en">Digital Service</rdfs:label>
     <rdfs:comment></rdfs:comment>
-    <rdfs:subClassOf rdf:resource="E73_Information_Object"/>
+    <rdfs:subClassOf rdf:resource="dig:D1_Digital_Object"/>
 </rdfs:Class>
 
 <rdf:Property rdf:about="https://linked.art/ns/terms/digitally_available_via">
-        <rdfs:label xml:lang="en">digitally shows</rdfs:label>
+        <rdfs:label xml:lang="en">digitally available via</rdfs:label>
         <rdfs:comment xml:lang="en"></rdfs:comment>
         <rdfs:domain rdf:resource="http://www.ics.forth.gr/isl/CRMdig/D1_Digital_Object"/>
         <rdfs:range rdf:resource="https://linked.art/ns/terms/DigitalService"/>
@@ -366,7 +374,7 @@
 </rdf:Property>
 
 <rdf:Property rdf:about="https://linked.art/ns/terms/digitally_makes_available">
-        <rdfs:label xml:lang="en">digitally shown by</rdfs:label>
+        <rdfs:label xml:lang="en">digitally makes available</rdfs:label>
         <rdfs:comment xml:lang="en"></rdfs:comment>
         <rdfs:range rdf:resource="https://linked.art/ns/terms/DigitalService"/>
         <rdfs:domain rdf:resource="http://www.ics.forth.gr/isl/CRMdig/D1_Digital_Object"/>
