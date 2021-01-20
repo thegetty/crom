@@ -75,6 +75,8 @@ ext_classes = {
 	"DoiIdentifier": {"parent": Identifier, "id": "300417432", "label": "DOI Identifer"},
 	"VolumeNumber": {"parent": Identifier, "id": "300265632", "label": "Volume"},
 	"IssueNumber": {"parent": Identifier, "id": "300312349", "label": "Issue"},
+	"CallNumber": {"parent": Identifier, "id": "300311706", "label": "Call Number"},
+
 
 	"EmailAddress": {"parent": Identifier, "id":"300435686", "label": "Email Address"},
 	"StreetAddress": {"parent": Identifier, "id":"300435687", "label": "Street Address"},
@@ -107,6 +109,7 @@ ext_classes = {
 	"ContextStatement": {"parent": LinguisticObject, "id": "300435428", "label": "Historical/Cultural Context", "metatype": "brief text"},
 	"SourceStatement": {"parent": LinguisticObject, "id": "300404764", "label": "Source Statement", "metatype": "brief text"},
 	"PropertyStatusStatement": {"parent": LinguisticObject, "id": "300438433", "label": "Property Status Statement", "metatype": "brief text"},
+	"AccessStatement": {"parent": LinguisticObject, "id": "300133046", "label": "Access Statement", "metatype": "brief text"},
 
 	"MarkingsStatement": {"parent": LinguisticObject, "id": "300435420", "label": "Markings", "metatype": "brief text"},
 	"InscriptionStatement": {"parent": LinguisticObject, "id": "300435414", "label": "Inscription", "metatype": "brief text"},
