@@ -11,7 +11,7 @@ from .model import Identifier, Mark, HumanMadeObject, Type, \
 	Acquisition, HumanMadeFeature, VisualItem, Set, Birth, Death, \
 	PropositionalObject, Payment, Creation, Phase, Period, \
 	Production, Event, DigitalObject, TransferOfCustody, \
-	Move, DigitalService, \
+	Move, DigitalService, CRMEntity, \
 	STR_TYPES, factory
 
 # Add classified_as initialization hack for all resources
@@ -832,4 +832,24 @@ def set_linked_art_uri_segments():
 	VisualItem._uri_segment = "visual"
 	ProvenanceEntry._uri_segment = "provenance"
 	Exhibition._uri_segment = "activity"
+
+
+def add_helper_functions():
+	# Add filter functions to the right bits of the model
+
+	def get_names(self, filter=None):
+		return [x for x in self.identified_by if isinstance(x, Name) and (not filter or filter in x.classified_as)]
+
+	def get_identifiers(self, filter=None):
+		return [x for x in self.identified_by if isinstance(x, Identifier) and (not filter or filter in x.classified_as)]
+
+	def get_statements(self, filter=None):
+		return [x for x in self.referred_to_by if isinstance(x, LinguisticObject) and x.content and (not filter or filter in x.classified_as)]
+
+	CRMEntity.get_names = get_names
+	CRMEntity.get_identifiers = get_identifiers
+	CRMEntity.get_statements = get_statements
+
+
+
 
