@@ -305,6 +305,7 @@ ext_classes = {
 	"Map": {"parent": HumanMadeObject, "id": "300028094", "label": "Map", "metatype": "work type"},
 	"Clothing": {"parent": HumanMadeObject, "id": "300266639", 'label': "Clothing", "metatype": "work type"},
 	"Furniture": {"parent": HumanMadeObject, "id":"300037680", "label": "Furniture", "metatype": "work type"},
+	"Sample": {"parent": HumanMadeObject, "id":"300028875", "label": "Sample", "metatype": "work type"},
 
 	"Architecture": {"parent": HumanMadeObject, "id":"300263552", "label": "Architecture", "metatype": "work type"},
 	"Armor": {"parent": HumanMadeObject, "id":"300036745", "label": "Armor", "metatype": "work type"},
