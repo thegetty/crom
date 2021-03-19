@@ -117,6 +117,7 @@ ext_classes = {
 	"CultureStatement": {"parent": LinguisticObject, "id": "300435431", "label": "Culture Statement", "metatype": "brief text"},
 	"PeriodStatement": {"parent": LinguisticObject, "id": "300435432", "label": "Period Statement", "metatype": "brief text"},
 	"EnvironmentStatement": {"parent": LinguisticObject, "id": "300229535", "label": "Environmental Conditions Statement", "metatype": "brief text"},
+	"HazardousStatement": {"parent": LinguisticObject, "id": "xxx", "label": "Hazardous Material Statement", "metatype": "brief text"},
 
 	"ProductionStatement": {"parent": LinguisticObject, "id": "300435436", "label": "Production Statement", "metatype": "brief text" },
 	"AcquisitionStatement": {"parent": LinguisticObject, "id": "300435439", "label": "Acquisition Statement", "metatype": "brief text"},
@@ -376,6 +377,7 @@ identity_instances = {
 	"gelatin silver print": {"parent": Material, "id": "300128695", "label": "gelatin silver print"},
 	"silver": {"parent": Material, "id": "300011029", "label": "silver"},
 	"synthetic": {"parent": Type, "id": "xxx", "label": "Synthetic Material"},
+	"hazardous": {"parent": Type, "id": "300138222", "label": "Hazardous Material"},
 
 	# Measurement Units - lengths, weights, durations
 	"lignes": {"parent": MeasurementUnit, "id": "300435501", "label": "Paris lines"},
