@@ -116,6 +116,7 @@ ext_classes = {
 	"DimensionStatement": {"parent": LinguisticObject, "id": "300435430", "label": "Dimension Statement", "metatype": "brief text"},
 	"CultureStatement": {"parent": LinguisticObject, "id": "300435431", "label": "Culture Statement", "metatype": "brief text"},
 	"PeriodStatement": {"parent": LinguisticObject, "id": "300435432", "label": "Period Statement", "metatype": "brief text"},
+	"EnvironmentStatement": {"parent": LinguisticObject, "id": "300229535", "label": "Environmental Conditions Statement", "metatype": "brief text"},
 
 	"ProductionStatement": {"parent": LinguisticObject, "id": "300435436", "label": "Production Statement", "metatype": "brief text" },
 	"AcquisitionStatement": {"parent": LinguisticObject, "id": "300435439", "label": "Acquisition Statement", "metatype": "brief text"},
