@@ -12,7 +12,7 @@ from .model import Identifier, Mark, HumanMadeObject, Type, \
 	PropositionalObject, Payment, Creation, Phase, Period, \
 	Production, Event, DigitalObject, TransferOfCustody, \
 	Move, DigitalService, CRMEntity, \
-	STR_TYPES, factory
+	STR_TYPES, factory, ExternalResource
 
 # Add classified_as initialization hack for all resources
 def post_init(self, **kw):
@@ -241,7 +241,8 @@ ext_classes = {
 	"Storing": {"parent": Activity, "id":"300056390", "label": "Storing"},
 	"Producing": {"parent": Activity, "id":"300054713", "label": "Producing"},
 
-	"ProvenanceEntry": {"parent": Activity, "id":"300055863", "label": "Provenance Entry"},
+	"ProvenanceEntry": {"parent": Activity, "id":"300055863", "label": "Provenance Activity"},
+	"ProvenanceActivity": {"parent": Activity, "id":"300055863", "label": "Provenance Activity"},
 	"ReturnOfLoan": {"parent": TransferOfCustody, "id":"300438467", "label": "Return of Loan"},
 	"Theft": {"parent": TransferOfCustody, "id": "300055292", "label": "Theft"},
 	"Looting": {"parent": TransferOfCustody, "id":"300379554", "label": "Looting"},
@@ -336,6 +337,8 @@ ext_classes = {
 	"AccessionCatalog": {"parent": HumanMadeObject, "id": "300026617", "label": "Accession Catalog", "metatype": "work type"},
 	"SalesCatalog": {"parent": HumanMadeObject,"id":"300026074", "label": "Sales Catalog", "metatype": "work type"},
 	"LotteryCatalog": {"parent": HumanMadeObject, "id":"300438603", "label": "Lottery Catalog", "metatype": "work type"},
+
+	"Sample": {"parent": HumanMadeObject, "id": "300028875", "label": "Sample"},
 
 	"FrontPart": {"parent": HumanMadeObject, "id":"300190703", "label": "Front Part", "metatype": "part type"},
 	"BackPart": {"parent": HumanMadeObject, "id":"300190692", "label": "Back Part", "metatype": "part type"},
@@ -768,9 +771,13 @@ def add_linked_art_boundary_check():
 	# Activity, AttributeAssignment, InformationObject, TransferOfCustody, Move
 	# Propositional Object
 
+	ExternalResource._embed_override = None
+
 	def my_linked_art_boundary_check(self, top, rel, value):
 		# True = Embed ; False = Split
-		if isinstance(value, LinguisticObject) and hasattr(value, 'classified_as'):
+		if value._embed_override is not None:
+			return value._embed_override
+		elif isinstance(value, LinguisticObject) and hasattr(value, 'classified_as'):
 			for ca in value.classified_as:
 				if instances['brief text'] in getattr(ca, 'classified_as', []):
 					return True
@@ -800,38 +807,28 @@ def add_linked_art_boundary_check():
 
 def set_linked_art_uri_segments():
 	HumanMadeObject._uri_segment = "object"
-	Activity._uri_segment = "activity"
+	Activity._uri_segment = "event"
+	Event._uri_segment = "event"
+	Period._uri_segment = "event"
 	Place._uri_segment = "place"
-	InformationObject._uri_segment = "text"
+	InformationObject._uri_segment = "info"
 	Group._uri_segment = "group"
-	Actor._uri_segment = "actor"
+	# Actor._uri_segment = "actor"
 	Person._uri_segment = "person"
-	TimeSpan._uri_segment = "time"
-	#Production._uri_segment = "_activity"
-	#Acquisition._uri_segment = "_activity"
-	#Purchase._uri_segment = "_activity"
-	#Payment._uri_segment = "_activity"
-	#MonetaryAmount._uri_segment = "_value"
-	Currency._uri_segment = "concept"
 	PhysicalObject._uri_segment = "object"
-	#Identifier._uri_segment = "_name"
-	#TransferOfCustody._uri_segment = "_activity"
-	#Move._uri_segment = "_activity"
 	LinguisticObject._uri_segment = "text"
-	#Appellation._uri_segment = "_name"
-	#Name._uri_segment = "_name"
-	#AttributeAssignment._uri_segment = "_activity"
-	#Dimension._uri_segment = "_value"
 	PropositionalObject._uri_segment = "concept"
-	#Destruction._uri_segment = "_activity"
-	#Birth._uri_segment = "_activity"
-	#Death._uri_segment = "_activity"
 	DigitalObject._uri_segment = "digital"
 	DigitalService._uri_segment = "digital"
 	Type._uri_segment = "concept"	
+	Language._uri_segment = "concept"
+	MeasurementUnit._uri_segment = "concept"
+	Currency._uri_segment = "concept"
+	Material._uri_segment = "concept"
 	VisualItem._uri_segment = "visual"
 	ProvenanceEntry._uri_segment = "provenance"
 	Exhibition._uri_segment = "activity"
+	Set._uri_segment = "set"
 
 
 def add_helper_functions():
