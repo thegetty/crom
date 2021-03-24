@@ -557,7 +557,11 @@ class CromulentFactory(object):
 			out = self.toRDF(what, format=format, bnode_prefix=bnode_prefix)
 
 		fh = open(filename, 'w')
-		fh.write(out)
+		try:
+			fh.write(out)
+		except:
+			# Could be 2.x unicode issue
+			fh.write(out.encode('utf-8'))
 		fh.close()
 		return out
 
