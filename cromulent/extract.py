@@ -3,6 +3,7 @@
 import re
 import warnings
 from collections import namedtuple
+from contextlib import contextmanager
 
 import locale
 import calendar

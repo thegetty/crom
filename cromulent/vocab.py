@@ -76,8 +76,8 @@ ext_classes = {
 	"VolumeNumber": {"parent": Identifier, "id": "300265632", "label": "Volume"},
 	"IssueNumber": {"parent": Identifier, "id": "300312349", "label": "Issue"},
 	"CallNumber": {"parent": Identifier, "id": "300311706", "label": "Call Number"},
-
-
+	"StockNumber": {"parent": Identifier, "id": "300412177", "label": "Stock Number"},
+	
 	"EmailAddress": {"parent": Identifier, "id":"300435686", "label": "Email Address"},
 	"StreetAddress": {"parent": Identifier, "id":"300435687", "label": "Street Address"},
 	"TelephoneNumber": {"parent": Identifier, "id": "300435688", "label": "Telephone Number"},
@@ -120,6 +120,7 @@ ext_classes = {
 	"DimensionStatement": {"parent": LinguisticObject, "id": "300435430", "label": "Dimension Statement", "metatype": "brief text"},
 	"CultureStatement": {"parent": LinguisticObject, "id": "300435431", "label": "Culture Statement", "metatype": "brief text"},
 	"PeriodStatement": {"parent": LinguisticObject, "id": "300435432", "label": "Period Statement", "metatype": "brief text"},
+	"EnvironmentStatement": {"parent": LinguisticObject, "id": "300229535", "label": "Environmental Conditions Statement", "metatype": "brief text"},
 
 	"ProductionStatement": {"parent": LinguisticObject, "id": "300435436", "label": "Production Statement", "metatype": "brief text" },
 	"AcquisitionStatement": {"parent": LinguisticObject, "id": "300435439", "label": "Acquisition Statement", "metatype": "brief text"},
@@ -127,6 +128,7 @@ ext_classes = {
 	"BibliographyStatement": {"parent": LinguisticObject, "id": "300026497", "label": "Bibliography Statement", "metatype": "brief text"},
 	"ExhibitionStatement": {"parent": LinguisticObject, "id":"300435424", "label":"Exhibition Statement", "metatype": "brief text"},
 	"PriceStatement": {"parent": LinguisticObject, "id":"300055694", "label":"Price Statement", "metatype": "brief text"},
+	"ConditionReport": {"parent": LinguisticObject, "id":"300379544", "label":"Condition Statement", "metatype": "brief text"},	
 
 	"BiographyStatement": {"parent": LinguisticObject, "id":"300435422", "label": "Biography Statement", "metatype": "brief text"},
 	"EditionStatement": {"parent": LinguisticObject, "id":"300435435", "label": "Edition Statement", "metatype": "brief text"},
@@ -240,6 +242,7 @@ ext_classes = {
 	"Managing": {"parent": Activity, "id":"300054277", "label": "Managing"},
 	"Storing": {"parent": Activity, "id":"300056390", "label": "Storing"},
 	"Producing": {"parent": Activity, "id":"300054713", "label": "Producing"},
+	"Conserving": {"parent": Activity, "id":"300404519", "label": "Conservation Activity"},
 
 	"ProvenanceEntry": {"parent": Activity, "id":"300055863", "label": "Provenance Activity"},
 	"ProvenanceActivity": {"parent": Activity, "id":"300055863", "label": "Provenance Activity"},
@@ -310,6 +313,7 @@ ext_classes = {
 	"Map": {"parent": HumanMadeObject, "id": "300028094", "label": "Map", "metatype": "work type"},
 	"Clothing": {"parent": HumanMadeObject, "id": "300266639", 'label': "Clothing", "metatype": "work type"},
 	"Furniture": {"parent": HumanMadeObject, "id":"300037680", "label": "Furniture", "metatype": "work type"},
+	"Sample": {"parent": HumanMadeObject, "id":"300028875", "label": "Sample", "metatype": "work type"},
 
 	"Architecture": {"parent": HumanMadeObject, "id":"300263552", "label": "Architecture", "metatype": "work type"},
 	"Armor": {"parent": HumanMadeObject, "id":"300036745", "label": "Armor", "metatype": "work type"},
@@ -381,6 +385,8 @@ identity_instances = {
 	"gelatin silver print": {"parent": Material, "id": "300128695", "label": "gelatin silver print"},
 	"silver": {"parent": Material, "id": "300011029", "label": "silver"},
 	"synthetic": {"parent": Type, "id": "xxx", "label": "Synthetic Material"},
+	"hazardous": {"parent": Type, "id": "300138222", "label": "Hazardous Material"},
+	"thread": {"parent": Type, "id": "300014250", "label": "Thread"},
 
 	# Measurement Units - lengths, weights, durations
 	"lignes": {"parent": MeasurementUnit, "id": "300435501", "label": "Paris lines"},
@@ -510,6 +516,9 @@ identity_instances = {
 	"sculpting": {"parent": Type, "id":"300264383", "label": "Sculpting"},
 	"painting": {"parent": Type, "id":"300054216", "label": "Painting"},
 	"spraypainting": {"parent": Type, "id":"300053816", "label": "Spraypainting"},
+
+  # Conditions
+	"crizzling": {"parent": Type, "id": "300218594", "label": "Crizzling"},
 
 	# Geographic
 	"city": {"parent": Type, "id": "300008389", "label": "City"},
