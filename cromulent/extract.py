@@ -686,7 +686,7 @@ def date_cleaner(value):
 				r = [d, d+timedelta(days=maxday)]
 				return r
 
-		warnings.warn(f'fell through to: {value!r}')
+		warnings.warn('fell through to: {value!r}'.format(value=value))
 		return None
 
 @contextmanager
