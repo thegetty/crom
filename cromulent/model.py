@@ -481,8 +481,8 @@ class CromulentFactory(object):
 		# Here replace all the bnodes with a unique id
 		# This works so long as PyLD continues with incrementing integer bnode ids
 		if bnode_prefix:
-			data = re_bnodes.subn(f"_:b{bnode_prefix}_\\1 ", data)[0]
-			data = re_bnodeo.subn(f"> _:b{bnode_prefix}_\\1 <", data)[0]				
+			data = re_bnodes.subn("_:b{bnode_prefix}_\\1 ".format(bnode_prefix=bnode_prefix), data)[0]
+			data = re_bnodeo.subn("> _:b{bnode_prefix}_\\1 <".format(bnode_prefix=bnode_prefix), data)[0]				
 
 		if format in ['nq', 'nquads', 'n-quads', 'application/nquads']:
 			return data
