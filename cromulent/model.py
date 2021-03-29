@@ -528,7 +528,8 @@ class CromulentFactory(object):
 			fn = fn + extension
 		elif self.filename_extension:
 			fn = fn + self.filename_extension
-		filename = os.path.join(mdd, *dirs, fn)		
+		dirs.append(fn)
+		filename = os.path.join(mdd, *dirs)		
 		return filename
 
 	def toFile(self, what, compact=True, filename="", done=None, format=None, bnode_prefix="", extension=""):
