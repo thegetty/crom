@@ -193,6 +193,7 @@ ext_classes = {
 
 	"AuctionHouseOrg": {"parent": Group, "id": "300417515", "label": "Auction House (organization)"},
 	"MuseumOrg":   {"parent": Group, "id":"300312281", "label": "Museum"},
+	"Institution": {"parent": Group, "id":"300026004", "label": "Institution"},
 	"Department":  {"parent": Group, "id":"300263534", "label": "Department"},
 	"School":      {"parent": Group, "id":"300404284", "label": "School"},
 	"Studio":      {"parent": Group, "id":"300404275", "label": "Studio"},
@@ -209,6 +210,9 @@ ext_classes = {
 	"Style": 	   {"parent": Type, "id":"300015646", "label": "Style"},
 
 	"Auctioneer":  {"parent": Person, "id":"300025208", "label": "Auctioneer"}, # is this useful?
+	"Artist":  {"parent": Person, "id":"300025103", "label": "Artist"},
+	"Collector":  {"parent": Person, "id":"300025234", "label": "Collector"},
+	"Dealer":  {"parent": Person, "id":"300025236", "label": "Dealer"},
 
 	"AuctionEvent": {"parent": Activity, "id":"300054751", "label": "Auction Event"},
 	"Auction":     {"parent": Activity, "id":"300420001", "label": "Auction of Lot"}, # Individual auction-of-lot
