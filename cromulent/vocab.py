@@ -600,6 +600,10 @@ local_instances = {
 	"swedish nationality": {"parent": Nationality, "id": "300111218", "label": "Swedish"},
 	"swiss nationality": {"parent": Nationality, "id": "300111221", "label": "Swiss"},
 
+	# Occupations
+	"artist occupation":  {"parent": Occupation, "id":"300025103", "label": "Artist"},
+ 	"collector occupation":  {"parent": Occupation, "id":"300025234", "label": "Collector"},
+ 	"dealer occupation":  {"parent": Occupation, "id":"300025236", "label": "Dealer"},
 
 	# Nations
 	"belgium": {"parent": Nation, "id": "1000063", "vocab": "tgn", "label": "Belgium"},
