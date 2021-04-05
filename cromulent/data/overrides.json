@@ -64,6 +64,11 @@
 	"P186i": "type_produced_by",
 	"P168": "defined_by",
 
+	"P165": "presence_of",
+	"P195": "presence_of_thing",
+	"P195i": "thing_presence",
+	"P196i": "thing_defined_by",
+
 	"skos:closeMatch": "close_match",
 	"skos:exactMatch": "exact_match",
 	"dcterms:conformsTo": "conforms_to",
@@ -73,6 +78,6 @@
 	"rdfs:label": "_label",
 	"sci:O13_triggers": "caused",
 	"sci:O13i_is_triggered_by": "caused_by",
-	"sci:O19_has_found_object": "encountered",
-	"sci:O19i_was_object_found_by": "encountered_by"
+	"sci:O19_encountered_object": "encountered",
+	"sci:O19i_was_object_encountered_at": "encountered_by"
 }

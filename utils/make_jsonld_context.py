@@ -29,6 +29,7 @@ context['foaf'] = 'http://xmlns.com/foaf/0.1/'
 context['xsd'] = "http://www.w3.org/2001/XMLSchema#"
 context['dig'] = "http://www.ics.forth.gr/isl/CRMdig/"
 context["la"] = "https://linked.art/ns/terms/"
+context["archaeo"] = "http://www.cidoc-crm.org/cidoc-crm/CRMarchaeo/"
 
 ## These are only aliases. The processing is defined by the spec.
 context['id'] = "@id"

@@ -11,7 +11,8 @@ from .model import Identifier, Mark, HumanMadeObject, Type, \
 	Acquisition, HumanMadeFeature, VisualItem, Set, Birth, Death, \
 	PropositionalObject, Payment, Creation, Phase, Period, \
 	Production, Event, DigitalObject, TransferOfCustody, \
-	STR_TYPES, factory
+	Move, DigitalService, CRMEntity, \
+	STR_TYPES, factory, ExternalResource
 
 # Add classified_as initialization hack for all resources
 def post_init(self, **kw):
@@ -74,8 +75,9 @@ ext_classes = {
 	"DoiIdentifier": {"parent": Identifier, "id": "300417432", "label": "DOI Identifer"},
 	"VolumeNumber": {"parent": Identifier, "id": "300265632", "label": "Volume"},
 	"IssueNumber": {"parent": Identifier, "id": "300312349", "label": "Issue"},
+	"CallNumber": {"parent": Identifier, "id": "300311706", "label": "Call Number"},
 	"StockNumber": {"parent": Identifier, "id": "300412177", "label": "Stock Number"},
-
+	
 	"EmailAddress": {"parent": Identifier, "id":"300435686", "label": "Email Address"},
 	"StreetAddress": {"parent": Identifier, "id":"300435687", "label": "Street Address"},
 	"TelephoneNumber": {"parent": Identifier, "id": "300435688", "label": "Telephone Number"},
@@ -95,7 +97,7 @@ ext_classes = {
 
 	"_BriefText": {"parent": LinguisticObject, "id": "300418049", "label":"Brief Text"},
 	"Note": {"parent": LinguisticObject, "id":"300027200", "label": "Note", "metatype": "brief text"},
-	"Description": {"parent": LinguisticObject, "id":"300411780", "label": "Description", "metatype": "brief text"},
+	"Description": {"parent": LinguisticObject, "id":"300435416", "label": "Description", "metatype": "brief text"},
 	"Abstract": {"parent": LinguisticObject, "id":"300026032", "label": "Abstract", "metatype": "brief text"},
 	"Citation": {"parent": LinguisticObject, "id":"300311705", "label": "Citation", "metatype": "brief text"},
 
@@ -107,6 +109,7 @@ ext_classes = {
 	"ContextStatement": {"parent": LinguisticObject, "id": "300435428", "label": "Historical/Cultural Context", "metatype": "brief text"},
 	"SourceStatement": {"parent": LinguisticObject, "id": "300404764", "label": "Source Statement", "metatype": "brief text"},
 	"PropertyStatusStatement": {"parent": LinguisticObject, "id": "300438433", "label": "Property Status Statement", "metatype": "brief text"},
+	"AccessStatement": {"parent": LinguisticObject, "id": "300133046", "label": "Access Statement", "metatype": "brief text"},
 
 	"MarkingsStatement": {"parent": LinguisticObject, "id": "300435420", "label": "Markings", "metatype": "brief text"},
 	"InscriptionStatement": {"parent": LinguisticObject, "id": "300435414", "label": "Inscription", "metatype": "brief text"},
@@ -245,7 +248,8 @@ ext_classes = {
 	"Producing": {"parent": Activity, "id":"300054713", "label": "Producing"},
 	"Conserving": {"parent": Activity, "id":"300404519", "label": "Conservation Activity"},
 
-	"ProvenanceEntry": {"parent": Activity, "id":"300055863", "label": "Provenance Entry"},
+	"ProvenanceEntry": {"parent": Activity, "id":"300055863", "label": "Provenance Activity"},
+	"ProvenanceActivity": {"parent": Activity, "id":"300055863", "label": "Provenance Activity"},
 	"ReturnOfLoan": {"parent": TransferOfCustody, "id":"300438467", "label": "Return of Loan"},
 	"Theft": {"parent": TransferOfCustody, "id": "300055292", "label": "Theft"},
 	"Looting": {"parent": TransferOfCustody, "id":"300379554", "label": "Looting"},
@@ -341,6 +345,8 @@ ext_classes = {
 	"AccessionCatalog": {"parent": HumanMadeObject, "id": "300026617", "label": "Accession Catalog", "metatype": "work type"},
 	"SalesCatalog": {"parent": HumanMadeObject,"id":"300026074", "label": "Sales Catalog", "metatype": "work type"},
 	"LotteryCatalog": {"parent": HumanMadeObject, "id":"300438603", "label": "Lottery Catalog", "metatype": "work type"},
+
+	"Sample": {"parent": HumanMadeObject, "id": "300028875", "label": "Sample"},
 
 	"FrontPart": {"parent": HumanMadeObject, "id":"300190703", "label": "Front Part", "metatype": "part type"},
 	"BackPart": {"parent": HumanMadeObject, "id":"300190692", "label": "Back Part", "metatype": "part type"},
@@ -574,6 +580,7 @@ local_instances = {
 	# Nationalities
 	"american nationality": {"parent": Nationality, "id": "300107956", "label": "American"},
 	"austrian nationality": {"parent": Nationality, "id": "300111153", "label": "Austrian"},
+	"australian nationality": {"parent": Nationality, "id": "300021861", "label": "Australian"},
 	"belgian nationality": {"parent": Nationality, "id": "300111156", "label": "Belgian"},
 	"british nationality": {"parent": Nationality, "id": "300111159", "label": "British"},	
 	"canadian nationality": {"parent": Nationality, "id": "300107962", "label": "Canadian"},
@@ -592,6 +599,7 @@ local_instances = {
 	"italian nationality": {"parent": Nationality, "id": "300111198", "label": "Italian"},
 	"japanese nationality": {"parent": Nationality, "id": "300018519", "label": "Japanese"},
 	"mexican nationality": {"parent": Nationality, "id": "300107963", "label": "Mexican"},
+	"new zealand nationality": {"parent": Nationality, "id": "300021959", "label": "New Zealander"},
 	"norwegian nationality": {"parent": Nationality, "id": "300111201", "label": "Norwegian"},
 	"polish nationality": {"parent": Nationality, "id": "300111204", "label": "Polish"},
 	"portuguese nationality": {"parent": Nationality, "id": "300111207", "label": "Portuguese"},
@@ -599,6 +607,7 @@ local_instances = {
 	"spanish nationality": {"parent": Nationality, "id": "300111215", "label": "Spanish"},
 	"swedish nationality": {"parent": Nationality, "id": "300111218", "label": "Swedish"},
 	"swiss nationality": {"parent": Nationality, "id": "300111221", "label": "Swiss"},
+	"venetian nationality": {"parent": Nationality, "id": "300379657", "label": "Venetian"}, # republic until 1797
 
 	# Occupations
 	"artist occupation":  {"parent": Occupation, "id":"300025103", "label": "Artist"},
@@ -765,7 +774,7 @@ def add_attribute_assignment_check():
 def add_linked_art_boundary_check():
 
 	boundary_classes = [x.__name__ for x in [Actor, HumanMadeObject, Person, Group, VisualItem, \
-		Place, Period, LinguisticObject, Phase, Set, Event]]
+		Place, Period, LinguisticObject, Phase, Set, Event, DigitalObject, DigitalService]]
 	data_embed_classes = [Name, Identifier, Dimension, TimeSpan, MonetaryAmount]
 	type_embed_classes = [Type, Currency, Language, Material, MeasurementUnit]
 	event_embed_classes = [Birth, Creation, Production, Formation, Payment, \
@@ -779,9 +788,13 @@ def add_linked_art_boundary_check():
 	# Activity, AttributeAssignment, InformationObject, TransferOfCustody, Move
 	# Propositional Object
 
+	ExternalResource._embed_override = None
+
 	def my_linked_art_boundary_check(self, top, rel, value):
 		# True = Embed ; False = Split
-		if isinstance(value, LinguisticObject) and hasattr(value, 'classified_as'):
+		if value._embed_override is not None:
+			return value._embed_override
+		elif isinstance(value, LinguisticObject) and hasattr(value, 'classified_as'):
 			for ca in value.classified_as:
 				if instances['brief text'] in getattr(ca, 'classified_as', []):
 					return True
@@ -808,4 +821,49 @@ def add_linked_art_boundary_check():
 
 	setattr(BaseResource, "_linked_art_boundary_okay", my_linked_art_boundary_check)
 	factory.linked_art_boundaries = True	
+
+def set_linked_art_uri_segments():
+	HumanMadeObject._uri_segment = "object"
+	Activity._uri_segment = "event"
+	Event._uri_segment = "event"
+	Period._uri_segment = "event"
+	Place._uri_segment = "place"
+	InformationObject._uri_segment = "info"
+	Group._uri_segment = "group"
+	# Actor._uri_segment = "actor"
+	Person._uri_segment = "person"
+	PhysicalObject._uri_segment = "object"
+	LinguisticObject._uri_segment = "text"
+	PropositionalObject._uri_segment = "concept"
+	DigitalObject._uri_segment = "digital"
+	DigitalService._uri_segment = "digital"
+	Type._uri_segment = "concept"	
+	Language._uri_segment = "concept"
+	MeasurementUnit._uri_segment = "concept"
+	Currency._uri_segment = "concept"
+	Material._uri_segment = "concept"
+	VisualItem._uri_segment = "visual"
+	ProvenanceEntry._uri_segment = "provenance"
+	Exhibition._uri_segment = "activity"
+	Set._uri_segment = "set"
+
+
+def add_helper_functions():
+	# Add filter functions to the right bits of the model
+
+	def get_names(self, filter=None):
+		return [x for x in self.identified_by if isinstance(x, Name) and (not filter or filter in x.classified_as)]
+
+	def get_identifiers(self, filter=None):
+		return [x for x in self.identified_by if isinstance(x, Identifier) and (not filter or filter in x.classified_as)]
+
+	def get_statements(self, filter=None):
+		return [x for x in self.referred_to_by if isinstance(x, LinguisticObject) and x.content and (not filter or filter in x.classified_as)]
+
+	CRMEntity.get_names = get_names
+	CRMEntity.get_identifiers = get_identifiers
+	CRMEntity.get_statements = get_statements
+
+
+
 
