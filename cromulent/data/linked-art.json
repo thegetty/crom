@@ -13,6 +13,7 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dig": "http://www.ics.forth.gr/isl/CRMdig/",
     "la": "https://linked.art/ns/terms/",
+    "archaeo": "http://www.cidoc-crm.org/cidoc-crm/CRMarchaeo/",
     "id": "@id",
     "type": "@type",
     "CRMEntity": {
@@ -1911,8 +1912,7 @@
     },
     "added": {
       "@id": "crm:P111_added",
-      "@type": "@id",
-      "@container": "@set"
+      "@type": "@id"
     },
     "added_by": {
       "@id": "crm:P111i_was_added_by",
@@ -1921,8 +1921,7 @@
     },
     "diminished": {
       "@id": "crm:P112_diminished",
-      "@type": "@id",
-      "@container": "@set"
+      "@type": "@id"
     },
     "diminished_by": {
       "@id": "crm:P112i_was_diminished_by",
@@ -1931,8 +1930,7 @@
     },
     "removed": {
       "@id": "crm:P113_removed",
-      "@type": "@id",
-      "@container": "@set"
+      "@type": "@id"
     },
     "removed_by": {
       "@id": "crm:P113i_was_removed_by",
@@ -2346,9 +2344,6 @@
       "@type": "@id",
       "@container": "@set"
     },
-    "amount": {
-      "@id": "crm:P181_has_amount"
-    },
     "ends_before_or_with_the_start_of": {
       "@id": "crm:P182_ends_before_or_with_the_start_of",
       "@type": "@id",
@@ -2444,6 +2439,46 @@
       "@type": "@id",
       "@container": "@set"
     },
+    "defines": {
+      "@id": "crm:P196_defines",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "thing_defined_by": {
+      "@id": "crm:P196i_is_defined_by",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "covered_parts_of": {
+      "@id": "crm:P197_covered_parts_of",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "partially_covered_by": {
+      "@id": "crm:P197i_was_partially_covered_by",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "holds_or_supports": {
+      "@id": "crm:P198_holds_or_supports",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "held_or_supported_by": {
+      "@id": "crm:P198i_is_held_or_supported_by",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "represents_instance_of_type": {
+      "@id": "crm:P199_represents_instance_of_type",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "instance_represented_by": {
+      "@id": "crm:P199i_has_instance_represented_by",
+      "@type": "@id",
+      "@container": "@set"
+    },
     "end_of_the_begin": {
       "@id": "crm:P81a_end_of_the_begin",
       "@type": "xsd:dateTime"
@@ -2483,12 +2518,17 @@
       "@container": "@set"
     },
     "encountered": {
-      "@id": "sci:O19_has_found_object",
+      "@id": "sci:O19_encountered_object",
       "@type": "@id",
       "@container": "@set"
     },
     "encountered_by": {
-      "@id": "sci:O19i_was_object_found_by",
+      "@id": "sci:O19i_was_object_encountered_at",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "AP25_occurs_during": {
+      "@id": "archaeo:AP25_occurs_during",
       "@type": "@id",
       "@container": "@set"
     },
@@ -2595,16 +2635,6 @@
     },
     "property_classified_as": {
       "@id": "la:property_classified_as",
-      "@type": "@id",
-      "@container": "@set"
-    },
-    "represents_instance_of_type": {
-      "@id": "la:represents_instance_of_type",
-      "@type": "@id",
-      "@container": "@set"
-    },
-    "instance_represented_by": {
-      "@id": "la:instance_represented_by",
       "@type": "@id",
       "@container": "@set"
     },

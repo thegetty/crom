@@ -403,6 +403,14 @@
   "P188i_is_production_tool_for": [0,0],
   "P195_was_a_presence_of": [0,1],
   "P195i_had_presence": [0,1],
+  "P196_defines": [0,1],
+  "P196i_is_defined_by": [0,1],
+  "P197_covered_parts_of": [0,1],
+  "P197i_was_partially_covered_by": [0,1],
+  "P198_holds_or_supports": [1,1],
+  "P198i_is_held_or_supported_by": [1,1],
+  "P199_represents_instance_of_type": [1,1],
+  "P199i_has_instance_represented_by":[1,1],
 
   "la:paid_amount": [1,0], 
   "la:paid_from": [1,1], 
@@ -459,7 +467,7 @@
   "skos:inScheme": [1,1],
   "sci:O13_triggers": [1,1],
   "sci:O13i_is_triggered_by": [1,1],
-  "sci:O19_has_found_object": [1,1],
-  "sci:O19i_was_object_found_by": [1,1]
-
+  "sci:O19_encountered_object": [1,1],
+  "sci:O19i_was_object_encountered_at": [1,1],
+  "archaeo:AP25_occurs_during": [1,1]
 }

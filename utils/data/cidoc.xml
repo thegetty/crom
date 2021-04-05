@@ -2814,7 +2814,7 @@ For a more complete description, objects may be decomposed into their components
 	<rdfs:comment>This property links an area to the instance of E18 Physical Thing upon which it is found.
 It is typically used when a named E41 Appellation is not appropriate.
 E18 Physical Thing may be subdivided into arbitrary regions. 
-P59 has section (is located on or within) is a shortcut. If the E53 Place is identified by a Section Definition, a more detailed representation can make use of the fully developed (i.e. indirect) path from E18 Physical Thing through P58 has section definition (defines section), E41 Appellation, P87 is identified by (identifies) to E53 Place. A Place can only be located on or within one Physical Object.
+P59 has section (is located on or within) is a shortcut. If the E53 Place is identified by a Section Definition, a more detailed representation can make use of the fully developed (i.e. indirect) path from E18 Physical Thing through P1 is identified by, E41 Appellation, P1 is identified by (identifies) to E53 Place. A Place can only be located on or within one Physical Object.
 </rdfs:comment>
 	<rdfs:domain rdf:resource="E18_Physical_Thing"/>
 	<rdfs:range rdf:resource="E53_Place"/>
@@ -5128,13 +5128,7 @@ A digital photograph of a manuscript page incorporates the text of the manuscrip
 <owl:inverseOf rdf:resource="P180_has_currency"/>
 </rdf:Property>
 
-<rdf:Property rdf:about="P181_has_amount">
-    <rdfs:label xml:lang="en">has amount</rdfs:label>
-    <rdfs:comment xml:lang="en">This property establishes the relationship between an instance of E97 Monetary Amount and the amount of currency that it consists of.</rdfs:comment>
-    <rdfs:domain rdf:resource="E97_Monetary_Amount"/>   
-    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
-    <rdfs:subPropertyOf rdf:resource="P90_has_value"/>
-</rdf:Property>
+<!-- P181 deprecated as being semantically indistinguishable from P90 has value, its super property -->
 
 <rdf:Property rdf:about="P182_ends_before_or_with_the_start_of">
     <rdfs:label xml:lang="en">ends before or at the start of</rdfs:label>
@@ -5322,6 +5316,76 @@ In more recent documentation often point coordinate information is provided that
     <rdfs:range rdf:resource="E93_Presence"/>
     <rdfs:domain rdf:resource="E18_Physical_Thing"/>
 	<owl:inverseOf rdf:resource="P195_was_a_presence_of"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P196_defines">
+    <rdfs:label xml:lang="en">defines</rdfs:label>
+    <rdfs:comment>This property associates an instance of E18 Physical Thing with the instance of E92 Spacetime Volume
+that constitutes the complete trajectory of its geometric extent through spacetime for the whole time of
+the existence of the instance of E18 Physical Thing.</rdfs:comment>
+    <rdfs:domain rdf:resource="E18_Physical_Thing"/>
+    <rdfs:range rdf:resource="E92_Spacetime_Volume"/>
+	<owl:inverseOf rdf:resource="P196i_is_defined_by"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P196i_is_defined_by">
+    <rdfs:label xml:lang="en">is defined by</rdfs:label>
+    <rdfs:comment>Inverse of P196</rdfs:comment>
+    <rdfs:range rdf:resource="E18_Physical_Thing"/>
+    <rdfs:domain rdf:resource="E92_Spacetime_Volume"/>
+	<owl:inverseOf rdf:resource="P196_defines"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P197_covered_parts_of">
+    <rdfs:label xml:lang="en">covered parts of</rdfs:label>
+    <rdfs:comment>This property associates an instance of E93 Presence with an instance of E53 Place that geometrically
+overlaps with the spatial projection of the respective instance of E93 Presence.</rdfs:comment>
+    <rdfs:domain rdf:resource="E93_Presence"/>
+    <rdfs:range rdf:resource="E53_Place"/>
+	<owl:inverseOf rdf:resource="P197i_was_partially_covered_by"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P197i_was_partially_covered_by">
+    <rdfs:label xml:lang="en">was partially covered by</rdfs:label>
+    <rdfs:comment>Inverse of P197</rdfs:comment>
+    <rdfs:range rdf:resource="E93_Presence"/>
+    <rdfs:domain rdf:resource="E53_Place"/>
+	<owl:inverseOf rdf:resource="P197_covered_parts_of"/>
+</rdf:Property>
+
+
+<rdf:Property rdf:about="P198_holds_or_supports">
+    <rdfs:label xml:lang="en">holds or supports</rdfs:label>
+    <rdfs:comment>This property relates one instance of E18 Physical Thing which acts as a container or support to a
+supported or contained instance of E18 Physical Thing. T ypical examples of E18 Physical Things
+which are intended to function as a container or support include shelves, folders or boxes.</rdfs:comment>
+    <rdfs:domain rdf:resource="E18_Physical_Thing"/>
+    <rdfs:range rdf:resource="E18_Physical_Thing"/>
+	<owl:inverseOf rdf:resource="P198i_is_held_or_supported_by"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P198i_is_held_or_supported_by">
+    <rdfs:label xml:lang="en">is held or supported by</rdfs:label>
+    <rdfs:comment>Inverse of P198</rdfs:comment>
+    <rdfs:range rdf:resource="E18_Physical_Thing"/>
+    <rdfs:domain rdf:resource="E18_Physical_Thing"/>
+	<owl:inverseOf rdf:resource="P198_holds_or_supports"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P199_represents_instance_of_type">
+    <rdfs:label xml:lang="en">represents instance of type</rdfs:label>
+    <rdfs:comment>This property establishes the relationship between an instance of E36 Visual Item and an instance of E55 Type that characterises the thing depicted. This property is used when the identity of the thing depicted is unknown or unrecorded, but is clearly a particular thing of that type.</rdfs:comment>
+    <rdfs:domain rdf:resource="E36_Visual_Item"/>
+    <rdfs:range rdf:resource="E55_Type"/>
+	<owl:inverseOf rdf:resource="P199i_"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="P199i_has_instance_represented_by">
+    <rdfs:label xml:lang="en">has instance represented by</rdfs:label>
+    <rdfs:comment>Inverse of P199</rdfs:comment>
+    <rdfs:range rdf:resource="E36_Visual_Item"/>
+    <rdfs:domain rdf:resource="E55_Type"/>
+	<owl:inverseOf rdf:resource="P199_represents_instance_of_type"/>
 </rdf:Property>
 
 
