@@ -390,7 +390,7 @@ identity_instances = {
 	"silver": {"parent": Material, "id": "300011029", "label": "silver"},
 	"synthetic": {"parent": Type, "id": "xxx", "label": "Synthetic Material"},
 	"hazardous": {"parent": Material, "id": "300138222", "label": "Hazardous Material"},
-	"thread": {"parent": Type, "id": "300014250", "label": "Thread"},
+	"thread": {"parent": Material, "id": "300014250", "label": "Thread"},
 
 	# Measurement Units - lengths, weights, durations
 	"lignes": {"parent": MeasurementUnit, "id": "300435501", "label": "Paris lines"},

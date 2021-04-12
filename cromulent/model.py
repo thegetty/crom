@@ -1363,39 +1363,41 @@ def build_class(crmName, parent, vocabData):
 
 	# Set up real properties
 	for p in data['props']:
-		name = p['name']
-		if not ":" in name:
-			name = "crm:%s" % name
-		rng = p['range']
-		ccname = p['propName']
-		if p['inverse']:
-			i = p['inverse']
-			if i[0] == "P":
-				invRdf = "crm:%s" % i
-			else:
-				invRdf = i
-		else:
-			invRdf = ""
+		ccname, pvalue = _make_property_def(p)
+		c._properties[ccname] = pvalue
 
-		okay = p['okay']
-		if not okay:
-			okay = '1'
-		okay = int(okay)
-		mult = p['multiple']
-		if not mult:
-			mult = '0'
-		mult = int(mult)
-
-		# can't guarantee all classes have been built at this stage :(
-		c._properties[ccname] = {"rdf": name, 
-			"rangeStr": rng,
-			"inverseRdf": invRdf,
-			"okayToUse": okay,
-			"multiple": mult}
- 
 	# Build subclasses
 	for s in data['subs']:
 		build_class(s, c, vocabData)
+
+def _make_property_def(p):
+	name = p['name']
+	if not ":" in name:
+		name = "crm:%s" % name
+	rng = p['range']
+	ccname = p['propName']
+	if p['inverse']:
+		i = p['inverse']
+		if i[0] == "P":
+			invRdf = "crm:%s" % i
+		else:
+			invRdf = i
+	else:
+		invRdf = ""
+	okay = p['okay']
+	if not okay:
+		okay = '1'
+	okay = int(okay)
+	mult = p['multiple']
+	if not mult:
+		mult = '0'
+	mult = int(mult)
+	# can't guarantee all classes have been built at this stage :(
+	return (ccname, {"rdf": name, 
+		"rangeStr": rng,
+		"inverseRdf": invRdf,
+		"okayToUse": okay,
+		"multiple": mult})
 
 def build_classes(fn=None, topClass=None):
 	# Default to building our core dataset
