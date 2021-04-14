@@ -113,7 +113,7 @@ ext_classes = {
 
 	"MarkingsStatement": {"parent": LinguisticObject, "id": "300435420", "label": "Markings", "metatype": "brief text"},
 	"InscriptionStatement": {"parent": LinguisticObject, "id": "300435414", "label": "Inscription", "metatype": "brief text"},
-	"SignatureStatement": {"parent": LinguisticObject, "id": "300435415", "label": "Signature", "metatype": "brief text"},
+	"SignatureStatement": {"parent": LinguisticObject, "id": "300028705", "label": "Signature", "metatype": "brief text"},
 	"WatermarksStatement": {"parent": LinguisticObject, "id": "300435421", "label": "Watermarks", "metatype": "brief text"},
 	"MaterialStatement": {"parent": LinguisticObject, "id": "300435429", "label": "Material Statement", "metatype": "brief text"},
 	"PhysicalStatement": {"parent": LinguisticObject, "id": "300435452", "label": "Physical Statement", "metatype": "brief text"},

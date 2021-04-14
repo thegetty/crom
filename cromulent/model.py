@@ -44,6 +44,7 @@ min_context = {
 }
 re_bnodes = re.compile("^_:b([0-9]+) ", re.M)
 re_bnodeo = re.compile("> _:b([0-9]+) <", re.M)
+re_quad = re.compile(" <[^<]+?> .$", re.M)
 from rdflib import ConjunctiveGraph
 
 
@@ -485,6 +486,9 @@ class CromulentFactory(object):
 			data = re_bnodeo.subn("> _:b{bnode_prefix}_\\1 <".format(bnode_prefix=bnode_prefix), data)[0]				
 
 		if format in ['nq', 'nquads', 'n-quads', 'application/nquads']:
+			return data
+		elif format in ['nt', 'ntriples', 'n-triples', 'application/ntriples']:
+			data = re_quad.subn(" .", data)[0]
 			return data
 		else:
 			# Need to pass over to rdflib
