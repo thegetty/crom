@@ -547,7 +547,7 @@ class CromulentFactory(object):
 
 		if not format:
 			if not filename:
-				filename = self.get_filename(what.id)
+				filename = self.get_filename(what.id, extension=extension)
 			js = self.toJSON(what, done=done)
 			out = self._buildString(js, compact)
 		else:

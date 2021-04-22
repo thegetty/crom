@@ -71,7 +71,7 @@ class Reader(object):
 		if 'classified_as' in js:
 			trash = None 
 			for c in js['classified_as']:
-				i = c['id']
+				i = c['id'] if hasattr(c, 'id') else ''
 				for cx in dir(vocab):
 					what = getattr(vocab, cx)
 					# crying cat face -- type as a @property returns the function, not the value
