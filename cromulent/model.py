@@ -44,6 +44,7 @@ min_context = {
 }
 re_bnodes = re.compile("^_:b([0-9]+) ", re.M)
 re_bnodeo = re.compile("> _:b([0-9]+) <", re.M)
+re_quad = re.compile(" <[^<]+?> .$", re.M)
 from rdflib import ConjunctiveGraph
 
 
@@ -328,7 +329,7 @@ class CromulentFactory(object):
 			if type(val) is list:
 				for v in val:
 					if isinstance(v, ExternalResource):
-						if not v in found and not v._linked_art_boundary_okay(what, p, v) and set(v.list_my_props()).difference(set(["_label", "id"])):
+						if not v in found and v.id and not v._linked_art_boundary_okay(what, p, v) and set(v.list_my_props()).difference(set(["_label", "id"])):
 							found.append(v)
 						downstream = self.find_serializable(v)
 						for d in downstream:
@@ -486,6 +487,9 @@ class CromulentFactory(object):
 
 		if format in ['nq', 'nquads', 'n-quads', 'application/nquads']:
 			return data
+		elif format in ['nt', 'ntriples', 'n-triples', 'application/ntriples']:
+			data = re_quad.subn(" .", data)[0]
+			return data
 		else:
 			# Need to pass over to rdflib
 			g = ConjunctiveGraph()
@@ -543,7 +547,7 @@ class CromulentFactory(object):
 
 		if not format:
 			if not filename:
-				filename = self.get_filename(what.id)
+				filename = self.get_filename(what.id, extension=extension)
 			js = self.toJSON(what, done=done)
 			out = self._buildString(js, compact)
 		else:
