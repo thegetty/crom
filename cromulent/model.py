@@ -329,7 +329,7 @@ class CromulentFactory(object):
 			if type(val) is list:
 				for v in val:
 					if isinstance(v, ExternalResource):
-						if not v in found and not v._linked_art_boundary_okay(what, p, v) and set(v.list_my_props()).difference(set(["_label", "id"])):
+						if not v in found and v.id and not v._linked_art_boundary_okay(what, p, v) and set(v.list_my_props()).difference(set(["_label", "id"])):
 							found.append(v)
 						downstream = self.find_serializable(v)
 						for d in downstream:
