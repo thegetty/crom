@@ -498,7 +498,10 @@ class CromulentFactory(object):
 					g.bind(k, v)
 			g.parse(data=data, format="nquads")
 			out = g.serialize(format=format)
-			return out.decode('utf-8')
+			if type(out) == bytes:
+				return out.decode('utf-8')
+			else:
+				return out
 
 	def get_filename(self, whatid, extension=""):
 
