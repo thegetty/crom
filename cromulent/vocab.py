@@ -472,6 +472,7 @@ identity_instances = {
 	"swedish": {"parent": Language, "id": "300389336", "label": "Swedish", 'code':'sv'},
 	"turkish": {"parent": Language, "id": "300389470", "label": "Turkish", 'code':'tr'},
 	"welsh": {"parent": Language, "id": "300389555", "label": "Welsh", 'code':'cy'},
+	"luxembourgish": {"parent": Language, "id": "300443689", "label": "Luxembourgish", "code": "lb"},
 
 	# Currencies
 	"us dollars": {"parent": Currency, "id":"300411994", "label": "US Dollars", 'code':'USD'},
