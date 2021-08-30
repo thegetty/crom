@@ -24,6 +24,7 @@ NS = {'rdf':"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 	"archaeo": "http://www.cidoc-crm.org/cidoc-crm/CRMarchaeo/"
 }
 
+
 # Order imposed by the library
 # @context = 0, id = 1, rdf:type = 2
 # rdfs:label = 5, rdf:value = 6, dc:description = 7

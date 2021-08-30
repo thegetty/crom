@@ -73,8 +73,8 @@ class Reader(object):
 				raise DataError("Resource %s has unknown class %s" % (ident, typ) )
 
 		# now check vocab.ext_classes to try and refine
+		trash = None 
 		if 'classified_as' in js:
-			trash = None 
 			for c in js['classified_as']:
 				i = c.get('id', '')
 				clx2 = self.vocab_classes.get((typ, i), None)
@@ -82,8 +82,6 @@ class Reader(object):
 					clx = clx2
 					trash = c
 					break
-			if trash is not None:
-				js['classified_as'].remove(trash)
 
 		what = clx(ident=ident)
 		self.uri_object_map[ident] = what
@@ -98,6 +96,7 @@ class Reader(object):
 		for (prop, value) in itms:
 			if prop in ['id', 'type']:
 				continue
+
 			if self.validate_props and not prop in propList:
 				raise DataError("Unknown property %s on %s" % (prop, clx.__name__))
 
@@ -110,6 +109,8 @@ class Reader(object):
 			if type(value) != list:
 				value = [value]
 			for subvalue in value:
+				if trash is not None and prop == 'classified_as' and subvalue == trash:
+					continue
 				if rng == str:
 					setattr(what, prop, subvalue)				
 				elif type(subvalue) == dict or isinstance(subvalue, OrderedDict):
