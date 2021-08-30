@@ -1,19 +1,24 @@
 
 from __future__ import unicode_literals
-import os, sys, re
+
+import os
+import sys
+import re
 import codecs
 import inspect
 import uuid
 import datetime
+import json
+from json import JSONEncoder
+from collections import OrderedDict
+from collections import namedtuple
+from pyld import jsonld
+from rdflib import ConjunctiveGraph
 
 KEY_ORDER_DEFAULT = 10000
 LINKED_ART_CONTEXT_URI = "https://linked.art/ns/v1/linked-art.json"
 
 # 2.5 and 2.6 are very out of date. Assume 2.7 or better
-import json
-from collections import OrderedDict, namedtuple
-
-from json import JSONEncoder
 
 try:
 	STR_TYPES = [str, unicode] #Py2.7
@@ -24,29 +29,26 @@ except:
 	FILE_STREAM_CLASS = io.TextIOBase
 
 
-from pyld import jsonld
 pyld_proc = jsonld.JsonLdProcessor()
 min_context = {
-    "crm": "http://www.cidoc-crm.org/cidoc-crm/", 
-    "sci": "http://www.ics.forth.gr/isl/CRMsci/", 
-    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#", 
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#", 
-    "dc": "http://purl.org/dc/elements/1.1/", 
-    "dcterms": "http://purl.org/dc/terms/", 
-    "schema": "http://schema.org/", 
-    "skos": "http://www.w3.org/2004/02/skos/core#", 
-    "foaf": "http://xmlns.com/foaf/0.1/", 
-    "xsd": "http://www.w3.org/2001/XMLSchema#", 
-    "dig": "http://www.ics.forth.gr/isl/CRMdig/", 
-    "la": "https://linked.art/ns/terms/", 
-    "id": "@id", 
+	"crm": "http://www.cidoc-crm.org/cidoc-crm/",
+    "sci": "http://www.ics.forth.gr/isl/CRMsci/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "schema": "http://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dig": "http://www.ics.forth.gr/isl/CRMdig/",
+    "la": "https://linked.art/ns/terms/",
+    "id": "@id",
     "type": "@type"
 }
 re_bnodes = re.compile("^_:b([0-9]+) ", re.M)
 re_bnodeo = re.compile("> _:b([0-9]+) <", re.M)
 re_quad = re.compile(" <[^<]+?> .$", re.M)
-from rdflib import ConjunctiveGraph
-
 
 PropInfo = namedtuple("PropInfo", [
 	'property', # the name of the property, eg 'identified_by'
@@ -89,7 +91,6 @@ class ProfileError(MetadataError):
 	"""Raised when a class or property not in the configured profile is used"""
 	pass
 
-
 class CromJsonEncoder(JSONEncoder):
 
 	def default(self, o):
@@ -98,7 +99,6 @@ class CromJsonEncoder(JSONEncoder):
 			return o._minToJSON()
 		else:
 			return JSONEncoder.default(self, o)			
-
 
 class CromulentFactory(object):
 
