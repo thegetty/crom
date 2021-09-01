@@ -135,6 +135,7 @@ ext_classes = {
 	"PaginationStatement": {"parent": LinguisticObject, "id":"300435440", "label": "Pagination Statement", "metatype": "brief text"},
 	"FoliationStatement": {"parent": LinguisticObject, "id":"300435441", "label": "Foliation Statement", "metatype": "brief text"},
 	"LanguageStatement": {"parent": LinguisticObject, "id": "300435433", "label": "Language Statement", "metatype": "brief text"},
+	"ResearchStatement": {"parent": LinguisticObject, "id": "300265639", "label": "Research Statement", "metatype": "brief text"},
 
 	"TranscribedInscription": {"parent": LinguisticObject, "id": "300028702", "label": "Transcribed Inscription", "metatype": "brief text"},
 	"TranscribedSignature": {"parent": LinguisticObject, "id": "300028705", "label": "Transcribed Signature", "metatype": "brief text"},
