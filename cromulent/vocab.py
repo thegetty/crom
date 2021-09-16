@@ -79,7 +79,7 @@ ext_classes = {
 	"StockNumber": {"parent": Identifier, "id": "300412177", "label": "Stock Number"},
 	
 	"EmailAddress": {"parent": Identifier, "id":"300435686", "label": "Email Address"},
-	"StreetAddress": {"parent": Identifier, "id":"300435687", "label": "Street Address"},
+	"StreetAddress": {"parent": Identifier, "id":"300386983", "label": "Street Address"},
 	"TelephoneNumber": {"parent": Identifier, "id": "300435688", "label": "Telephone Number"},
 	"FaxNumber": {"parent": Identifier, "id": "300435689", "label": "Fax Number"},
 	"StreetNumber": {"parent": Identifier, "id":"300419272", "label": "Street Number"},
