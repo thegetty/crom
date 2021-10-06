@@ -207,7 +207,7 @@ ext_classes = {
 	"FollowerGroup": {"parent": Group, "id":"300404282", "label": "Follower"},
 	"PupilGroup":  {"parent": Group, "id":"300404279", "label": "Pupil"},
 	"Family":      {"parent": Group, "id": "300055474", "label":"Family"},
-	"Organization":{"parent": model.Group, 'id':'300025948', 'label':"Organization"}, 
+	"Organization":{"parent": Group, 'id':'300025948', 'label':"Organization"}, 
 
 	"Nationality": {"parent": Type, "id":"300379842", "label": "Nationality"},
 	"Gender":      {"parent": Type, "id":"300055147", "label": "Gender"},
