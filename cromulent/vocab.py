@@ -288,6 +288,7 @@ ext_classes = {
 
 	"PersonalName": {"parent": Name, "id":"300266386", "label": "Personal Name"},
 	"AliasName": {"parent": Name, "id": "300404664", "label": "Alias"},
+	"Pseudonym": {"parent": Name, "id": "300404657", "label": "Psueudonym"},
 	"MaidenName": {"parent": Name, "id": "300404682", "label": "Maiden Name"},
 	"FormerName": {"parent": Name, "id": "300435719", "label": "Former Name"},
 	"GivenName": {"parent": Name, "id":"300404651", "label": "Given Name"},
