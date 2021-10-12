@@ -477,6 +477,7 @@ identity_instances = {
 	"swedish": {"parent": Language, "id": "300389336", "label": "Swedish", 'code':'sv'},
 	"turkish": {"parent": Language, "id": "300389470", "label": "Turkish", 'code':'tr'},
 	"welsh": {"parent": Language, "id": "300389555", "label": "Welsh", 'code':'cy'},
+	"luxembourgish": {"parent": Language, "id": "300443689", "label": "Luxembourgish", "code": "lb"},
 	"urdu": {"parent": Language, "id": "300389502", "label": "Urdu", 'code':'ur'},
 	"swahili": {"parent": Language, "id": "300443741", "label": "Swahili", 'code':'sw'},
 	"indonesian": {"parent": Language, "id": "300388460", "label": "Indonesian", "code": "id"},
