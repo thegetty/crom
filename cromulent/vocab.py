@@ -206,6 +206,8 @@ ext_classes = {
 	"Atelier":     {"parent": Group, "id":"300404277", "label": "Atelier"},
 	"FollowerGroup": {"parent": Group, "id":"300404282", "label": "Follower"},
 	"PupilGroup":  {"parent": Group, "id":"300404279", "label": "Pupil"},
+	"Family":      {"parent": Group, "id": "300055474", "label":"Family"},
+	"Organization":{"parent": Group, 'id':'300025948', 'label':"Organization"}, 
 
 	"Nationality": {"parent": Type, "id":"300379842", "label": "Nationality"},
 	"Gender":      {"parent": Type, "id":"300055147", "label": "Gender"},
@@ -275,9 +277,10 @@ ext_classes = {
 	"ArchiveGroupSet": {"parent": Set, "id":"300404022", "label": "Archival Grouping"},
 	"ArchiveSubGroupSet": {"parent": Set, "id":"300404023", "label": "Archival SubGrouping"},
 	
-	"PrimaryName": {"parent": Name, "id":"300404670", "label": "Primary Name"},
-	"SortName": {"parent": Name, "id":"300404672", "label": "Sorting Name"},
+	"PrimaryName": {"parent": Name, "id":"300404670", "label": "Primary Name"}, # preferred 
+	"AlternateName": {"parent": Name, "id":"300264273", "label":"Alternate Name"}, # not preferred
 
+	"SortName": {"parent": Name, "id":"300404672", "label": "Sorting Name"},
 	"Title": {"parent": Name, "id":"300195168", "label": "Title"},
 	"Subtitle": {"parent": Name, "id":"300312006", "label":"Subtitle"},
 	"DisplayName": {"parent": Name, "id": "300404669", "label": "Display Title"},
@@ -285,6 +288,7 @@ ext_classes = {
 
 	"PersonalName": {"parent": Name, "id":"300266386", "label": "Personal Name"},
 	"AliasName": {"parent": Name, "id": "300404664", "label": "Alias"},
+	"Pseudonym": {"parent": Name, "id": "300404657", "label": "Psueudonym"},
 	"MaidenName": {"parent": Name, "id": "300404682", "label": "Maiden Name"},
 	"FormerName": {"parent": Name, "id": "300435719", "label": "Former Name"},
 	"GivenName": {"parent": Name, "id":"300404651", "label": "Given Name"},
@@ -448,7 +452,7 @@ identity_instances = {
 	"icelandic": {"parent": Language, "id":"300388449", "label":"Icelandic", 'code':'is'},
 	"irish": {"parent": Language, "id":"300388467", "label":"Irish", 'code':'ga'},
 	"italian": {"parent": Language, "id":"300388474", "label":"Italian", 'code':'it'},
-	"farsi": {"parent": Language, "id":"300388296", "label":"Farsi", 'code':''},
+	"farsi": {"parent": Language, "id":"300388296", "label":"Farsi", 'code':'fa'},
 	"gujarati": {"parent": Language, "id":"300388371", "label":"Gujarati", 'code':'gu'},
 	"ancient greek": {"parent": Language, "id": "300387827", "label": "Ancient Greek", 'code':'grc'},
 	"korean": {"parent": Language, "id":"300388633", "label":"Korean", 'code':'ko'},
@@ -473,6 +477,14 @@ identity_instances = {
 	"swedish": {"parent": Language, "id": "300389336", "label": "Swedish", 'code':'sv'},
 	"turkish": {"parent": Language, "id": "300389470", "label": "Turkish", 'code':'tr'},
 	"welsh": {"parent": Language, "id": "300389555", "label": "Welsh", 'code':'cy'},
+	"urdu": {"parent": Language, "id": "300389502", "label": "Urdu", 'code':'ur'},
+	"swahili": {"parent": Language, "id": "300443741", "label": "Swahili", 'code':'sw'},
+	"indonesian": {"parent": Language, "id": "300388460", "label": "Indonesian", "code": "id"},
+	"telugu": {"parent": Language, "id": "300389389", "label": "Telugu", "code": "te"},
+	"tamil": {"parent": Language, "id": "300389365", "label": "Tamil", "code": "ta"},
+	"thai": {"parent": Language, "id": "300389405", "label": "Thai", "code": "th"},
+	"marathi": {"parent": Language, "id": "300388821", "label": "Marathi", "code": "mr"},
+	"punjabi": {"parent": Language, "id": "300389057", "label": "Punjabi", "code": "pa"},
 
 	# Currencies
 	"us dollars": {"parent": Currency, "id":"300411994", "label": "US Dollars", 'code':'USD'},

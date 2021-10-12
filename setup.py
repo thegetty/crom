@@ -15,7 +15,7 @@ setup(
         'data/cidoc-extension.json', 'data/crm-profile.json']
     },
     test_suite="tests",
-    version = '0.16.7',
+    version = '0.16.8',
     description = 'A library for mapping CIDOC-CRM (v7.1) classes to Python objects',
     author = 'Rob Sanderson',
     author_email = 'robert.sanderson@yale.edu',
