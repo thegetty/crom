@@ -2093,7 +2093,8 @@
     },
     "assigned": {
       "@id": "crm:P141_assigned",
-      "@type": "@id"
+      "@type": "@id",
+      "@container": "@set"
     },
     "assigned_by": {
       "@id": "crm:P141i_was_assigned_by",
@@ -2322,7 +2323,7 @@
       "@container": "@set"
     },
     "assigned_property": {
-      "@id": "crm:P177_assigned_property_type",
+      "@id": "crm:P177_assigned_property_of_type",
       "@type": "@vocab"
     },
     "sales_price": {

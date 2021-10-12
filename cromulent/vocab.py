@@ -79,7 +79,7 @@ ext_classes = {
 	"StockNumber": {"parent": Identifier, "id": "300412177", "label": "Stock Number"},
 	
 	"EmailAddress": {"parent": Identifier, "id":"300435686", "label": "Email Address"},
-	"StreetAddress": {"parent": Identifier, "id":"300435687", "label": "Street Address"},
+	"StreetAddress": {"parent": Identifier, "id":"300386983", "label": "Street Address"},
 	"TelephoneNumber": {"parent": Identifier, "id": "300435688", "label": "Telephone Number"},
 	"FaxNumber": {"parent": Identifier, "id": "300435689", "label": "Fax Number"},
 	"StreetNumber": {"parent": Identifier, "id":"300419272", "label": "Street Number"},
@@ -135,6 +135,7 @@ ext_classes = {
 	"PaginationStatement": {"parent": LinguisticObject, "id":"300435440", "label": "Pagination Statement", "metatype": "brief text"},
 	"FoliationStatement": {"parent": LinguisticObject, "id":"300435441", "label": "Foliation Statement", "metatype": "brief text"},
 	"LanguageStatement": {"parent": LinguisticObject, "id": "300435433", "label": "Language Statement", "metatype": "brief text"},
+	"ResearchStatement": {"parent": LinguisticObject, "id": "300265639", "label": "Research Statement", "metatype": "brief text"},
 
 	"TranscribedInscription": {"parent": LinguisticObject, "id": "300028702", "label": "Transcribed Inscription", "metatype": "brief text"},
 	"TranscribedSignature": {"parent": LinguisticObject, "id": "300028705", "label": "Transcribed Signature", "metatype": "brief text"},
@@ -205,6 +206,8 @@ ext_classes = {
 	"Atelier":     {"parent": Group, "id":"300404277", "label": "Atelier"},
 	"FollowerGroup": {"parent": Group, "id":"300404282", "label": "Follower"},
 	"PupilGroup":  {"parent": Group, "id":"300404279", "label": "Pupil"},
+	"Family":      {"parent": Group, "id": "300055474", "label":"Family"},
+	"Organization":{"parent": Group, 'id':'300025948', 'label':"Organization"}, 
 
 	"Nationality": {"parent": Type, "id":"300379842", "label": "Nationality"},
 	"Gender":      {"parent": Type, "id":"300055147", "label": "Gender"},
@@ -274,9 +277,10 @@ ext_classes = {
 	"ArchiveGroupSet": {"parent": Set, "id":"300404022", "label": "Archival Grouping"},
 	"ArchiveSubGroupSet": {"parent": Set, "id":"300404023", "label": "Archival SubGrouping"},
 	
-	"PrimaryName": {"parent": Name, "id":"300404670", "label": "Primary Name"},
-	"SortName": {"parent": Name, "id":"300404672", "label": "Sorting Name"},
+	"PrimaryName": {"parent": Name, "id":"300404670", "label": "Primary Name"}, # preferred 
+	"AlternateName": {"parent": Name, "id":"300264273", "label":"Alternate Name"}, # not preferred
 
+	"SortName": {"parent": Name, "id":"300404672", "label": "Sorting Name"},
 	"Title": {"parent": Name, "id":"300195168", "label": "Title"},
 	"Subtitle": {"parent": Name, "id":"300312006", "label":"Subtitle"},
 	"DisplayName": {"parent": Name, "id": "300404669", "label": "Display Title"},
@@ -284,6 +288,7 @@ ext_classes = {
 
 	"PersonalName": {"parent": Name, "id":"300266386", "label": "Personal Name"},
 	"AliasName": {"parent": Name, "id": "300404664", "label": "Alias"},
+	"Pseudonym": {"parent": Name, "id": "300404657", "label": "Psueudonym"},
 	"MaidenName": {"parent": Name, "id": "300404682", "label": "Maiden Name"},
 	"FormerName": {"parent": Name, "id": "300435719", "label": "Former Name"},
 	"GivenName": {"parent": Name, "id":"300404651", "label": "Given Name"},
@@ -447,7 +452,7 @@ identity_instances = {
 	"icelandic": {"parent": Language, "id":"300388449", "label":"Icelandic", 'code':'is'},
 	"irish": {"parent": Language, "id":"300388467", "label":"Irish", 'code':'ga'},
 	"italian": {"parent": Language, "id":"300388474", "label":"Italian", 'code':'it'},
-	"farsi": {"parent": Language, "id":"300388296", "label":"Farsi", 'code':''},
+	"farsi": {"parent": Language, "id":"300388296", "label":"Farsi", 'code':'fa'},
 	"gujarati": {"parent": Language, "id":"300388371", "label":"Gujarati", 'code':'gu'},
 	"ancient greek": {"parent": Language, "id": "300387827", "label": "Ancient Greek", 'code':'grc'},
 	"korean": {"parent": Language, "id":"300388633", "label":"Korean", 'code':'ko'},
@@ -473,6 +478,14 @@ identity_instances = {
 	"turkish": {"parent": Language, "id": "300389470", "label": "Turkish", 'code':'tr'},
 	"welsh": {"parent": Language, "id": "300389555", "label": "Welsh", 'code':'cy'},
 	"luxembourgish": {"parent": Language, "id": "300443689", "label": "Luxembourgish", "code": "lb"},
+	"urdu": {"parent": Language, "id": "300389502", "label": "Urdu", 'code':'ur'},
+	"swahili": {"parent": Language, "id": "300443741", "label": "Swahili", 'code':'sw'},
+	"indonesian": {"parent": Language, "id": "300388460", "label": "Indonesian", "code": "id"},
+	"telugu": {"parent": Language, "id": "300389389", "label": "Telugu", "code": "te"},
+	"tamil": {"parent": Language, "id": "300389365", "label": "Tamil", "code": "ta"},
+	"thai": {"parent": Language, "id": "300389405", "label": "Thai", "code": "th"},
+	"marathi": {"parent": Language, "id": "300388821", "label": "Marathi", "code": "mr"},
+	"punjabi": {"parent": Language, "id": "300389057", "label": "Punjabi", "code": "pa"},
 
 	# Currencies
 	"us dollars": {"parent": Currency, "id":"300411994", "label": "US Dollars", 'code':'USD'},
