@@ -545,6 +545,7 @@ identity_instances = {
 	"sovereign": {"parent": Type, "id": "300232420", "label": "Sovereign State"},
 	"building": {"parent": Type, "id": "300004792", "label": "Building"},
 	"city block": {"parent": Type, "id": "300008077", "label": "City Block"},
+	"address": {'parent': Type, 'id': '300386983', 'label': 'Street Address'},
 
 	# dot one qualifiers
 	"style of": {"parent": Type, "id": "300404285", "label": "Style Of"},
