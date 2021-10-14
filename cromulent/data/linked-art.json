@@ -1268,7 +1268,8 @@
     },
     "assigned": {
       "@id": "crm:P141_assigned",
-      "@type": "@id"
+      "@type": "@id",
+      "@container": "@set"
     },
     "assigned_by": {
       "@id": "crm:P141i_was_assigned_by",

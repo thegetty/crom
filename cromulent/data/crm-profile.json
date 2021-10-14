@@ -176,7 +176,7 @@
   "P13i_was_destroyed_by": [1,0], 
   "P140_assigned_attribute_to": [1,0], 
   "P140i_was_attributed_by": [1,1], 
-  "P141_assigned": [1,0], 
+  "P141_assigned": [1,1], 
   "P141i_was_assigned_by": [1,1], 
   "P142_used_constituent": [0,1], 
   "P142i_was_used_in": [0,1], 
