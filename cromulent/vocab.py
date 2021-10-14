@@ -816,11 +816,11 @@ def add_linked_art_boundary_check():
 		elif isinstance(value, ProvenanceEntry):
 			return False
 
-		if rel in ["part", "member"]:
+		if rel in ["part", "member", "specific_purpose_of", "caused"]:
 			# Downwards, internal simple partitioning 
 			# This catches an internal part to a LinguisticObject
 			return True
-		elif rel in ["part_of", 'member_of']:
+		elif rel in ["part_of", 'member_of', "specific_purpose", "caused_by"]:
 			# upwards partition refs are inclusion, and always boundary crossing
 			return False
 		elif value.type in boundary_classes:
