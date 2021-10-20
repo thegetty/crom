@@ -718,6 +718,15 @@ def add_attribute_assignment_check():
 		if assto_res:
 			p177_res = getattr(self, p177, None)
 			assto_res._check_prop(p177_res, value)
+
+		current = getattr(self, ass, None)
+		if type(current) is not list:
+			current = []
+		
+		if value is not None:
+			current.append(value)
+			value = current
+		
 		object.__setattr__(self, ass, value)
 	setattr(AttributeAssignment, "set_%s" % ass, aa_set_assigned)
 

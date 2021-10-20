@@ -1282,7 +1282,7 @@
       "@container": "@set"
     },
     "assigned_property": {
-      "@id": "crm:P177_assigned_property_type",
+      "@id": "crm:P177_assigned_property_of_type",
       "@type": "@vocab"
     },
     "assigned_to": {

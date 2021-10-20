@@ -222,7 +222,7 @@
   "P168i_defines_place": [0,1],
   "P16_used_specific_object": [1,1], 
   "P16i_was_used_for": [1,1], 
-  "P177_assigned_property_type": [1,0],
+  "P177_assigned_property_of_type": [1,0],
   "P179_had_sales_price": [0,1],
   "P179i_was_sales_price_of": [0,1],
   "P17_was_motivated_by": [1,1], 
