@@ -311,7 +311,12 @@ class CromulentFactory(object):
 		else:
 			raise ConfigurationError("Unknown auto-id type")
 
-		return self.base_url + what.__class__._uri_segment + "/" + str(slug)		
+		if what.__class__._uri_segment:
+			seg = what.__class__._uri_segment + "/"
+		else:
+			seg = ""
+
+		return self.base_url + seg + str(slug)	
 
 	def find_serializable(self, what):
 

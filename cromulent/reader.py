@@ -52,7 +52,7 @@ class Reader(object):
 			if uri in self.uri_object_map:
 				setattr(what, prop, self.uri_object_map[uri])
 			else:
-				raise NotImplementedError("No class information for %s.%s = %s".format(what, prop, uri))
+				raise NotImplementedError("No class information for %s.%s = %s" % (what, prop, uri))
 
 	def construct(self, js):
 		# pass in json, get back object
