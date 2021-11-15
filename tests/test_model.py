@@ -280,6 +280,7 @@ class TestAutoIdentifiers(unittest.TestCase):
 		model.factory.auto_id_type = "broken"
 		self.assertRaises(model.ConfigurationError, model.factory.generate_id,
 			"irrelevant")
+		model.factory.auto_id_type = 'int-per-segment'
 
 	def test_int(self):
 		model.factory.auto_assign_id = True
@@ -526,7 +527,6 @@ class TestMagicMethods(unittest.TestCase):
 		self.assertEqual(who.born, [b1, b2])
 
 	def test_not_multiple_instance(self):
-		model.factory.auto_id_type = 'int-per-segment'
 		who = model.Person()
 		n = model.Name(content="Test")
 		who.identified_by = n
