@@ -526,6 +526,7 @@ class TestMagicMethods(unittest.TestCase):
 		self.assertEqual(who.born, [b1, b2])
 
 	def test_not_multiple_instance(self):
+		model.factory.auto_id_type = 'int-per-segment'
 		who = model.Person()
 		n = model.Name(content="Test")
 		who.identified_by = n
