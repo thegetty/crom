@@ -657,6 +657,8 @@ class ExternalResource(object):
 				if len(curied) == 2 and curied[0] in self._factory.prefixes:
 					self.id = ident
 					self._full_id = self._factory.prefixes[curied[0]] + curied[1]	
+				elif not self.__class__._uri_segment:
+					self.id = factory.base_url + ident
 				else:
 					self.id = factory.base_url + self.__class__._uri_segment + "/" + ident
 		elif factory.auto_assign_id:
