@@ -759,6 +759,12 @@ def add_attribute_assignment_check():
 		if assto_res:
 			p177_res = getattr(self, p177, None)
 			assto_res._check_prop(p177_res, value)
+
+		current = getattr(self, ass, None)
+		if current:
+			value = [*current, value]
+		elif type(value) is not list:
+			value = [value]
 		object.__setattr__(self, ass, value)
 	setattr(AttributeAssignment, "set_%s" % ass, aa_set_assigned)
 
@@ -767,7 +773,8 @@ def add_attribute_assignment_check():
 		p177_res = getattr(self, p177, None)		
 		if ass_res and p177_res:
 			# unmap the URI to property name
-			value._check_prop(p177_res, ass_res)
+			for ar in ass_res:
+				value._check_prop(p177_res, ar)
 		object.__setattr__(self, assto, value)
 	setattr(AttributeAssignment, "set_%s" % assto, aa_set_assigned_to)
 
@@ -775,7 +782,8 @@ def add_attribute_assignment_check():
 		ass_res = getattr(self, ass, None)
 		assto_res = getattr(self, assto, None)
 		if ass_res and assto_res:
-			assto_res._check_prop(value, ass_res)
+			for ar in ass_res:
+				assto_res._check_prop(value, ar)
 		object.__setattr__(self, p177, value)
 	setattr(AttributeAssignment, "set_%s" % p177, aa_set_assigned_property_type)
 
