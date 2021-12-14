@@ -33,7 +33,7 @@ class TestCurrencyExtraction(unittest.TestCase):
 			'currency': 'pounds'
 		})
 		self.assertEqual(e.type, 'MonetaryAmount')
-		self.assertEqual(e._label, '10.0 pounds')
+		self.assertEqual(e._label, '10.00 pounds')
 		self.assertEqual(e.value, 10)
 		c = e.currency
 		self.assertEqual(c.type, 'Currency')
@@ -45,7 +45,19 @@ class TestCurrencyExtraction(unittest.TestCase):
 			'currency': 'pounds'
 		})
 		self.assertEqual(e.type, 'MonetaryAmount')
-		self.assertEqual(e._label, '1,280.5 pounds')
+		self.assertEqual(e._label, '1,280.50 pounds')
+		self.assertEqual(e.value, 1280.50)
+		c = e.currency
+		self.assertEqual(c.type, 'Currency')
+		self.assertEqual(c._label, 'British Pounds')
+
+	def test_extract_label_digits(self):
+		e = extract_monetary_amount({
+			'price': '1,280.5',
+			'currency': 'pounds'
+		}, truncate_label_digits=4)
+		self.assertEqual(e.type, 'MonetaryAmount')
+		self.assertEqual(e._label, '1,280.5000 pounds')
 		self.assertEqual(e.value, 1280.50)
 		c = e.currency
 		self.assertEqual(c.type, 'Currency')
@@ -57,7 +69,7 @@ class TestCurrencyExtraction(unittest.TestCase):
 			'currency': 'pounds'
 		})
 		self.assertEqual(e.type, 'MonetaryAmount')
-		self.assertEqual(e._label, '1,310,720.5 pounds')
+		self.assertEqual(e._label, '1,310,720.50 pounds')
 		self.assertEqual(e.value, 1310720.5)
 		c = e.currency
 		self.assertEqual(c.type, 'Currency')
