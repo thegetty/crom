@@ -412,7 +412,7 @@ def simple_dimensions_cleaner_x2(value):
 
 #mark - Monetary Values
 
-def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY_MAPPING, source_mapping=None):
+def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY_MAPPING, source_mapping=None, truncate_label_digits=2):
 	'''
 	Returns a `MonetaryAmount`, `StartingPrice`, or `EstimatedPrice` object
 	based on properties of the supplied `data` dict. If no amount or currency
@@ -479,7 +479,10 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 				if re.search(re.compile(r',\d\d\d'), value):
 					value = value.replace(',', '')
 				value = float(value)
-				price_amount_label = '{:,}'.format(round(value, 3))
+				
+				label_fmt = '{:,.%df}' % truncate_label_digits
+				price_amount_label = label_fmt.format(value)
+
 				amnt.value = value
 			except ValueError:
 				amnt._label = price_amount
