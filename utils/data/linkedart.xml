@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<rdf:RDF xml:lang="en" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.cidoc-crm.org/cidoc-crm/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:la="https://linked.art/ns/" xmlns:schema="http://schema.org/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:ore="http://www.openarchives.org/ore/terms/" xmlns:dig="http://www.ics.forth.gr/isl/CRMdig/">
+<rdf:RDF xml:lang="en" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.cidoc-crm.org/cidoc-crm/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:la="https://linked.art/ns/terms/" xmlns:schema="http://schema.org/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:ore="http://www.openarchives.org/ore/terms/" xmlns:dig="http://www.ics.forth.gr/isl/CRMdig/">
 
 <!--                                -->
 <!-- Hopefully temporary extensions -->
@@ -15,26 +15,8 @@
         <rdfs:range rdf:resource="E55_Type"/>
 </rdf:Property>
 
-
-<!-- depicts_entity_of_type -->
-
-<rdf:Property rdf:about="https://linked.art/ns/terms/represents_instance_of_type">
-    <rdfs:label xml:lang="en">Represents Instance of Type</rdfs:label>
-    <rdfs:comment xml:lang="en">This property establishes the relationship between an E36 Visual Item and an E55 Type that represents the class of entity which it visually represents.  This property is used when the specific entity being represented is either unknown, or not of documentary interest.</rdfs:comment>
-    <rdfs:domain rdf:resource="E36_Visual_Item"/>
-    <rdfs:range rdf:resource="E55_Type"/>
-    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/instance_represented_by"/>
-</rdf:Property>
-
-<rdf:Property rdf:about="https://linked.art/ns/terms/instance_represented_by">
-    <rdfs:label xml:lang="en">Represents Instance of Type</rdfs:label>
-    <rdfs:comment xml:lang="en">Inverse of represents instance of type</rdfs:comment>
-    <rdfs:domain rdf:resource="E55_Type"/>
-    <rdfs:range rdf:resource="E36_Visual_Item"/>
-    <owl:inverseOf rdf:resource="https://linked.art/ns/terms/represents_instance_of_type"/>
-</rdf:Property>
-
 <!-- permanent_custodian -->
+<!-- CRM turned down the inclusion of this at CRM SIG in March 2021 -->
 
 <rdf:Property rdf:about="https://linked.art/ns/terms/current_permanent_custodian">
     <rdfs:label xml:lang="en">Current Permanent Custodian</rdfs:label>
@@ -131,6 +113,7 @@
 
 <!-- Phase -->
 <!-- This looks like S16 State, but state is only for physical states not social ones like ownership. -->
+<!-- We don't currently use Phase in the profile, but leaving it here for the future -->
 
 <rdfs:Class rdf:about="https://linked.art/ns/terms/Phase">
     <rdfs:label xml:lang="en">Phase</rdfs:label>
@@ -317,6 +300,7 @@
     <owl:inverseOf rdf:resource="https://linked.art/ns/terms/removed_member"/>
 </rdf:Property>
 
+
 <!-- Temporary (ish) digital relationships until update of CRMDig -->
 
 <rdf:Property rdf:about="https://linked.art/ns/terms/digitally_carries">
@@ -362,7 +346,7 @@
 <rdfs:Class rdf:about="https://linked.art/ns/terms/DigitalService">
     <rdfs:label xml:lang="en">Digital Service</rdfs:label>
     <rdfs:comment></rdfs:comment>
-    <rdfs:subClassOf rdf:resource="dig:D1_Digital_Object"/>
+    <rdfs:subClassOf rdf:resource="http://www.ics.forth.gr/isl/CRMdig/D1_Digital_Object"/>
 </rdfs:Class>
 
 <rdf:Property rdf:about="https://linked.art/ns/terms/digitally_available_via">

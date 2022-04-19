@@ -20,8 +20,10 @@ NS = {'rdf':"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 	"dc": "http://purl.org/dc/elements/1.1/",
 	"geo": "http://www.ics.forth.gr/isl/CRMgeo/",
 	"dig": "http://www.ics.forth.gr/isl/CRMdig/",
-	"sci": "http://www.ics.forth.gr/isl/CRMsci/"
+	"sci": "http://www.ics.forth.gr/isl/CRMsci/",
+	"archaeo": "http://www.cidoc-crm.org/cidoc-crm/CRMarchaeo/"
 }
+
 
 # Order imposed by the library
 # @context = 0, id = 1, rdf:type = 2
@@ -86,7 +88,7 @@ def process_classes(dom):
 		else:
 			subCls = ""
 
-		# Hack SP4 and 5 to be readable :(
+		# Hack extensions to be readable :(
 		if name == "geo:SP4_Spatial_Coordinate_Reference_System":
 			ccname = "CoordinateSystem"
 		elif name == "geo:SP5_Geometric_Place_Expression":
@@ -116,6 +118,11 @@ def process_props(dom):
 	props = dom.xpath("//rdf:Property",namespaces=NS)
 	for p in props:
 		name = p.xpath('@rdf:about', namespaces=NS)[0]
+
+
+		# replace archaeo first, as a superstring of crm base :(
+		if name.startswith("http://www.cidoc-crm.org/cidoc-crm/CRMarchaeo/"):
+			name = name.replace("http://www.cidoc-crm.org/cidoc-crm/CRMarchaeo/", "archaeo:")
 
 		for (pref,ns) in NS.items():
 			if name.startswith(ns):

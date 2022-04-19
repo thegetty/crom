@@ -3,6 +3,12 @@
 import re
 import warnings
 from collections import namedtuple
+from contextlib import contextmanager
+
+import locale
+import calendar
+from contextlib import contextmanager, suppress
+from datetime import datetime, timedelta
 
 from cromulent import model, vocab
 
@@ -408,7 +414,7 @@ def simple_dimensions_cleaner_x2(value):
 
 #mark - Monetary Values
 
-def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY_MAPPING, source_mapping=None):
+def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY_MAPPING, source_mapping=None, truncate_label_digits=2):
 	'''
 	Returns a `MonetaryAmount`, `StartingPrice`, or `EstimatedPrice` object
 	based on properties of the supplied `data` dict. If no amount or currency
@@ -475,7 +481,10 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 				if re.search(re.compile(r',\d\d\d'), value):
 					value = value.replace(',', '')
 				value = float(value)
-				price_amount_label = '{:,}'.format(round(value, 3))
+				
+				label_fmt = '{:,.%df}' % truncate_label_digits
+				price_amount_label = label_fmt.format(value)
+
 				amnt.value = value
 			except ValueError:
 				amnt._label = price_amount
@@ -504,52 +513,6 @@ def extract_monetary_amount(data, add_citations=False, currency_mapping=CURRENCY
 
 # Datetime Cleaning (from Getty Pipeline code)
 # https://github.com/thegetty/pipeline/blob/master/pipeline/util/cleaners.py 
-
-def ymd_to_datetime(year, month, day, which="begin"):
-	if not isinstance(year, int):
-		try:
-			year = int(year)
-		except:
-			# print("DATE CLEAN: year is %r; returning None" % year)
-			return None
-
-	if not isinstance(month, int):
-		try:
-			month = int(month)
-		except:
-			# print("DATE CLEAN: month is %r; continuing with %s" % (month, "earliest" if which=="begin" else "latest"))
-			month = None
-
-	if not isinstance(day, int):
-		try:
-			day = int(day)
-		except:
-			day = None
-
-	if not month or month > 12 or month < 1:
-		if which == "begin":
-			month = 1
-		else:
-			month = 12
-
-	maxday = calendar.monthrange(year, month)[1]
-	if not day or day > maxday or day < 1:
-		if which == "begin":
-			day = 1
-		else:
-			# number of days in month
-			day = maxday
-
-	ystr = "%04d" % abs(year)
-	if year < 0:
-		ystr = "-" + ystr
-
-	if which == "begin":
-		return "%s-%02d-%02dT00:00:00" % (ystr, month, day)
-	else:
-		return "%s-%02d-%02dT23:59:59" % (ystr, month, day)
-
-
 
 def date_parse(value, delim):
 	# parse a / or - or . date or range
@@ -594,8 +557,6 @@ def date_parse(value, delim):
 		print("broken / date: %s" % value)
 	return None
 
-
-
 def date_cleaner(value):
 
 	# FORMATS:
@@ -632,13 +593,18 @@ def date_cleaner(value):
 		# Broken? null it out
 		return None
 
-	elif len(value) == 4 and value.isdigit():
+	elif len(value) <= 4 and value.isdigit():
 		# year only
 		return [datetime(int(value),1,1), datetime(int(value)+1,1,1)]
 
 	elif value.startswith('v.'):
 		value = value[2:].strip()
 		return None
+
+	elif value.startswith('-') and value[1:].isdigit():
+		# BCE year
+		# These are problematic, as python datetime.datetime() doesn't support them :(
+		return [int(value), int(value)+1]
 
 	elif value.endswith('s'):
 		# 1950s
@@ -703,6 +669,7 @@ def date_cleaner(value):
 		return date_parse(value, '.')
 
 	elif value.find('-') > -1:
+		# 0 could be -983 for 983 BCE
 		return date_parse(value, '-')
 
 	elif value.find(';') > -1:
@@ -724,7 +691,7 @@ def date_cleaner(value):
 				r = [d, d+timedelta(days=maxday)]
 				return r
 
-		warnings.warn(f'fell through to: {value!r}')
+		warnings.warn('fell through to: {value!r}'.format(value=value))
 		return None
 
 @contextmanager
