@@ -6,10 +6,26 @@ import json
 
 class Reader(object):
 
-	def __init__(self):
+	def __init__(self, validate_props=True, validate_profile=True):
 		self.uri_object_map = {}
 		self.forward_refs = []
 		self.vocab_props = ['assigned_property']
+		self.vocab_classes = {}
+		self.validate_profile = validate_profile
+		self.validate_props = validate_props
+
+		for cx in dir(vocab):
+			what = getattr(vocab, cx)
+			# crying cat face -- type as a @property returns the function, not the value
+			# when calling it on a class rather than an instance
+			try:
+				mytype = what._classhier[0].__name__
+			except AttributeError:
+				continue
+			# find classes
+			if (cx[0].isupper() and not hasattr(model, cx) and type(what) == type):
+				# class
+				self.vocab_classes[(mytype, what._classification[0].id)] = what
 
 	def read(self, data):
 		if not data:
@@ -37,7 +53,7 @@ class Reader(object):
 			if uri in self.uri_object_map:
 				setattr(what, prop, self.uri_object_map[uri])
 			else:
-				raise NotImplementedError("No class information for %s.%s = %s".format(what, prop, uri))
+				raise NotImplementedError("No class information for %s.%s = %s" % (what, prop, uri))
 
 	def construct(self, js):
 		# pass in json, get back object
@@ -46,16 +62,6 @@ class Reader(object):
 
 		ident = js.get('id', '')
 		typ = js.get('type', None)
-		try:
-			del js['id']
-		except:
-			# blank node
-			pass
-		try:
-			del js['type']
-		except:
-			# external resource with properties but no class
-			pass
 
 		if typ == None:
 			clx = BaseResource
@@ -68,40 +74,32 @@ class Reader(object):
 				raise DataError("Resource %s has unknown class %s" % (ident, typ) )
 
 		# now check vocab.ext_classes to try and refine
+		trash = None 
 		if 'classified_as' in js:
-			trash = None 
 			for c in js['classified_as']:
-				i = c['id']
-				for cx in dir(vocab):
-					what = getattr(vocab, cx)
-					# crying cat face -- type as a @property returns the function, not the value
-					# when calling it on a class rather than an instance
-					try:
-						mytype = what._classhier[0].__name__
-					except AttributeError:
-						continue
-					if  (cx[0].isupper() and not hasattr(model, cx) and type(what) == type) and \
-						(typ is None or mytype == typ) and \
-						(i in [x.id for x in what._classification]):
-						clx = what
-						# Trash the classification
-						trash = c
-						break
-				if trash is not None:
+				i = c.get('id', '')
+				clx2 = self.vocab_classes.get((typ, i), None)
+				if clx2 is not None:
+					clx = clx2
+					trash = c
 					break
-			if trash is not None:
-				js['classified_as'].remove(trash)
 
 		what = clx(ident=ident)
+		what._validate_profile = self.validate_profile
 		self.uri_object_map[ident] = what
-		propList = what.list_all_props()
+
+		if self.validate_props:
+			propList = what.list_all_props()
 
 		# sort data by KOH to minimize chance of bad backrefs
 		itms = list(js.items())
 		itms.sort(key=lambda x: factory.key_order_hash.get(x[0], 10000))
 
 		for (prop, value) in itms:
-			if not prop in propList:
+			if prop in ['id', 'type']:
+				continue
+
+			if self.validate_props and not prop in propList:
 				raise DataError("Unknown property %s on %s" % (prop, clx.__name__))
 
 			# Climb looking for range
@@ -113,6 +111,8 @@ class Reader(object):
 			if type(value) != list:
 				value = [value]
 			for subvalue in value:
+				if trash is not None and prop == 'classified_as' and subvalue == trash:
+					continue
 				if rng == str:
 					setattr(what, prop, subvalue)				
 				elif type(subvalue) == dict or isinstance(subvalue, OrderedDict):

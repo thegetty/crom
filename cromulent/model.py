@@ -1,19 +1,24 @@
 
 from __future__ import unicode_literals
-import os, sys, re
+
+import os
+import sys
+import re
 import codecs
 import inspect
 import uuid
 import datetime
+import json
+from json import JSONEncoder
+from collections import OrderedDict
+from collections import namedtuple
+from pyld import jsonld
+from rdflib import ConjunctiveGraph
 
 KEY_ORDER_DEFAULT = 10000
 LINKED_ART_CONTEXT_URI = "https://linked.art/ns/v1/linked-art.json"
 
 # 2.5 and 2.6 are very out of date. Assume 2.7 or better
-import json
-from collections import OrderedDict, namedtuple
-
-from json import JSONEncoder
 
 try:
 	STR_TYPES = [str, unicode] #Py2.7
@@ -23,6 +28,27 @@ except:
 	STR_TYPES = [bytes, str] #Py3.x
 	FILE_STREAM_CLASS = io.TextIOBase
 
+
+pyld_proc = jsonld.JsonLdProcessor()
+min_context = {
+	"crm": "http://www.cidoc-crm.org/cidoc-crm/",
+    "sci": "http://www.ics.forth.gr/isl/CRMsci/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "schema": "http://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dig": "http://www.ics.forth.gr/isl/CRMdig/",
+    "la": "https://linked.art/ns/terms/",
+    "id": "@id",
+    "type": "@type"
+}
+re_bnodes = re.compile("^_:b([0-9]+) ", re.M)
+re_bnodeo = re.compile("> _:b([0-9]+) <", re.M)
+re_quad = re.compile(" <[^<]+?> .$", re.M)
 
 PropInfo = namedtuple("PropInfo", [
 	'property', # the name of the property, eg 'identified_by'
@@ -65,7 +91,6 @@ class ProfileError(MetadataError):
 	"""Raised when a class or property not in the configured profile is used"""
 	pass
 
-
 class CromJsonEncoder(JSONEncoder):
 
 	def default(self, o):
@@ -74,7 +99,6 @@ class CromJsonEncoder(JSONEncoder):
 			return o._minToJSON()
 		else:
 			return JSONEncoder.default(self, o)			
-
 
 class CromulentFactory(object):
 
@@ -99,7 +123,9 @@ class CromulentFactory(object):
 		self.allow_highlight = False # Allow the JSON to include a _highlight flag for re-rendering
 		self.allow_elide = False
 
-		self.auto_id_type = "int-per-segment" #  "int", "int-per-type", "int-per-segment", "uuid"
+		self.pair_tree_levels = 0
+
+		self.auto_id_type = "int-per-segment" #  "int", "int-per-type", "int-per-segment", "uuid", "uuid-segment"
 		# self.default_lang = lang  # NOT USED
 		self.filename_extension = ".json"  # some people like .jsonld
 		self.context_uri = context # Might be a list, or a context value as a dict
@@ -280,10 +306,41 @@ class CromulentFactory(object):
 			slug = self._auto_id_types[t]
 		elif auto_type == "uuid":
 			return "urn:uuid:%s" % uuid.uuid4()
+		elif auto_type == "uuid-segment":
+			slug = uuid.uuid4()
 		else:
 			raise ConfigurationError("Unknown auto-id type")
 
-		return self.base_url + what.__class__._uri_segment + "/" + str(slug)		
+		if what.__class__._uri_segment:
+			seg = what.__class__._uri_segment + "/"
+		else:
+			seg = ""
+
+		return self.base_url + seg + str(slug)	
+
+	def find_serializable(self, what):
+
+		if not self.linked_art_boundaries:
+			raise ConfigurationError("Factory doesn't have any boundaries to distinguish between entities")
+
+		found = []
+		props = what.list_my_props()
+		for p in props:
+			if p in ['id', 'type', '_label', 'content', 'value', 'begin_of_the_begin', 'end_of_the_end']:
+				continue
+			val = getattr(what, p)
+			if isinstance(val, ExternalResource):
+				val = [val]
+			if type(val) is list:
+				for v in val:
+					if isinstance(v, ExternalResource):
+						if not v in found and v.id and not v._linked_art_boundary_okay(what, p, v) and set(v.list_my_props()).difference(set(["_label", "id"])):
+							found.append(v)
+						downstream = self.find_serializable(v)
+						for d in downstream:
+							if not d in found:
+								found.append(d)
+		return found
 
 	def toJSON(self, what, done=None):
 		""" Serialize what, making sure of no infinite loops """
@@ -406,40 +463,118 @@ class CromulentFactory(object):
 		res.append('</span></pre>')
 		return ''.join(res)
 
+	def toRDF(self, what, format="nq", bnode_prefix=""):
+		# Format can be:  xml, pretty-xml, turtle, n3, nt, trix, trig, nquads
+		# ttl = turtle; nq, n-quads == nquads
 
-	def toFile(self, what, compact=True, filename="", done=None):
+		# Need to ensure we generate the full form of predicates
+		# otherwise context processing takes AGES
+		# So set serializer to normal, and full_names to True
+		srlz = self.json_serializer
+		fn = self.full_names
+		self.json_serializer = "normal"
+		self.full_names = True
+		js  = self.toJSON(what)
+		# And put them back
+		self.json_serializer = srlz
+		self.full_names = fn
+
+		# Substitute in a minimal context that defines only prefixes
+		js['@context'] = min_context
+		src = {'@id': js['@id'], '@graph':js}
+		data = pyld_proc.to_rdf(src, options={"format": "application/nquads"})
+
+		# Here replace all the bnodes with a unique id
+		# This works so long as PyLD continues with incrementing integer bnode ids
+		if bnode_prefix:
+			data = re_bnodes.subn("_:b{bnode_prefix}_\\1 ".format(bnode_prefix=bnode_prefix), data)[0]
+			data = re_bnodeo.subn("> _:b{bnode_prefix}_\\1 <".format(bnode_prefix=bnode_prefix), data)[0]				
+
+		if format in ['nq', 'nquads', 'n-quads', 'application/nquads']:
+			return data
+		elif format in ['nt', 'ntriples', 'n-triples', 'application/ntriples']:
+			data = re_quad.subn(" .", data)[0]
+			return data
+		else:
+			# Need to pass over to rdflib
+			g = ConjunctiveGraph()
+			for (k,v) in min_context.items():
+				if v[0] != "@":
+					g.bind(k, v)
+			g.parse(data=data, format="nquads")
+			out = g.serialize(format=format)
+			if type(out) == bytes:
+				return out.decode('utf-8')
+			else:
+				return out
+
+	def get_filename(self, whatid, extension=""):
+
+		mdb = self.base_url
+		if not whatid.startswith(mdb):
+			raise ConfigurationError("The id of that object is not the base URI (factory.base_url) in the Factory")
+		mdd = self.base_dir
+		if not mdd:
+			raise ConfigurationError("Directory (factory.base_dir) on Factory must be set to generate a file name")
+		fp = whatid[len(mdb):]	
+
+		# This will always be /, as it's from the URI
+		bits = fp.split('/')
+		fn = bits[-1]
+		dirs = bits[:-1]
+
+		if self.pair_tree_levels:
+			for d in range(self.pair_tree_levels):
+				if len(fn) > 2*d+1:
+					dirs.append(fn[2*d:2*d+2])
+
+		if len(dirs):
+			mydir = os.path.join(mdd, *dirs)		
+			try:
+				os.makedirs(mydir)
+			except OSError:
+				pass
+
+		# Allow passing in an override
+		if extension:
+			fn = fn + extension
+		elif self.filename_extension:
+			fn = fn + self.filename_extension
+		dirs.append(fn)
+		filename = os.path.join(mdd, *dirs)		
+		return filename
+
+	def toFile(self, what, compact=True, filename="", done=None, format=None, bnode_prefix="", extension=""):
 		"""Write to local file.
 
-		Creates directories as necessary
+		Creates directories as necessary based on URI, if filename is not supplied
 		"""
 
 		if not done:
 			done = {}
-		js = self.toJSON(what, done=done)
 
-		if not filename:
-			myid = js['id']
-			mdb = self.base_url
-			if not myid.startswith(mdb):
-				raise ConfigurationError("The id of that object is not the base URI in the Factory")
-			mdd = self.base_dir
-			if not mdd:
-				raise ConfigurationError("Directory on Factory must be set to write to file")
-			fp = myid[len(mdb):]	
-			bits = fp.split('/')
-			if len(bits) > 1:
-				mydir = os.path.join(mdd, '/'.join(bits[:-1]))		
-				try:
-					os.makedirs(mydir)
-				except OSError:
-					pass
-			if self.filename_extension:
-				fp = fp + self.filename_extension
-			filename = os.path.join(mdd, fp)
+		if not format:
+			if not filename:
+				filename = self.get_filename(what.id, extension=extension)
+			js = self.toJSON(what, done=done)
+			out = self._buildString(js, compact)
+		else:
+			if not filename:
+				if extension:
+					ext = extension
+				elif format == "pretty-xml":
+					ext = "xml"
+				else:
+					ext = format
+				filename = self.get_filename(what.id, extension=ext)
+			out = self.toRDF(what, format=format, bnode_prefix=bnode_prefix)
 
 		fh = open(filename, 'w')
-		out = self._buildString(js, compact)
-		fh.write(out)
+		try:
+			fh.write(out)
+		except:
+			# Could be 2.x unicode issue
+			fh.write(out.encode('utf-8'))
 		fh.close()
 		return out
 
@@ -522,6 +657,8 @@ class ExternalResource(object):
 				if len(curied) == 2 and curied[0] in self._factory.prefixes:
 					self.id = ident
 					self._full_id = self._factory.prefixes[curied[0]] + curied[1]	
+				elif not self.__class__._uri_segment:
+					self.id = factory.base_url + ident
 				else:
 					self.id = factory.base_url + self.__class__._uri_segment + "/" + ident
 		elif factory.auto_assign_id:
@@ -644,7 +781,7 @@ class BaseResource(ExternalResource):
 		 
 	def _check_prop(self, which, value):
 		val_props = self._factory.validate_properties
-		val_profile = self._factory.validate_profile
+		val_profile = self._factory.validate_profile and getattr(self, '_validate_profile', True)
 		val_range = self._factory.validate_range
 		for c in self._classhier:
 			if which in c._all_properties:
@@ -814,8 +951,6 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 			if not v or (k[0] == "_" and not k in self._factory.underscore_properties):
 				del d[k]
 			else:
-
-				# Should we do this at all? Could be outside of our API serialization scope
 				if isinstance(v, ExternalResource):
 					if self._factory.linked_art_boundaries and \
 						not self._linked_art_boundary_okay(top, k, v):
@@ -1009,6 +1144,8 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 
 		tbd = []
 		for (k, v) in kvs:
+			if k[0] == "_" and not k in self._factory.underscore_properties:
+				continue
 			k = self._property_name_map.get(k, k)
 			if isinstance(v, ExternalResource):
 				if self._factory.linked_art_boundaries and \
@@ -1033,6 +1170,8 @@ change factory.multiple_instances_per_property to 'drop' or 'allow'""")
 			
 		# This is already sorted if needed
 		for (k,v) in kvs:
+			if k[0] == "_" and not k in self._factory.underscore_properties:
+				continue
 			k = self._property_name_map.get(k, k)
 			if not v:
 				pass
@@ -1238,39 +1377,41 @@ def build_class(crmName, parent, vocabData):
 
 	# Set up real properties
 	for p in data['props']:
-		name = p['name']
-		if not ":" in name:
-			name = "crm:%s" % name
-		rng = p['range']
-		ccname = p['propName']
-		if p['inverse']:
-			i = p['inverse']
-			if i[0] == "P":
-				invRdf = "crm:%s" % i
-			else:
-				invRdf = i
-		else:
-			invRdf = ""
+		ccname, pvalue = _make_property_def(p)
+		c._properties[ccname] = pvalue
 
-		okay = p['okay']
-		if not okay:
-			okay = '1'
-		okay = int(okay)
-		mult = p['multiple']
-		if not mult:
-			mult = '0'
-		mult = int(mult)
-
-		# can't guarantee all classes have been built at this stage :(
-		c._properties[ccname] = {"rdf": name, 
-			"rangeStr": rng,
-			"inverseRdf": invRdf,
-			"okayToUse": okay,
-			"multiple": mult}
- 
 	# Build subclasses
 	for s in data['subs']:
 		build_class(s, c, vocabData)
+
+def _make_property_def(p):
+	name = p['name']
+	if not ":" in name:
+		name = "crm:%s" % name
+	rng = p['range']
+	ccname = p['propName']
+	if p['inverse']:
+		i = p['inverse']
+		if i[0] == "P":
+			invRdf = "crm:%s" % i
+		else:
+			invRdf = i
+	else:
+		invRdf = ""
+	okay = p['okay']
+	if not okay:
+		okay = '1'
+	okay = int(okay)
+	mult = p['multiple']
+	if not mult:
+		mult = '0'
+	mult = int(mult)
+	# can't guarantee all classes have been built at this stage :(
+	return (ccname, {"rdf": name, 
+		"rangeStr": rng,
+		"inverseRdf": invRdf,
+		"okayToUse": okay,
+		"multiple": mult})
 
 def build_classes(fn=None, topClass=None):
 	# Default to building our core dataset

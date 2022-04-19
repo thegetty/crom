@@ -6,6 +6,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('what')
 parser.add_argument('--okay', '--profile', dest="okay", type=bool)
 parser.add_argument('--filter', dest="filter")
+parser.add_argument('--self', dest="onlySelf", type=bool)
 args = parser.parse_args()
 
 def list_all_props(what, filter=None, okay=None):
@@ -19,6 +20,19 @@ def list_all_props(what, filter=None, okay=None):
 					filter is v.range):
 				props.append(v)
 				ks.append(k)
+	props.sort(key=lambda x: x.property)
+	return props
+
+def list_my_props(what, filter=None, okay=None):
+	props = []
+	ks = []
+	for k,v in what._all_properties.items():
+		if not k in ks and \
+			(not okay or (okay and v.profile_okay)) and \
+			(filter is None or isinstance(filter, v.range) or \
+				filter is v.range):
+			props.append(v)
+			ks.append(k)
 	props.sort(key=lambda x: x.property)
 	return props
 
@@ -50,10 +64,17 @@ else:
 	print("Filtered To: None")
 print(f"Using Profile: {args.okay}")
 
-instance = c()
-ap = list_all_props(instance, okay=args.okay, filter=f)
 
-ap2 = instance.list_all_props(okay=args.okay, filter=f)
+
+model.factory.validate_profile = False
+instance = c()
+
+if args.onlySelf:
+	ap = list_my_props(instance, okay=args.okay, filter=f)
+else:
+	ap = list_all_props(instance, okay=args.okay, filter=f)
+
+#ap2 = instance.list_all_props(okay=args.okay, filter=f)
 
 
 for pi in ap:

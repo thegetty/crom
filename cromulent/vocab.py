@@ -11,7 +11,8 @@ from .model import Identifier, Mark, HumanMadeObject, Type, \
 	Acquisition, HumanMadeFeature, VisualItem, Set, Birth, Death, \
 	PropositionalObject, Payment, Creation, Phase, Period, \
 	Production, Event, DigitalObject, TransferOfCustody, \
-	STR_TYPES, factory
+	Move, DigitalService, CRMEntity, \
+	STR_TYPES, factory, ExternalResource
 
 # Add classified_as initialization hack for all resources
 def post_init(self, **kw):
@@ -74,9 +75,11 @@ ext_classes = {
 	"DoiIdentifier": {"parent": Identifier, "id": "300417432", "label": "DOI Identifer"},
 	"VolumeNumber": {"parent": Identifier, "id": "300265632", "label": "Volume"},
 	"IssueNumber": {"parent": Identifier, "id": "300312349", "label": "Issue"},
-
+	"CallNumber": {"parent": Identifier, "id": "300311706", "label": "Call Number"},
+	"StockNumber": {"parent": Identifier, "id": "300412177", "label": "Stock Number"},
+	
 	"EmailAddress": {"parent": Identifier, "id":"300435686", "label": "Email Address"},
-	"StreetAddress": {"parent": Identifier, "id":"300435687", "label": "Street Address"},
+	"StreetAddress": {"parent": Identifier, "id":"300386983", "label": "Street Address"},
 	"TelephoneNumber": {"parent": Identifier, "id": "300435688", "label": "Telephone Number"},
 	"FaxNumber": {"parent": Identifier, "id": "300435689", "label": "Fax Number"},
 	"StreetNumber": {"parent": Identifier, "id":"300419272", "label": "Street Number"},
@@ -94,7 +97,7 @@ ext_classes = {
 
 	"_BriefText": {"parent": LinguisticObject, "id": "300418049", "label":"Brief Text"},
 	"Note": {"parent": LinguisticObject, "id":"300027200", "label": "Note", "metatype": "brief text"},
-	"Description": {"parent": LinguisticObject, "id":"300411780", "label": "Description", "metatype": "brief text"},
+	"Description": {"parent": LinguisticObject, "id":"300435416", "label": "Description", "metatype": "brief text"},
 	"Abstract": {"parent": LinguisticObject, "id":"300026032", "label": "Abstract", "metatype": "brief text"},
 	"Citation": {"parent": LinguisticObject, "id":"300311705", "label": "Citation", "metatype": "brief text"},
 
@@ -106,16 +109,18 @@ ext_classes = {
 	"ContextStatement": {"parent": LinguisticObject, "id": "300435428", "label": "Historical/Cultural Context", "metatype": "brief text"},
 	"SourceStatement": {"parent": LinguisticObject, "id": "300404764", "label": "Source Statement", "metatype": "brief text"},
 	"PropertyStatusStatement": {"parent": LinguisticObject, "id": "300438433", "label": "Property Status Statement", "metatype": "brief text"},
+	"AccessStatement": {"parent": LinguisticObject, "id": "300133046", "label": "Access Statement", "metatype": "brief text"},
 
 	"MarkingsStatement": {"parent": LinguisticObject, "id": "300435420", "label": "Markings", "metatype": "brief text"},
 	"InscriptionStatement": {"parent": LinguisticObject, "id": "300435414", "label": "Inscription", "metatype": "brief text"},
-	"SignatureStatement": {"parent": LinguisticObject, "id": "300435415", "label": "Signature", "metatype": "brief text"},
+	"SignatureStatement": {"parent": LinguisticObject, "id": "300028705", "label": "Signature", "metatype": "brief text"},
 	"WatermarksStatement": {"parent": LinguisticObject, "id": "300435421", "label": "Watermarks", "metatype": "brief text"},
 	"MaterialStatement": {"parent": LinguisticObject, "id": "300435429", "label": "Material Statement", "metatype": "brief text"},
 	"PhysicalStatement": {"parent": LinguisticObject, "id": "300435452", "label": "Physical Statement", "metatype": "brief text"},
 	"DimensionStatement": {"parent": LinguisticObject, "id": "300435430", "label": "Dimension Statement", "metatype": "brief text"},
 	"CultureStatement": {"parent": LinguisticObject, "id": "300435431", "label": "Culture Statement", "metatype": "brief text"},
 	"PeriodStatement": {"parent": LinguisticObject, "id": "300435432", "label": "Period Statement", "metatype": "brief text"},
+	"EnvironmentStatement": {"parent": LinguisticObject, "id": "300229535", "label": "Environmental Conditions Statement", "metatype": "brief text"},
 
 	"ProductionStatement": {"parent": LinguisticObject, "id": "300435436", "label": "Production Statement", "metatype": "brief text" },
 	"AcquisitionStatement": {"parent": LinguisticObject, "id": "300435439", "label": "Acquisition Statement", "metatype": "brief text"},
@@ -123,12 +128,14 @@ ext_classes = {
 	"BibliographyStatement": {"parent": LinguisticObject, "id": "300026497", "label": "Bibliography Statement", "metatype": "brief text"},
 	"ExhibitionStatement": {"parent": LinguisticObject, "id":"300435424", "label":"Exhibition Statement", "metatype": "brief text"},
 	"PriceStatement": {"parent": LinguisticObject, "id":"300055694", "label":"Price Statement", "metatype": "brief text"},
+	"ConditionReport": {"parent": LinguisticObject, "id":"300379544", "label":"Condition Statement", "metatype": "brief text"},	
 
 	"BiographyStatement": {"parent": LinguisticObject, "id":"300435422", "label": "Biography Statement", "metatype": "brief text"},
 	"EditionStatement": {"parent": LinguisticObject, "id":"300435435", "label": "Edition Statement", "metatype": "brief text"},
 	"PaginationStatement": {"parent": LinguisticObject, "id":"300435440", "label": "Pagination Statement", "metatype": "brief text"},
 	"FoliationStatement": {"parent": LinguisticObject, "id":"300435441", "label": "Foliation Statement", "metatype": "brief text"},
 	"LanguageStatement": {"parent": LinguisticObject, "id": "300435433", "label": "Language Statement", "metatype": "brief text"},
+	"ResearchStatement": {"parent": LinguisticObject, "id": "300265639", "label": "Research Statement", "metatype": "brief text"},
 
 	"TranscribedInscription": {"parent": LinguisticObject, "id": "300028702", "label": "Transcribed Inscription", "metatype": "brief text"},
 	"TranscribedSignature": {"parent": LinguisticObject, "id": "300028705", "label": "Transcribed Signature", "metatype": "brief text"},
@@ -190,6 +197,7 @@ ext_classes = {
 
 	"AuctionHouseOrg": {"parent": Group, "id": "300417515", "label": "Auction House (organization)"},
 	"MuseumOrg":   {"parent": Group, "id":"300312281", "label": "Museum"},
+	"Institution": {"parent": Group, "id":"300026004", "label": "Institution"},
 	"Department":  {"parent": Group, "id":"300263534", "label": "Department"},
 	"School":      {"parent": Group, "id":"300404284", "label": "School"},
 	"Studio":      {"parent": Group, "id":"300404275", "label": "Studio"},
@@ -198,6 +206,8 @@ ext_classes = {
 	"Atelier":     {"parent": Group, "id":"300404277", "label": "Atelier"},
 	"FollowerGroup": {"parent": Group, "id":"300404282", "label": "Follower"},
 	"PupilGroup":  {"parent": Group, "id":"300404279", "label": "Pupil"},
+	"Family":      {"parent": Group, "id": "300055474", "label":"Family"},
+	"Organization":{"parent": Group, 'id':'300025948', 'label':"Organization"}, 
 
 	"Nationality": {"parent": Type, "id":"300379842", "label": "Nationality"},
 	"Gender":      {"parent": Type, "id":"300055147", "label": "Gender"},
@@ -206,6 +216,9 @@ ext_classes = {
 	"Style": 	   {"parent": Type, "id":"300015646", "label": "Style"},
 
 	"Auctioneer":  {"parent": Person, "id":"300025208", "label": "Auctioneer"}, # is this useful?
+	"Artist":  {"parent": Person, "id":"300025103", "label": "Artist"},
+	"Collector":  {"parent": Person, "id":"300025234", "label": "Collector"},
+	"Dealer":  {"parent": Person, "id":"300025236", "label": "Dealer"},
 
 	"AuctionEvent": {"parent": Activity, "id":"300054751", "label": "Auction Event"},
 	"Auction":     {"parent": Activity, "id":"300420001", "label": "Auction of Lot"}, # Individual auction-of-lot
@@ -236,8 +249,10 @@ ext_classes = {
 	"Managing": {"parent": Activity, "id":"300054277", "label": "Managing"},
 	"Storing": {"parent": Activity, "id":"300056390", "label": "Storing"},
 	"Producing": {"parent": Activity, "id":"300054713", "label": "Producing"},
+	"Conserving": {"parent": Activity, "id":"300404519", "label": "Conservation Activity"},
 
-	"ProvenanceEntry": {"parent": Activity, "id":"300055863", "label": "Provenance Entry"},
+	"ProvenanceEntry": {"parent": Activity, "id":"300055863", "label": "Provenance Activity"},
+	"ProvenanceActivity": {"parent": Activity, "id":"300055863", "label": "Provenance Activity"},
 	"ReturnOfLoan": {"parent": TransferOfCustody, "id":"300438467", "label": "Return of Loan"},
 	"Theft": {"parent": TransferOfCustody, "id": "300055292", "label": "Theft"},
 	"Looting": {"parent": TransferOfCustody, "id":"300379554", "label": "Looting"},
@@ -262,9 +277,10 @@ ext_classes = {
 	"ArchiveGroupSet": {"parent": Set, "id":"300404022", "label": "Archival Grouping"},
 	"ArchiveSubGroupSet": {"parent": Set, "id":"300404023", "label": "Archival SubGrouping"},
 	
-	"PrimaryName": {"parent": Name, "id":"300404670", "label": "Primary Name"},
-	"SortName": {"parent": Name, "id":"300404672", "label": "Sorting Name"},
+	"PrimaryName": {"parent": Name, "id":"300404670", "label": "Primary Name"}, # preferred 
+	"AlternateName": {"parent": Name, "id":"300264273", "label":"Alternate Name"}, # not preferred
 
+	"SortName": {"parent": Name, "id":"300404672", "label": "Sorting Name"},
 	"Title": {"parent": Name, "id":"300195168", "label": "Title"},
 	"Subtitle": {"parent": Name, "id":"300312006", "label":"Subtitle"},
 	"DisplayName": {"parent": Name, "id": "300404669", "label": "Display Title"},
@@ -272,6 +288,7 @@ ext_classes = {
 
 	"PersonalName": {"parent": Name, "id":"300266386", "label": "Personal Name"},
 	"AliasName": {"parent": Name, "id": "300404664", "label": "Alias"},
+	"Pseudonym": {"parent": Name, "id": "300404657", "label": "Psueudonym"},
 	"MaidenName": {"parent": Name, "id": "300404682", "label": "Maiden Name"},
 	"FormerName": {"parent": Name, "id": "300435719", "label": "Former Name"},
 	"GivenName": {"parent": Name, "id":"300404651", "label": "Given Name"},
@@ -305,6 +322,7 @@ ext_classes = {
 	"Map": {"parent": HumanMadeObject, "id": "300028094", "label": "Map", "metatype": "work type"},
 	"Clothing": {"parent": HumanMadeObject, "id": "300266639", 'label': "Clothing", "metatype": "work type"},
 	"Furniture": {"parent": HumanMadeObject, "id":"300037680", "label": "Furniture", "metatype": "work type"},
+	"Sample": {"parent": HumanMadeObject, "id":"300028875", "label": "Sample", "metatype": "work type"},
 
 	"Architecture": {"parent": HumanMadeObject, "id":"300263552", "label": "Architecture", "metatype": "work type"},
 	"Armor": {"parent": HumanMadeObject, "id":"300036745", "label": "Armor", "metatype": "work type"},
@@ -332,6 +350,8 @@ ext_classes = {
 	"AccessionCatalog": {"parent": HumanMadeObject, "id": "300026617", "label": "Accession Catalog", "metatype": "work type"},
 	"SalesCatalog": {"parent": HumanMadeObject,"id":"300026074", "label": "Sales Catalog", "metatype": "work type"},
 	"LotteryCatalog": {"parent": HumanMadeObject, "id":"300438603", "label": "Lottery Catalog", "metatype": "work type"},
+
+	"Sample": {"parent": HumanMadeObject, "id": "300028875", "label": "Sample"},
 
 	"FrontPart": {"parent": HumanMadeObject, "id":"300190703", "label": "Front Part", "metatype": "part type"},
 	"BackPart": {"parent": HumanMadeObject, "id":"300190692", "label": "Back Part", "metatype": "part type"},
@@ -374,6 +394,8 @@ identity_instances = {
 	"gelatin silver print": {"parent": Material, "id": "300128695", "label": "gelatin silver print"},
 	"silver": {"parent": Material, "id": "300011029", "label": "silver"},
 	"synthetic": {"parent": Type, "id": "xxx", "label": "Synthetic Material"},
+	"hazardous": {"parent": Material, "id": "300138222", "label": "Hazardous Material"},
+	"thread": {"parent": Material, "id": "300014250", "label": "Thread"},
 
 	# Measurement Units - lengths, weights, durations
 	"lignes": {"parent": MeasurementUnit, "id": "300435501", "label": "Paris lines"},
@@ -410,56 +432,64 @@ identity_instances = {
 	"partsUnit": {"parent": MeasurementUnit, "id": "300404159", "label": "parts"},
 
 	# Languages
-	"english": {"parent": Language, "id": "300388277", "label": "English"},
-	"french": {"parent": Language, "id":"300388306","label": "French"},
-	"german": {"parent": Language, "id":"300388344","label": "German"},
-	"spanish": {"parent": Language, "id":"300389311","label": "Spanish"},
-	"chinese": {"parent": Language, "id":"300388113", "label":"Chinese"},
-	"hindi": {"parent": Language, "id":"300388412", "label":"Hindi"},
-	"afrikaans": {"parent": Language, "id":"300387782", "label":"Afrikaans"},
-	"albanian": {"parent": Language, "id":"300387803", "label":"Albanian"},
-	"arabic": {"parent": Language, "id":"300387843", "label":"Arabic"},
-	"bulgarian": {"parent": Language, "id":"300388034", "label":"Bulgarian"},
-	"bosnian": {"parent": Language, "id":"300388023", "label":"Bosnian"},
-	"catalan": {"parent": Language, "id":"300388072", "label":"Catalan"},
-	"portuguese":{"parent": Language, "id":"300389115", "label":"Portuguese"},
-	"bengali": {"parent": Language, "id":"300387971", "label":"Bengali"},
-	"russian": {"parent": Language, "id":"300389168", "label":"Russian"},
-	"dutch": {"parent": Language, "id":"300388256", "label":"Dutch"},
-	"finnish": {"parent": Language, "id":"300388299", "label":"Finnish"},
-	"icelandic": {"parent": Language, "id":"300388449", "label":"Icelandic"},
-	"irish": {"parent": Language, "id":"300388467", "label":"Irish"},
-	"italian": {"parent": Language, "id":"300388474", "label":"Italian"},
-	"farsi": {"parent": Language, "id":"300388296", "label":"Farsi"},
-	"greek": {"parent": Language, "id":"300389734", "label":"Greek"},
-	"gujarati": {"parent": Language, "id":"300388371", "label":"Gujarati"},
-	"ancient greek": {"parent": Language, "id": "300387827", "label": "Ancient Greek"},
-	"korean": {"parent": Language, "id":"300388633", "label":"Korean"},
-	"latin": {"parent": Language, "id":"300388693", "label":"Latin"},
-	"lithuanian": {"parent": Language, "id":"300388723", "label":"Lithuanian"},
-	"macedonian": {"parent": Language, "id":"300388760", "label":"Macedonian"},
-	"japanese": {"parent": Language, "id":"300388486", "label":"Japanese"},
-	"croatian": {"parent": Language, "id": "300388185", "label": "Croatian"},
-	"czech": {"parent": Language, "id": "300388191", "label": "Czech"},
-	"danish": {"parent": Language, "id": "300388204", "label": "Danish"},
-	"greek": {"parent": Language, "id": "300388361", "label": "Greek"},
-	"georgian": {"parent": Language, "id": "300388343", "label": "Georgian"},
-	"hebrew": {"parent": Language, "id": "300388401", "label": "Hebrew"},
-	"hungarian": {"parent": Language, "id": "300388770", "label": "Magyar (Hungarian)"},
-	"norwegian": {"parent": Language, "id": "300388992", "label": "Norwegian"},
-	"polish": {"parent": Language, "id": "300389109", "label": "Polish"},
-	"romanian": {"parent": Language, "id": "300389157", "label": "Romanian"},
-	"serbo-croatian": {"parent": Language, "id": "300389248", "label": "Serbo-Croatian"},
-	"slovak": {"parent": Language, "id": "300389290", "label": "Slovak"},
-	"slovenian": {"parent": Language, "id": "300389291", "label": "Slovenian"},
-	"serbian": {"parent": Language, "id": "300389247", "label": "Serbian"},
-	"swedish": {"parent": Language, "id": "300389336", "label": "Swedish"},
-	"turkish": {"parent": Language, "id": "300389470", "label": "Turkish"},
-	"welsh": {"parent": Language, "id": "300389555", "label": "Welsh"},
+	"english": {"parent": Language, "id": "300388277", "label": "English", 'code':'en'},
+	"french": {"parent": Language, "id":"300388306","label": "French", 'code':'fr'},
+	"german": {"parent": Language, "id":"300388344","label": "German", 'code':'de'},
+	"spanish": {"parent": Language, "id":"300389311","label": "Spanish", 'code':'es'},
+	"chinese": {"parent": Language, "id":"300388113", "label":"Chinese", 'code':'zh'},
+	"hindi": {"parent": Language, "id":"300388412", "label":"Hindi", 'code':'hi'},
+	"afrikaans": {"parent": Language, "id":"300387782", "label":"Afrikaans", 'code':'af'},
+	"albanian": {"parent": Language, "id":"300387803", "label":"Albanian", 'code':'sq'},
+	"arabic": {"parent": Language, "id":"300387843", "label":"Arabic", 'code':'ar'},
+	"bulgarian": {"parent": Language, "id":"300388034", "label":"Bulgarian", 'code':'bg'},
+	"bosnian": {"parent": Language, "id":"300388023", "label":"Bosnian", 'code':'bs'},
+	"catalan": {"parent": Language, "id":"300388072", "label":"Catalan", 'code':'ca'},
+	"portuguese":{"parent": Language, "id":"300389115", "label":"Portuguese", 'code':'pt'},
+	"bengali": {"parent": Language, "id":"300387971", "label":"Bengali", 'code':'bn'},
+	"russian": {"parent": Language, "id":"300389168", "label":"Russian", 'code':'ru'},
+	"dutch": {"parent": Language, "id":"300388256", "label":"Dutch", 'code':'nl'},
+	"finnish": {"parent": Language, "id":"300388299", "label":"Finnish", 'code':'fi'},
+	"icelandic": {"parent": Language, "id":"300388449", "label":"Icelandic", 'code':'is'},
+	"irish": {"parent": Language, "id":"300388467", "label":"Irish", 'code':'ga'},
+	"italian": {"parent": Language, "id":"300388474", "label":"Italian", 'code':'it'},
+	"farsi": {"parent": Language, "id":"300388296", "label":"Farsi", 'code':'fa'},
+	"gujarati": {"parent": Language, "id":"300388371", "label":"Gujarati", 'code':'gu'},
+	"ancient greek": {"parent": Language, "id": "300387827", "label": "Ancient Greek", 'code':'grc'},
+	"korean": {"parent": Language, "id":"300388633", "label":"Korean", 'code':'ko'},
+	"latin": {"parent": Language, "id":"300388693", "label":"Latin", 'code':'la'},
+	"lithuanian": {"parent": Language, "id":"300388723", "label":"Lithuanian", 'code':'lt'},
+	"macedonian": {"parent": Language, "id":"300388760", "label":"Macedonian", 'code':'mk'},
+	"japanese": {"parent": Language, "id":"300388486", "label":"Japanese", 'code':'ja'},
+	"croatian": {"parent": Language, "id": "300388185", "label": "Croatian", 'code':'hr'},
+	"czech": {"parent": Language, "id": "300388191", "label": "Czech", 'code':'cs'},
+	"danish": {"parent": Language, "id": "300388204", "label": "Danish", 'code':'da'},
+	"greek": {"parent": Language, "id": "300388361", "label": "Greek", 'code':'el'},
+	"georgian": {"parent": Language, "id": "300388343", "label": "Georgian", 'code':'ka'},
+	"hebrew": {"parent": Language, "id": "300388401", "label": "Hebrew", 'code':'he'},
+	"hungarian": {"parent": Language, "id": "300388770", "label": "Magyar (Hungarian)", 'code':'hu'},
+	"norwegian": {"parent": Language, "id": "300388992", "label": "Norwegian", 'code':'no'},
+	"polish": {"parent": Language, "id": "300389109", "label": "Polish", 'code':'pl'},
+	"romanian": {"parent": Language, "id": "300389157", "label": "Romanian", 'code':'ro'},
+	"serbo-croatian": {"parent": Language, "id": "300389248", "label": "Serbo-Croatian", 'code':''},
+	"slovak": {"parent": Language, "id": "300389290", "label": "Slovak", 'code':'sk'},
+	"slovenian": {"parent": Language, "id": "300389291", "label": "Slovenian", 'code':'sl'},
+	"serbian": {"parent": Language, "id": "300389247", "label": "Serbian", 'code':'sr'},
+	"swedish": {"parent": Language, "id": "300389336", "label": "Swedish", 'code':'sv'},
+	"turkish": {"parent": Language, "id": "300389470", "label": "Turkish", 'code':'tr'},
+	"welsh": {"parent": Language, "id": "300389555", "label": "Welsh", 'code':'cy'},
+	"luxembourgish": {"parent": Language, "id": "300443689", "label": "Luxembourgish", "code": "lb"},
+	"urdu": {"parent": Language, "id": "300389502", "label": "Urdu", 'code':'ur'},
+	"swahili": {"parent": Language, "id": "300443741", "label": "Swahili", 'code':'sw'},
+	"indonesian": {"parent": Language, "id": "300388460", "label": "Indonesian", "code": "id"},
+	"telugu": {"parent": Language, "id": "300389389", "label": "Telugu", "code": "te"},
+	"tamil": {"parent": Language, "id": "300389365", "label": "Tamil", "code": "ta"},
+	"thai": {"parent": Language, "id": "300389405", "label": "Thai", "code": "th"},
+	"marathi": {"parent": Language, "id": "300388821", "label": "Marathi", "code": "mr"},
+	"punjabi": {"parent": Language, "id": "300389057", "label": "Punjabi", "code": "pa"},
 
 	# Currencies
-	"us dollars": {"parent": Currency, "id":"300411994", "label": "US Dollars"},
-	"gb pounds": {"parent": Currency, "id":"300411998", "label": "British Pounds"},
+	"us dollars": {"parent": Currency, "id":"300411994", "label": "US Dollars", 'code':'USD'},
+	"gb pounds": {"parent": Currency, "id":"300411998", "label": "British Pounds", 'code':'GBP'},
 	"gb shillings": {"parent": Currency, "id":"300412167", "label": "British Shillings"},
 	"dutch guilder": {"parent": Currency, "id":"300412019", "label": "Dutch Guilder"},
 	"fr assignats": {"parent": Currency, "id":"300412157", "label": "French Assignats"},
@@ -504,6 +534,9 @@ identity_instances = {
 	"painting": {"parent": Type, "id":"300054216", "label": "Painting"},
 	"spraypainting": {"parent": Type, "id":"300053816", "label": "Spraypainting"},
 
+  # Conditions
+	"crizzling": {"parent": Type, "id": "300218594", "label": "Crizzling"},
+
 	# Geographic
 	"city": {"parent": Type, "id": "300008389", "label": "City"},
 	"province": {"parent": Type, "id":"300000774", "label": "Province"},
@@ -512,6 +545,7 @@ identity_instances = {
 	"sovereign": {"parent": Type, "id": "300232420", "label": "Sovereign State"},
 	"building": {"parent": Type, "id": "300004792", "label": "Building"},
 	"city block": {"parent": Type, "id": "300008077", "label": "City Block"},
+	"address": {'parent': Type, 'id': '300386983', 'label': 'Street Address'},
 
 	# dot one qualifiers
 	"style of": {"parent": Type, "id": "300404285", "label": "Style Of"},
@@ -560,6 +594,7 @@ local_instances = {
 	# Nationalities
 	"american nationality": {"parent": Nationality, "id": "300107956", "label": "American"},
 	"austrian nationality": {"parent": Nationality, "id": "300111153", "label": "Austrian"},
+	"australian nationality": {"parent": Nationality, "id": "300021861", "label": "Australian"},
 	"belgian nationality": {"parent": Nationality, "id": "300111156", "label": "Belgian"},
 	"british nationality": {"parent": Nationality, "id": "300111159", "label": "British"},	
 	"canadian nationality": {"parent": Nationality, "id": "300107962", "label": "Canadian"},
@@ -578,6 +613,7 @@ local_instances = {
 	"italian nationality": {"parent": Nationality, "id": "300111198", "label": "Italian"},
 	"japanese nationality": {"parent": Nationality, "id": "300018519", "label": "Japanese"},
 	"mexican nationality": {"parent": Nationality, "id": "300107963", "label": "Mexican"},
+	"new zealand nationality": {"parent": Nationality, "id": "300021959", "label": "New Zealander"},
 	"norwegian nationality": {"parent": Nationality, "id": "300111201", "label": "Norwegian"},
 	"polish nationality": {"parent": Nationality, "id": "300111204", "label": "Polish"},
 	"portuguese nationality": {"parent": Nationality, "id": "300111207", "label": "Portuguese"},
@@ -585,7 +621,12 @@ local_instances = {
 	"spanish nationality": {"parent": Nationality, "id": "300111215", "label": "Spanish"},
 	"swedish nationality": {"parent": Nationality, "id": "300111218", "label": "Swedish"},
 	"swiss nationality": {"parent": Nationality, "id": "300111221", "label": "Swiss"},
+	"venetian nationality": {"parent": Nationality, "id": "300379657", "label": "Venetian"}, # republic until 1797
 
+	# Occupations
+	"artist occupation":  {"parent": Occupation, "id":"300025103", "label": "Artist"},
+ 	"collector occupation":  {"parent": Occupation, "id":"300025234", "label": "Collector"},
+ 	"dealer occupation":  {"parent": Occupation, "id":"300025236", "label": "Dealer"},
 
 	# Nations
 	"belgium": {"parent": Nation, "id": "1000063", "vocab": "tgn", "label": "Belgium"},
@@ -718,6 +759,12 @@ def add_attribute_assignment_check():
 		if assto_res:
 			p177_res = getattr(self, p177, None)
 			assto_res._check_prop(p177_res, value)
+
+		current = getattr(self, ass, None)
+		if current:
+			value = [*current, value]
+		elif type(value) is not list:
+			value = [value]
 		object.__setattr__(self, ass, value)
 	setattr(AttributeAssignment, "set_%s" % ass, aa_set_assigned)
 
@@ -726,7 +773,8 @@ def add_attribute_assignment_check():
 		p177_res = getattr(self, p177, None)		
 		if ass_res and p177_res:
 			# unmap the URI to property name
-			value._check_prop(p177_res, ass_res)
+			for ar in ass_res:
+				value._check_prop(p177_res, ar)
 		object.__setattr__(self, assto, value)
 	setattr(AttributeAssignment, "set_%s" % assto, aa_set_assigned_to)
 
@@ -734,7 +782,8 @@ def add_attribute_assignment_check():
 		ass_res = getattr(self, ass, None)
 		assto_res = getattr(self, assto, None)
 		if ass_res and assto_res:
-			assto_res._check_prop(value, ass_res)
+			for ar in ass_res:
+				assto_res._check_prop(value, ar)
 		object.__setattr__(self, p177, value)
 	setattr(AttributeAssignment, "set_%s" % p177, aa_set_assigned_property_type)
 
@@ -747,7 +796,7 @@ def add_attribute_assignment_check():
 def add_linked_art_boundary_check():
 
 	boundary_classes = [x.__name__ for x in [Actor, HumanMadeObject, Person, Group, VisualItem, \
-		Place, Period, LinguisticObject, Phase, Set, Event]]
+		Place, Period, LinguisticObject, Phase, Set, Event, DigitalObject, DigitalService]]
 	data_embed_classes = [Name, Identifier, Dimension, TimeSpan, MonetaryAmount]
 	type_embed_classes = [Type, Currency, Language, Material, MeasurementUnit]
 	event_embed_classes = [Birth, Creation, Production, Formation, Payment, \
@@ -761,9 +810,13 @@ def add_linked_art_boundary_check():
 	# Activity, AttributeAssignment, InformationObject, TransferOfCustody, Move
 	# Propositional Object
 
+	ExternalResource._embed_override = None
+
 	def my_linked_art_boundary_check(self, top, rel, value):
 		# True = Embed ; False = Split
-		if isinstance(value, LinguisticObject) and hasattr(value, 'classified_as'):
+		if value._embed_override is not None:
+			return value._embed_override
+		elif isinstance(value, LinguisticObject) and hasattr(value, 'classified_as'):
 			for ca in value.classified_as:
 				if instances['brief text'] in getattr(ca, 'classified_as', []):
 					return True
@@ -772,11 +825,23 @@ def add_linked_art_boundary_check():
 		elif isinstance(value, ProvenanceEntry):
 			return False
 
-		if rel in ["part", "member"]:
+		boundary_crossing_props = set([
+			"part_of", 'member_of', "specific_purpose", "caused_by",
+			"starts_before_the_end_of",
+			"ends_after_the_start_of",
+			"starts_before_the_start_of",
+			"starts_after_the_start_of",
+			"ends_before_the_start_of",
+			"starts_after_the_end_of",
+			"ends_before_the_end_of",
+			"ends_after_the_end_of",
+		])
+		
+		if rel in ["part", "member", "specific_purpose_of", "caused"]:
 			# Downwards, internal simple partitioning 
 			# This catches an internal part to a LinguisticObject
 			return True
-		elif rel in ["part_of", 'member_of']:
+		elif rel in boundary_crossing_props:
 			# upwards partition refs are inclusion, and always boundary crossing
 			return False
 		elif value.type in boundary_classes:
@@ -790,4 +855,49 @@ def add_linked_art_boundary_check():
 
 	setattr(BaseResource, "_linked_art_boundary_okay", my_linked_art_boundary_check)
 	factory.linked_art_boundaries = True	
+
+def set_linked_art_uri_segments():
+	HumanMadeObject._uri_segment = "object"
+	Activity._uri_segment = "event"
+	Event._uri_segment = "event"
+	Period._uri_segment = "event"
+	Place._uri_segment = "place"
+	InformationObject._uri_segment = "info"
+	Group._uri_segment = "group"
+	# Actor._uri_segment = "actor"
+	Person._uri_segment = "person"
+	PhysicalObject._uri_segment = "object"
+	LinguisticObject._uri_segment = "text"
+	PropositionalObject._uri_segment = "concept"
+	DigitalObject._uri_segment = "digital"
+	DigitalService._uri_segment = "digital"
+	Type._uri_segment = "concept"	
+	Language._uri_segment = "concept"
+	MeasurementUnit._uri_segment = "concept"
+	Currency._uri_segment = "concept"
+	Material._uri_segment = "concept"
+	VisualItem._uri_segment = "visual"
+	ProvenanceEntry._uri_segment = "provenance"
+	Exhibition._uri_segment = "activity"
+	Set._uri_segment = "set"
+
+
+def add_helper_functions():
+	# Add filter functions to the right bits of the model
+
+	def get_names(self, filter=None):
+		return [x for x in self.identified_by if isinstance(x, Name) and (not filter or filter in x.classified_as)]
+
+	def get_identifiers(self, filter=None):
+		return [x for x in self.identified_by if isinstance(x, Identifier) and (not filter or filter in x.classified_as)]
+
+	def get_statements(self, filter=None):
+		return [x for x in self.referred_to_by if isinstance(x, LinguisticObject) and x.content and (not filter or filter in x.classified_as)]
+
+	CRMEntity.get_names = get_names
+	CRMEntity.get_identifiers = get_identifiers
+	CRMEntity.get_statements = get_statements
+
+
+
 
