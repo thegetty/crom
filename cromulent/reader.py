@@ -101,10 +101,15 @@ class Reader(object):
 				raise DataError("Unknown property %s on %s" % (prop, clx.__name__))
 
 			# Climb looking for range
+			rng = None
 			for c in what._classhier:		
 				if prop in c._all_properties:
 					rng = c._all_properties[prop].range
 					break
+
+			if not rng:
+				print(f"Couldn't find range for {prop} on {what}; trashing it")
+				continue
 
 			if type(value) != list:
 				value = [value]
