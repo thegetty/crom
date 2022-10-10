@@ -280,6 +280,7 @@ class TestAutoIdentifiers(unittest.TestCase):
 		model.factory.auto_id_type = "broken"
 		self.assertRaises(model.ConfigurationError, model.factory.generate_id,
 			"irrelevant")
+		model.factory.auto_id_type = 'int-per-segment'
 
 	def test_int(self):
 		model.factory.auto_assign_id = True
