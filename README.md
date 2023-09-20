@@ -21,7 +21,7 @@ from cromulent.model import factory, Group
 g1 = Group(ident="Organization")
 g2 = Group(ident="Department")
 g1.member = g2
-print factory.toString(g1, compact=False)
+print( factory.toString(g1, compact=False) )
 ```
 
 The constructor for the classes takes the following parameters:
